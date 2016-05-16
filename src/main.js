@@ -1,7 +1,6 @@
 import cssParser from './css-parser.pegjs';
 
 function c3Selector(root, option) {
-  var _option = Object.assign({}, option);
   var _data = root;
   if (root instanceof Array) {
     for (var i = 0, I = root.length; i < I; i++) {
@@ -263,20 +262,22 @@ function c3Selector(root, option) {
     getPseudoClass : function (part, scope) {
       var pseudoClass = pseudoClassFunction[part.ident];
       var pseudoClassArgs = [scope].concat(part.args);
-      if (pseudoClass.apply(this, pseudoClassArgs)) {
-        return scope;
-      }
+      return pseudoClass.apply(this, pseudoClassArgs);
     }
   };
 
   var pseudoClassFunction = Object.assign( {
     regexpTest: function (selectVal, val) {
-      return typeof selectVal == 'string' && val.test(selectVal);
+      if (typeof selectVal == 'string' && val.test(selectVal)){
+        return selectVal;
+      }
     },
     equal: function (selectVal, val) {
-      return selectVal === val;
+      if (selectVal === val){
+        return selectVal;
+      }
     }
-  }, _option.pseudoClass);
+  }, option.pseudoClass);
 };
 c3Selector.prototype = [];
 
