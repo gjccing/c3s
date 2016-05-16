@@ -56,7 +56,7 @@ c3s(a).selectOne('e>d');
   
   ex: `.Class` `."Class"` `.'Class'`<br>
   選取擁有`class`屬性(stirng or array)且屬性值包含**Class**字串的節點；
-  或著選取**Class**等於其類別的名稱（obj.constructor.name）的節點。
+  或著選取**Class**等於其類別的名稱（`obj.constructor.name`）的節點。
   
 #### Id
 
