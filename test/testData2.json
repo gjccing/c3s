@@ -1,0 +1,168 @@
+[
+  [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+    [
+      [1,22,3],
+      [4,5,6],
+      [7,8,9],
+      [
+        [
+          [1,2,3],
+          [4,5,6],
+          [7,8,9]
+        ]
+      ],
+      {
+        "value": "New", 
+        "onclick": "CreateNewDoc()",
+        "menuitem2": [
+          {"value": "New2_1", "onclick": "CreateNewDoc2_1()"},
+          {"value": "Open2_1", "onclick": "OpenDoc2_1()"},
+          {"value": "Close2_1", "onclick": "CloseDoc2_1()"}
+        ]
+      }
+    ],
+    [
+      1,
+      2,
+      [3,4,5],
+      6
+    ]
+  ],
+  [
+    [],
+    [null, null],
+    [],
+    [null,false],
+    [0,0,0,0,0,101],
+    0
+  ],
+  [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9],
+    [
+      [1,2,3],
+      [4,5,6],
+      [7,8,9],
+      [
+        [
+          [1,2,3],
+          [4,5555,6],
+          [7,8,9]
+        ]
+      ]
+    ],
+    [
+      1,
+      2,
+      [3,433,5],
+      6
+    ]
+  ],
+  [
+    [1,2,3],
+    0,
+    [7,8,9],
+    [
+      1,
+      2,
+      [3,4,5555],
+      6
+    ],
+    [
+      [1,2,3],
+      [4,5,6],
+      [4,5,6],
+      [7,8,9],
+      [
+        [1,2,3],
+        [4,5,6,{"value": "Close2_3", "onclick": "CloseDoc2_3()"}],
+        [7,8,9],
+        [
+          [1,2,3],
+          [4,5,6],
+          [4,5,6666],
+          [7,8,9]
+        ]
+      ]
+    ]
+  ],
+  [
+    [
+      [1,2,3,{"value": "Close2_3", "onclick": "CloseDoc2_3()"}],
+      [4,5,6],
+      [7,8,9,{"value": "Close2_3", "onclick": "CloseDoc2_3()"}]
+    ],
+    [1,2,3],
+    [4,5,6000],
+    [7,8,9],
+    [
+      1,
+      2,
+      [
+        3,
+        4,
+        5,
+        {
+          "value": "Open", 
+          "onclick": "OpenDoc()",
+          "menuitem2": [
+            {"value": "New2_2", "onclick": "CreateNewDoc2_2()"},
+            {"value": "Open2_2", "onclick": "OpenDoc2_2()"},
+            {"value": "Close2_2", "onclick": "CloseDoc2_2()"}
+          ]
+        }
+      ],
+      6,
+      [
+        [
+          [1,2,3],
+          [4,5,6],
+          [7,8,9000]
+        ],
+        {
+          "menu": {
+            "id": "file",
+            "value": "File",
+            "popup": {
+              "menuitem": [
+                {
+                  "value": "New", 
+                  "onclick": "CreateNewDoc()",
+                  "menuitem2": [
+                    {"value": "New2_1", "onclick": "CreateNewDoc2_1()"},
+                    {"value": "Open2_1", "onclick": "OpenDoc2_1()"},
+                    {"value": "Close2_1", "onclick": "CloseDoc2_1()"}
+                  ]
+                },
+                {
+                  "value": "Open", 
+                  "onclick": "OpenDoc()",
+                  "menuitem2": [
+                    {"value": "New2_2", "onclick": "CreateNewDoc2_2()"},
+                    {"value": "Open2_2", "onclick": "OpenDoc2_2()"},
+                    {"value": "Close2_2", "onclick": "CloseDoc2_2()"}
+                  ]
+                },
+                {
+                  "value": "Close", 
+                  "onclick": "CloseDoc()",
+                  "menuitem2": [
+                    {"value": "New2_3", "onclick": "CreateNewDoc2_3()"},
+                    {"value": "Open2_3", "onclick": "OpenDoc2_3()"},
+                    {"value": "Close2_3", "onclick": "CloseDoc2_3()"}
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    ]
+  ],
+  5,
+  1000
+]
