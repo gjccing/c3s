@@ -46,26 +46,36 @@ Provide code examples and explanations of how to get the project.
 ### class
   
   ex: `.class` `."class"` `.'class'`<br>
-  找出物件擁有class屬性(stirng or array)且包含指定字串；或著是其類別的名稱（obj.constructor.name）。
+  找出元素擁有class屬性(stirng or array)且class屬性包含指定字串；或著等於其類別的名稱（obj.constructor.name）。
   
 ### id
 
   ex: `#id` `#"id"` `#'id'`<br>
-  找出物件擁有id屬性且等於指定的字串。
+  找出元素擁有id屬性且等於指定的字串。
   
-### persuade class，ex: `:method(args)`
+### persuade class
   
   ex: `:value(123)`<br>
-  找出所有符合persuade class定義的值。使用者可以自訂persuade class。
-  目前預設有以下persuade class：
+  找出所有符合persuade class定義的元素。目前預設有以下persuade class：
   
-  * `:value(value)`
+  * `:value(val)`
   
-    選擇目前的值與value相等的
+    若元素如果與**val**相等的話就選取。
 
   * `:regexpTest(regexp)`
     
-    選擇目前的值符合regexp
+    將元素使用regexp.test判斷若回傳true的話就選取。
+
+  可以自訂或改寫現有的persuade class，ex：
+  ```javascript
+  c3s(['example'], {
+    pseudoClass: {
+      metho1: function ( element/* c3s將會傳入目前要判斷的element */, arg1, arg2 /* 任意數量參數 */ ) {
+        return true /* 選取該element or false 不選取 */
+      }
+    }
+  } ).selectAll(':metho1("arg1", "arg2")');
+  ```
 
 ## API Reference
 
