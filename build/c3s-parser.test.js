@@ -53,7 +53,9 @@
 
 	'use strict';
 	
-	var _main = __webpack_require__(2);
+	__webpack_require__(2);
+	
+	var _main = __webpack_require__(41);
 	
 	var _main2 = _interopRequireDefault(_main);
 	
@@ -61,13 +63,10 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// import './css-parser.pegjs.test.js';
-	
-	
 	describe('c3s', function () {
 	  describe('selectOne', function () {
 	    describe('Complex Object', function () {
-	      var data = __webpack_require__(41);
+	      var data = __webpack_require__(42);
 	      [{
 	        input: 'value',
 	        expect: 'File'
@@ -114,14 +113,13 @@
 	      }].forEach(function (testCase) {
 	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
 	          var result = (0, _main2.default)(data).selectOne(testCase.input);
-	          debugger;
 	          result = result[0] ? result[0].value : undefined;
 	          _chai.assert.equal(result, testCase.expect);
 	        });
 	      });
 	    });
 	    describe('Multdimensional Array', function () {
-	      var data = __webpack_require__(42);
+	      var data = __webpack_require__(43);
 	      [{
 	        input: '>"0">"0">"0"',
 	        expect: '0,0,0'
@@ -178,7 +176,7 @@
 	  });
 	  describe('selectAll', function () {
 	    describe('Complex Object', function () {
-	      var data = __webpack_require__(41);
+	      var data = __webpack_require__(42);
 	      [{
 	        input: 'value',
 	        expect: 13
@@ -232,7 +230,7 @@
 	      });
 	    });
 	    describe('Multdimensional Array', function () {
-	      var data = __webpack_require__(42);
+	      var data = __webpack_require__(43);
 	      [{
 	        input: '>"0">"0">"0"',
 	        expect: 1
@@ -279,7 +277,7 @@
 	  });
 	  describe('pseudoClass', function () {
 	    describe('defined', function () {
-	      var data = __webpack_require__(42);
+	      var data = __webpack_require__(43);
 	      [{
 	        input: {
 	          select: ':gt(2000)',
@@ -313,7 +311,7 @@
 	      });
 	    });
 	    describe('link', function () {
-	      var data = __webpack_require__(42);
+	      var data = __webpack_require__(43);
 	      [{
 	        input: {
 	          select: [':gt(2000)', ':lt(6000)'],
@@ -331,7 +329,6 @@
 	        expect: 2
 	      }].forEach(function (testCase) {
 	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
-	          debugger;
 	          var result = (0, _main2.default)(data, testCase.input.option);
 	          result = result.selectAll(testCase.input.select[0]);
 	          result = result.selectAll(testCase.input.select[1]);
@@ -348,309 +345,144 @@
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-	
 	var _cssParser = __webpack_require__(3);
 	
 	var _cssParser2 = _interopRequireDefault(_cssParser);
 	
+	var _chai = __webpack_require__(4);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function c3Selector(root, option) {
-	  var _option = Object.assign({}, option);
-	  var _data = root;
-	  if (root instanceof Array) {
-	    for (var i = 0, I = root.length; i < I; i++) {
-	      this.push({ value: root[i], path: [i], root: root });
-	    }
-	  } else if (root !== undefined && root !== null && root !== NaN) {
-	    this.push({ value: root, path: [], root: root });
-	  }
-	
-	  this.root = root;
-	
-	  this.selectOne = function (input) {
-	    var cssTrees = _cssParser2.default.parse(input),
-	        result,
-	        tmp;
-	    for (var i = 0, I = cssTrees.length; i < I; i++) {
-	      if (tmp = combinatorFind(cssTrees[i].start, _data)) {
-	        result = new c3Selector(tmp[0], option);
-	        result[0].path = tmp[1];
-	        result[0].root = this.root;
-	        return result;
-	      }
-	    }
-	
-	    return new c3Selector(undefined, option);
-	  };
-	
-	  this.selectAll = function (input) {
-	    var cssTrees = _cssParser2.default.parse(input),
-	        result = [],
-	        tmp;
-	    for (var i = 0, I = cssTrees.length; i < I; i++) {
-	      if (tmp = combinatorFindAll(cssTrees[i].start, _data)) {
-	        result.push.apply(result, tmp);
-	      }
-	    }
-	
-	    for (var i = result.length - 1; i > -1; i--) {
-	      for (var j = i - 1; j > -1; j--) {
-	        if (result[i][1].join() == result[j][1].join()) {
-	          result.splice(i, 1);
-	          break;
-	        }
-	      }
-	    }
-	
-	    tmp = result;
-	    result = new c3Selector(tmp.map(function (rec) {
-	      return rec[0];
-	    }), option);
-	    for (var i in tmp) {
-	      result[i].path = tmp[i][1];
-	      result[i].root = this.root;
-	    }
-	
-	    return result;
-	  };
-	
-	  this.getByPath = function (root, path) {
-	    var tmp = root;
-	    for (var i in path) {
-	      tmp[i];
-	    }
-	
-	    return tmp;
-	  };
-	
-	  function combinatorFind(combinator, scope) {
-	    switch (combinator.operator) {
-	      case ' ':
-	        return spaceOperatorFind(combinator, scope);
-	      case '>':
-	        return arrowOperatorFind(combinator, scope);
-	    }
-	  }
-	
-	  function spaceOperatorFind(combinator, scope) {
-	    var result;
-	    if (result = compoundFind(combinator.next, scope)) {
-	      return result;
-	    }
-	
-	    for (var key in scope) {
-	      if (scope.hasOwnProperty(key)) {
-	        if (_typeof(scope[key]) == 'object' && scope[key]) {
-	          if (result = spaceOperatorFind(combinator, scope[key])) {
-	            return prependPathThenReturn(result, key);
-	          }
-	        } else if (result = compoundFind(combinator.next, scope[key])) {
-	          return prependPathThenReturn(result, key);
-	        }
-	      }
-	    }
-	
-	    return result;
-	  }
-	
-	  function arrowOperatorFind(combinator, scope) {
-	    var result;
-	    if (result = compoundFind(combinator.next, scope)) {
-	      return result;
-	    }
-	
-	    for (var key in scope) {
-	      if (scope.hasOwnProperty(key) && _typeof(scope[key]) != 'object') {
-	        if (result = compoundFind(combinator.next, scope[key])) {
-	          return prependPathThenReturn(result, key);
-	        }
-	      }
-	    }
-	
-	    return result;
-	  }
-	
-	  function prependPathThenReturn(result, path) {
-	    result[1].unshift(path);
-	    return result;
-	  }
-	
-	  function compoundFind(compound, scope) {
-	    var result = scope;
-	    var propName;
-	    var part;
-	    for (var i = 0, I = compound.length; i < I; i++) {
-	      part = compound[i];
-	      result = compoundFunction['get' + part.type](part, result);
-	      if (result === errorVal) {
-	        return undefined;
-	      }
-	
-	      if (part.type == 'Prop') {
-	        propName = part.ident;
-	      }
-	    }
-	
-	    if (compound.next) {
-	      if (result = combinatorFind(compound.next, result)) {
-	        if (propName) {
-	          result[1].unshift(propName);
-	        }
-	      }
-	    } else {
-	      result = [result, propName ? [propName] : []];
-	    }
-	
-	    return result;
-	  }
-	
-	  function combinatorFindAll(combinator, scope) {
-	    switch (combinator.operator) {
-	      case ' ':
-	        return spaceOperatorFindAll(combinator, scope);
-	      case '>':
-	        return arrowOperatorFindAll(combinator, scope);
-	    }
-	  }
-	
-	  function spaceOperatorFindAll(combinator, scope) {
-	    var result = [],
-	        tmp;
-	    if (tmp = compoundFindAll(combinator.next, scope)) {
-	      result.push.apply(result, tmp);
-	    }
-	
-	    for (var key in scope) {
-	      if (scope.hasOwnProperty(key)) {
-	        if (_typeof(scope[key]) == 'object' && scope[key]) {
-	          if (tmp = spaceOperatorFindAll(combinator, scope[key])) {
-	            prependPathAndMergeThenReturn(tmp, key, result);
-	          }
-	        } else if (tmp = compoundFindAll(combinator.next, scope[key])) {
-	          prependPathAndMergeThenReturn(tmp, key, result);
-	        }
-	      }
-	    }
-	
-	    return result;
-	  }
-	
-	  function arrowOperatorFindAll(combinator, scope) {
-	    var result = [],
-	        tmp;
-	    if (tmp = compoundFindAll(combinator.next, scope)) {
-	      result.push.apply(result, tmp);
-	    }
-	
-	    for (var key in scope) {
-	      if (scope.hasOwnProperty(key) && _typeof(scope[key]) != 'object') {
-	        if (tmp = compoundFindAll(combinator.next, scope[key])) {
-	          prependPathAndMergeThenReturn(tmp, i, result);
-	        }
-	      }
-	    }
-	
-	    return result;
-	  }
-	
-	  function compoundFindAll(compound, scope) {
-	    var result = [];
-	    var propName;
-	    var part;
-	    var tmp;
-	    for (var i = 0, I = compound.length; i < I; i++) {
-	      part = compound[i];
-	      scope = compoundFunction['get' + part.type](part, scope);
-	      if (scope === errorVal) {
-	        return undefined;
-	      }
-	
-	      if (part.type == 'Prop') {
-	        propName = part.ident;
-	      }
-	    }
-	
-	    if (compound.next) {
-	      if (tmp = combinatorFindAll(compound.next, scope)) {
-	        if (propName) {
-	          prependPathAndMergeThenReturn(tmp, propName, result);
-	        } else {
-	          result.push.apply(result, tmp);
-	        }
-	      }
-	    } else {
-	      result.push([scope, propName ? [propName] : []]);
-	    }
-	
-	    return result;
-	  }
-	
-	  function prependPathAndMergeThenReturn(newResult, path, result) {
-	    for (var i = 0, I = newResult.length; i < I; i++) {
-	      newResult[i][1].unshift(path);
-	    }
-	
-	    result.push.apply(result, newResult);
-	  }
-	
-	  var errorVal = {};
-	  var compoundFunction = {
-	    getProp: function getProp(part, scope) {
-	      if (scope && (typeof scope === 'undefined' ? 'undefined' : _typeof(scope)) == 'object' && scope[part.ident] !== undefined && scope[part.ident] !== null) {
-	        return scope[part.ident];
-	      } else {
-	        return errorVal;
-	      }
-	    },
-	    getId: function getId(part, scope) {
-	      if (scope && scope.id == part.ident) {
-	        return scope;
-	      } else {
-	        return errorVal;
-	      }
-	    },
-	    getClass: function getClass(part, scope) {
-	      if (scope && (typeof scope.class == 'string' && scope.class.indexOf(part.ident) != -1 || scope.class instanceof Array && scope.class.indexOf(part.ident) != -1 || scope.constructor.name == part.ident)) {
-	        return scope;
-	      } else {
-	        return errorVal;
-	      }
-	    },
-	    getPseudoClass: function getPseudoClass(part, scope) {
-	      var pseudoClass = pseudoClassFunction[part.ident];
-	      var pseudoClassArgs = [scope].concat(part.args);
-	      if (pseudoClass.apply(this, pseudoClassArgs)) {
-	        return scope;
-	      } else {
-	        return errorVal;
-	      }
-	    }
-	  };
-	
-	  var pseudoClassFunction = Object.assign({
-	    regexpTest: function regexpTest(selectVal, val) {
-	      return typeof selectVal == 'string' && val.test(selectVal);
-	    },
-	    equal: function equal(selectVal, val) {
-	      return selectVal === val;
-	    }
-	  }, _option.pseudoClass);
-	  debugger;
-	};
-	c3Selector.prototype = [];
-	
-	function c3s(root, option) {
-	  return new c3Selector(root, option);
-	};
-	c3s.prototype = new c3Selector();
-	
-	exports.default = c3s;
+	describe('cssParser', function () {
+	  describe('Return Structure', function () {
+	    [{ input: ' #aa.bb.bb', expect: ' #aa.bb.bb' }, { input: '> #aa.bb > .bb, .bb .bb#aa', expect: '>#aa.bb>.bb, .bb .bb#aa' }, { input: '#aa.bb .bb,>.bb .bb#aa, .bb>.bb#aa', expect: ' #aa.bb .bb,>.bb .bb#aa, .bb>.bb#aa' }, { input: '#aa.bb:method .bb', expect: ' #aa.bb:method .bb' }, { input: '#aa.bb .bb:method(123)', expect: ' #aa.bb .bb:method(123)' }, { input: '#aa.bb:method .bb:method( 123 , 456 )', expect: ' #aa.bb:method .bb:method(123,456)' }].forEach(function (testCase) {
+	      it('should return ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
+	        var val = _cssParser2.default.parse(testCase.input);
+	        val = val.join();
+	        _chai.assert.equal(val, testCase.expect);
+	      });
+	    });
+	  });
+	  describe('Class Selector', function () {
+	    describe('item link', function () {
+	      [{ input: ' #aa.bb.bb', expect: ['#aa.bb.bb'] }, { input: '> #aa.bb > .bb, .bb .bb#aa', expect: ['.bb', '.bb#aa'] }, { input: '#aa.bb .bb,>.bb .bb#aa, .bb>.bb#aa', expect: ['.bb', '.bb#aa', '.bb#aa'] }, { input: '#aa.bb .bb >.bb .bb#aa .bb>.bb#aa', expect: ['.bb#aa'] }].forEach(function (testCase) {
+	        it('should return ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
+	          _cssParser2.default.parse(testCase.input).forEach(function (selector, index) {
+	            var result = selector[0];
+	            for (var tmp = result; tmp = tmp.next; result = tmp) {}
+	            _chai.assert.equal(result, testCase.expect[index]);
+	          });
+	        });
+	      });
+	    });
+	  });
+	  describe('Rule Prop', function () {
+	    describe('Token String1(double quote)', function () {
+	      [{ input: '"123"', expect: '123' }, { input: '"\\"123\\""', expect: '"123"' }, { input: '"123\\n456"', expect: '123\n456' }].forEach(function (testCase) {
+	        it('should ident is ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
+	          var ident = _cssParser2.default.parse(testCase.input)[0][1][0].ident;
+	          _chai.assert.equal(ident, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Token String2(single quote)', function () {
+	      [{ input: "'123'", expect: "123" }, { input: "'\\'123\\''", expect: "'123'" }, { input: "'123\\n456'", expect: "123\n456" }].forEach(function (testCase) {
+	        it('should ident is ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
+	          var ident = _cssParser2.default.parse(testCase.input)[0][1][0].ident;
+	          _chai.assert.equal(ident, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Token IDENT', function () {
+	      [{ input: 'abc', expect: 'abc' }, { input: '$123', expect: '$123' }, { input: '_sad', expect: '_sad' }].forEach(function (testCase) {
+	        it('should ident is ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
+	          var ident = _cssParser2.default.parse(testCase.input)[0][1][0].ident;
+	          _chai.assert.equal(ident, testCase.expect);
+	        });
+	      });
+	    });
+	    // describe('Token Regex', function () {
+	    //   [
+	    //     {input:"/abc/g", expect:/abc/g},
+	    //     {input:"/abc/gm", expect:/abc/gm},
+	    //     {input:"/\\n\\/\\//", expect:/\n\/\//},
+	    //     {input:"/\\n\\/\\/abc/", expect:/\n\/\/abc/},
+	    //     {input:"/[^-a]/", expect:/[^-a]/}
+	    //   ].forEach(function (testCase) {
+	    //     it(`should ident is ${testCase.expect.toString()} when the value is ${testCase.input.toString()}`, function () {
+	    //       var ident = cssParser.parse(testCase.input)[0][1][0].ident;
+	    //       assert.equal(ident.toString(), testCase.expect.toString());
+	    //     });
+	    //   });
+	    // });
+	  });
+	  describe('Rule pseudo_class', function () {
+	    describe('Token Float', function () {
+	      [{ input: ':method(.1e1)', expect: 1 }, { input: ':method(.123)', expect: 0.123 }].forEach(function (testCase) {
+	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
+	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
+	          _chai.assert.equal(value, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Token Decimal', function () {
+	      [{ input: ':method(1.1e1)', expect: 11 }, { input: ':method(1.123)', expect: 1.123 }, { input: ':method(1123)', expect: 1123 }].forEach(function (testCase) {
+	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
+	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
+	          _chai.assert.equal(value, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Token Hexadecimal', function () {
+	      [{ input: ':method(0X1F)', expect: 31 }, { input: ':method(0x2F)', expect: 47 }].forEach(function (testCase) {
+	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
+	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
+	          _chai.assert.equal(value, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Token Octal', function () {
+	      [{ input: ':method(0O10)', expect: 8 }, { input: ':method(0o20)', expect: 16 }].forEach(function (testCase) {
+	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
+	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
+	          _chai.assert.equal(value, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Token Binary', function () {
+	      [{ input: ':method(0B11)', expect: 3 }, { input: ':method(0b111)', expect: 7 }].forEach(function (testCase) {
+	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
+	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
+	          _chai.assert.equal(value, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Token Otcal-vs-decimal', function () {
+	      [{ input: ':method(008)', expect: 8 }, { input: ':method(017)', expect: 15 }].forEach(function (testCase) {
+	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
+	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
+	          _chai.assert.equal(value, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Token Number', function () {
+	      [{ input: ':method(+.1e1)', expect: 1 }, { input: ':method(-.123)', expect: -0.123 }, { input: ':method(+1.1e1)', expect: 11 }, { input: ':method(-1.1e-1)', expect: -0.11 }, { input: ':method(+1.123)', expect: 1.123 }, { input: ':method(-1123)', expect: -1123 }, { input: ':method(+0X1F)', expect: 31 }, { input: ':method(-0x2F)', expect: -47 }, { input: ':method(+0O10)', expect: 8 }, { input: ':method(-0o20)', expect: -16 }, { input: ':method(+0B11)', expect: 3 }, { input: ':method(-0b111)', expect: -7 }, { input: ':method(+008)', expect: 8 }, { input: ':method(-017)', expect: -15 }].forEach(function (testCase) {
+	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
+	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
+	          _chai.assert.equal(value, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Arguments', function () {
+	      [{ input: ':method(+.1e1)', expect: [+.1e1] }, { input: ':method(  +.1e1, +.1e1 )', expect: [+.1e1, +.1e1] }, { input: ':method(+.1e1, +.1e1 , "123" )', expect: [+.1e1, +.1e1, "123"] }].forEach(function (testCase) {
+	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
+	          var args = _cssParser2.default.parse(testCase.input)[0][1][0].args;
+	          _chai.assert.equal(args.join(), testCase.expect.join());
+	        });
+	      });
+	    });
+	  });
+	});
 
 /***/ },
 /* 3 */
@@ -9018,6 +8850,314 @@
 
 /***/ },
 /* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	var _cssParser = __webpack_require__(3);
+	
+	var _cssParser2 = _interopRequireDefault(_cssParser);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function c3Selector(root, option) {
+	  var _option = Object.assign({}, option);
+	  var _data = root;
+	  if (root instanceof Array) {
+	    for (var i = 0, I = root.length; i < I; i++) {
+	      this.push({ value: root[i], path: [i], root: root });
+	    }
+	  } else if (root !== undefined && root !== null && root !== NaN) {
+	    this.push({ value: root, path: [], root: root });
+	  }
+	
+	  this.root = root;
+	
+	  this.selectOne = function (input) {
+	    var cssTrees = _cssParser2.default.parse(input),
+	        result,
+	        tmp;
+	    for (var i = 0, I = cssTrees.length; i < I; i++) {
+	      if (tmp = combinatorFind(cssTrees[i].start, _data)) {
+	        result = new c3Selector(tmp[0], option);
+	        result[0].path = tmp[1];
+	        result[0].root = this.root;
+	        return result;
+	      }
+	    }
+	
+	    return new c3Selector(undefined, option);
+	  };
+	
+	  this.selectAll = function (input) {
+	    var cssTrees = _cssParser2.default.parse(input),
+	        result = [],
+	        tmp;
+	    for (var i = 0, I = cssTrees.length; i < I; i++) {
+	      if (tmp = combinatorFindAll(cssTrees[i].start, _data)) {
+	        result.push.apply(result, tmp);
+	      }
+	    }
+	
+	    for (var i = result.length - 1; i > -1; i--) {
+	      for (var j = i - 1; j > -1; j--) {
+	        if (result[i][1].join() == result[j][1].join()) {
+	          result.splice(i, 1);
+	          break;
+	        }
+	      }
+	    }
+	
+	    tmp = result;
+	    result = new c3Selector(tmp.map(function (rec) {
+	      return rec[0];
+	    }), option);
+	    for (var i in tmp) {
+	      result[i].path = tmp[i][1];
+	      result[i].root = this.root;
+	    }
+	
+	    return result;
+	  };
+	
+	  function combinatorFind(combinator, scope) {
+	    switch (combinator.operator) {
+	      case ' ':
+	        return spaceOperatorFind(combinator, scope);
+	      case '>':
+	        return arrowOperatorFind(combinator, scope);
+	    }
+	  }
+	
+	  function spaceOperatorFind(combinator, scope) {
+	    var result;
+	    if (result = compoundFind(combinator.next, scope)) {
+	      return result;
+	    }
+	
+	    for (var key in scope) {
+	      if (scope.hasOwnProperty(key)) {
+	        if (_typeof(scope[key]) == 'object' && scope[key]) {
+	          if (result = spaceOperatorFind(combinator, scope[key])) {
+	            return prependPathThenReturn(result, key);
+	          }
+	        } else if (result = compoundFind(combinator.next, scope[key])) {
+	          return prependPathThenReturn(result, key);
+	        }
+	      }
+	    }
+	
+	    return result;
+	  }
+	
+	  function arrowOperatorFind(combinator, scope) {
+	    var result;
+	    if (result = compoundFind(combinator.next, scope)) {
+	      return result;
+	    }
+	
+	    for (var key in scope) {
+	      if (scope.hasOwnProperty(key) && _typeof(scope[key]) != 'object') {
+	        if (result = compoundFind(combinator.next, scope[key])) {
+	          return prependPathThenReturn(result, key);
+	        }
+	      }
+	    }
+	
+	    return result;
+	  }
+	
+	  function prependPathThenReturn(result, path) {
+	    result[1].unshift(path);
+	    return result;
+	  }
+	
+	  function compoundFind(compound, scope) {
+	    var result = scope;
+	    var propName;
+	    var part;
+	    for (var i = 0, I = compound.length; i < I; i++) {
+	      part = compound[i];
+	      result = compoundFunction['get' + part.type](part, result);
+	      if (result === errorVal) {
+	        return undefined;
+	      }
+	
+	      if (part.type == 'Prop') {
+	        propName = part.ident;
+	      }
+	    }
+	
+	    if (compound.next) {
+	      if (result = combinatorFind(compound.next, result)) {
+	        if (propName) {
+	          result[1].unshift(propName);
+	        }
+	      }
+	    } else {
+	      result = [result, propName ? [propName] : []];
+	    }
+	
+	    return result;
+	  }
+	
+	  function combinatorFindAll(combinator, scope) {
+	    switch (combinator.operator) {
+	      case ' ':
+	        return spaceOperatorFindAll(combinator, scope);
+	      case '>':
+	        return arrowOperatorFindAll(combinator, scope);
+	    }
+	  }
+	
+	  function spaceOperatorFindAll(combinator, scope) {
+	    var result = [],
+	        tmp;
+	    if (tmp = compoundFindAll(combinator.next, scope)) {
+	      result.push.apply(result, tmp);
+	    }
+	
+	    for (var key in scope) {
+	      if (scope.hasOwnProperty(key)) {
+	        if (_typeof(scope[key]) == 'object' && scope[key]) {
+	          if (tmp = spaceOperatorFindAll(combinator, scope[key])) {
+	            prependPathAndMergeThenReturn(tmp, key, result);
+	          }
+	        } else if (tmp = compoundFindAll(combinator.next, scope[key])) {
+	          prependPathAndMergeThenReturn(tmp, key, result);
+	        }
+	      }
+	    }
+	
+	    return result;
+	  }
+	
+	  function arrowOperatorFindAll(combinator, scope) {
+	    var result = [],
+	        tmp;
+	    if (tmp = compoundFindAll(combinator.next, scope)) {
+	      result.push.apply(result, tmp);
+	    }
+	
+	    for (var key in scope) {
+	      if (scope.hasOwnProperty(key) && _typeof(scope[key]) != 'object') {
+	        if (tmp = compoundFindAll(combinator.next, scope[key])) {
+	          prependPathAndMergeThenReturn(tmp, i, result);
+	        }
+	      }
+	    }
+	
+	    return result;
+	  }
+	
+	  function compoundFindAll(compound, scope) {
+	    var result = [];
+	    var propName;
+	    var part;
+	    var tmp;
+	    for (var i = 0, I = compound.length; i < I; i++) {
+	      part = compound[i];
+	      scope = compoundFunction['get' + part.type](part, scope);
+	      if (scope === errorVal) {
+	        return undefined;
+	      }
+	
+	      if (part.type == 'Prop') {
+	        propName = part.ident;
+	      }
+	    }
+	
+	    if (compound.next) {
+	      if (tmp = combinatorFindAll(compound.next, scope)) {
+	        if (propName) {
+	          prependPathAndMergeThenReturn(tmp, propName, result);
+	        } else {
+	          result.push.apply(result, tmp);
+	        }
+	      }
+	    } else {
+	      result.push([scope, propName ? [propName] : []]);
+	    }
+	
+	    return result;
+	  }
+	
+	  function prependPathAndMergeThenReturn(newResult, path, result) {
+	    for (var i = 0, I = newResult.length; i < I; i++) {
+	      newResult[i][1].unshift(path);
+	    }
+	
+	    result.push.apply(result, newResult);
+	  }
+	
+	  var errorVal = {};
+	  var compoundFunction = {
+	    getProp: function getProp(part, scope) {
+	      if (scope && (typeof scope === 'undefined' ? 'undefined' : _typeof(scope)) == 'object' && scope[part.ident] !== undefined && scope[part.ident] !== null) {
+	        return scope[part.ident];
+	      } else {
+	        return errorVal;
+	      }
+	    },
+	    getId: function getId(part, scope) {
+	      if (scope && scope.id == part.ident) {
+	        return scope;
+	      } else {
+	        return errorVal;
+	      }
+	    },
+	    getClass: function getClass(part, scope) {
+	      if (scope && (typeof scope.class == 'string' && scope.class.indexOf(part.ident) != -1 || scope.class instanceof Array && scope.class.indexOf(part.ident) != -1 || scope.constructor.name == part.ident)) {
+	        return scope;
+	      } else {
+	        return errorVal;
+	      }
+	    },
+	    getPseudoClass: function getPseudoClass(part, scope) {
+	      var pseudoClass = pseudoClassFunction[part.ident];
+	      var pseudoClassArgs = [scope].concat(part.args);
+	      if (pseudoClass.apply(this, pseudoClassArgs)) {
+	        return scope;
+	      } else {
+	        return errorVal;
+	      }
+	    }
+	  };
+	
+	  var pseudoClassFunction = Object.assign({
+	    regexpTest: function regexpTest(selectVal, val) {
+	      return typeof selectVal == 'string' && val.test(selectVal);
+	    },
+	    equal: function equal(selectVal, val) {
+	      return selectVal === val;
+	    }
+	  }, _option.pseudoClass);
+	};
+	c3Selector.prototype = [];
+	
+	function c3s(root, option) {
+	  return new c3Selector(root, option);
+	};
+	// c3s.prototype = new c3Selector();
+	c3s.getByPath = function (root, path) {
+	  var tmp = root;
+	  for (var i in path) {
+	    tmp[i];
+	  }
+	
+	  return tmp;
+	};
+	
+	exports.default = c3s;
+
+/***/ },
+/* 42 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -9086,7 +9226,7 @@
 	};
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports) {
 
 	module.exports = [

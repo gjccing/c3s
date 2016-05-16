@@ -58,15 +58,6 @@ function c3Selector(root, option) {
     return result;
   };
 
-  this.getByPath = function (root, path) {
-    var tmp = root;
-    for (var i in path) {
-      tmp[i];
-    }
-
-    return tmp;
-  };
-
   function combinatorFind(combinator, scope) {
     switch (combinator.operator) {
       case ' ' :
@@ -291,6 +282,14 @@ c3Selector.prototype = [];
 function c3s(root, option) {
   return new c3Selector(root, option);
 };
-c3s.prototype = new c3Selector();
+// c3s.prototype = new c3Selector();
+c3s.getByPath = function (root, path) {
+  var tmp = root;
+  for (var i in path) {
+    tmp[i];
+  }
+
+  return tmp;
+};
 
 export default c3s;

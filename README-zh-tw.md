@@ -22,51 +22,61 @@ c3s(a).selectOne('e>d');
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
+`npm install c3s`
+
+#### Tests
+
+`npm run test`
+
+#### debug
+
+`npm run debug`
 
 ## Support Syntax
 
-### space
+### Space
   
   ex: `div a`<br>
-  遍歷物件的屬性及它包含的所有物件。
+  遍歷節點的屬性及包含的所有物件。
+  預設若語法一開始未加任何連接符號(Space or Arrow)則會插入Space。
   
   
-### arrow
+### Arrow
 
   ex: `div>a`<br>
-  遍歷物件的屬性。
+  遍歷節點的屬性。
   
   
-### element
+### Element
 
   ex: `div` `"div"` `'div'`<br>
-  找出屬性名稱等於指定字串的屬性的值。
+  選取節點上屬性名稱等於**Element**字串的屬性的值。
 
-### class
+### Class
   
-  ex: `.class` `."class"` `.'class'`<br>
-  找出元素擁有class屬性(stirng or array)且class屬性包含指定字串；或著等於其類別的名稱（obj.constructor.name）。
+  ex: `.Class` `."Class"` `.'Class'`<br>
+  選取擁有`class`屬性(stirng or array)且屬性值包含**Class**字串的節點；
+  或著選取**Class**等於其類別的名稱（obj.constructor.name）的節點。
   
-### id
+### Id
 
-  ex: `#id` `#"id"` `#'id'`<br>
-  找出元素擁有id屬性且等於指定的字串。
+  ex: `#Id` `#"Id"` `#'Id'`<br>
+  選取擁有`id`屬性且屬性值等於**Id**字串的節點。
   
 ### persuade class
   
   ex: `:value(123)`<br>
-  找出所有符合persuade class定義的元素。目前預設有以下persuade class：
+  選取符合persuade class定義的節點。目前預設有以下persuade class:
   
   * `:value(val)`
   
-    若元素如果與**val**相等的話就選取。
+    節點如果與**val**相等的話就選取。
 
   * `:regexpTest(regexp)`
     
-    將元素使用regexp.test判斷若回傳true的話就選取。
+    如果`regexp.test(節點)`回傳true的話就選取。
 
-  可以自訂或改寫現有的persuade class，ex：
+  可以自訂或改寫現有的persuade class，ex:
   ```javascript
   c3s(['example'], {
     pseudoClass: {
@@ -82,9 +92,35 @@ Provide code examples and explanations of how to get the project.
 
 ## API Reference
 
-## Tests
+### c3s
+  
+  ex: `c3s(root, option)`<br>
+  依照設定回傳c3Selector類別實俐。
 
-Describe and show how to run the tests with code examples.
+  * root: 想要搜尋的物件。
+  * option: 設定物件，目前只有pseudoClass的設定。
+
+### c3s.getByPath
+  
+  ex: `c3s.getByPath(root, path)`
+  依照path取出root中內涵的值。
+
+  * root: 想要搜尋的物件。
+  * path，array:查找路徑。
+
+### c3Selector.selectOne
+  
+  ex: `c3s(root, option).selectOne(input)`
+  依照輸入的css語句選取第一筆符合規則的節點。
+
+  * input css語句。
+
+### c3Selector.selectAll
+  
+  ex: `c3s(root, option).selectOne(input)`
+  依照輸入的css語句選取所有符合規則的節點。
+
+  * input css語句。
 
 ## License
 

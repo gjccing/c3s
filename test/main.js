@@ -1,4 +1,4 @@
-// import './css-parser.pegjs.test.js';
+import './css-parser.pegjs.test.js';
 import c3s from '../src/main.js';
 import {assert} from 'chai';
 
