@@ -292,4 +292,5 @@ c3s.getByPath = function (root, path) {
   return tmp;
 };
 
-export default c3s;
+module.exports = c3s;
+// export default c3s;

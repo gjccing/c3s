@@ -16,6 +16,9 @@ const config = {
   output: {
     path: buildPath,    //Path of output file
     filename: 'c3s-parser.min.js',  //Name of output file
+    library: 'c3s-parser.min.js',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   plugins: [
     //Minify the bundle
