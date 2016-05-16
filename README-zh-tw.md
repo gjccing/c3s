@@ -70,7 +70,10 @@ Provide code examples and explanations of how to get the project.
   ```javascript
   c3s(['example'], {
     pseudoClass: {
-      metho1: function ( element/* c3s將會傳入目前要判斷的element */, arg1, arg2 /* 任意數量參數 */ ) {
+      metho1: function ( 
+          element/* c3s將會傳入目前要判斷的element */, 
+          arg1, arg2 /* 任意數量參數 */
+        ) {
         return true /* 選取該element or false 不選取 */
       }
     }
