@@ -113,7 +113,7 @@ c3s(a).selectOne('e>d');
   ex: `c3s(root, option).selectOne(input)`<br>
   依照輸入的css語句選取第一筆符合規則的節點。
 
-  回傳值為Array的子類別並且結果會以`{value, path, root}`這種形式放置。
+  回傳值c3Selector為Array的子類別並且結果會以`{value, path, root}`這種形式放置。
 
   ```javascript
   var root = ['example'];
