@@ -13,7 +13,6 @@ describe('cssParser', function() {
     ].forEach(function (testCase) {
       it(`should return ${JSON.stringify(testCase.expect)} when the value is ${JSON.stringify(testCase.input)}`, function () {
         var val = cssParser.parse(testCase.input);
-        debugger;
         val = val.join();
         assert.equal(val, testCase.expect);
       });

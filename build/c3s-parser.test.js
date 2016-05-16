@@ -114,6 +114,7 @@
 	      }].forEach(function (testCase) {
 	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
 	          var result = (0, _main2.default)(data).selectOne(testCase.input);
+	          debugger;
 	          result = result[0] ? result[0].value : undefined;
 	          _chai.assert.equal(result, testCase.expect);
 	        });
@@ -276,6 +277,69 @@
 	      });
 	    });
 	  });
+	  describe('pseudoClass', function () {
+	    describe('defined', function () {
+	      var data = __webpack_require__(42);
+	      [{
+	        input: {
+	          select: ':gt(2000)',
+	          option: {
+	            pseudoClass: {
+	              gt: function gt(v1, v2) {
+	                return v1 > v2;
+	              }
+	            }
+	          }
+	        },
+	        expect: 5
+	      }, {
+	        input: {
+	          select: ':lt(1)',
+	          option: {
+	            pseudoClass: {
+	              lt: function lt(v1, v2) {
+	                return v1 < v2;
+	              }
+	            }
+	          }
+	        },
+	        expect: 13
+	      }].forEach(function (testCase) {
+	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
+	          var result = (0, _main2.default)(data, testCase.input.option);
+	          result = result.selectAll(testCase.input.select);
+	          _chai.assert.equal(result.length, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('link', function () {
+	      var data = __webpack_require__(42);
+	      [{
+	        input: {
+	          select: [':gt(2000)', ':lt(6000)'],
+	          option: {
+	            pseudoClass: {
+	              gt: function gt(v1, v2) {
+	                return v1 > v2;
+	              },
+	              lt: function lt(v1, v2) {
+	                return v1 < v2;
+	              }
+	            }
+	          }
+	        },
+	        expect: 2
+	      }].forEach(function (testCase) {
+	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
+	          debugger;
+	          var result = (0, _main2.default)(data, testCase.input.option);
+	          result = result.selectAll(testCase.input.select[0]);
+	          result = result.selectAll(testCase.input.select[1]);
+	          _chai.assert.equal(result.length, testCase.expect);
+	        });
+	      });
+	    });
+	  });
 	});
 
 /***/ },
@@ -315,14 +379,54 @@
 	        tmp;
 	    for (var i = 0, I = cssTrees.length; i < I; i++) {
 	      if (tmp = combinatorFind(cssTrees[i].start, _data)) {
-	        result = new c3Selector(tmp[0]);
+	        result = new c3Selector(tmp[0], option);
 	        result[0].path = tmp[1];
 	        result[0].root = this.root;
 	        return result;
 	      }
 	    }
 	
-	    return new c3Selector();
+	    return new c3Selector(undefined, option);
+	  };
+	
+	  this.selectAll = function (input) {
+	    var cssTrees = _cssParser2.default.parse(input),
+	        result = [],
+	        tmp;
+	    for (var i = 0, I = cssTrees.length; i < I; i++) {
+	      if (tmp = combinatorFindAll(cssTrees[i].start, _data)) {
+	        result.push.apply(result, tmp);
+	      }
+	    }
+	
+	    for (var i = result.length - 1; i > -1; i--) {
+	      for (var j = i - 1; j > -1; j--) {
+	        if (result[i][1].join() == result[j][1].join()) {
+	          result.splice(i, 1);
+	          break;
+	        }
+	      }
+	    }
+	
+	    tmp = result;
+	    result = new c3Selector(tmp.map(function (rec) {
+	      return rec[0];
+	    }), option);
+	    for (var i in tmp) {
+	      result[i].path = tmp[i][1];
+	      result[i].root = this.root;
+	    }
+	
+	    return result;
+	  };
+	
+	  this.getByPath = function (root, path) {
+	    var tmp = root;
+	    for (var i in path) {
+	      tmp[i];
+	    }
+	
+	    return tmp;
 	  };
 	
 	  function combinatorFind(combinator, scope) {
@@ -342,7 +446,7 @@
 	
 	    for (var key in scope) {
 	      if (scope.hasOwnProperty(key)) {
-	        if (_typeof(scope[key]) == 'object') {
+	        if (_typeof(scope[key]) == 'object' && scope[key]) {
 	          if (result = spaceOperatorFind(combinator, scope[key])) {
 	            return prependPathThenReturn(result, key);
 	          }
@@ -384,7 +488,7 @@
 	    for (var i = 0, I = compound.length; i < I; i++) {
 	      part = compound[i];
 	      result = compoundFunction['get' + part.type](part, result);
-	      if (result === undefined || result === null) {
+	      if (result === errorVal) {
 	        return undefined;
 	      }
 	
@@ -406,38 +510,6 @@
 	    return result;
 	  }
 	
-	  this.selectAll = function (input) {
-	    var cssTrees = _cssParser2.default.parse(input),
-	        result = [],
-	        tmp;
-	    for (var i = 0, I = cssTrees.length; i < I; i++) {
-	      if (tmp = combinatorFindAll(cssTrees[i].start, _data)) {
-	        result.push.apply(result, tmp);
-	      }
-	    }
-	
-	    for (var i = result.length - 1; i > -1; i--) {
-	      for (var j = i - 1; j > -1; j--) {
-	        if (result[i][1].join() == result[j][1].join()) {
-	          result.splice(i, 1);
-	          break;
-	        }
-	      }
-	    }
-	
-	    debugger;
-	    tmp = result;
-	    result = new c3Selector(tmp.map(function (rec) {
-	      return rec[0];
-	    }));
-	    for (var i in tmp) {
-	      result[i].path = tmp[i][1];
-	      result[i].root = this.root;
-	    }
-	
-	    return result;
-	  };
-	
 	  function combinatorFindAll(combinator, scope) {
 	    switch (combinator.operator) {
 	      case ' ':
@@ -456,7 +528,7 @@
 	
 	    for (var key in scope) {
 	      if (scope.hasOwnProperty(key)) {
-	        if (_typeof(scope[key]) == 'object') {
+	        if (_typeof(scope[key]) == 'object' && scope[key]) {
 	          if (tmp = spaceOperatorFindAll(combinator, scope[key])) {
 	            prependPathAndMergeThenReturn(tmp, key, result);
 	          }
@@ -495,7 +567,7 @@
 	    for (var i = 0, I = compound.length; i < I; i++) {
 	      part = compound[i];
 	      scope = compoundFunction['get' + part.type](part, scope);
-	      if (scope === undefined || scope === null) {
+	      if (scope === errorVal) {
 	        return undefined;
 	      }
 	
@@ -527,20 +599,27 @@
 	    result.push.apply(result, newResult);
 	  }
 	
+	  var errorVal = {};
 	  var compoundFunction = {
 	    getProp: function getProp(part, scope) {
 	      if (scope && (typeof scope === 'undefined' ? 'undefined' : _typeof(scope)) == 'object' && scope[part.ident] !== undefined && scope[part.ident] !== null) {
 	        return scope[part.ident];
+	      } else {
+	        return errorVal;
 	      }
 	    },
 	    getId: function getId(part, scope) {
 	      if (scope && scope.id == part.ident) {
 	        return scope;
+	      } else {
+	        return errorVal;
 	      }
 	    },
 	    getClass: function getClass(part, scope) {
 	      if (scope && (typeof scope.class == 'string' && scope.class.indexOf(part.ident) != -1 || scope.class instanceof Array && scope.class.indexOf(part.ident) != -1 || scope.constructor.name == part.ident)) {
 	        return scope;
+	      } else {
+	        return errorVal;
 	      }
 	    },
 	    getPseudoClass: function getPseudoClass(part, scope) {
@@ -548,6 +627,8 @@
 	      var pseudoClassArgs = [scope].concat(part.args);
 	      if (pseudoClass.apply(this, pseudoClassArgs)) {
 	        return scope;
+	      } else {
+	        return errorVal;
 	      }
 	    }
 	  };
@@ -560,26 +641,14 @@
 	      return selectVal === val;
 	    }
 	  }, _option.pseudoClass);
+	  debugger;
 	};
 	c3Selector.prototype = [];
 	
 	function c3s(root, option) {
 	  return new c3Selector(root, option);
 	};
-	c3s.prototype = c3Selector;
-	c3s.getByPath = function (root, path) {
-	  var tmp = root;
-	  for (var i in path) {
-	    tmp[i];
-	  }
-	
-	  return tmp;
-	};
-	
-	// c3s.prototype.method_name = function(first_argument) {
-	//   // body...
-	// };
-	// [ {value, path, rule}, ...]
+	c3s.prototype = new c3Selector();
 	
 	exports.default = c3s;
 

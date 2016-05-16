@@ -275,4 +275,74 @@ describe('c3s', function() {
       });
     });
   });
+  describe('pseudoClass', function () {
+    describe('defined', function () {
+      var data = require('./testData2.json');
+      [
+        {
+          input: {
+            select: ':gt(2000)',
+            option : {
+              pseudoClass: {
+                gt: function (v1, v2) {
+                  return v1 > v2;
+                }
+              }
+            }
+          },
+          expect: 5
+        },
+        {
+          input: {
+            select: ':lt(1)',
+            option : {
+              pseudoClass: {
+                lt: function (v1, v2) {
+                  return v1 < v2;
+                }
+              }
+            }
+          },
+          expect: 13
+        }
+      ].forEach(function (testCase) {
+        it(`should return ${testCase.expect} when the select is ${JSON.stringify(testCase.input.select)}`, function () {
+          var result = c3s(data, testCase.input.option)
+          result = result.selectAll(testCase.input.select);
+          assert.equal(result.length, testCase.expect);
+        });
+      });
+    });
+    describe('link', function () {
+      var data = require('./testData2.json');
+      [
+        {
+          input: {
+            select: [
+                ':gt(2000)',
+                ':lt(6000)'
+            ],
+            option : {
+              pseudoClass: {
+                gt: function (v1, v2) {
+                  return v1 > v2;
+                },
+                lt: function (v1, v2) {
+                  return v1 < v2;
+                }
+              }
+            }
+          },
+          expect: 2
+        }
+      ].forEach(function (testCase) {
+        it(`should return ${testCase.expect} when the select is ${JSON.stringify(testCase.input.select)}`, function () {
+          var result = c3s(data, testCase.input.option);
+          result = result.selectAll(testCase.input.select[0])
+          result = result.selectAll(testCase.input.select[1]);
+          assert.equal(result.length, testCase.expect);
+        });
+      });
+    });
+  });
 });

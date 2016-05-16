@@ -1,9 +1,9 @@
 {
   "name": "c3s",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "author": "",
+  "version": "0.0.2",
+  "description": "CSS Selector tool help manipulate complex javascript object",
+  "main": "build/c3s-parser.min.js",
+  "author": "gjccing",
   "license": "ISC",
   "scripts": {
     "build": "webpack --config webpack.config.js --progress --colors --target node",
@@ -25,5 +25,14 @@
     "source-map-support": "^0.4.0",
     "webpack": "^1.12.9"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "keywords": [
+    "css",
+    "selector",
+    "tool"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gjccing/c3s.git"
+  }
 }

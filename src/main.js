@@ -1,6 +1,7 @@
 import cssParser from './css-parser.pegjs';
 
 function c3Selector(root, option) {
+  var _option = Object.assign({}, option);
   var _data = root;
   if (root instanceof Array) {
     for (var i = 0, I = root.length; i < I; i++) {
@@ -18,14 +19,14 @@ function c3Selector(root, option) {
       tmp;
     for (var i = 0, I = cssTrees.length; i < I; i++) {
       if (tmp = combinatorFind(cssTrees[i].start, _data)) {
-        result = new c3Selector(tmp[0]);
+        result = new c3Selector(tmp[0], option);
         result[0].path = tmp[1];
         result[0].root = this.root;
         return result;
       }
     }
 
-    return new c3Selector();
+    return new c3Selector(undefined, option);
   };
 
   this.selectAll = function(input) {
@@ -47,9 +48,8 @@ function c3Selector(root, option) {
       }
     }
 
-    debugger;
     tmp = result;
-    result = new c3Selector(tmp.map(rec=>rec[0]));
+    result = new c3Selector(tmp.map(rec=>rec[0]), option);
     for (var i in tmp) {
       result[i].path = tmp[i][1];
       result[i].root = this.root;
@@ -84,7 +84,7 @@ function c3Selector(root, option) {
 
     for (var key in scope) {
       if (scope.hasOwnProperty(key)) {
-        if (typeof scope[key] == 'object') {
+        if (typeof scope[key] == 'object' && scope[key]) {
           if (result = spaceOperatorFind(combinator, scope[key])) {
             return prependPathThenReturn(result, key);
           }
@@ -127,7 +127,7 @@ function c3Selector(root, option) {
     for (var i = 0, I = compound.length; i < I; i++) {
       part = compound[i];
       result = compoundFunction['get'+part.type](part, result);
-      if (result === undefined || result === null) {
+      if (result === errorVal) {
         return undefined;
       }
 
@@ -166,7 +166,7 @@ function c3Selector(root, option) {
     
     for (var key in scope) {
       if (scope.hasOwnProperty(key)) {
-        if (typeof scope[key] == 'object') {
+        if (typeof scope[key] == 'object' && scope[key]) {
           if (tmp = spaceOperatorFindAll(combinator, scope[key])) {
             prependPathAndMergeThenReturn(tmp, key, result);
           }
@@ -204,7 +204,7 @@ function c3Selector(root, option) {
     for (var i = 0, I = compound.length; i < I; i++) {
       part = compound[i];
       scope = compoundFunction['get'+part.type](part, scope);
-      if (scope === undefined || scope === null) {
+      if (scope === errorVal) {
         return undefined;
       }
 
@@ -236,6 +236,7 @@ function c3Selector(root, option) {
     result.push.apply(result, newResult);
   }
 
+  var errorVal = {};
   var compoundFunction = {
     getProp : function (part, scope) {
       if (scope && 
@@ -243,11 +244,15 @@ function c3Selector(root, option) {
         scope[part.ident] !== undefined && 
         scope[part.ident] !== null) {
         return scope[part.ident];
+      } else {
+        return errorVal;
       }
     },
     getId : function (part, scope) {
       if (scope && scope.id == part.ident) {
         return scope;
+      } else {
+        return errorVal;
       }
     },
     getClass : function (part, scope) {
@@ -257,27 +262,29 @@ function c3Selector(root, option) {
           scope.constructor.name == part.ident
         )) {
         return scope;
+      } else {
+        return errorVal;
       }
     },
     getPseudoClass : function (part, scope) {
       var pseudoClass = pseudoClassFunction[part.ident];
       var pseudoClassArgs = [scope].concat(part.args);
-      return pseudoClass.apply(this, pseudoClassArgs);
+      if (pseudoClass.apply(this, pseudoClassArgs)) {
+        return scope;
+      } else {
+        return errorVal;
+      }
     }
   };
 
   var pseudoClassFunction = Object.assign( {
     regexpTest: function (selectVal, val) {
-      if (typeof selectVal == 'string' && val.test(selectVal)){
-        return selectVal;
-      }
+      return typeof selectVal == 'string' && val.test(selectVal);
     },
     equal: function (selectVal, val) {
-      if (selectVal === val){
-        return selectVal;
-      }
+      return selectVal === val;
     }
-  }, option.pseudoClass);
+  }, _option.pseudoClass);
 };
 c3Selector.prototype = [];
 
