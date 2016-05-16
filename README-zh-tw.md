@@ -30,38 +30,32 @@ Provide code examples and explanations of how to get the project.
 
 #### space
 
-  遍歷物件的屬性及它包含的所有物件。
-  
+  遍歷物件的屬性及它包含的所有物件。<br>
   ex: `div a`
   
 #### arrow
 
-  遍歷物件的屬性。
-  
+  遍歷物件的屬性。<br>
   ex: `div>a`
   
 #### element
 
-  找出屬性名稱等於指定字串的屬性的值。
-  
+  找出屬性名稱等於指定字串的屬性的值。<br>
   ex: `div` `"div"` `'div'`
 
 #### class
   
-  找出物件擁有class屬性(stirng or array)且包含指定字串；或著是其類別的名稱（obj.constructor.name）。
-  
+  找出物件擁有class屬性(stirng or array)且包含指定字串；或著是其類別的名稱（obj.constructor.name）。<br>
   ex: `.class` `."class"` `.'class'`
   
 #### id
 
-  找出物件擁有id屬性且等於指定的字串。
-  
+  找出物件擁有id屬性且等於指定的字串。<br>
   ex: `#id` `#"id"` `#'id'` 
   
 #### persuade class，ex: `:method(args)`
   
-  找出所有符合persuade class定義的值。使用者可以自訂persuade class。
-  
+  找出所有符合persuade class定義的值。使用者可以自訂persuade class。<br>
   ex: `:value(123)`
   
 ## Tests
