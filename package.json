@@ -1,6 +1,6 @@
 {
   "name": "c3s",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "use css selector manipulate complex javascript object.",
   "main": "build/c3s-parser.min.js",
   "author": "gjccing",
