@@ -30,14 +30,17 @@ Provide code examples and explanations of how to get the project.
 
 ##### space
 
-  ex: `div a`。
   遍歷物件的屬性及它包含的所有物件。
+  
+  ex: `div a`
+  
   
 ##### arrow
 
   遍歷物件的屬性。
   
-  ex: `div>a`。
+  ex: `div>a`
+  
   
 ##### element
 
@@ -45,11 +48,13 @@ Provide code examples and explanations of how to get the project.
   
   ex: `div` `"div"` `'div'`
 
+
 ##### class
   
   找出物件擁有class屬性(stirng or array)且包含指定字串；或著是其類別的名稱（obj.constructor.name）。
   
   ex: `.class` `."class"` `.'class'`
+  
   
 ##### id
 
@@ -57,11 +62,13 @@ Provide code examples and explanations of how to get the project.
   
   ex: `#id` `#"id"` `#'id'` 
   
+  
 ##### persuade class，ex: `:method(args)`
   
   找出所有符合persuade class定義的值。使用者可以自訂persuade class。
   
   ex: `:value(123)`
+  
   
 ## Tests
 
