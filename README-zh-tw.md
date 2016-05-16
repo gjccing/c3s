@@ -16,7 +16,7 @@ var a = {
   }
 }
 
-c3s.selectOne('e>d');
+c3s(a).selectOne('e>d');
 // get "d"
 ```
 
