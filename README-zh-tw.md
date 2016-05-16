@@ -35,29 +35,33 @@ Provide code examples and explanations of how to get the project.
   
 ##### arrow
 
-  ex: `div>a`。
   遍歷物件的屬性。
+  
+  ex: `div>a`。
   
 ##### element
 
-  ex: `div` `"div"` `'div'`
   找出屬性名稱等於指定字串的屬性的值。
+  
+  ex: `div` `"div"` `'div'`
 
 ##### class
   
-  ex: `.class` `."class"` `.'class'`
   找出物件擁有class屬性(stirng or array)且包含指定字串；或著是其類別的名稱（obj.constructor.name）。
+  
+  ex: `.class` `."class"` `.'class'`
   
 ##### id
 
+  找出物件擁有id屬性且等於指定的字串。
+  
   ex: `#id` `#"id"` `#'id'` 
-  找出物件擁有id屬性且等於指定的字串
   
 ##### persuade class，ex: `:method(args)`
   
-  ex: `:value(123)`
   找出所有符合persuade class定義的值。使用者可以自訂persuade class。
-
+  
+  ex: `:value(123)`
   
 ## Tests
 
