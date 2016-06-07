@@ -16,13 +16,14 @@ const config = {
   output: {
     path: buildPath,    //Path of output file
     filename: 'c3s-parser.min.js',  //Name of output file
-    library: 'c3s-parser.min.js',
+    library: 'c3s',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
   plugins: [
     //Minify the bundle
     new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
       compress: {
         //supresses warnings, usually from module minification
         warnings: false,
@@ -33,13 +34,21 @@ const config = {
   ],
 
   module: {
+    preLoaders: [
+        { 
+          test: /\.js$/, 
+          loader: path.join(__dirname, 'macro-loader.js'),
+          exclude: [nodeModulesPath]
+        }
+    ],
     loaders: [
       {
-        test: /\.js$/, // All .js files
-        loader: 'babel-loader', //react-hot is like browser sync and babel loads jsx and es6-7
+        test: /\.js$/, 
+        loader: 'babel-loader', 
         exclude: [nodeModulesPath],
         query: {
-          presets: ['es2015']
+          presets: ['es2015'],
+          plugins: ["babel-plugin-add-module-exports", "macros"]
         }
       },
       {

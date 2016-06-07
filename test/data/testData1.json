@@ -2,6 +2,7 @@
   "menu": {
     "id": "file",
     "value": "File",
+    "test": null,
     "popup": {
       "menuitem": [
         {

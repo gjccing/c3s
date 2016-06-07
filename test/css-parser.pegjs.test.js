@@ -170,8 +170,8 @@ describe('cssParser', function() {
         {input: ':method(-0o20)', expect: -16},
         {input: ':method(+0B11)', expect: 3},
         {input: ':method(-0b111)', expect: -7},
-        {input: ':method(+008)', expect: 8},
-        {input: ':method(-017)', expect: -15}
+        {input: ':method(+008):method(-017)', expect: 8},
+        {input: ':method(-017):method(-017):method(-017)', expect: -15}
       ].forEach(function(testCase) {
         it(`should val is ${testCase.expect.toString()} when the value is ${testCase.input.toString()}`, function () {
           var value = cssParser.parse(testCase.input)[0][1][0].args[0];

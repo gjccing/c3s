@@ -1,41 +1,41 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
+
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-/******/
+
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-/******/
+
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-/******/
+
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/
+
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
-/******/
+
+
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-/******/
+
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-/******/
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-/******/
+
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -52,307 +52,29 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	__webpack_require__(2);
-	
-	var _main = __webpack_require__(41);
-	
-	var _main2 = _interopRequireDefault(_main);
-	
-	var _chai = __webpack_require__(4);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	describe('c3s', function () {
-	  describe('selectOne', function () {
-	    describe('Complex Object', function () {
-	      var data = __webpack_require__(42);
-	      [{
-	        input: 'value',
-	        expect: 'File'
-	      }, {
-	        input: 'popup value',
-	        expect: 'New'
-	      }, {
-	        input: 'popup>value',
-	        expect: undefined
-	      }, {
-	        input: 'menuitem>value',
-	        expect: undefined
-	      }, {
-	        input: '#file',
-	        expect: data.menu,
-	        expectStr: 'menu Object'
-	      }, {
-	        input: 'menu',
-	        expect: data.menu,
-	        expectStr: 'menu Object'
-	      }, {
-	        input: '>menu',
-	        expect: data.menu,
-	        expectStr: 'menu Object'
-	      }, {
-	        input: 'popup>value, >menu',
-	        expect: data.menu,
-	        expectStr: 'menu Object'
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: 'CreateNewDoc()'
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: 'CreateNewDoc2_1()'
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: 'New2_1'
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: 'CloseDoc2_3()'
-	      }, {
-	        input: '>menu>popup>menuitem>value',
-	        expect: undefined
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
-	          var result = (0, _main2.default)(data).selectOne(testCase.input);
-	          result = result[0] ? result[0].value : undefined;
-	          _chai.assert.equal(result, testCase.expect);
-	        });
-	      });
-	    });
-	    describe('Multdimensional Array', function () {
-	      var data = __webpack_require__(43);
-	      [{
-	        input: '>"0">"0">"0"',
-	        expect: '0,0,0'
-	      }, {
-	        input: '>"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: '>"4">"4">"4">"1" "popup">"menuitem">"0" "0">"value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: ':equal(5555)',
-	        expect: '2,3,3,0,1,1'
-	      }, {
-	        input: ':equal(6666)',
-	        expect: '3,4,4,3,2,2'
-	      }, {
-	        input: ':equal(9000)',
-	        expect: '4,4,4,0,2,2'
-	      }, {
-	        input: ':equal(22)',
-	        expect: '0,3,0,1'
-	      }, {
-	        input: '>:equal(1000)',
-	        expect: '6'
-	      }, {
-	        input: 'popup value',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,value'
-	      }, {
-	        input: 'popup>value',
-	        expect: undefined
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: '0,3,4,onclick'
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: '0,3,4,menuitem2,0,onclick'
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: '4,4,4,1,menu,popup,menuitem,2,menuitem2,2,onclick'
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
-	          var result = (0, _main2.default)(data).selectOne(testCase.input);
-	          result = result[0] ? result[0].path.join() : undefined;
-	          _chai.assert.equal(result, testCase.expect);
-	        });
-	      });
-	    });
-	  });
-	  describe('selectAll', function () {
-	    describe('Complex Object', function () {
-	      var data = __webpack_require__(42);
-	      [{
-	        input: 'value',
-	        expect: 13
-	      }, {
-	        input: 'popup value',
-	        expect: 12
-	      }, {
-	        input: 'popup>value',
-	        expect: 0
-	      }, {
-	        input: 'menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: '#file',
-	        expect: 1
-	      }, {
-	        input: 'menu',
-	        expect: 1
-	      }, {
-	        input: '>menu',
-	        expect: 1
-	      }, {
-	        input: 'popup value, >menu',
-	        expect: 13
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: 1
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: 1
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: 1
-	      }, {
-	        input: ':regexpTest(/2_/)',
-	        expect: 18
-	      }, {
-	        input: ':regexpTest(/2_/), :regexpTest(/2_/)',
-	        expect: 18
-	      }, {
-	        input: '"0", "1"',
-	        expect: 8
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
-	          var result = (0, _main2.default)(data).selectAll(testCase.input);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	    describe('Multdimensional Array', function () {
-	      var data = __webpack_require__(43);
-	      [{
-	        input: '>"0">"0">"0"',
-	        expect: 1
-	      }, {
-	        input: '"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
-	        expect: 1
-	      }, {
-	        input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
-	        expect: 3
-	      }, {
-	        input: ':equal(5555)',
-	        expect: 2
-	      }, {
-	        input: ':equal(22)',
-	        expect: 1
-	      }, {
-	        input: ':equal(1), :equal(5)',
-	        expect: 34
-	      }, {
-	        input: 'popup value',
-	        expect: 12
-	      }, {
-	        input: 'popup>value',
-	        expect: 0
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: 2
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: 2
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: ':regexpTest(/2_/)',
-	        expect: 36
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
-	          var result = (0, _main2.default)(data).selectAll(testCase.input);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	  });
-	  describe('pseudoClass', function () {
-	    describe('defined', function () {
-	      var data = __webpack_require__(43);
-	      [{
-	        input: {
-	          select: ':gt(2000)',
-	          option: {
-	            pseudoClass: {
-	              gt: function gt(v1, v2) {
-	                return v1 > v2;
-	              }
-	            }
-	          }
-	        },
-	        expect: 5
-	      }, {
-	        input: {
-	          select: ':lt(1)',
-	          option: {
-	            pseudoClass: {
-	              lt: function lt(v1, v2) {
-	                return v1 < v2;
-	              }
-	            }
-	          }
-	        },
-	        expect: 13
-	      }].forEach(function (testCase) {
-	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
-	          var result = (0, _main2.default)(data, testCase.input.option);
-	          result = result.selectAll(testCase.input.select);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	    describe('link', function () {
-	      var data = __webpack_require__(43);
-	      [{
-	        input: {
-	          select: [':gt(2000)', ':lt(6000)'],
-	          option: {
-	            pseudoClass: {
-	              gt: function gt(v1, v2) {
-	                return v1 > v2;
-	              },
-	              lt: function lt(v1, v2) {
-	                return v1 < v2;
-	              }
-	            }
-	          }
-	        },
-	        expect: 2
-	      }].forEach(function (testCase) {
-	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
-	          var result = (0, _main2.default)(data, testCase.input.option);
-	          result = result.selectAll(testCase.input.select[0]);
-	          result = result.selectAll(testCase.input.select[1]);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	  });
-	});
+
+	__webpack_require__(41);
+
+	__webpack_require__(43);
+
+	__webpack_require__(46);
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	var _cssParser = __webpack_require__(3);
-	
+
 	var _cssParser2 = _interopRequireDefault(_cssParser);
-	
+
 	var _chai = __webpack_require__(4);
-	
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
+
 	describe('cssParser', function () {
 	  describe('Return Structure', function () {
 	    [{ input: ' #aa.bb.bb', expect: ' #aa.bb.bb' }, { input: '> #aa.bb > .bb, .bb .bb#aa', expect: '>#aa.bb>.bb, .bb .bb#aa' }, { input: '#aa.bb .bb,>.bb .bb#aa, .bb>.bb#aa', expect: ' #aa.bb .bb,>.bb .bb#aa, .bb>.bb#aa' }, { input: '#aa.bb:method .bb', expect: ' #aa.bb:method .bb' }, { input: '#aa.bb .bb:method(123)', expect: ' #aa.bb .bb:method(123)' }, { input: '#aa.bb:method .bb:method( 123 , 456 )', expect: ' #aa.bb:method .bb:method(123,456)' }].forEach(function (testCase) {
@@ -466,7 +188,7 @@
 	      });
 	    });
 	    describe('Token Number', function () {
-	      [{ input: ':method(+.1e1)', expect: 1 }, { input: ':method(-.123)', expect: -0.123 }, { input: ':method(+1.1e1)', expect: 11 }, { input: ':method(-1.1e-1)', expect: -0.11 }, { input: ':method(+1.123)', expect: 1.123 }, { input: ':method(-1123)', expect: -1123 }, { input: ':method(+0X1F)', expect: 31 }, { input: ':method(-0x2F)', expect: -47 }, { input: ':method(+0O10)', expect: 8 }, { input: ':method(-0o20)', expect: -16 }, { input: ':method(+0B11)', expect: 3 }, { input: ':method(-0b111)', expect: -7 }, { input: ':method(+008)', expect: 8 }, { input: ':method(-017)', expect: -15 }].forEach(function (testCase) {
+	      [{ input: ':method(+.1e1)', expect: 1 }, { input: ':method(-.123)', expect: -0.123 }, { input: ':method(+1.1e1)', expect: 11 }, { input: ':method(-1.1e-1)', expect: -0.11 }, { input: ':method(+1.123)', expect: 1.123 }, { input: ':method(-1123)', expect: -1123 }, { input: ':method(+0X1F)', expect: 31 }, { input: ':method(-0x2F)', expect: -47 }, { input: ':method(+0O10)', expect: 8 }, { input: ':method(-0o20)', expect: -16 }, { input: ':method(+0B11)', expect: 3 }, { input: ':method(-0b111)', expect: -7 }, { input: ':method(+008):method(-017)', expect: 8 }, { input: ':method(-017):method(-017):method(-017)', expect: -15 }].forEach(function (testCase) {
 	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
 	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
 	          _chai.assert.equal(value, testCase.expect);
@@ -490,42 +212,42 @@
 
 	module.exports = (function() {
 	  "use strict";
-	
+
 	  /*
 	   * Generated by PEG.js 0.9.0.
 	   *
 	   * http://pegjs.org/
 	   */
-	
+
 	  function peg$subclass(child, parent) {
 	    function ctor() { this.constructor = child; }
 	    ctor.prototype = parent.prototype;
 	    child.prototype = new ctor();
 	  }
-	
+
 	  function peg$SyntaxError(message, expected, found, location) {
 	    this.message  = message;
 	    this.expected = expected;
 	    this.found    = found;
 	    this.location = location;
 	    this.name     = "SyntaxError";
-	
+
 	    if (typeof Error.captureStackTrace === "function") {
 	      Error.captureStackTrace(this, peg$SyntaxError);
 	    }
 	  }
-	
+
 	  peg$subclass(peg$SyntaxError, Error);
-	
+
 	  function peg$parse(input) {
 	    var options = arguments.length > 1 ? arguments[1] : {},
 	        parser  = this,
-	
+
 	        peg$FAILED = {},
-	
+
 	        peg$startRuleFunctions = { scope_relative_selector_list: peg$parsescope_relative_selector_list },
 	        peg$startRuleFunction  = peg$parsescope_relative_selector_list,
-	
+
 	        peg$c0 = ",",
 	        peg$c1 = { type: "literal", value: ",", description: "\",\"" },
 	        peg$c2 = function(first, next) {
@@ -533,7 +255,7 @@
 	            for (var i in next) {
 	              result.push(next[i][2]);
 	            }
-	
+
 	            return result;
 	          },
 	        peg$c3 = function(first_comb, first_comp, more) {
@@ -542,15 +264,15 @@
 	              var item = more[i];
 	              result.push(item[0], item[1]);
 	            }
-	
+
 	            result.unshift(first_comp);
-	
+
 	            if (first_comb) {
 	              result.unshift(first_comb);
 	            } else {
 	              result.unshift(new Combinator(" "));
 	            }
-	
+
 	            return new Selector(result);
 	          },
 	        peg$c4 = ">",
@@ -562,22 +284,13 @@
 	            return new Combinator(" ");
 	          },
 	        peg$c8 = function(pseudo_class) {
-	            return new Compound([pseudo_class]);
+	            return new Compound(undefined, undefined, pseudo_class);
 	          },
 	        peg$c9 = function(compound, pseudo_class) {
-	            if (pseudo_class){
-	              compound[1].push(pseudo_class);
-	            }
-	
-	            compound[1].unshift(compound[0]);
-	            return new Compound(compound[1]);
+	            return new Compound(compound[0], compound[1], pseudo_class);
 	          },
 	        peg$c10 = function(compound, pseudo_class) {
-	            if (pseudo_class){
-	              compound.push(pseudo_class);
-	            }
-	
-	            return new Compound(compound);
+	            return new Compound(undefined, compound, pseudo_class);
 	          },
 	        peg$c11 = "*",
 	        peg$c12 = { type: "literal", value: "*", description: "\"*\"" },
@@ -607,10 +320,10 @@
 	              for (var i in val[4]) {
 	                tmp.push(val[4][i][2]);
 	              }
-	
+
 	              val = tmp;
 	            }
-	
+
 	            return new PseudoClass(ident, val);
 	          },
 	        peg$c27 = /^[$_A-Za-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0-\u08B4\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F8\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400\u4DB5\u4E00\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6EF\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABE2\uAC00\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
@@ -635,7 +348,7 @@
 	              item = source[i];
 	              src = src + (item instanceof Array?item.join(''):item);
 	            }
-	
+
 	            return new RegExp(src, flag.join(''));
 	          },
 	        peg$c42 = function() {
@@ -686,7 +399,7 @@
 	            if ( /^0[0-7]+$/.test(val) ) {
 	              val = val.charAt(0) + 'O' + val.substr(1);
 	            }
-	
+
 	            return Number(val);
 	          },
 	        peg$c76 = "e",
@@ -695,32 +408,32 @@
 	        peg$c79 = { type: "class", value: "[+-]", description: "[+-]" },
 	        peg$c80 = /^[ \t\r\n\f]/,
 	        peg$c81 = { type: "class", value: "[ \\t\\r\\n\\f]", description: "[ \\t\\r\\n\\f]" },
-	
+
 	        peg$currPos          = 0,
 	        peg$savedPos         = 0,
 	        peg$posDetailsCache  = [{ line: 1, column: 1, seenCR: false }],
 	        peg$maxFailPos       = 0,
 	        peg$maxFailExpected  = [],
 	        peg$silentFails      = 0,
-	
+
 	        peg$result;
-	
+
 	    if ("startRule" in options) {
 	      if (!(options.startRule in peg$startRuleFunctions)) {
 	        throw new Error("Can't start parsing from rule \"" + options.startRule + "\".");
 	      }
-	
+
 	      peg$startRuleFunction = peg$startRuleFunctions[options.startRule];
 	    }
-	
+
 	    function text() {
 	      return input.substring(peg$savedPos, peg$currPos);
 	    }
-	
+
 	    function location() {
 	      return peg$computeLocation(peg$savedPos, peg$currPos);
 	    }
-	
+
 	    function expected(description) {
 	      throw peg$buildException(
 	        null,
@@ -729,7 +442,7 @@
 	        peg$computeLocation(peg$savedPos, peg$currPos)
 	      );
 	    }
-	
+
 	    function error(message) {
 	      throw peg$buildException(
 	        message,
@@ -738,11 +451,11 @@
 	        peg$computeLocation(peg$savedPos, peg$currPos)
 	      );
 	    }
-	
+
 	    function peg$computePosDetails(pos) {
 	      var details = peg$posDetailsCache[pos],
 	          p, ch;
-	
+
 	      if (details) {
 	        return details;
 	      } else {
@@ -750,14 +463,14 @@
 	        while (!peg$posDetailsCache[p]) {
 	          p--;
 	        }
-	
+
 	        details = peg$posDetailsCache[p];
 	        details = {
 	          line:   details.line,
 	          column: details.column,
 	          seenCR: details.seenCR
 	        };
-	
+
 	        while (p < pos) {
 	          ch = input.charAt(p);
 	          if (ch === "\n") {
@@ -772,19 +485,19 @@
 	            details.column++;
 	            details.seenCR = false;
 	          }
-	
+
 	          p++;
 	        }
-	
+
 	        peg$posDetailsCache[pos] = details;
 	        return details;
 	      }
 	    }
-	
+
 	    function peg$computeLocation(startPos, endPos) {
 	      var startPosDetails = peg$computePosDetails(startPos),
 	          endPosDetails   = peg$computePosDetails(endPos);
-	
+
 	      return {
 	        start: {
 	          offset: startPos,
@@ -798,22 +511,22 @@
 	        }
 	      };
 	    }
-	
+
 	    function peg$fail(expected) {
 	      if (peg$currPos < peg$maxFailPos) { return; }
-	
+
 	      if (peg$currPos > peg$maxFailPos) {
 	        peg$maxFailPos = peg$currPos;
 	        peg$maxFailExpected = [];
 	      }
-	
+
 	      peg$maxFailExpected.push(expected);
 	    }
-	
+
 	    function peg$buildException(message, expected, found, location) {
 	      function cleanupExpected(expected) {
 	        var i = 1;
-	
+
 	        expected.sort(function(a, b) {
 	          if (a.description < b.description) {
 	            return -1;
@@ -823,7 +536,7 @@
 	            return 0;
 	          }
 	        });
-	
+
 	        while (i < expected.length) {
 	          if (expected[i - 1] === expected[i]) {
 	            expected.splice(i, 1);
@@ -832,11 +545,11 @@
 	          }
 	        }
 	      }
-	
+
 	      function buildMessage(expected, found) {
 	        function stringEscape(s) {
 	          function hex(ch) { return ch.charCodeAt(0).toString(16).toUpperCase(); }
-	
+
 	          return s
 	            .replace(/\\/g,   '\\\\')
 	            .replace(/"/g,    '\\"')
@@ -850,29 +563,29 @@
 	            .replace(/[\u0100-\u0FFF]/g,         function(ch) { return '\\u0' + hex(ch); })
 	            .replace(/[\u1000-\uFFFF]/g,         function(ch) { return '\\u'  + hex(ch); });
 	        }
-	
+
 	        var expectedDescs = new Array(expected.length),
 	            expectedDesc, foundDesc, i;
-	
+
 	        for (i = 0; i < expected.length; i++) {
 	          expectedDescs[i] = expected[i].description;
 	        }
-	
+
 	        expectedDesc = expected.length > 1
 	          ? expectedDescs.slice(0, -1).join(", ")
 	              + " or "
 	              + expectedDescs[expected.length - 1]
 	          : expectedDescs[0];
-	
+
 	        foundDesc = found ? "\"" + stringEscape(found) + "\"" : "end of input";
-	
+
 	        return "Expected " + expectedDesc + " but " + foundDesc + " found.";
 	      }
-	
+
 	      if (expected !== null) {
 	        cleanupExpected(expected);
 	      }
-	
+
 	      return new peg$SyntaxError(
 	        message !== null ? message : buildMessage(expected, found),
 	        expected,
@@ -880,10 +593,10 @@
 	        location
 	      );
 	    }
-	
+
 	    function peg$parsescope_relative_selector_list() {
 	      var s0, s1, s2, s3, s4, s5, s6, s7;
-	
+
 	      s0 = peg$currPos;
 	      s1 = peg$parsescope_relative_selector();
 	      if (s1 !== peg$FAILED) {
@@ -972,13 +685,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parsescope_relative_selector() {
 	      var s0, s1, s2, s3, s4, s5, s6;
-	
+
 	      s0 = peg$currPos;
 	      s1 = peg$parsecombinator();
 	      if (s1 === peg$FAILED) {
@@ -1037,13 +750,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parsecombinator() {
 	      var s0, s1, s2, s3;
-	
+
 	      s0 = peg$currPos;
 	      s1 = peg$parseS();
 	      if (s1 === peg$FAILED) {
@@ -1096,15 +809,24 @@
 	        }
 	        s0 = s1;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parsecompound_selector() {
 	      var s0, s1, s2, s3, s4;
-	
+
 	      s0 = peg$currPos;
-	      s1 = peg$parsepseudo_class();
+	      s1 = [];
+	      s2 = peg$parsepseudo_class();
+	      if (s2 !== peg$FAILED) {
+	        while (s2 !== peg$FAILED) {
+	          s1.push(s2);
+	          s2 = peg$parsepseudo_class();
+	        }
+	      } else {
+	        s1 = peg$FAILED;
+	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
 	        s1 = peg$c8(s1);
@@ -1139,9 +861,11 @@
 	          s1 = peg$FAILED;
 	        }
 	        if (s1 !== peg$FAILED) {
-	          s2 = peg$parsepseudo_class();
-	          if (s2 === peg$FAILED) {
-	            s2 = null;
+	          s2 = [];
+	          s3 = peg$parsepseudo_class();
+	          while (s3 !== peg$FAILED) {
+	            s2.push(s3);
+	            s3 = peg$parsepseudo_class();
 	          }
 	          if (s2 !== peg$FAILED) {
 	            peg$savedPos = s0;
@@ -1174,9 +898,11 @@
 	            s1 = peg$FAILED;
 	          }
 	          if (s1 !== peg$FAILED) {
-	            s2 = peg$parsepseudo_class();
-	            if (s2 === peg$FAILED) {
-	              s2 = null;
+	            s2 = [];
+	            s3 = peg$parsepseudo_class();
+	            while (s3 !== peg$FAILED) {
+	              s2.push(s3);
+	              s3 = peg$parsepseudo_class();
 	            }
 	            if (s2 !== peg$FAILED) {
 	              peg$savedPos = s0;
@@ -1192,13 +918,13 @@
 	          }
 	        }
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseprop() {
 	      var s0, s1;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 42) {
 	        s1 = peg$c11;
@@ -1215,13 +941,13 @@
 	        s1 = peg$c13(s1);
 	      }
 	      s0 = s1;
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseid() {
 	      var s0, s1, s2;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 35) {
 	        s1 = peg$c14;
@@ -1244,13 +970,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseclass() {
 	      var s0, s1, s2;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 46) {
 	        s1 = peg$c17;
@@ -1273,13 +999,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parsepseudo_class() {
 	      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 58) {
 	        s1 = peg$c20;
@@ -1457,13 +1183,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseVALUE() {
 	      var s0;
-	
+
 	      s0 = peg$parseNUMBER();
 	      if (s0 === peg$FAILED) {
 	        s0 = peg$parseSTRING();
@@ -1471,24 +1197,24 @@
 	          s0 = peg$parseREGEX();
 	        }
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parsePROP() {
 	      var s0;
-	
+
 	      s0 = peg$parseSTRING();
 	      if (s0 === peg$FAILED) {
 	        s0 = peg$parseIDENT();
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseIDENT() {
 	      var s0, s1, s2, s3;
-	
+
 	      s0 = peg$currPos;
 	      if (peg$c27.test(input.charAt(peg$currPos))) {
 	        s1 = input.charAt(peg$currPos);
@@ -1528,13 +1254,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseREGEX() {
 	      var s0, s1, s2, s3, s4, s5;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 47) {
 	        s1 = peg$c32;
@@ -1671,13 +1397,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseSTRING() {
 	      var s0, s1;
-	
+
 	      s0 = peg$currPos;
 	      s1 = peg$parseSTRING1();
 	      if (s1 === peg$FAILED) {
@@ -1688,13 +1414,13 @@
 	        s1 = peg$c42();
 	      }
 	      s0 = s1;
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseSTRING1() {
 	      var s0, s1, s2, s3, s4, s5;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 34) {
 	        s1 = peg$c43;
@@ -1803,13 +1529,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseSTRING2() {
 	      var s0, s1, s2, s3, s4, s5;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 39) {
 	        s1 = peg$c47;
@@ -1918,13 +1644,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseNUMBER() {
 	      var s0, s1, s2;
-	
+
 	      s0 = peg$currPos;
 	      s1 = peg$parseSIGN();
 	      if (s1 === peg$FAILED) {
@@ -1962,13 +1688,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseNAN() {
 	      var s0, s1;
-	
+
 	      s0 = peg$currPos;
 	      if (input.substr(peg$currPos, 3) === peg$c52) {
 	        s1 = peg$c52;
@@ -1982,13 +1708,13 @@
 	        s1 = peg$c54();
 	      }
 	      s0 = s1;
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseINFINITY() {
 	      var s0, s1;
-	
+
 	      s0 = peg$currPos;
 	      if (input.substr(peg$currPos, 8) === peg$c55) {
 	        s1 = peg$c55;
@@ -2002,13 +1728,13 @@
 	        s1 = peg$c57();
 	      }
 	      s0 = s1;
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseBINARY() {
 	      var s0, s1, s2, s3, s4;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
 	        s1 = peg$c58;
@@ -2064,13 +1790,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseOCTAL() {
 	      var s0, s1, s2, s3, s4;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
 	        s1 = peg$c58;
@@ -2126,13 +1852,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseHEXADECIMAL() {
 	      var s0, s1, s2, s3, s4;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
 	        s1 = peg$c58;
@@ -2188,13 +1914,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseDECIMAL() {
 	      var s0, s1, s2, s3, s4, s5;
-	
+
 	      s0 = peg$currPos;
 	      s1 = [];
 	      if (peg$c73.test(input.charAt(peg$currPos))) {
@@ -2281,13 +2007,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseFLOAT() {
 	      var s0, s1, s2, s3;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 46) {
 	        s1 = peg$c17;
@@ -2340,13 +2066,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseINDEX() {
 	      var s0, s1, s2, s3, s4;
-	
+
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 101) {
 	        s1 = peg$c76;
@@ -2398,13 +2124,13 @@
 	        peg$currPos = s0;
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseSIGN() {
 	      var s0;
-	
+
 	      if (peg$c78.test(input.charAt(peg$currPos))) {
 	        s0 = input.charAt(peg$currPos);
 	        peg$currPos++;
@@ -2412,13 +2138,13 @@
 	        s0 = peg$FAILED;
 	        if (peg$silentFails === 0) { peg$fail(peg$c79); }
 	      }
-	
+
 	      return s0;
 	    }
-	
+
 	    function peg$parseS() {
 	      var s0, s1;
-	
+
 	      s0 = [];
 	      if (peg$c80.test(input.charAt(peg$currPos))) {
 	        s1 = input.charAt(peg$currPos);
@@ -2441,17 +2167,17 @@
 	      } else {
 	        s0 = peg$FAILED;
 	      }
-	
+
 	      return s0;
 	    }
-	
-	
+
+
 	      function Selector(exp) {
 	        for (var i in exp) {
 	          exp[i].next = exp[+i+1];
 	          this.push(exp[i]);
 	        }
-	
+
 	        this.start = exp[0];
 	      }
 	      Selector.prototype = [];
@@ -2468,8 +2194,21 @@
 	        }
 	      };
 	      
-	      function Compound(elements) {
-	        this.push.apply(this, elements);
+	      function Compound(element, attributes, pseudoClasses) {
+	        if (element) {
+	          this.element = element;
+	          this.push(element);
+	        }
+	        
+	        if (attributes && attributes.length) {
+	          this.attributes = attributes;
+	          this.push.apply(this, attributes);
+	        }
+
+	        if (pseudoClasses && pseudoClasses.length) {
+	          this.pseudoClasses = pseudoClasses;
+	          this.push.apply(this, pseudoClasses);
+	        }
 	      }
 	      Compound.prototype = [];
 	      Compound.prototype.toString = function () {
@@ -2505,7 +2244,7 @@
 	          return '.' + this.ident;
 	        }
 	      };
-	
+
 	      function PseudoClass(ident, args) {
 	        this.type = 'PseudoClass';
 	        this.ident = ident;
@@ -2529,17 +2268,17 @@
 	        this.flag = flag;
 	      }
 	      */
-	
-	
+
+
 	    peg$result = peg$startRuleFunction();
-	
+
 	    if (peg$result !== peg$FAILED && peg$currPos === input.length) {
 	      return peg$result;
 	    } else {
 	      if (peg$result !== peg$FAILED && peg$currPos < input.length) {
 	        peg$fail({ type: "end", description: "end of input" });
 	      }
-	
+
 	      throw peg$buildException(
 	        null,
 	        peg$maxFailExpected,
@@ -2550,7 +2289,7 @@
 	      );
 	    }
 	  }
-	
+
 	  return {
 	    SyntaxError: peg$SyntaxError,
 	    parse:       peg$parse
@@ -2573,28 +2312,28 @@
 	 * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	var used = []
 	  , exports = module.exports = {};
-	
+
 	/*!
 	 * Chai version
 	 */
-	
+
 	exports.version = '3.5.0';
-	
+
 	/*!
 	 * Assertion Error
 	 */
-	
+
 	exports.AssertionError = __webpack_require__(6);
-	
+
 	/*!
 	 * Utils for plugins (not exported)
 	 */
-	
+
 	var util = __webpack_require__(7);
-	
+
 	/**
 	 * # .use(function)
 	 *
@@ -2604,61 +2343,61 @@
 	 * @returns {this} for chaining
 	 * @api public
 	 */
-	
+
 	exports.use = function (fn) {
 	  if (!~used.indexOf(fn)) {
 	    fn(this, util);
 	    used.push(fn);
 	  }
-	
+
 	  return this;
 	};
-	
+
 	/*!
 	 * Utility Functions
 	 */
-	
+
 	exports.util = util;
-	
+
 	/*!
 	 * Configuration
 	 */
-	
+
 	var config = __webpack_require__(20);
 	exports.config = config;
-	
+
 	/*!
 	 * Primary `Assertion` prototype
 	 */
-	
+
 	var assertion = __webpack_require__(36);
 	exports.use(assertion);
-	
+
 	/*!
 	 * Core Assertions
 	 */
-	
+
 	var core = __webpack_require__(37);
 	exports.use(core);
-	
+
 	/*!
 	 * Expect interface
 	 */
-	
+
 	var expect = __webpack_require__(38);
 	exports.use(expect);
-	
+
 	/*!
 	 * Should interface
 	 */
-	
+
 	var should = __webpack_require__(39);
 	exports.use(should);
-	
+
 	/*!
 	 * Assert interface
 	 */
-	
+
 	var assert = __webpack_require__(40);
 	exports.use(assert);
 
@@ -2672,7 +2411,7 @@
 	 * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Return a function that will copy properties from
 	 * one object to another excluding any originally
@@ -2681,35 +2420,35 @@
 	 * @param {String} excluded properties ...
 	 * @return {Function}
 	 */
-	
+
 	function exclude () {
 	  var excludes = [].slice.call(arguments);
-	
+
 	  function excludeProps (res, obj) {
 	    Object.keys(obj).forEach(function (key) {
 	      if (!~excludes.indexOf(key)) res[key] = obj[key];
 	    });
 	  }
-	
+
 	  return function extendExclude () {
 	    var args = [].slice.call(arguments)
 	      , i = 0
 	      , res = {};
-	
+
 	    for (; i < args.length; i++) {
 	      excludeProps(res, args[i]);
 	    }
-	
+
 	    return res;
 	  };
 	};
-	
+
 	/*!
 	 * Primary Exports
 	 */
-	
+
 	module.exports = AssertionError;
-	
+
 	/**
 	 * ### AssertionError
 	 *
@@ -2720,20 +2459,20 @@
 	 * @param {Object} properties to include (optional)
 	 * @param {callee} start stack function (optional)
 	 */
-	
+
 	function AssertionError (message, _props, ssf) {
 	  var extend = exclude('name', 'message', 'stack', 'constructor', 'toJSON')
 	    , props = extend(_props || {});
-	
+
 	  // default values
 	  this.message = message || 'Unspecified AssertionError';
 	  this.showDiff = false;
-	
+
 	  // copy from properties
 	  for (var key in props) {
 	    this[key] = props[key];
 	  }
-	
+
 	  // capture stack trace
 	  ssf = ssf || arguments.callee;
 	  if (ssf && Error.captureStackTrace) {
@@ -2742,41 +2481,41 @@
 	    this.stack = new Error().stack;
 	  }
 	}
-	
+
 	/*!
 	 * Inherit from Error.prototype
 	 */
-	
+
 	AssertionError.prototype = Object.create(Error.prototype);
-	
+
 	/*!
 	 * Statically set name
 	 */
-	
+
 	AssertionError.prototype.name = 'AssertionError';
-	
+
 	/*!
 	 * Ensure correct constructor
 	 */
-	
+
 	AssertionError.prototype.constructor = AssertionError;
-	
+
 	/**
 	 * Allow errors to be converted to JSON for static transfer.
 	 *
 	 * @param {Boolean} include stack (default: `true`)
 	 * @return {Object} object that can be `JSON.stringify`
 	 */
-	
+
 	AssertionError.prototype.toJSON = function (stack) {
 	  var extend = exclude('constructor', 'toJSON', 'stack')
 	    , props = extend({ name: this.name }, this);
-	
+
 	  // include stack if exists and not turned off
 	  if (false !== stack && this.stack) {
 	    props.stack = this.stack;
 	  }
-	
+
 	  return props;
 	};
 
@@ -2790,130 +2529,130 @@
 	 * Copyright(c) 2011 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Main exports
 	 */
-	
+
 	var exports = module.exports = {};
-	
+
 	/*!
 	 * test utility
 	 */
-	
+
 	exports.test = __webpack_require__(8);
-	
+
 	/*!
 	 * type utility
 	 */
-	
+
 	exports.type = __webpack_require__(10);
-	
+
 	/*!
 	 * expectTypes utility
 	 */
 	exports.expectTypes = __webpack_require__(12);
-	
+
 	/*!
 	 * message utility
 	 */
-	
+
 	exports.getMessage = __webpack_require__(13);
-	
+
 	/*!
 	 * actual utility
 	 */
-	
+
 	exports.getActual = __webpack_require__(14);
-	
+
 	/*!
 	 * Inspect util
 	 */
-	
+
 	exports.inspect = __webpack_require__(15);
-	
+
 	/*!
 	 * Object Display util
 	 */
-	
+
 	exports.objDisplay = __webpack_require__(19);
-	
+
 	/*!
 	 * Flag utility
 	 */
-	
+
 	exports.flag = __webpack_require__(9);
-	
+
 	/*!
 	 * Flag transferring utility
 	 */
-	
+
 	exports.transferFlags = __webpack_require__(21);
-	
+
 	/*!
 	 * Deep equal utility
 	 */
-	
+
 	exports.eql = __webpack_require__(22);
-	
+
 	/*!
 	 * Deep path value
 	 */
-	
+
 	exports.getPathValue = __webpack_require__(27);
-	
+
 	/*!
 	 * Deep path info
 	 */
-	
+
 	exports.getPathInfo = __webpack_require__(28);
-	
+
 	/*!
 	 * Check if a property exists
 	 */
-	
+
 	exports.hasProperty = __webpack_require__(29);
-	
+
 	/*!
 	 * Function name
 	 */
-	
+
 	exports.getName = __webpack_require__(16);
-	
+
 	/*!
 	 * add Property
 	 */
-	
+
 	exports.addProperty = __webpack_require__(30);
-	
+
 	/*!
 	 * add Method
 	 */
-	
+
 	exports.addMethod = __webpack_require__(31);
-	
+
 	/*!
 	 * overwrite Property
 	 */
-	
+
 	exports.overwriteProperty = __webpack_require__(32);
-	
+
 	/*!
 	 * overwrite Method
 	 */
-	
+
 	exports.overwriteMethod = __webpack_require__(33);
-	
+
 	/*!
 	 * Add a chainable method
 	 */
-	
+
 	exports.addChainableMethod = __webpack_require__(34);
-	
+
 	/*!
 	 * Overwrite chainable method
 	 */
-	
+
 	exports.overwriteChainableMethod = __webpack_require__(35);
 
 
@@ -2926,13 +2665,13 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Module dependancies
 	 */
-	
+
 	var flag = __webpack_require__(9);
-	
+
 	/**
 	 * # test(object, expression)
 	 *
@@ -2943,7 +2682,7 @@
 	 * @namespace Utils
 	 * @name test
 	 */
-	
+
 	module.exports = function (obj, args) {
 	  var negate = flag(obj, 'negate')
 	    , expr = args[0];
@@ -2960,7 +2699,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * ### flag(object, key, [value])
 	 *
@@ -2979,7 +2718,7 @@
 	 * @name flag
 	 * @api private
 	 */
-	
+
 	module.exports = function (obj, key, value) {
 	  var flags = obj.__flags || (obj.__flags = Object.create(null));
 	  if (arguments.length === 3) {
@@ -3006,13 +2745,13 @@
 	 * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Primary Exports
 	 */
-	
+
 	var exports = module.exports = getType;
-	
+
 	/**
 	 * ### typeOf (obj)
 	 *
@@ -3025,7 +2764,7 @@
 	 * @api public
 	 */
 	var objectTypeRegexp = /^\[object (.*)\]$/;
-	
+
 	function getType(obj) {
 	  var type = Object.prototype.toString.call(obj).match(objectTypeRegexp)[1].toLowerCase();
 	  // Let "new String('')" return 'object'
@@ -3036,9 +2775,9 @@
 	  if (obj === undefined) return 'undefined';
 	  return type;
 	}
-	
+
 	exports.Library = Library;
-	
+
 	/**
 	 * ### Library
 	 *
@@ -3049,12 +2788,12 @@
 	 * ```
 	 *
 	 */
-	
+
 	function Library() {
 	  if (!(this instanceof Library)) return new Library();
 	  this.tests = {};
 	}
-	
+
 	/**
 	 * #### .of (obj)
 	 *
@@ -3069,9 +2808,9 @@
 	 * @param {Mixed} object to test
 	 * @return {String} type
 	 */
-	
+
 	Library.prototype.of = getType;
-	
+
 	/**
 	 * #### .define (type, test)
 	 *
@@ -3098,13 +2837,13 @@
 	 * @param {RegExp|Function} test
 	 * @api public
 	 */
-	
+
 	Library.prototype.define = function(type, test) {
 	  if (arguments.length === 1) return this.tests[type];
 	  this.tests[type] = test;
 	  return this;
 	};
-	
+
 	/**
 	 * #### .test (obj, test)
 	 *
@@ -3122,11 +2861,11 @@
 	 * @return {Boolean} result
 	 * @api public
 	 */
-	
+
 	Library.prototype.test = function(obj, type) {
 	  if (type === getType(obj)) return true;
 	  var test = this.tests[type];
-	
+
 	  if (test && 'regexp' === getType(test)) {
 	    return test.test(obj);
 	  } else if (test && 'function' === getType(test)) {
@@ -3146,7 +2885,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * ### expectTypes(obj, types)
 	 *
@@ -3160,23 +2899,23 @@
 	 * @name expectTypes
 	 * @api public
 	 */
-	
+
 	var AssertionError = __webpack_require__(6);
 	var flag = __webpack_require__(9);
 	var type = __webpack_require__(10);
-	
+
 	module.exports = function (obj, types) {
 	  var obj = flag(obj, 'object');
 	  types = types.map(function (t) { return t.toLowerCase(); });
 	  types.sort();
-	
+
 	  // Transforms ['lorem', 'ipsum'] into 'a lirum, or an ipsum'
 	  var str = types.map(function (t, index) {
 	    var art = ~[ 'a', 'e', 'i', 'o', 'u' ].indexOf(t.charAt(0)) ? 'an' : 'a';
 	    var or = types.length > 1 && index === types.length - 1 ? 'or ' : '';
 	    return or + art + ' ' + t;
 	  }).join(', ');
-	
+
 	  if (!types.some(function (expected) { return type(obj) === expected; })) {
 	    throw new AssertionError(
 	      'object tested must be ' + str + ', but ' + type(obj) + ' given'
@@ -3194,16 +2933,16 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Module dependancies
 	 */
-	
+
 	var flag = __webpack_require__(9)
 	  , getActual = __webpack_require__(14)
 	  , inspect = __webpack_require__(15)
 	  , objDisplay = __webpack_require__(19);
-	
+
 	/**
 	 * ### .getMessage(object, message, negateMessage)
 	 *
@@ -3222,7 +2961,7 @@
 	 * @name getMessage
 	 * @api public
 	 */
-	
+
 	module.exports = function (obj, args) {
 	  var negate = flag(obj, 'negate')
 	    , val = flag(obj, 'object')
@@ -3230,14 +2969,14 @@
 	    , actual = getActual(obj, args)
 	    , msg = negate ? args[2] : args[1]
 	    , flagMsg = flag(obj, 'message');
-	
+
 	  if(typeof msg === "function") msg = msg();
 	  msg = msg || '';
 	  msg = msg
 	    .replace(/#\{this\}/g, function () { return objDisplay(val); })
 	    .replace(/#\{act\}/g, function () { return objDisplay(actual); })
 	    .replace(/#\{exp\}/g, function () { return objDisplay(expected); });
-	
+
 	  return flagMsg ? flagMsg + ': ' + msg : msg;
 	};
 
@@ -3251,7 +2990,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * # getActual(object, [actual])
 	 *
@@ -3262,7 +3001,7 @@
 	 * @namespace Utils
 	 * @name getActual
 	 */
-	
+
 	module.exports = function (obj, args) {
 	  return args.length > 4 ? args[4] : obj._obj;
 	};
@@ -3274,13 +3013,13 @@
 
 	// This is (almost) directly from Node.js utils
 	// https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
-	
+
 	var getName = __webpack_require__(16);
 	var getProperties = __webpack_require__(17);
 	var getEnumerableProperties = __webpack_require__(18);
-	
+
 	module.exports = inspect;
-	
+
 	/**
 	 * Echos the value of a value. Trys to print the value out
 	 * in the best way possible given the different types.
@@ -3302,7 +3041,7 @@
 	  };
 	  return formatValue(ctx, obj, (typeof depth === 'undefined' ? 2 : depth));
 	}
-	
+
 	// Returns true if object is a DOM element.
 	var isDOMElement = function (object) {
 	  if (typeof HTMLElement === 'object') {
@@ -3314,7 +3053,7 @@
 	      typeof object.nodeName === 'string';
 	  }
 	};
-	
+
 	function formatValue(ctx, value, recurseTimes) {
 	  // Provide a hook for user-specified inspect functions.
 	  // Check that value is an object with an inspect function on it
@@ -3329,13 +3068,13 @@
 	    }
 	    return ret;
 	  }
-	
+
 	  // Primitive types cannot have properties
 	  var primitive = formatPrimitive(ctx, value);
 	  if (primitive) {
 	    return primitive;
 	  }
-	
+
 	  // If this is a DOM element, try to get the outer HTML.
 	  if (isDOMElement(value)) {
 	    if ('outerHTML' in value) {
@@ -3354,7 +3093,7 @@
 	          //   Use the following to render the element
 	          var ns = "http://www.w3.org/1999/xhtml";
 	          var container = document.createElementNS(ns, '_');
-	
+
 	          container.appendChild(value.cloneNode(false));
 	          html = container.innerHTML
 	            .replace('><', '>' + value.innerHTML + '<');
@@ -3368,11 +3107,11 @@
 	      }
 	    }
 	  }
-	
+
 	  // Look up the keys of the object.
 	  var visibleKeys = getEnumerableProperties(value);
 	  var keys = ctx.showHidden ? getProperties(value) : visibleKeys;
-	
+
 	  // Some type of object without properties can be shortcutted.
 	  // In IE, errors have a single `stack` property, or if they are vanilla `Error`,
 	  // a `stack` plus `description` property; ignore those for consistency.
@@ -3395,41 +3134,41 @@
 	      return formatError(value);
 	    }
 	  }
-	
+
 	  var base = '', array = false, braces = ['{', '}'];
-	
+
 	  // Make Array say that they are Array
 	  if (isArray(value)) {
 	    array = true;
 	    braces = ['[', ']'];
 	  }
-	
+
 	  // Make functions say that they are functions
 	  if (typeof value === 'function') {
 	    var name = getName(value);
 	    var nameSuffix = name ? ': ' + name : '';
 	    base = ' [Function' + nameSuffix + ']';
 	  }
-	
+
 	  // Make RegExps say that they are RegExps
 	  if (isRegExp(value)) {
 	    base = ' ' + RegExp.prototype.toString.call(value);
 	  }
-	
+
 	  // Make dates with properties first say the date
 	  if (isDate(value)) {
 	    base = ' ' + Date.prototype.toUTCString.call(value);
 	  }
-	
+
 	  // Make error with message first say the error
 	  if (isError(value)) {
 	    return formatError(value);
 	  }
-	
+
 	  if (keys.length === 0 && (!array || value.length == 0)) {
 	    return braces[0] + base + braces[1];
 	  }
-	
+
 	  if (recurseTimes < 0) {
 	    if (isRegExp(value)) {
 	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
@@ -3437,9 +3176,9 @@
 	      return ctx.stylize('[Object]', 'special');
 	    }
 	  }
-	
+
 	  ctx.seen.push(value);
-	
+
 	  var output;
 	  if (array) {
 	    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
@@ -3448,30 +3187,30 @@
 	      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
 	    });
 	  }
-	
+
 	  ctx.seen.pop();
-	
+
 	  return reduceToSingleString(output, base, braces);
 	}
-	
-	
+
+
 	function formatPrimitive(ctx, value) {
 	  switch (typeof value) {
 	    case 'undefined':
 	      return ctx.stylize('undefined', 'undefined');
-	
+
 	    case 'string':
 	      var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
 	                                               .replace(/'/g, "\\'")
 	                                               .replace(/\\"/g, '"') + '\'';
 	      return ctx.stylize(simple, 'string');
-	
+
 	    case 'number':
 	      if (value === 0 && (1/value) === -Infinity) {
 	        return ctx.stylize('-0', 'number');
 	      }
 	      return ctx.stylize('' + value, 'number');
-	
+
 	    case 'boolean':
 	      return ctx.stylize('' + value, 'boolean');
 	  }
@@ -3480,13 +3219,13 @@
 	    return ctx.stylize('null', 'null');
 	  }
 	}
-	
-	
+
+
 	function formatError(value) {
 	  return '[' + Error.prototype.toString.call(value) + ']';
 	}
-	
-	
+
+
 	function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
 	  var output = [];
 	  for (var i = 0, l = value.length; i < l; ++i) {
@@ -3505,8 +3244,8 @@
 	  });
 	  return output;
 	}
-	
-	
+
+
 	function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
 	  var name, str;
 	  if (value.__lookupGetter__) {
@@ -3562,11 +3301,11 @@
 	      name = ctx.stylize(name, 'string');
 	    }
 	  }
-	
+
 	  return name + ': ' + str;
 	}
-	
-	
+
+
 	function reduceToSingleString(output, base, braces) {
 	  var numLinesEst = 0;
 	  var length = output.reduce(function(prev, cur) {
@@ -3574,7 +3313,7 @@
 	    if (cur.indexOf('\n') >= 0) numLinesEst++;
 	    return prev + cur.length + 1;
 	  }, 0);
-	
+
 	  if (length > 60) {
 	    return braces[0] +
 	           (base === '' ? '' : base + '\n ') +
@@ -3583,27 +3322,27 @@
 	           ' ' +
 	           braces[1];
 	  }
-	
+
 	  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
 	}
-	
+
 	function isArray(ar) {
 	  return Array.isArray(ar) ||
 	         (typeof ar === 'object' && objectToString(ar) === '[object Array]');
 	}
-	
+
 	function isRegExp(re) {
 	  return typeof re === 'object' && objectToString(re) === '[object RegExp]';
 	}
-	
+
 	function isDate(d) {
 	  return typeof d === 'object' && objectToString(d) === '[object Date]';
 	}
-	
+
 	function isError(e) {
 	  return typeof e === 'object' && objectToString(e) === '[object Error]';
 	}
-	
+
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
 	}
@@ -3618,7 +3357,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * # getName(func)
 	 *
@@ -3628,10 +3367,10 @@
 	 * @namespace Utils
 	 * @name getName
 	 */
-	
+
 	module.exports = function (func) {
 	  if (func.name) return func.name;
-	
+
 	  var match = /^\s?function ([^(]*)\(/.exec(func);
 	  return match && match[1] ? match[1] : "";
 	};
@@ -3646,7 +3385,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * ### .getProperties(object)
 	 *
@@ -3659,22 +3398,22 @@
 	 * @name getProperties
 	 * @api public
 	 */
-	
+
 	module.exports = function getProperties(object) {
 	  var result = Object.getOwnPropertyNames(object);
-	
+
 	  function addProperty(property) {
 	    if (result.indexOf(property) === -1) {
 	      result.push(property);
 	    }
 	  }
-	
+
 	  var proto = Object.getPrototypeOf(object);
 	  while (proto !== null) {
 	    Object.getOwnPropertyNames(proto).forEach(addProperty);
 	    proto = Object.getPrototypeOf(proto);
 	  }
-	
+
 	  return result;
 	};
 
@@ -3688,7 +3427,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * ### .getEnumerableProperties(object)
 	 *
@@ -3701,7 +3440,7 @@
 	 * @name getEnumerableProperties
 	 * @api public
 	 */
-	
+
 	module.exports = function getEnumerableProperties(object) {
 	  var result = [];
 	  for (var name in object) {
@@ -3720,14 +3459,14 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Module dependancies
 	 */
-	
+
 	var inspect = __webpack_require__(15);
 	var config = __webpack_require__(20);
-	
+
 	/**
 	 * ### .objDisplay (object)
 	 *
@@ -3740,11 +3479,11 @@
 	 * @namespace Utils
 	 * @api public
 	 */
-	
+
 	module.exports = function (obj) {
 	  var str = inspect(obj)
 	    , type = Object.prototype.toString.call(obj);
-	
+
 	  if (config.truncateThreshold && str.length >= config.truncateThreshold) {
 	    if (type === '[object Function]') {
 	      return !obj.name || obj.name === ''
@@ -3772,7 +3511,7 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-	
+
 	  /**
 	   * ### config.includeStack
 	   *
@@ -3785,9 +3524,9 @@
 	   * @param {Boolean}
 	   * @api public
 	   */
-	
+
 	   includeStack: false,
-	
+
 	  /**
 	   * ### config.showDiff
 	   *
@@ -3800,9 +3539,9 @@
 	   * @param {Boolean}
 	   * @api public
 	   */
-	
+
 	  showDiff: true,
-	
+
 	  /**
 	   * ### config.truncateThreshold
 	   *
@@ -3822,9 +3561,9 @@
 	   * @param {Number}
 	   * @api public
 	   */
-	
+
 	  truncateThreshold: 40
-	
+
 	};
 
 
@@ -3837,7 +3576,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * ### transferFlags(assertion, object, includeAll = true)
 	 *
@@ -3860,16 +3599,16 @@
 	 * @name transferFlags
 	 * @api private
 	 */
-	
+
 	module.exports = function (assertion, object, includeAll) {
 	  var flags = assertion.__flags || (assertion.__flags = Object.create(null));
-	
+
 	  if (!object.__flags) {
 	    object.__flags = Object.create(null);
 	  }
-	
+
 	  includeAll = arguments.length === 3 ? includeAll : true;
-	
+
 	  for (var flag in flags) {
 	    if (includeAll ||
 	        (flag !== 'object' && flag !== 'ssfi' && flag != 'message')) {
@@ -3895,30 +3634,30 @@
 	 * Copyright(c) 2013 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Module dependencies
 	 */
-	
+
 	var type = __webpack_require__(24);
-	
+
 	/*!
 	 * Buffer.isBuffer browser shim
 	 */
-	
+
 	var Buffer;
 	try { Buffer = __webpack_require__(26).Buffer; }
 	catch(ex) {
 	  Buffer = {};
 	  Buffer.isBuffer = function() { return false; }
 	}
-	
+
 	/*!
 	 * Primary Export
 	 */
-	
+
 	module.exports = deepEqual;
-	
+
 	/**
 	 * Assert super-strict (egal) equality between
 	 * two objects of any type.
@@ -3928,7 +3667,7 @@
 	 * @param {Array} memoised (optional)
 	 * @return {Boolean} equal match
 	 */
-	
+
 	function deepEqual(a, b, m) {
 	  if (sameValue(a, b)) {
 	    return true;
@@ -3949,7 +3688,7 @@
 	    return objectEqual(a, b, m);
 	  }
 	}
-	
+
 	/*!
 	 * Strict (egal) equality test. Ensures that NaN always
 	 * equals NaN and `-0` does not equal `+0`.
@@ -3958,12 +3697,12 @@
 	 * @param {Mixed} b
 	 * @return {Boolean} equal match
 	 */
-	
+
 	function sameValue(a, b) {
 	  if (a === b) return a !== 0 || 1 / a === 1 / b;
 	  return a !== a && b !== b;
 	}
-	
+
 	/*!
 	 * Compare the types of two given objects and
 	 * return if they are equal. Note that an Array
@@ -3974,11 +3713,11 @@
 	 * @param {Mixed} b
 	 * @return {Boolean} result
 	 */
-	
+
 	function typeEqual(a, b) {
 	  return type(a) === type(b);
 	}
-	
+
 	/*!
 	 * Compare two Date objects by asserting that
 	 * the time values are equal using `saveValue`.
@@ -3987,12 +3726,12 @@
 	 * @param {Date} b
 	 * @return {Boolean} result
 	 */
-	
+
 	function dateEqual(a, b) {
 	  if ('date' !== type(b)) return false;
 	  return sameValue(a.getTime(), b.getTime());
 	}
-	
+
 	/*!
 	 * Compare two regular expressions by converting them
 	 * to string and checking for `sameValue`.
@@ -4001,12 +3740,12 @@
 	 * @param {RegExp} b
 	 * @return {Boolean} result
 	 */
-	
+
 	function regexpEqual(a, b) {
 	  if ('regexp' !== type(b)) return false;
 	  return sameValue(a.toString(), b.toString());
 	}
-	
+
 	/*!
 	 * Assert deep equality of two `arguments` objects.
 	 * Unfortunately, these must be sliced to arrays
@@ -4017,27 +3756,27 @@
 	 * @param {Array} memoize (optional)
 	 * @return {Boolean} result
 	 */
-	
+
 	function argumentsEqual(a, b, m) {
 	  if ('arguments' !== type(b)) return false;
 	  a = [].slice.call(a);
 	  b = [].slice.call(b);
 	  return deepEqual(a, b, m);
 	}
-	
+
 	/*!
 	 * Get enumerable properties of a given object.
 	 *
 	 * @param {Object} a
 	 * @return {Array} property names
 	 */
-	
+
 	function enumerable(a) {
 	  var res = [];
 	  for (var key in a) res.push(key);
 	  return res;
 	}
-	
+
 	/*!
 	 * Simple equality for flat iterable objects
 	 * such as Arrays or Node.js buffers.
@@ -4046,23 +3785,23 @@
 	 * @param {Iterable} b
 	 * @return {Boolean} result
 	 */
-	
+
 	function iterableEqual(a, b) {
 	  if (a.length !==  b.length) return false;
-	
+
 	  var i = 0;
 	  var match = true;
-	
+
 	  for (; i < a.length; i++) {
 	    if (a[i] !== b[i]) {
 	      match = false;
 	      break;
 	    }
 	  }
-	
+
 	  return match;
 	}
-	
+
 	/*!
 	 * Extension to `iterableEqual` specifically
 	 * for Node.js Buffers.
@@ -4071,12 +3810,12 @@
 	 * @param {Mixed} b
 	 * @return {Boolean} result
 	 */
-	
+
 	function bufferEqual(a, b) {
 	  if (!Buffer.isBuffer(b)) return false;
 	  return iterableEqual(a, b);
 	}
-	
+
 	/*!
 	 * Block for `objectEqual` ensuring non-existing
 	 * values don't get in.
@@ -4084,11 +3823,11 @@
 	 * @param {Mixed} object
 	 * @return {Boolean} result
 	 */
-	
+
 	function isValue(a) {
 	  return a !== null && a !== undefined;
 	}
-	
+
 	/*!
 	 * Recursively check the equality of two objects.
 	 * Once basic sameness has been established it will
@@ -4099,16 +3838,16 @@
 	 * @param {Mixed} b
 	 * @return {Boolean} result
 	 */
-	
+
 	function objectEqual(a, b, m) {
 	  if (!isValue(a) || !isValue(b)) {
 	    return false;
 	  }
-	
+
 	  if (a.prototype !== b.prototype) {
 	    return false;
 	  }
-	
+
 	  var i;
 	  if (m) {
 	    for (i = 0; i < m.length; i++) {
@@ -4120,23 +3859,23 @@
 	  } else {
 	    m = [];
 	  }
-	
+
 	  try {
 	    var ka = enumerable(a);
 	    var kb = enumerable(b);
 	  } catch (ex) {
 	    return false;
 	  }
-	
+
 	  ka.sort();
 	  kb.sort();
-	
+
 	  if (!iterableEqual(ka, kb)) {
 	    return false;
 	  }
-	
+
 	  m.push([ a, b ]);
-	
+
 	  var key;
 	  for (i = ka.length - 1; i >= 0; i--) {
 	    key = ka[i];
@@ -4144,7 +3883,7 @@
 	      return false;
 	    }
 	  }
-	
+
 	  return true;
 	}
 
@@ -4165,17 +3904,17 @@
 	 * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Primary Exports
 	 */
-	
+
 	var exports = module.exports = getType;
-	
+
 	/*!
 	 * Detectable javascript natives
 	 */
-	
+
 	var natives = {
 	    '[object Array]': 'array'
 	  , '[object RegExp]': 'regexp'
@@ -4183,7 +3922,7 @@
 	  , '[object Arguments]': 'arguments'
 	  , '[object Date]': 'date'
 	};
-	
+
 	/**
 	 * ### typeOf (obj)
 	 *
@@ -4195,7 +3934,7 @@
 	 * @return {String} object type
 	 * @api public
 	 */
-	
+
 	function getType (obj) {
 	  var str = Object.prototype.toString.call(obj);
 	  if (natives[str]) return natives[str];
@@ -4204,9 +3943,9 @@
 	  if (obj === Object(obj)) return 'object';
 	  return typeof obj;
 	}
-	
+
 	exports.Library = Library;
-	
+
 	/**
 	 * ### Library
 	 *
@@ -4217,11 +3956,11 @@
 	 * ```
 	 *
 	 */
-	
+
 	function Library () {
 	  this.tests = {};
 	}
-	
+
 	/**
 	 * #### .of (obj)
 	 *
@@ -4236,9 +3975,9 @@
 	 * @param {Mixed} object to test
 	 * @return {String} type
 	 */
-	
+
 	Library.prototype.of = getType;
-	
+
 	/**
 	 * #### .define (type, test)
 	 *
@@ -4265,13 +4004,13 @@
 	 * @param {RegExp|Function} test
 	 * @api public
 	 */
-	
+
 	Library.prototype.define = function (type, test) {
 	  if (arguments.length === 1) return this.tests[type];
 	  this.tests[type] = test;
 	  return this;
 	};
-	
+
 	/**
 	 * #### .test (obj, test)
 	 *
@@ -4289,11 +4028,11 @@
 	 * @return {Boolean} result
 	 * @api public
 	 */
-	
+
 	Library.prototype.test = function (obj, type) {
 	  if (type === getType(obj)) return true;
 	  var test = this.tests[type];
-	
+
 	  if (test && 'regexp' === getType(test)) {
 	    return test.test(obj);
 	  } else if (test && 'function' === getType(test)) {
@@ -4320,9 +4059,9 @@
 	 * @see https://github.com/logicalparadox/filtr
 	 * MIT Licensed
 	 */
-	
+
 	var getPathInfo = __webpack_require__(28);
-	
+
 	/**
 	 * ### .getPathValue(path, object)
 	 *
@@ -4368,9 +4107,9 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	var hasProperty = __webpack_require__(29);
-	
+
 	/**
 	 * ### .getPathInfo(path, object)
 	 *
@@ -4392,22 +4131,22 @@
 	 * @name getPathInfo
 	 * @api public
 	 */
-	
+
 	module.exports = function getPathInfo(path, obj) {
 	  var parsed = parsePath(path),
 	      last = parsed[parsed.length - 1];
-	
+
 	  var info = {
 	    parent: parsed.length > 1 ? _getPathValue(parsed, obj, parsed.length - 1) : obj,
 	    name: last.p || last.i,
 	    value: _getPathValue(parsed, obj)
 	  };
 	  info.exists = hasProperty(info.name, info.parent);
-	
+
 	  return info;
 	};
-	
-	
+
+
 	/*!
 	 * ## parsePath(path)
 	 *
@@ -4426,7 +4165,7 @@
 	 * @returns {Object} parsed
 	 * @api private
 	 */
-	
+
 	function parsePath (path) {
 	  var str = path.replace(/([^\\])\[/g, '$1.[')
 	    , parts = str.match(/(\\\.|[^.]+?)+/g);
@@ -4437,8 +4176,8 @@
 	    else return { p: value.replace(/\\([.\[\]])/g, '$1') };
 	  });
 	}
-	
-	
+
+
 	/*!
 	 * ## _getPathValue(parsed, obj)
 	 *
@@ -4453,13 +4192,13 @@
 	 * @returns {Object|Undefined} value
 	 * @api private
 	 */
-	
+
 	function _getPathValue (parsed, obj, index) {
 	  var tmp = obj
 	    , res;
-	
+
 	  index = (index === undefined ? parsed.length : index);
-	
+
 	  for (var i = 0, l = index; i < l; i++) {
 	    var part = parsed[i];
 	    if (tmp) {
@@ -4485,9 +4224,9 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	var type = __webpack_require__(10);
-	
+
 	/**
 	 * ### .hasProperty(object, name)
 	 *
@@ -4524,24 +4263,24 @@
 	 * @name getPathInfo
 	 * @api public
 	 */
-	
+
 	var literals = {
 	    'number': Number
 	  , 'string': String
 	};
-	
+
 	module.exports = function hasProperty(name, obj) {
 	  var ot = type(obj);
-	
+
 	  // Bad Object, obviously no props at all
 	  if(ot === 'null' || ot === 'undefined')
 	    return false;
-	
+
 	  // The `in` operator does not work with certain literals
 	  // box these before the check
 	  if(literals[ot] && typeof obj !== 'object')
 	    obj = new literals[ot](obj);
-	
+
 	  return name in obj;
 	};
 
@@ -4555,10 +4294,10 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	var config = __webpack_require__(20);
 	var flag = __webpack_require__(9);
-	
+
 	/**
 	 * ### addProperty (ctx, name, getter)
 	 *
@@ -4584,14 +4323,14 @@
 	 * @name addProperty
 	 * @api public
 	 */
-	
+
 	module.exports = function (ctx, name, getter) {
 	  Object.defineProperty(ctx, name,
 	    { get: function addProperty() {
 	        var old_ssfi = flag(this, 'ssfi');
 	        if (old_ssfi && config.includeStack === false)
 	          flag(this, 'ssfi', addProperty);
-	
+
 	        var result = getter.call(this);
 	        return result === undefined ? this : result;
 	      }
@@ -4609,9 +4348,9 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	var config = __webpack_require__(20);
-	
+
 	/**
 	 * ### .addMethod (ctx, name, method)
 	 *
@@ -4638,7 +4377,7 @@
 	 * @api public
 	 */
 	var flag = __webpack_require__(9);
-	
+
 	module.exports = function (ctx, name, method) {
 	  ctx[name] = function () {
 	    var old_ssfi = flag(this, 'ssfi');
@@ -4659,7 +4398,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * ### overwriteProperty (ctx, name, fn)
 	 *
@@ -4693,14 +4432,14 @@
 	 * @name overwriteProperty
 	 * @api public
 	 */
-	
+
 	module.exports = function (ctx, name, getter) {
 	  var _get = Object.getOwnPropertyDescriptor(ctx, name)
 	    , _super = function () {};
-	
+
 	  if (_get && 'function' === typeof _get.get)
 	    _super = _get.get
-	
+
 	  Object.defineProperty(ctx, name,
 	    { get: function () {
 	        var result = getter(_super).call(this);
@@ -4720,7 +4459,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * ### overwriteMethod (ctx, name, fn)
 	 *
@@ -4754,14 +4493,14 @@
 	 * @name overwriteMethod
 	 * @api public
 	 */
-	
+
 	module.exports = function (ctx, name, method) {
 	  var _method = ctx[name]
 	    , _super = function () { return this; };
-	
+
 	  if (_method && 'function' === typeof _method)
 	    _super = _method;
-	
+
 	  ctx[name] = function () {
 	    var result = method(_super).apply(this, arguments);
 	    return result === undefined ? this : result;
@@ -4778,31 +4517,31 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/*!
 	 * Module dependencies
 	 */
-	
+
 	var transferFlags = __webpack_require__(21);
 	var flag = __webpack_require__(9);
 	var config = __webpack_require__(20);
-	
+
 	/*!
 	 * Module variables
 	 */
-	
+
 	// Check whether `__proto__` is supported
 	var hasProtoSupport = '__proto__' in Object;
-	
+
 	// Without `__proto__` support, this module will need to add properties to a function.
 	// However, some Function.prototype methods cannot be overwritten,
 	// and there seems no easy cross-platform way to detect them (@see chaijs/chai/issues/69).
 	var excludeNames = /^(?:length|name|arguments|caller)$/;
-	
+
 	// Cache `Function` properties
 	var call  = Function.prototype.call,
 	    apply = Function.prototype.apply;
-	
+
 	/**
 	 * ### addChainableMethod (ctx, name, method, chainingBehavior)
 	 *
@@ -4831,27 +4570,27 @@
 	 * @name addChainableMethod
 	 * @api public
 	 */
-	
+
 	module.exports = function (ctx, name, method, chainingBehavior) {
 	  if (typeof chainingBehavior !== 'function') {
 	    chainingBehavior = function () { };
 	  }
-	
+
 	  var chainableBehavior = {
 	      method: method
 	    , chainingBehavior: chainingBehavior
 	  };
-	
+
 	  // save the methods so we can overwrite them later, if we need to.
 	  if (!ctx.__methods) {
 	    ctx.__methods = {};
 	  }
 	  ctx.__methods[name] = chainableBehavior;
-	
+
 	  Object.defineProperty(ctx, name,
 	    { get: function () {
 	        chainableBehavior.chainingBehavior.call(this);
-	
+
 	        var assert = function assert() {
 	          var old_ssfi = flag(this, 'ssfi');
 	          if (old_ssfi && config.includeStack === false)
@@ -4859,7 +4598,7 @@
 	          var result = chainableBehavior.method.apply(this, arguments);
 	          return result === undefined ? this : result;
 	        };
-	
+
 	        // Use `__proto__` if available
 	        if (hasProtoSupport) {
 	          // Inherit all properties from the object by replacing the `Function` prototype
@@ -4878,7 +4617,7 @@
 	            }
 	          });
 	        }
-	
+
 	        transferFlags(this, assert);
 	        return assert;
 	      }
@@ -4896,7 +4635,7 @@
 	 * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	/**
 	 * ### overwriteChainableMethod (ctx, name, method, chainingBehavior)
 	 *
@@ -4929,16 +4668,16 @@
 	 * @name overwriteChainableMethod
 	 * @api public
 	 */
-	
+
 	module.exports = function (ctx, name, method, chainingBehavior) {
 	  var chainableBehavior = ctx.__methods[name];
-	
+
 	  var _chainingBehavior = chainableBehavior.chainingBehavior;
 	  chainableBehavior.chainingBehavior = function () {
 	    var result = chainingBehavior(_chainingBehavior).call(this);
 	    return result === undefined ? this : result;
 	  };
-	
+
 	  var _method = chainableBehavior.method;
 	  chainableBehavior.method = function () {
 	    var result = method(_method).apply(this, arguments);
@@ -4957,23 +4696,23 @@
 	 * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	var config = __webpack_require__(20);
-	
+
 	module.exports = function (_chai, util) {
 	  /*!
 	   * Module dependencies.
 	   */
-	
+
 	  var AssertionError = _chai.AssertionError
 	    , flag = util.flag;
-	
+
 	  /*!
 	   * Module export.
 	   */
-	
+
 	  _chai.Assertion = Assertion;
-	
+
 	  /*!
 	   * Assertion Constructor
 	   *
@@ -4981,13 +4720,13 @@
 	   *
 	   * @api private
 	   */
-	
+
 	  function Assertion (obj, msg, stack) {
 	    flag(this, 'ssfi', stack || arguments.callee);
 	    flag(this, 'object', obj);
 	    flag(this, 'message', msg);
 	  }
-	
+
 	  Object.defineProperty(Assertion, 'includeStack', {
 	    get: function() {
 	      console.warn('Assertion.includeStack is deprecated, use chai.config.includeStack instead.');
@@ -4998,7 +4737,7 @@
 	      config.includeStack = value;
 	    }
 	  });
-	
+
 	  Object.defineProperty(Assertion, 'showDiff', {
 	    get: function() {
 	      console.warn('Assertion.showDiff is deprecated, use chai.config.showDiff instead.');
@@ -5009,31 +4748,31 @@
 	      config.showDiff = value;
 	    }
 	  });
-	
+
 	  Assertion.addProperty = function (name, fn) {
 	    util.addProperty(this.prototype, name, fn);
 	  };
-	
+
 	  Assertion.addMethod = function (name, fn) {
 	    util.addMethod(this.prototype, name, fn);
 	  };
-	
+
 	  Assertion.addChainableMethod = function (name, fn, chainingBehavior) {
 	    util.addChainableMethod(this.prototype, name, fn, chainingBehavior);
 	  };
-	
+
 	  Assertion.overwriteProperty = function (name, fn) {
 	    util.overwriteProperty(this.prototype, name, fn);
 	  };
-	
+
 	  Assertion.overwriteMethod = function (name, fn) {
 	    util.overwriteMethod(this.prototype, name, fn);
 	  };
-	
+
 	  Assertion.overwriteChainableMethod = function (name, fn, chainingBehavior) {
 	    util.overwriteChainableMethod(this.prototype, name, fn, chainingBehavior);
 	  };
-	
+
 	  /**
 	   * ### .assert(expression, message, negateMessage, expected, actual, showDiff)
 	   *
@@ -5048,12 +4787,12 @@
 	   * @param {Boolean} showDiff (optional) when set to `true`, assert will display a diff in addition to the message if expression fails
 	   * @api private
 	   */
-	
+
 	  Assertion.prototype.assert = function (expr, msg, negateMsg, expected, _actual, showDiff) {
 	    var ok = util.test(this, arguments);
 	    if (true !== showDiff) showDiff = false;
 	    if (true !== config.showDiff) showDiff = false;
-	
+
 	    if (!ok) {
 	      var msg = util.getMessage(this, arguments)
 	        , actual = util.getActual(this, arguments);
@@ -5064,7 +4803,7 @@
 	      }, (config.includeStack) ? this.assert : flag(this, 'ssfi'));
 	    }
 	  };
-	
+
 	  /*!
 	   * ### ._obj
 	   *
@@ -5072,7 +4811,7 @@
 	   *
 	   * @api private
 	   */
-	
+
 	  Object.defineProperty(Assertion.prototype, '_obj',
 	    { get: function () {
 	        return flag(this, 'object');
@@ -5094,12 +4833,12 @@
 	 * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	module.exports = function (chai, _) {
 	  var Assertion = chai.Assertion
 	    , toString = Object.prototype.toString
 	    , flag = _.flag;
-	
+
 	  /**
 	   * ### Language Chains
 	   *
@@ -5128,7 +4867,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  [ 'to', 'be', 'been'
 	  , 'is', 'and', 'has', 'have'
 	  , 'with', 'that', 'which', 'at'
@@ -5137,7 +4876,7 @@
 	      return this;
 	    });
 	  });
-	
+
 	  /**
 	   * ### .not
 	   *
@@ -5152,11 +4891,11 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('not', function () {
 	    flag(this, 'negate', true);
 	  });
-	
+
 	  /**
 	   * ### .deep
 	   *
@@ -5177,11 +4916,11 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('deep', function () {
 	    flag(this, 'deep', true);
 	  });
-	
+
 	  /**
 	   * ### .any
 	   *
@@ -5194,13 +4933,13 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('any', function () {
 	    flag(this, 'any', true);
 	    flag(this, 'all', false)
 	  });
-	
-	
+
+
 	  /**
 	   * ### .all
 	   *
@@ -5213,12 +4952,12 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('all', function () {
 	    flag(this, 'all', true);
 	    flag(this, 'any', false);
 	  });
-	
+
 	  /**
 	   * ### .a(type)
 	   *
@@ -5249,23 +4988,23 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function an (type, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    type = type.toLowerCase();
 	    var obj = flag(this, 'object')
 	      , article = ~[ 'a', 'e', 'i', 'o', 'u' ].indexOf(type.charAt(0)) ? 'an ' : 'a ';
-	
+
 	    this.assert(
 	        type === _.type(obj)
 	      , 'expected #{this} to be ' + article + type
 	      , 'expected #{this} not to be ' + article + type
 	    );
 	  }
-	
+
 	  Assertion.addChainableMethod('an', an);
 	  Assertion.addChainableMethod('a', an);
-	
+
 	  /**
 	   * ### .include(value)
 	   *
@@ -5287,18 +5026,18 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function includeChainingBehavior () {
 	    flag(this, 'contains', true);
 	  }
-	
+
 	  function include (val, msg) {
 	    _.expectTypes(this, ['array', 'object', 'string']);
-	
+
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
 	    var expected = false;
-	
+
 	    if (_.type(obj) === 'array' && _.type(val) === 'object') {
 	      for (var i in obj) {
 	        if (_.eql(obj[i], val)) {
@@ -5322,12 +5061,12 @@
 	      , 'expected #{this} to include ' + _.inspect(val)
 	      , 'expected #{this} to not include ' + _.inspect(val));
 	  }
-	
+
 	  Assertion.addChainableMethod('include', include, includeChainingBehavior);
 	  Assertion.addChainableMethod('contain', include, includeChainingBehavior);
 	  Assertion.addChainableMethod('contains', include, includeChainingBehavior);
 	  Assertion.addChainableMethod('includes', include, includeChainingBehavior);
-	
+
 	  /**
 	   * ### .ok
 	   *
@@ -5343,14 +5082,14 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('ok', function () {
 	    this.assert(
 	        flag(this, 'object')
 	      , 'expected #{this} to be truthy'
 	      , 'expected #{this} to be falsy');
 	  });
-	
+
 	  /**
 	   * ### .true
 	   *
@@ -5363,7 +5102,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('true', function () {
 	    this.assert(
 	        true === flag(this, 'object')
@@ -5372,7 +5111,7 @@
 	      , this.negate ? false : true
 	    );
 	  });
-	
+
 	  /**
 	   * ### .false
 	   *
@@ -5385,7 +5124,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('false', function () {
 	    this.assert(
 	        false === flag(this, 'object')
@@ -5394,7 +5133,7 @@
 	      , this.negate ? true : false
 	    );
 	  });
-	
+
 	  /**
 	   * ### .null
 	   *
@@ -5407,7 +5146,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('null', function () {
 	    this.assert(
 	        null === flag(this, 'object')
@@ -5415,7 +5154,7 @@
 	      , 'expected #{this} not to be null'
 	    );
 	  });
-	
+
 	  /**
 	   * ### .undefined
 	   *
@@ -5428,7 +5167,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('undefined', function () {
 	    this.assert(
 	        undefined === flag(this, 'object')
@@ -5436,7 +5175,7 @@
 	      , 'expected #{this} not to be undefined'
 	    );
 	  });
-	
+
 	  /**
 	   * ### .NaN
 	   * Asserts that the target is `NaN`.
@@ -5448,7 +5187,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('NaN', function () {
 	    this.assert(
 	        isNaN(flag(this, 'object'))
@@ -5456,7 +5195,7 @@
 	        , 'expected #{this} not to be NaN'
 	    );
 	  });
-	
+
 	  /**
 	   * ### .exist
 	   *
@@ -5474,7 +5213,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('exist', function () {
 	    this.assert(
 	        null != flag(this, 'object')
@@ -5482,8 +5221,8 @@
 	      , 'expected #{this} to not exist'
 	    );
 	  });
-	
-	
+
+
 	  /**
 	   * ### .empty
 	   *
@@ -5499,24 +5238,24 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('empty', function () {
 	    var obj = flag(this, 'object')
 	      , expected = obj;
-	
+
 	    if (Array.isArray(obj) || 'string' === typeof object) {
 	      expected = obj.length;
 	    } else if (typeof obj === 'object') {
 	      expected = Object.keys(obj).length;
 	    }
-	
+
 	    this.assert(
 	        !expected
 	      , 'expected #{this} to be empty'
 	      , 'expected #{this} not to be empty'
 	    );
 	  });
-	
+
 	  /**
 	   * ### .arguments
 	   *
@@ -5531,7 +5270,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function checkArguments () {
 	    var obj = flag(this, 'object')
 	      , type = Object.prototype.toString.call(obj);
@@ -5541,10 +5280,10 @@
 	      , 'expected #{this} to not be arguments'
 	    );
 	  }
-	
+
 	  Assertion.addProperty('arguments', checkArguments);
 	  Assertion.addProperty('Arguments', checkArguments);
-	
+
 	  /**
 	   * ### .equal(value)
 	   *
@@ -5567,7 +5306,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertEqual (val, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
@@ -5584,11 +5323,11 @@
 	      );
 	    }
 	  }
-	
+
 	  Assertion.addMethod('equal', assertEqual);
 	  Assertion.addMethod('equals', assertEqual);
 	  Assertion.addMethod('eq', assertEqual);
-	
+
 	  /**
 	   * ### .eql(value)
 	   *
@@ -5604,7 +5343,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertEql(obj, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    this.assert(
@@ -5616,10 +5355,10 @@
 	      , true
 	    );
 	  }
-	
+
 	  Assertion.addMethod('eql', assertEql);
 	  Assertion.addMethod('eqls', assertEql);
-	
+
 	  /**
 	   * ### .above(value)
 	   *
@@ -5643,7 +5382,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertAbove (n, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
@@ -5665,11 +5404,11 @@
 	      );
 	    }
 	  }
-	
+
 	  Assertion.addMethod('above', assertAbove);
 	  Assertion.addMethod('gt', assertAbove);
 	  Assertion.addMethod('greaterThan', assertAbove);
-	
+
 	  /**
 	   * ### .least(value)
 	   *
@@ -5692,7 +5431,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertLeast (n, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
@@ -5714,10 +5453,10 @@
 	      );
 	    }
 	  }
-	
+
 	  Assertion.addMethod('least', assertLeast);
 	  Assertion.addMethod('gte', assertLeast);
-	
+
 	  /**
 	   * ### .below(value)
 	   *
@@ -5741,7 +5480,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertBelow (n, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
@@ -5763,11 +5502,11 @@
 	      );
 	    }
 	  }
-	
+
 	  Assertion.addMethod('below', assertBelow);
 	  Assertion.addMethod('lt', assertBelow);
 	  Assertion.addMethod('lessThan', assertBelow);
-	
+
 	  /**
 	   * ### .most(value)
 	   *
@@ -5790,7 +5529,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertMost (n, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
@@ -5812,10 +5551,10 @@
 	      );
 	    }
 	  }
-	
+
 	  Assertion.addMethod('most', assertMost);
 	  Assertion.addMethod('lte', assertMost);
-	
+
 	  /**
 	   * ### .within(start, finish)
 	   *
@@ -5838,7 +5577,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addMethod('within', function (start, finish, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object')
@@ -5859,7 +5598,7 @@
 	      );
 	    }
 	  });
-	
+
 	  /**
 	   * ### .instanceof(constructor)
 	   *
@@ -5878,7 +5617,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertInstanceOf (constructor, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var name = _.getName(constructor);
@@ -5888,10 +5627,10 @@
 	      , 'expected #{this} to not be an instance of ' + name
 	    );
 	  };
-	
+
 	  Assertion.addMethod('instanceof', assertInstanceOf);
 	  Assertion.addMethod('instanceOf', assertInstanceOf);
-	
+
 	  /**
 	   * ### .property(name, [value])
 	   *
@@ -5963,10 +5702,10 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addMethod('property', function (name, val, msg) {
 	    if (msg) flag(this, 'message', msg);
-	
+
 	    var isDeep = !!flag(this, 'deep')
 	      , descriptor = isDeep ? 'deep property ' : 'property '
 	      , negate = flag(this, 'negate')
@@ -5978,7 +5717,7 @@
 	      , value = isDeep
 	        ? pathInfo.value
 	        : obj[name];
-	
+
 	    if (negate && arguments.length > 1) {
 	      if (undefined === value) {
 	        msg = (msg != null) ? msg + ': ' : '';
@@ -5990,7 +5729,7 @@
 	        , 'expected #{this} to have a ' + descriptor + _.inspect(name)
 	        , 'expected #{this} to not have ' + descriptor + _.inspect(name));
 	    }
-	
+
 	    if (arguments.length > 1) {
 	      this.assert(
 	          val === value
@@ -6000,11 +5739,11 @@
 	        , value
 	      );
 	    }
-	
+
 	    flag(this, 'object', value);
 	  });
-	
-	
+
+
 	  /**
 	   * ### .ownProperty(name)
 	   *
@@ -6019,7 +5758,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertOwnProperty (name, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
@@ -6029,10 +5768,10 @@
 	      , 'expected #{this} to not have own property ' + _.inspect(name)
 	    );
 	  }
-	
+
 	  Assertion.addMethod('ownProperty', assertOwnProperty);
 	  Assertion.addMethod('haveOwnProperty', assertOwnProperty);
-	
+
 	  /**
 	   * ### .ownPropertyDescriptor(name[, descriptor[, message]])
 	   *
@@ -6052,7 +5791,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertOwnPropertyDescriptor (name, descriptor, msg) {
 	    if (typeof descriptor === 'string') {
 	      msg = descriptor;
@@ -6079,10 +5818,10 @@
 	    }
 	    flag(this, 'object', actualDescriptor);
 	  }
-	
+
 	  Assertion.addMethod('ownPropertyDescriptor', assertOwnPropertyDescriptor);
 	  Assertion.addMethod('haveOwnPropertyDescriptor', assertOwnPropertyDescriptor);
-	
+
 	  /**
 	   * ### .length
 	   *
@@ -6105,7 +5844,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  /**
 	   * ### .lengthOf(value[, message])
 	   *
@@ -6121,17 +5860,17 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertLengthChain () {
 	    flag(this, 'doLength', true);
 	  }
-	
+
 	  function assertLength (n, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
 	    new Assertion(obj, msg).to.have.property('length');
 	    var len = obj.length;
-	
+
 	    this.assert(
 	        len == n
 	      , 'expected #{this} to have a length of #{exp} but got #{act}'
@@ -6140,10 +5879,10 @@
 	      , len
 	    );
 	  }
-	
+
 	  Assertion.addChainableMethod('length', assertLength, assertLengthChain);
 	  Assertion.addMethod('lengthOf', assertLength);
-	
+
 	  /**
 	   * ### .match(regexp)
 	   *
@@ -6167,10 +5906,10 @@
 	      , 'expected #{this} not to match ' + re
 	    );
 	  }
-	
+
 	  Assertion.addMethod('match', assertMatch);
 	  Assertion.addMethod('matches', assertMatch);
-	
+
 	  /**
 	   * ### .string(string)
 	   *
@@ -6184,20 +5923,20 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addMethod('string', function (str, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
 	    new Assertion(obj, msg).is.a('string');
-	
+
 	    this.assert(
 	        ~obj.indexOf(str)
 	      , 'expected #{this} to contain ' + _.inspect(str)
 	      , 'expected #{this} to not contain ' + _.inspect(str)
 	    );
 	  });
-	
-	
+
+
 	  /**
 	   * ### .keys(key1, [key2], [...])
 	   *
@@ -6236,13 +5975,13 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertKeys (keys) {
 	    var obj = flag(this, 'object')
 	      , str
 	      , ok = true
 	      , mixedArgsMsg = 'keys must be given single argument of Array|Object|String, or multiple String arguments';
-	
+
 	    switch (_.type(keys)) {
 	      case "array":
 	        if (arguments.length > 1) throw (new Error(mixedArgsMsg));
@@ -6254,19 +5993,19 @@
 	      default:
 	        keys = Array.prototype.slice.call(arguments);
 	    }
-	
+
 	    if (!keys.length) throw new Error('keys required');
-	
+
 	    var actual = Object.keys(obj)
 	      , expected = keys
 	      , len = keys.length
 	      , any = flag(this, 'any')
 	      , all = flag(this, 'all');
-	
+
 	    if (!any && !all) {
 	      all = true;
 	    }
-	
+
 	    // Has any
 	    if (any) {
 	      var intersection = expected.filter(function(key) {
@@ -6274,7 +6013,7 @@
 	      });
 	      ok = intersection.length > 0;
 	    }
-	
+
 	    // Has all
 	    if (all) {
 	      ok = keys.every(function(key){
@@ -6284,7 +6023,7 @@
 	        ok = ok && keys.length == actual.length;
 	      }
 	    }
-	
+
 	    // Key string
 	    if (len > 1) {
 	      keys = keys.map(function(key){
@@ -6300,13 +6039,13 @@
 	    } else {
 	      str = _.inspect(keys[0]);
 	    }
-	
+
 	    // Form
 	    str = (len > 1 ? 'keys ' : 'key ') + str;
-	
+
 	    // Have / include
 	    str = (flag(this, 'contains') ? 'contain ' : 'have ') + str;
-	
+
 	    // Assertion
 	    this.assert(
 	        ok
@@ -6317,10 +6056,10 @@
 	      , true
 	    );
 	  }
-	
+
 	  Assertion.addMethod('keys', assertKeys);
 	  Assertion.addMethod('key', assertKeys);
-	
+
 	  /**
 	   * ### .throw(constructor)
 	   *
@@ -6356,17 +6095,17 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertThrows (constructor, errMsg, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
 	    new Assertion(obj, msg).is.a('function');
-	
+
 	    var thrown = false
 	      , desiredError = null
 	      , name = null
 	      , thrownError = null;
-	
+
 	    if (arguments.length === 0) {
 	      errMsg = null;
 	      constructor = null;
@@ -6385,7 +6124,7 @@
 	    } else {
 	      constructor = null;
 	    }
-	
+
 	    try {
 	      obj();
 	    } catch (err) {
@@ -6398,11 +6137,11 @@
 	          , (desiredError instanceof Error ? desiredError.toString() : desiredError)
 	          , (err instanceof Error ? err.toString() : err)
 	        );
-	
+
 	        flag(this, 'object', err);
 	        return this;
 	      }
-	
+
 	      // next, check constructor
 	      if (constructor) {
 	        this.assert(
@@ -6412,18 +6151,18 @@
 	          , name
 	          , (err instanceof Error ? err.toString() : err)
 	        );
-	
+
 	        if (!errMsg) {
 	          flag(this, 'object', err);
 	          return this;
 	        }
 	      }
-	
+
 	      // next, check message
 	      var message = 'error' === _.type(err) && "message" in err
 	        ? err.message
 	        : '' + err;
-	
+
 	      if ((message != null) && errMsg && errMsg instanceof RegExp) {
 	        this.assert(
 	            errMsg.exec(message)
@@ -6432,7 +6171,7 @@
 	          , errMsg
 	          , message
 	        );
-	
+
 	        flag(this, 'object', err);
 	        return this;
 	      } else if ((message != null) && errMsg && 'string' === typeof errMsg) {
@@ -6443,7 +6182,7 @@
 	          , errMsg
 	          , message
 	        );
-	
+
 	        flag(this, 'object', err);
 	        return this;
 	      } else {
@@ -6451,18 +6190,18 @@
 	        thrownError = err;
 	      }
 	    }
-	
+
 	    var actuallyGot = ''
 	      , expectedThrown = name !== null
 	        ? name
 	        : desiredError
 	          ? '#{exp}' //_.inspect(desiredError)
 	          : 'an error';
-	
+
 	    if (thrown) {
 	      actuallyGot = ' but #{act} was thrown'
 	    }
-	
+
 	    this.assert(
 	        thrown === true
 	      , 'expected #{this} to throw ' + expectedThrown + actuallyGot
@@ -6470,14 +6209,14 @@
 	      , (desiredError instanceof Error ? desiredError.toString() : desiredError)
 	      , (thrownError instanceof Error ? thrownError.toString() : thrownError)
 	    );
-	
+
 	    flag(this, 'object', thrownError);
 	  };
-	
+
 	  Assertion.addMethod('throw', assertThrows);
 	  Assertion.addMethod('throws', assertThrows);
 	  Assertion.addMethod('Throw', assertThrows);
-	
+
 	  /**
 	   * ### .respondTo(method)
 	   *
@@ -6500,7 +6239,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function respondTo (method, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object')
@@ -6508,17 +6247,17 @@
 	      , context = ('function' === _.type(obj) && !itself)
 	        ? obj.prototype[method]
 	        : obj[method];
-	
+
 	    this.assert(
 	        'function' === typeof context
 	      , 'expected #{this} to respond to ' + _.inspect(method)
 	      , 'expected #{this} to not respond to ' + _.inspect(method)
 	    );
 	  }
-	
+
 	  Assertion.addMethod('respondTo', respondTo);
 	  Assertion.addMethod('respondsTo', respondTo);
-	
+
 	  /**
 	   * ### .itself
 	   *
@@ -6535,11 +6274,11 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('itself', function () {
 	    flag(this, 'itself', true);
 	  });
-	
+
 	  /**
 	   * ### .satisfy(method)
 	   *
@@ -6554,7 +6293,7 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function satisfy (matcher, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
@@ -6567,10 +6306,10 @@
 	      , result
 	    );
 	  }
-	
+
 	  Assertion.addMethod('satisfy', satisfy);
 	  Assertion.addMethod('satisfies', satisfy);
-	
+
 	  /**
 	   * ### .closeTo(expected, delta)
 	   *
@@ -6586,36 +6325,36 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function closeTo(expected, delta, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
-	
+
 	    new Assertion(obj, msg).is.a('number');
 	    if (_.type(expected) !== 'number' || _.type(delta) !== 'number') {
 	      throw new Error('the arguments to closeTo or approximately must be numbers');
 	    }
-	
+
 	    this.assert(
 	        Math.abs(obj - expected) <= delta
 	      , 'expected #{this} to be close to ' + expected + ' +/- ' + delta
 	      , 'expected #{this} not to be close to ' + expected + ' +/- ' + delta
 	    );
 	  }
-	
+
 	  Assertion.addMethod('closeTo', closeTo);
 	  Assertion.addMethod('approximately', closeTo);
-	
+
 	  function isSubsetOf(subset, superset, cmp) {
 	    return subset.every(function(elem) {
 	      if (!cmp) return superset.indexOf(elem) !== -1;
-	
+
 	      return superset.some(function(elem2) {
 	        return cmp(elem, elem2);
 	      });
 	    })
 	  }
-	
+
 	  /**
 	   * ### .members(set)
 	   *
@@ -6638,16 +6377,16 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addMethod('members', function (subset, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var obj = flag(this, 'object');
-	
+
 	    new Assertion(obj).to.be.an('array');
 	    new Assertion(subset).to.be.an('array');
-	
+
 	    var cmp = flag(this, 'deep') ? _.eql : undefined;
-	
+
 	    if (flag(this, 'contains')) {
 	      return this.assert(
 	          isSubsetOf(subset, obj, cmp)
@@ -6657,7 +6396,7 @@
 	        , subset
 	      );
 	    }
-	
+
 	    this.assert(
 	        isSubsetOf(obj, subset, cmp) && isSubsetOf(subset, obj, cmp)
 	        , 'expected #{this} to have the same members as #{act}'
@@ -6666,7 +6405,7 @@
 	        , subset
 	    );
 	  });
-	
+
 	  /**
 	   * ### .oneOf(list)
 	   *
@@ -6688,12 +6427,12 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function oneOf (list, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var expected = flag(this, 'object');
 	    new Assertion(list).to.be.an('array');
-	
+
 	    this.assert(
 	        list.indexOf(expected) > -1
 	      , 'expected #{this} to be one of #{exp}'
@@ -6702,10 +6441,10 @@
 	      , expected
 	    );
 	  }
-	
+
 	  Assertion.addMethod('oneOf', oneOf);
-	
-	
+
+
 	  /**
 	   * ### .change(function)
 	   *
@@ -6726,26 +6465,26 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertChanges (object, prop, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var fn = flag(this, 'object');
 	    new Assertion(object, msg).to.have.property(prop);
 	    new Assertion(fn).is.a('function');
-	
+
 	    var initial = object[prop];
 	    fn();
-	
+
 	    this.assert(
 	      initial !== object[prop]
 	      , 'expected .' + prop + ' to change'
 	      , 'expected .' + prop + ' to not change'
 	    );
 	  }
-	
+
 	  Assertion.addChainableMethod('change', assertChanges);
 	  Assertion.addChainableMethod('changes', assertChanges);
-	
+
 	  /**
 	   * ### .increase(function)
 	   *
@@ -6764,26 +6503,26 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertIncreases (object, prop, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var fn = flag(this, 'object');
 	    new Assertion(object, msg).to.have.property(prop);
 	    new Assertion(fn).is.a('function');
-	
+
 	    var initial = object[prop];
 	    fn();
-	
+
 	    this.assert(
 	      object[prop] - initial > 0
 	      , 'expected .' + prop + ' to increase'
 	      , 'expected .' + prop + ' to not increase'
 	    );
 	  }
-	
+
 	  Assertion.addChainableMethod('increase', assertIncreases);
 	  Assertion.addChainableMethod('increases', assertIncreases);
-	
+
 	  /**
 	   * ### .decrease(function)
 	   *
@@ -6802,26 +6541,26 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  function assertDecreases (object, prop, msg) {
 	    if (msg) flag(this, 'message', msg);
 	    var fn = flag(this, 'object');
 	    new Assertion(object, msg).to.have.property(prop);
 	    new Assertion(fn).is.a('function');
-	
+
 	    var initial = object[prop];
 	    fn();
-	
+
 	    this.assert(
 	      object[prop] - initial < 0
 	      , 'expected .' + prop + ' to decrease'
 	      , 'expected .' + prop + ' to not decrease'
 	    );
 	  }
-	
+
 	  Assertion.addChainableMethod('decrease', assertDecreases);
 	  Assertion.addChainableMethod('decreases', assertDecreases);
-	
+
 	  /**
 	   * ### .extensible
 	   *
@@ -6841,31 +6580,31 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('extensible', function() {
 	    var obj = flag(this, 'object');
-	
+
 	    // In ES5, if the argument to this method is not an object (a primitive), then it will cause a TypeError.
 	    // In ES6, a non-object argument will be treated as if it was a non-extensible ordinary object, simply return false.
 	    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible
 	    // The following provides ES6 behavior when a TypeError is thrown under ES5.
-	
+
 	    var isExtensible;
-	
+
 	    try {
 	      isExtensible = Object.isExtensible(obj);
 	    } catch (err) {
 	      if (err instanceof TypeError) isExtensible = false;
 	      else throw err;
 	    }
-	
+
 	    this.assert(
 	      isExtensible
 	      , 'expected #{this} to be extensible'
 	      , 'expected #{this} to not be extensible'
 	    );
 	  });
-	
+
 	  /**
 	   * ### .sealed
 	   *
@@ -6883,31 +6622,31 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('sealed', function() {
 	    var obj = flag(this, 'object');
-	
+
 	    // In ES5, if the argument to this method is not an object (a primitive), then it will cause a TypeError.
 	    // In ES6, a non-object argument will be treated as if it was a sealed ordinary object, simply return true.
 	    // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isSealed
 	    // The following provides ES6 behavior when a TypeError is thrown under ES5.
-	
+
 	    var isSealed;
-	
+
 	    try {
 	      isSealed = Object.isSealed(obj);
 	    } catch (err) {
 	      if (err instanceof TypeError) isSealed = true;
 	      else throw err;
 	    }
-	
+
 	    this.assert(
 	      isSealed
 	      , 'expected #{this} to be sealed'
 	      , 'expected #{this} to not be sealed'
 	    );
 	  });
-	
+
 	  /**
 	   * ### .frozen
 	   *
@@ -6923,24 +6662,24 @@
 	   * @namespace BDD
 	   * @api public
 	   */
-	
+
 	  Assertion.addProperty('frozen', function() {
 	    var obj = flag(this, 'object');
-	
+
 	    // In ES5, if the argument to this method is not an object (a primitive), then it will cause a TypeError.
 	    // In ES6, a non-object argument will be treated as if it was a frozen ordinary object, simply return true.
 	    // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isFrozen
 	    // The following provides ES6 behavior when a TypeError is thrown under ES5.
-	
+
 	    var isFrozen;
-	
+
 	    try {
 	      isFrozen = Object.isFrozen(obj);
 	    } catch (err) {
 	      if (err instanceof TypeError) isFrozen = true;
 	      else throw err;
 	    }
-	
+
 	    this.assert(
 	      isFrozen
 	      , 'expected #{this} to be frozen'
@@ -6959,12 +6698,12 @@
 	 * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	module.exports = function (chai, util) {
 	  chai.expect = function (val, message) {
 	    return new chai.Assertion(val, message);
 	  };
-	
+
 	  /**
 	   * ### .fail(actual, expected, [message], [operator])
 	   *
@@ -6978,7 +6717,7 @@
 	   * @namespace Expect
 	   * @api public
 	   */
-	
+
 	  chai.expect.fail = function (actual, expected, message, operator) {
 	    message = message || 'expect.fail()';
 	    throw new chai.AssertionError(message, {
@@ -6999,10 +6738,10 @@
 	 * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
+
 	module.exports = function (chai, util) {
 	  var Assertion = chai.Assertion;
-	
+
 	  function loadShould () {
 	    // explicitly define this method as function as to have it's name to include as `ssfi`
 	    function shouldGetter() {
@@ -7031,9 +6770,9 @@
 	      , get: shouldGetter
 	      , configurable: true
 	    });
-	
+
 	    var should = {};
-	
+
 	    /**
 	     * ### .fail(actual, expected, [message], [operator])
 	     *
@@ -7047,7 +6786,7 @@
 	     * @namespace Should
 	     * @api public
 	     */
-	
+
 	    should.fail = function (actual, expected, message, operator) {
 	      message = message || 'should.fail()';
 	      throw new chai.AssertionError(message, {
@@ -7056,7 +6795,7 @@
 	        , operator: operator
 	      }, should.fail);
 	    };
-	
+
 	    /**
 	     * ### .equal(actual, expected, [message])
 	     *
@@ -7071,11 +6810,11 @@
 	     * @namespace Should
 	     * @api public
 	     */
-	
+
 	    should.equal = function (val1, val2, msg) {
 	      new Assertion(val1, msg).to.equal(val2);
 	    };
-	
+
 	    /**
 	     * ### .throw(function, [constructor/string/regexp], [string/regexp], [message])
 	     *
@@ -7099,11 +6838,11 @@
 	     * @namespace Should
 	     * @api public
 	     */
-	
+
 	    should.Throw = function (fn, errt, errs, msg) {
 	      new Assertion(fn, msg).to.Throw(errt, errs);
 	    };
-	
+
 	    /**
 	     * ### .exist
 	     *
@@ -7117,14 +6856,14 @@
 	     * @namespace Should
 	     * @api public
 	     */
-	
+
 	    should.exist = function (val, msg) {
 	      new Assertion(val, msg).to.exist;
 	    }
-	
+
 	    // negation
 	    should.not = {}
-	
+
 	    /**
 	     * ### .not.equal(actual, expected, [message])
 	     *
@@ -7139,11 +6878,11 @@
 	     * @namespace Should
 	     * @api public
 	     */
-	
+
 	    should.not.equal = function (val1, val2, msg) {
 	      new Assertion(val1, msg).to.not.equal(val2);
 	    };
-	
+
 	    /**
 	     * ### .throw(function, [constructor/regexp], [message])
 	     *
@@ -7163,11 +6902,11 @@
 	     * @namespace Should
 	     * @api public
 	     */
-	
+
 	    should.not.Throw = function (fn, errt, errs, msg) {
 	      new Assertion(fn, msg).to.not.Throw(errt, errs);
 	    };
-	
+
 	    /**
 	     * ### .not.exist
 	     *
@@ -7181,17 +6920,17 @@
 	     * @namespace Should
 	     * @api public
 	     */
-	
+
 	    should.not.exist = function (val, msg) {
 	      new Assertion(val, msg).to.not.exist;
 	    }
-	
+
 	    should['throw'] = should['Throw'];
 	    should.not['throw'] = should.not['Throw'];
-	
+
 	    return should;
 	  };
-	
+
 	  chai.should = loadShould;
 	  chai.Should = loadShould;
 	};
@@ -7206,21 +6945,21 @@
 	 * Copyright(c) 2011-2014 Jake Luer <jake@alogicalparadox.com>
 	 * MIT Licensed
 	 */
-	
-	
+
+
 	module.exports = function (chai, util) {
-	
+
 	  /*!
 	   * Chai dependencies.
 	   */
-	
+
 	  var Assertion = chai.Assertion
 	    , flag = util.flag;
-	
+
 	  /*!
 	   * Module export.
 	   */
-	
+
 	  /**
 	   * ### assert(expression, message)
 	   *
@@ -7235,7 +6974,7 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  var assert = chai.assert = function (express, errmsg) {
 	    var test = new Assertion(null, null, chai.assert);
 	    test.assert(
@@ -7244,7 +6983,7 @@
 	      , '[ negation message unavailable ]'
 	    );
 	  };
-	
+
 	  /**
 	   * ### .fail(actual, expected, [message], [operator])
 	   *
@@ -7258,7 +6997,7 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.fail = function (actual, expected, message, operator) {
 	    message = message || 'assert.fail()';
 	    throw new chai.AssertionError(message, {
@@ -7267,7 +7006,7 @@
 	      , operator: operator
 	    }, assert.fail);
 	  };
-	
+
 	  /**
 	   * ### .isOk(object, [message])
 	   *
@@ -7283,11 +7022,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isOk = function (val, msg) {
 	    new Assertion(val, msg).is.ok;
 	  };
-	
+
 	  /**
 	   * ### .isNotOk(object, [message])
 	   *
@@ -7303,11 +7042,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotOk = function (val, msg) {
 	    new Assertion(val, msg).is.not.ok;
 	  };
-	
+
 	  /**
 	   * ### .equal(actual, expected, [message])
 	   *
@@ -7322,10 +7061,10 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.equal = function (act, exp, msg) {
 	    var test = new Assertion(act, msg, assert.equal);
-	
+
 	    test.assert(
 	        exp == flag(test, 'object')
 	      , 'expected #{this} to equal #{exp}'
@@ -7334,7 +7073,7 @@
 	      , act
 	    );
 	  };
-	
+
 	  /**
 	   * ### .notEqual(actual, expected, [message])
 	   *
@@ -7349,10 +7088,10 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notEqual = function (act, exp, msg) {
 	    var test = new Assertion(act, msg, assert.notEqual);
-	
+
 	    test.assert(
 	        exp != flag(test, 'object')
 	      , 'expected #{this} to not equal #{exp}'
@@ -7361,7 +7100,7 @@
 	      , act
 	    );
 	  };
-	
+
 	  /**
 	   * ### .strictEqual(actual, expected, [message])
 	   *
@@ -7376,11 +7115,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.strictEqual = function (act, exp, msg) {
 	    new Assertion(act, msg).to.equal(exp);
 	  };
-	
+
 	  /**
 	   * ### .notStrictEqual(actual, expected, [message])
 	   *
@@ -7395,11 +7134,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notStrictEqual = function (act, exp, msg) {
 	    new Assertion(act, msg).to.not.equal(exp);
 	  };
-	
+
 	  /**
 	   * ### .deepEqual(actual, expected, [message])
 	   *
@@ -7414,11 +7153,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.deepEqual = function (act, exp, msg) {
 	    new Assertion(act, msg).to.eql(exp);
 	  };
-	
+
 	  /**
 	   * ### .notDeepEqual(actual, expected, [message])
 	   *
@@ -7433,11 +7172,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notDeepEqual = function (act, exp, msg) {
 	    new Assertion(act, msg).to.not.eql(exp);
 	  };
-	
+
 	   /**
 	   * ### .isAbove(valueToCheck, valueToBeAbove, [message])
 	   *
@@ -7452,11 +7191,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isAbove = function (val, abv, msg) {
 	    new Assertion(val, msg).to.be.above(abv);
 	  };
-	
+
 	   /**
 	   * ### .isAtLeast(valueToCheck, valueToBeAtLeast, [message])
 	   *
@@ -7472,11 +7211,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isAtLeast = function (val, atlst, msg) {
 	    new Assertion(val, msg).to.be.least(atlst);
 	  };
-	
+
 	   /**
 	   * ### .isBelow(valueToCheck, valueToBeBelow, [message])
 	   *
@@ -7491,11 +7230,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isBelow = function (val, blw, msg) {
 	    new Assertion(val, msg).to.be.below(blw);
 	  };
-	
+
 	   /**
 	   * ### .isAtMost(valueToCheck, valueToBeAtMost, [message])
 	   *
@@ -7511,11 +7250,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isAtMost = function (val, atmst, msg) {
 	    new Assertion(val, msg).to.be.most(atmst);
 	  };
-	
+
 	  /**
 	   * ### .isTrue(value, [message])
 	   *
@@ -7530,11 +7269,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isTrue = function (val, msg) {
 	    new Assertion(val, msg).is['true'];
 	  };
-	
+
 	  /**
 	   * ### .isNotTrue(value, [message])
 	   *
@@ -7549,11 +7288,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotTrue = function (val, msg) {
 	    new Assertion(val, msg).to.not.equal(true);
 	  };
-	
+
 	  /**
 	   * ### .isFalse(value, [message])
 	   *
@@ -7568,11 +7307,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isFalse = function (val, msg) {
 	    new Assertion(val, msg).is['false'];
 	  };
-	
+
 	  /**
 	   * ### .isNotFalse(value, [message])
 	   *
@@ -7587,11 +7326,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotFalse = function (val, msg) {
 	    new Assertion(val, msg).to.not.equal(false);
 	  };
-	
+
 	  /**
 	   * ### .isNull(value, [message])
 	   *
@@ -7605,11 +7344,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNull = function (val, msg) {
 	    new Assertion(val, msg).to.equal(null);
 	  };
-	
+
 	  /**
 	   * ### .isNotNull(value, [message])
 	   *
@@ -7624,11 +7363,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotNull = function (val, msg) {
 	    new Assertion(val, msg).to.not.equal(null);
 	  };
-	
+
 	  /**
 	   * ### .isNaN
 	   * Asserts that value is NaN
@@ -7641,11 +7380,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNaN = function (val, msg) {
 	    new Assertion(val, msg).to.be.NaN;
 	  };
-	
+
 	  /**
 	   * ### .isNotNaN
 	   * Asserts that value is not NaN
@@ -7661,7 +7400,7 @@
 	  assert.isNotNaN = function (val, msg) {
 	    new Assertion(val, msg).not.to.be.NaN;
 	  };
-	
+
 	  /**
 	   * ### .isUndefined(value, [message])
 	   *
@@ -7676,11 +7415,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isUndefined = function (val, msg) {
 	    new Assertion(val, msg).to.equal(undefined);
 	  };
-	
+
 	  /**
 	   * ### .isDefined(value, [message])
 	   *
@@ -7695,11 +7434,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isDefined = function (val, msg) {
 	    new Assertion(val, msg).to.not.equal(undefined);
 	  };
-	
+
 	  /**
 	   * ### .isFunction(value, [message])
 	   *
@@ -7714,11 +7453,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isFunction = function (val, msg) {
 	    new Assertion(val, msg).to.be.a('function');
 	  };
-	
+
 	  /**
 	   * ### .isNotFunction(value, [message])
 	   *
@@ -7733,11 +7472,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotFunction = function (val, msg) {
 	    new Assertion(val, msg).to.not.be.a('function');
 	  };
-	
+
 	  /**
 	   * ### .isObject(value, [message])
 	   *
@@ -7753,11 +7492,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isObject = function (val, msg) {
 	    new Assertion(val, msg).to.be.a('object');
 	  };
-	
+
 	  /**
 	   * ### .isNotObject(value, [message])
 	   *
@@ -7773,11 +7512,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotObject = function (val, msg) {
 	    new Assertion(val, msg).to.not.be.a('object');
 	  };
-	
+
 	  /**
 	   * ### .isArray(value, [message])
 	   *
@@ -7792,11 +7531,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isArray = function (val, msg) {
 	    new Assertion(val, msg).to.be.an('array');
 	  };
-	
+
 	  /**
 	   * ### .isNotArray(value, [message])
 	   *
@@ -7811,11 +7550,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotArray = function (val, msg) {
 	    new Assertion(val, msg).to.not.be.an('array');
 	  };
-	
+
 	  /**
 	   * ### .isString(value, [message])
 	   *
@@ -7830,11 +7569,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isString = function (val, msg) {
 	    new Assertion(val, msg).to.be.a('string');
 	  };
-	
+
 	  /**
 	   * ### .isNotString(value, [message])
 	   *
@@ -7849,11 +7588,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotString = function (val, msg) {
 	    new Assertion(val, msg).to.not.be.a('string');
 	  };
-	
+
 	  /**
 	   * ### .isNumber(value, [message])
 	   *
@@ -7868,11 +7607,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNumber = function (val, msg) {
 	    new Assertion(val, msg).to.be.a('number');
 	  };
-	
+
 	  /**
 	   * ### .isNotNumber(value, [message])
 	   *
@@ -7887,11 +7626,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotNumber = function (val, msg) {
 	    new Assertion(val, msg).to.not.be.a('number');
 	  };
-	
+
 	  /**
 	   * ### .isBoolean(value, [message])
 	   *
@@ -7909,11 +7648,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isBoolean = function (val, msg) {
 	    new Assertion(val, msg).to.be.a('boolean');
 	  };
-	
+
 	  /**
 	   * ### .isNotBoolean(value, [message])
 	   *
@@ -7931,11 +7670,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotBoolean = function (val, msg) {
 	    new Assertion(val, msg).to.not.be.a('boolean');
 	  };
-	
+
 	  /**
 	   * ### .typeOf(value, name, [message])
 	   *
@@ -7956,11 +7695,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.typeOf = function (val, type, msg) {
 	    new Assertion(val, msg).to.be.a(type);
 	  };
-	
+
 	  /**
 	   * ### .notTypeOf(value, name, [message])
 	   *
@@ -7976,11 +7715,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notTypeOf = function (val, type, msg) {
 	    new Assertion(val, msg).to.not.be.a(type);
 	  };
-	
+
 	  /**
 	   * ### .instanceOf(object, constructor, [message])
 	   *
@@ -7998,11 +7737,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.instanceOf = function (val, type, msg) {
 	    new Assertion(val, msg).to.be.instanceOf(type);
 	  };
-	
+
 	  /**
 	   * ### .notInstanceOf(object, constructor, [message])
 	   *
@@ -8020,11 +7759,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notInstanceOf = function (val, type, msg) {
 	    new Assertion(val, msg).to.not.be.instanceOf(type);
 	  };
-	
+
 	  /**
 	   * ### .include(haystack, needle, [message])
 	   *
@@ -8041,11 +7780,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.include = function (exp, inc, msg) {
 	    new Assertion(exp, msg, assert.include).include(inc);
 	  };
-	
+
 	  /**
 	   * ### .notInclude(haystack, needle, [message])
 	   *
@@ -8062,11 +7801,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notInclude = function (exp, inc, msg) {
 	    new Assertion(exp, msg, assert.notInclude).not.include(inc);
 	  };
-	
+
 	  /**
 	   * ### .match(value, regexp, [message])
 	   *
@@ -8081,11 +7820,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.match = function (exp, re, msg) {
 	    new Assertion(exp, msg).to.match(re);
 	  };
-	
+
 	  /**
 	   * ### .notMatch(value, regexp, [message])
 	   *
@@ -8100,11 +7839,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notMatch = function (exp, re, msg) {
 	    new Assertion(exp, msg).to.not.match(re);
 	  };
-	
+
 	  /**
 	   * ### .property(object, property, [message])
 	   *
@@ -8119,11 +7858,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.property = function (obj, prop, msg) {
 	    new Assertion(obj, msg).to.have.property(prop);
 	  };
-	
+
 	  /**
 	   * ### .notProperty(object, property, [message])
 	   *
@@ -8138,11 +7877,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notProperty = function (obj, prop, msg) {
 	    new Assertion(obj, msg).to.not.have.property(prop);
 	  };
-	
+
 	  /**
 	   * ### .deepProperty(object, property, [message])
 	   *
@@ -8158,11 +7897,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.deepProperty = function (obj, prop, msg) {
 	    new Assertion(obj, msg).to.have.deep.property(prop);
 	  };
-	
+
 	  /**
 	   * ### .notDeepProperty(object, property, [message])
 	   *
@@ -8178,11 +7917,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.notDeepProperty = function (obj, prop, msg) {
 	    new Assertion(obj, msg).to.not.have.deep.property(prop);
 	  };
-	
+
 	  /**
 	   * ### .propertyVal(object, property, value, [message])
 	   *
@@ -8199,11 +7938,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.propertyVal = function (obj, prop, val, msg) {
 	    new Assertion(obj, msg).to.have.property(prop, val);
 	  };
-	
+
 	  /**
 	   * ### .propertyNotVal(object, property, value, [message])
 	   *
@@ -8220,11 +7959,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.propertyNotVal = function (obj, prop, val, msg) {
 	    new Assertion(obj, msg).to.not.have.property(prop, val);
 	  };
-	
+
 	  /**
 	   * ### .deepPropertyVal(object, property, value, [message])
 	   *
@@ -8242,11 +7981,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.deepPropertyVal = function (obj, prop, val, msg) {
 	    new Assertion(obj, msg).to.have.deep.property(prop, val);
 	  };
-	
+
 	  /**
 	   * ### .deepPropertyNotVal(object, property, value, [message])
 	   *
@@ -8264,11 +8003,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.deepPropertyNotVal = function (obj, prop, val, msg) {
 	    new Assertion(obj, msg).to.not.have.deep.property(prop, val);
 	  };
-	
+
 	  /**
 	   * ### .lengthOf(object, length, [message])
 	   *
@@ -8284,11 +8023,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.lengthOf = function (exp, len, msg) {
 	    new Assertion(exp, msg).to.have.length(len);
 	  };
-	
+
 	  /**
 	   * ### .throws(function, [constructor/string/regexp], [string/regexp], [message])
 	   *
@@ -8313,17 +8052,17 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.throws = function (fn, errt, errs, msg) {
 	    if ('string' === typeof errt || errt instanceof RegExp) {
 	      errs = errt;
 	      errt = null;
 	    }
-	
+
 	    var assertErr = new Assertion(fn, msg).to.throw(errt, errs);
 	    return flag(assertErr, 'object');
 	  };
-	
+
 	  /**
 	   * ### .doesNotThrow(function, [constructor/regexp], [message])
 	   *
@@ -8342,16 +8081,16 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.doesNotThrow = function (fn, type, msg) {
 	    if ('string' === typeof type) {
 	      msg = type;
 	      type = null;
 	    }
-	
+
 	    new Assertion(fn, msg).to.not.Throw(type);
 	  };
-	
+
 	  /**
 	   * ### .operator(val1, operator, val2, [message])
 	   *
@@ -8368,7 +8107,7 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.operator = function (val, operator, val2, msg) {
 	    var ok;
 	    switch(operator) {
@@ -8405,7 +8144,7 @@
 	      , 'expected ' + util.inspect(val) + ' to be ' + operator + ' ' + util.inspect(val2)
 	      , 'expected ' + util.inspect(val) + ' to not be ' + operator + ' ' + util.inspect(val2) );
 	  };
-	
+
 	  /**
 	   * ### .closeTo(actual, expected, delta, [message])
 	   *
@@ -8421,11 +8160,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.closeTo = function (act, exp, delta, msg) {
 	    new Assertion(act, msg).to.be.closeTo(exp, delta);
 	  };
-	
+
 	  /**
 	   * ### .approximately(actual, expected, delta, [message])
 	   *
@@ -8441,11 +8180,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.approximately = function (act, exp, delta, msg) {
 	    new Assertion(act, msg).to.be.approximately(exp, delta);
 	  };
-	
+
 	  /**
 	   * ### .sameMembers(set1, set2, [message])
 	   *
@@ -8461,11 +8200,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.sameMembers = function (set1, set2, msg) {
 	    new Assertion(set1, msg).to.have.same.members(set2);
 	  }
-	
+
 	  /**
 	   * ### .sameDeepMembers(set1, set2, [message])
 	   *
@@ -8481,11 +8220,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.sameDeepMembers = function (set1, set2, msg) {
 	    new Assertion(set1, msg).to.have.same.deep.members(set2);
 	  }
-	
+
 	  /**
 	   * ### .includeMembers(superset, subset, [message])
 	   *
@@ -8501,11 +8240,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.includeMembers = function (superset, subset, msg) {
 	    new Assertion(superset, msg).to.include.members(subset);
 	  }
-	
+
 	  /**
 	   * ### .includeDeepMembers(superset, subset, [message])
 	   *
@@ -8522,11 +8261,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.includeDeepMembers = function (superset, subset, msg) {
 	    new Assertion(superset, msg).to.include.deep.members(subset);
 	  }
-	
+
 	  /**
 	   * ### .oneOf(inList, list, [message])
 	   *
@@ -8541,11 +8280,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.oneOf = function (inList, list, msg) {
 	    new Assertion(inList, msg).to.be.oneOf(list);
 	  }
-	
+
 	   /**
 	   * ### .changes(function, object, property)
 	   *
@@ -8563,11 +8302,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.changes = function (fn, obj, prop) {
 	    new Assertion(fn).to.change(obj, prop);
 	  }
-	
+
 	   /**
 	   * ### .doesNotChange(function, object, property)
 	   *
@@ -8585,11 +8324,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.doesNotChange = function (fn, obj, prop) {
 	    new Assertion(fn).to.not.change(obj, prop);
 	  }
-	
+
 	   /**
 	   * ### .increases(function, object, property)
 	   *
@@ -8607,11 +8346,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.increases = function (fn, obj, prop) {
 	    new Assertion(fn).to.increase(obj, prop);
 	  }
-	
+
 	   /**
 	   * ### .doesNotIncrease(function, object, property)
 	   *
@@ -8629,11 +8368,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.doesNotIncrease = function (fn, obj, prop) {
 	    new Assertion(fn).to.not.increase(obj, prop);
 	  }
-	
+
 	   /**
 	   * ### .decreases(function, object, property)
 	   *
@@ -8651,11 +8390,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.decreases = function (fn, obj, prop) {
 	    new Assertion(fn).to.decrease(obj, prop);
 	  }
-	
+
 	   /**
 	   * ### .doesNotDecrease(function, object, property)
 	   *
@@ -8673,11 +8412,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.doesNotDecrease = function (fn, obj, prop) {
 	    new Assertion(fn).to.not.decrease(obj, prop);
 	  }
-	
+
 	  /*!
 	   * ### .ifError(object)
 	   *
@@ -8693,13 +8432,13 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.ifError = function (val) {
 	    if (val) {
 	      throw(val);
 	    }
 	  };
-	
+
 	  /**
 	   * ### .isExtensible(object)
 	   *
@@ -8714,11 +8453,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isExtensible = function (obj, msg) {
 	    new Assertion(obj, msg).to.be.extensible;
 	  };
-	
+
 	  /**
 	   * ### .isNotExtensible(object)
 	   *
@@ -8739,11 +8478,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotExtensible = function (obj, msg) {
 	    new Assertion(obj, msg).to.not.be.extensible;
 	  };
-	
+
 	  /**
 	   * ### .isSealed(object)
 	   *
@@ -8763,11 +8502,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isSealed = function (obj, msg) {
 	    new Assertion(obj, msg).to.be.sealed;
 	  };
-	
+
 	  /**
 	   * ### .isNotSealed(object)
 	   *
@@ -8782,11 +8521,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotSealed = function (obj, msg) {
 	    new Assertion(obj, msg).to.not.be.sealed;
 	  };
-	
+
 	  /**
 	   * ### .isFrozen(object)
 	   *
@@ -8803,11 +8542,11 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isFrozen = function (obj, msg) {
 	    new Assertion(obj, msg).to.be.frozen;
 	  };
-	
+
 	  /**
 	   * ### .isNotFrozen(object)
 	   *
@@ -8822,15 +8561,15 @@
 	   * @namespace Assert
 	   * @api public
 	   */
-	
+
 	  assert.isNotFrozen = function (obj, msg) {
 	    new Assertion(obj, msg).to.not.be.frozen;
 	  };
-	
+
 	  /*!
 	   * Aliases.
 	   */
-	
+
 	  (function alias(name, as){
 	    assert[as] = assert[name];
 	    return alias;
@@ -8853,305 +8592,273 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
+
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-	
-	var _cssParser = __webpack_require__(3);
-	
-	var _cssParser2 = _interopRequireDefault(_cssParser);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function c3Selector(root, option) {
-	  var _option = Object.assign({}, option);
-	  var _data = root;
-	  if (root instanceof Array) {
-	    for (var i = 0, I = root.length; i < I; i++) {
-	      this.push({ value: root[i], path: [i], root: root });
-	    }
-	  } else if (root !== undefined && root !== null && root !== NaN) {
-	    this.push({ value: root, path: [], root: root });
-	  }
-	
-	  this.root = root;
-	
-	  this.selectOne = function (input) {
-	    var cssTrees = _cssParser2.default.parse(input),
-	        result,
-	        tmp;
-	    for (var i = 0, I = cssTrees.length; i < I; i++) {
-	      if (tmp = combinatorFind(cssTrees[i].start, _data)) {
-	        result = new c3Selector(tmp[0], option);
-	        result[0].path = tmp[1];
-	        result[0].root = this.root;
-	        return result;
-	      }
-	    }
-	
-	    return new c3Selector(undefined, option);
-	  };
-	
-	  this.selectAll = function (input) {
-	    var cssTrees = _cssParser2.default.parse(input),
-	        result = [],
-	        tmp;
-	    for (var i = 0, I = cssTrees.length; i < I; i++) {
-	      if (tmp = combinatorFindAll(cssTrees[i].start, _data)) {
-	        result.push.apply(result, tmp);
-	      }
-	    }
-	
-	    for (var i = result.length - 1; i > -1; i--) {
-	      for (var j = i - 1; j > -1; j--) {
-	        if (result[i][1].join() == result[j][1].join()) {
-	          result.splice(i, 1);
-	          break;
-	        }
-	      }
-	    }
-	
-	    tmp = result;
-	    result = new c3Selector(tmp.map(function (rec) {
-	      return rec[0];
-	    }), option);
-	    for (var i in tmp) {
-	      result[i].path = tmp[i][1];
-	      result[i].root = this.root;
-	    }
-	
-	    return result;
-	  };
-	
-	  function combinatorFind(combinator, scope) {
-	    switch (combinator.operator) {
-	      case ' ':
-	        return spaceOperatorFind(combinator, scope);
-	      case '>':
-	        return arrowOperatorFind(combinator, scope);
-	    }
-	  }
-	
-	  function spaceOperatorFind(combinator, scope) {
-	    var result;
-	    if (result = compoundFind(combinator.next, scope)) {
-	      return result;
-	    }
-	
-	    for (var key in scope) {
-	      if (scope.hasOwnProperty(key)) {
-	        if (_typeof(scope[key]) == 'object' && scope[key]) {
-	          if (result = spaceOperatorFind(combinator, scope[key])) {
-	            return prependPathThenReturn(result, key);
+
+	var _chai = __webpack_require__(4);
+
+	describe('traversal', function () {
+
+	  describe('BREADTH_FIRST_TRAVERSAL', function () {
+	    var data = __webpack_require__(42);
+	    data.a = data;
+	    data.menu.popup.menuitem.a = data.menu;
+	    [{
+	      input: {
+	        target: data,
+	        depth: undefined
+	      },
+	      expect: 46
+	    }, {
+	      input: {
+	        target: data.menu.id,
+	        depth: undefined
+	      },
+	      expect: 1
+	    }, {
+	      input: {
+	        target: data.menu.popup.menuitem[0],
+	        depth: undefined
+	      },
+	      expect: 13
+	    }, {
+	      input: {
+	        target: data.menu.popup.menuitem[0],
+	        depth: 1
+	      },
+	      expect: 3
+	    }].forEach(function (testCase) {
+	      it('should traverse over ' + testCase.expect + ' node', function () {
+	        var result = 0;
+
+	        var _m$depth = testCase.input.depth;
+
+	        var _breadthFirstTraversal = void 0;
+
+	        var _m$buffer = [[testCase.input.target, [], []]];
+	        var _m$tmp, _m$node, _m$path, _m$parent;
+	        var _m$key, _m$newNode;
+	        while (_m$buffer.length) {
+	          _m$tmp = _m$buffer.shift();
+	          _m$node = _m$tmp[0];
+	          _m$path = _m$tmp[1];
+	          _m$parent = _m$tmp[2];
+	          if (_m$depth === undefined || _m$path.length == _m$depth) {
+	            var _m$visitor5 = void 0;
+
+	            result++;
+
+	            _m$visitor5;
 	          }
-	        } else if (result = compoundFind(combinator.next, scope[key])) {
-	          return prependPathThenReturn(result, key);
-	        }
-	      }
-	    }
-	
-	    return result;
-	  }
-	
-	  function arrowOperatorFind(combinator, scope) {
-	    var result;
-	    if (result = compoundFind(combinator.next, scope)) {
-	      return result;
-	    }
-	
-	    for (var key in scope) {
-	      if (scope.hasOwnProperty(key) && _typeof(scope[key]) != 'object') {
-	        if (result = compoundFind(combinator.next, scope[key])) {
-	          return prependPathThenReturn(result, key);
-	        }
-	      }
-	    }
-	
-	    return result;
-	  }
-	
-	  function prependPathThenReturn(result, path) {
-	    result[1].unshift(path);
-	    return result;
-	  }
-	
-	  function compoundFind(compound, scope) {
-	    var result = scope;
-	    var propName;
-	    var part;
-	    for (var i = 0, I = compound.length; i < I; i++) {
-	      part = compound[i];
-	      result = compoundFunction['get' + part.type](part, result);
-	      if (result === errorVal) {
-	        return undefined;
-	      }
-	
-	      if (part.type == 'Prop') {
-	        propName = part.ident;
-	      }
-	    }
-	
-	    if (compound.next) {
-	      if (result = combinatorFind(compound.next, result)) {
-	        if (propName) {
-	          result[1].unshift(propName);
-	        }
-	      }
-	    } else {
-	      result = [result, propName ? [propName] : []];
-	    }
-	
-	    return result;
-	  }
-	
-	  function combinatorFindAll(combinator, scope) {
-	    switch (combinator.operator) {
-	      case ' ':
-	        return spaceOperatorFindAll(combinator, scope);
-	      case '>':
-	        return arrowOperatorFindAll(combinator, scope);
-	    }
-	  }
-	
-	  function spaceOperatorFindAll(combinator, scope) {
-	    var result = [],
-	        tmp;
-	    if (tmp = compoundFindAll(combinator.next, scope)) {
-	      result.push.apply(result, tmp);
-	    }
-	
-	    for (var key in scope) {
-	      if (scope.hasOwnProperty(key)) {
-	        if (_typeof(scope[key]) == 'object' && scope[key]) {
-	          if (tmp = spaceOperatorFindAll(combinator, scope[key])) {
-	            prependPathAndMergeThenReturn(tmp, key, result);
+	          if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (_m$depth === undefined || _m$path.length < _m$depth)) {
+	            _m$parent = _m$parent.slice();
+	            _m$parent.push(_m$node);
+	            for (_m$key in _m$node) {
+	              _m$newNode = _m$node[_m$key];
+	              if (_m$parent.indexOf(_m$newNode) == -1) {
+	                _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
+	              }
+	            }
 	          }
-	        } else if (tmp = compoundFindAll(combinator.next, scope[key])) {
-	          prependPathAndMergeThenReturn(tmp, key, result);
 	        }
-	      }
-	    }
-	
-	    return result;
-	  }
-	
-	  function arrowOperatorFindAll(combinator, scope) {
-	    var result = [],
-	        tmp;
-	    if (tmp = compoundFindAll(combinator.next, scope)) {
-	      result.push.apply(result, tmp);
-	    }
-	
-	    for (var key in scope) {
-	      if (scope.hasOwnProperty(key) && _typeof(scope[key]) != 'object') {
-	        if (tmp = compoundFindAll(combinator.next, scope[key])) {
-	          prependPathAndMergeThenReturn(tmp, i, result);
+	        _breadthFirstTraversal;
+
+	        _chai.assert.strictEqual(result, testCase.expect);
+	      });
+	    });
+	  });
+
+	  describe('BREADTH_FIRST_SEARCH', function () {
+	    var data = __webpack_require__(42);
+	    data.a = data;
+	    data.menu.popup.menuitem.a = data.menu;
+	    [{
+	      input: {
+	        target: data,
+	        depth: undefined
+	      },
+	      targetVal: 'CreateNewDoc()',
+	      expect: 1
+	    }, {
+	      input: {
+	        target: data.menu.id,
+	        depth: undefined
+	      },
+	      targetVal: 'CreateNewDoc',
+	      expect: 1
+	    }, {
+	      input: {
+	        target: data.menu.popup.menuitem[0],
+	        depth: undefined
+	      },
+	      targetVal: 'New2_1',
+	      expect: 1
+	    }, {
+	      input: {
+	        target: data,
+	        depth: 1
+	      },
+	      targetVal: 'CreateNewDoc()',
+	      expect: 1
+	    }].forEach(function (testCase) {
+	      it('should traverse over ' + testCase.expect + ' node', function () {
+	        var result = 0;
+
+	        var _m$depth2 = testCase.input.depth;
+
+	        var _breadthFirstSearch = void 0;
+
+	        var _m$result;
+
+	        var _m$buffer2 = [[testCase.input.target, [], []]];
+	        var _m$tmp2, _m$node2, _m$path2, _m$parent2;
+	        var _m$key2, _m$newNode2;
+	        while (_m$buffer2.length) {
+	          _m$tmp2 = _m$buffer2.shift();
+	          _m$node2 = _m$tmp2[0];
+	          _m$path2 = _m$tmp2[1];
+	          _m$parent2 = _m$tmp2[2];
+	          if (_m$depth2 === undefined || _m$path2.length == _m$depth2) {
+	            var _m$visitor6 = void 0;
+
+	            result++;
+	            _m$visitor6 = _m$node2 == testCase.targetVal;
+
+	            if (_m$visitor6) {
+	              _m$result = [_m$node2, _m$path2, _m$parent2];
+	              break;
+	            }
+	          } else if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && (_m$depth2 === undefined || _m$path2.length < _m$depth2)) {
+	            _m$parent2 = _m$parent2.slice();
+	            _m$parent2.push(_m$node2);
+	            for (_m$key2 in _m$node2) {
+	              _m$newNode2 = _m$node2[_m$key2];
+	              if (_m$parent2.indexOf(_m$newNode2) == -1) {
+	                _m$buffer2.push([_m$newNode2, _m$path2.concat(_m$key2), _m$parent2]);
+	              }
+	            }
+	          }
 	        }
-	      }
-	    }
-	
-	    return result;
-	  }
-	
-	  function compoundFindAll(compound, scope) {
-	    var result = [];
-	    var propName;
-	    var part;
-	    var tmp;
-	    for (var i = 0, I = compound.length; i < I; i++) {
-	      part = compound[i];
-	      scope = compoundFunction['get' + part.type](part, scope);
-	      if (scope === errorVal) {
-	        return undefined;
-	      }
-	
-	      if (part.type == 'Prop') {
-	        propName = part.ident;
-	      }
-	    }
-	
-	    if (compound.next) {
-	      if (tmp = combinatorFindAll(compound.next, scope)) {
-	        if (propName) {
-	          prependPathAndMergeThenReturn(tmp, propName, result);
-	        } else {
-	          result.push.apply(result, tmp);
+
+	        _breadthFirstSearch = _m$result;
+	        var returnval = _breadthFirstSearch;
+
+	        _chai.assert.strictEqual(result, testCase.expect);
+	      });
+	    });
+	  });
+
+	  describe('DEPTH_FIRST_TRAVERSAL', function () {
+	    var data = __webpack_require__(42);
+	    data.a = data;
+	    data.menu.popup.menuitem.a = data.menu;
+	    [{
+	      input: data,
+	      expect: 46
+	    }, {
+	      input: data.menu.popup.menuitem,
+	      expect: 45
+	    }, {
+	      input: data.menu.id,
+	      expect: 1
+	    }, {
+	      input: data.menu.popup.menuitem[0],
+	      expect: 13
+	    }].forEach(function (testCase) {
+	      it('should traverse over ' + testCase.expect + ' node', function () {
+	        var result = 0;
+
+	        var _depthFirstTraversal = void 0;
+
+	        var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
+	          var _m$visitor3 = void 0;
+
+	          result++;
+
+	          _m$visitor3;
+	          if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	            var m$key, m$newNode;
+	            m$parent = m$parent.slice();
+	            m$parent.push(m$node);
+	            for (m$key in m$node) {
+	              m$newNode = m$node[m$key];
+	              if (m$parent.indexOf(m$newNode) == -1) {
+	                m$traverse(m$newNode, m$path.concat(m$key), m$parent);
+	              }
+	            }
+	          }
+	        };
+
+	        _m$traverse(testCase.input, [], []);
+	        _depthFirstTraversal;
+
+	        _chai.assert.strictEqual(result, testCase.expect);
+	      });
+	    });
+	  });
+
+	  describe('DEPTH_FIRST_SEARCH', function () {
+	    var data = __webpack_require__(42);
+	    data.a = data;
+	    data.menu.popup.menuitem.a = data.menu;
+	    [{
+	      input: data,
+	      targetVal: 'CreateNewDoc()',
+	      expect: 10
+	    }, {
+	      input: data.menu.popup.menuitem,
+	      targetVal: 'OpenDoc()',
+	      expect: 17
+	    }, {
+	      input: data.menu.id,
+	      targetVal: 'CreateNewDoc',
+	      expect: 1
+	    }, {
+	      input: data.menu.popup.menuitem[0],
+	      targetVal: 'New2_1',
+	      expect: 6
+	    }].forEach(function (testCase) {
+	      it('should traverse over ' + testCase.expect + ' node', function () {
+	        var result = 0;
+
+	        var _depthFirstSearch = void 0;
+
+	        _DEPTH_FIRST_SEARCH: {
+	          var _m$traverse2 = function m$traverse(m$node, m$path, m$parent) {
+	            var _m$visitor4 = void 0;
+
+	            result++;
+	            _m$visitor4 = m$node == testCase.targetVal;
+
+	            if (_m$visitor4) {
+	              return [m$node, m$path, m$parent];
+	            }
+
+	            if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	              var m$key, m$newNode, m$tmp;
+	              m$parent = m$parent.slice();
+	              m$parent.push(m$node);
+	              for (m$key in m$node) {
+	                m$newNode = m$node[m$key];
+	                if (m$parent.indexOf(m$newNode) == -1) {
+	                  if (m$tmp = m$traverse(m$newNode, m$path.concat(m$key), m$parent)) {
+	                    return m$tmp;
+	                  }
+	                }
+	              }
+	            }
+	          };
+
+	          _depthFirstSearch = _m$traverse2(testCase.input, [], []);
 	        }
-	      }
-	    } else {
-	      result.push([scope, propName ? [propName] : []]);
-	    }
-	
-	    return result;
-	  }
-	
-	  function prependPathAndMergeThenReturn(newResult, path, result) {
-	    for (var i = 0, I = newResult.length; i < I; i++) {
-	      newResult[i][1].unshift(path);
-	    }
-	
-	    result.push.apply(result, newResult);
-	  }
-	
-	  var errorVal = {};
-	  var compoundFunction = {
-	    getProp: function getProp(part, scope) {
-	      if (scope && (typeof scope === 'undefined' ? 'undefined' : _typeof(scope)) == 'object' && scope[part.ident] !== undefined && scope[part.ident] !== null) {
-	        return scope[part.ident];
-	      } else {
-	        return errorVal;
-	      }
-	    },
-	    getId: function getId(part, scope) {
-	      if (scope && scope.id == part.ident) {
-	        return scope;
-	      } else {
-	        return errorVal;
-	      }
-	    },
-	    getClass: function getClass(part, scope) {
-	      if (scope && (typeof scope.class == 'string' && scope.class.indexOf(part.ident) != -1 || scope.class instanceof Array && scope.class.indexOf(part.ident) != -1 || scope.constructor.name == part.ident)) {
-	        return scope;
-	      } else {
-	        return errorVal;
-	      }
-	    },
-	    getPseudoClass: function getPseudoClass(part, scope) {
-	      var pseudoClass = pseudoClassFunction[part.ident];
-	      var pseudoClassArgs = [scope].concat(part.args);
-	      if (pseudoClass.apply(this, pseudoClassArgs)) {
-	        return scope;
-	      } else {
-	        return errorVal;
-	      }
-	    }
-	  };
-	
-	  var pseudoClassFunction = Object.assign({
-	    regexpTest: function regexpTest(selectVal, val) {
-	      return typeof selectVal == 'string' && val.test(selectVal);
-	    },
-	    equal: function equal(selectVal, val) {
-	      return selectVal === val;
-	    }
-	  }, _option.pseudoClass);
-	};
-	c3Selector.prototype = [];
-	
-	function c3s(root, option) {
-	  return new c3Selector(root, option);
-	};
-	// c3s.prototype = new c3Selector();
-	c3s.getByPath = function (root, path) {
-	  var tmp = root;
-	  for (var i in path) {
-	    tmp[i];
-	  }
-	
-	  return tmp;
-	};
-	
-	module.exports = c3s;
-	// export default c3s;
+
+	        var returnval = _depthFirstSearch;
+
+	        _chai.assert.strictEqual(result, testCase.expect);
+	      });
+	    });
+	  });
+	});
 
 /***/ },
 /* 42 */
@@ -9161,6 +8868,7 @@
 		"menu": {
 			"id": "file",
 			"value": "File",
+			"test": null,
 			"popup": {
 				"menuitem": [
 					{
@@ -9224,6 +8932,1389 @@
 
 /***/ },
 /* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _util = __webpack_require__(44);
+
+	var _chai = __webpack_require__(4);
+
+	describe('traversal', function () {
+
+	  describe('getFromPath', function () {
+	    var data = __webpack_require__(45);
+	    [{
+	      input: '/menu/id',
+	      expect: 'file'
+	    }, {
+	      input: 'menu/popup/menuitem/1/value',
+	      expect: 'Open'
+	    }, {
+	      input: '/menu/popup/menuitem/3',
+	      expect: undefined
+	    }, {
+	      input: '/menu/test',
+	      expect: null
+	    }].forEach(function (testCase) {
+	      it('should return ' + testCase.expect + ' when the path is ' + testCase.input, function () {
+	        var result = (0, _util.getFromPath)(data, testCase.input);
+	        _chai.assert.strictEqual(result, testCase.expect);
+	      });
+	    });
+	  });
+
+	  describe('getFromPathArray', function () {
+	    var data = __webpack_require__(45);
+	    [{
+	      input: ['menu', 'id'],
+	      expect: 'file'
+	    }, {
+	      input: ['menu', 'popup', 'menuitem', '1', 'value'],
+	      expect: 'Open'
+	    }, {
+	      input: ['menu', 'popup', 'menuitem', '3'],
+	      expect: undefined
+	    }, {
+	      input: ['menu', 'test'],
+	      expect: null
+	    }].forEach(function (testCase) {
+	      it('should return ' + testCase.expect + ' when the path is ' + JSON.stringify(testCase.input), function () {
+	        var result = (0, _util.getFromPathArray)(data, testCase.input);
+	        _chai.assert.strictEqual(result, testCase.expect);
+	      });
+	    });
+	  });
+
+	  describe('listStruct', function () {
+	    var data = __webpack_require__(45);
+	    [{
+	      input: {
+	        name: 'data',
+	        args: [data]
+	      },
+	      expect: 46
+	    }, {
+	      input: {
+	        name: 'data.menu.popup.menuitem',
+	        args: [data.menu.popup.menuitem, 'bfs', 1]
+	      },
+	      expect: 3
+	    }, {
+	      input: {
+	        name: 'data.menu.popup.menuitem',
+	        args: [data.menu.popup.menuitem, 'dfs']
+	      },
+	      expect: 40
+	    }, {
+	      input: {
+	        name: 'data.xxxx',
+	        args: [data.xxxx]
+	      },
+	      expect: 1
+	    }].forEach(function (testCase) {
+	      it('should return ' + testCase.expect + ' when the path is ' + testCase.input.name, function () {
+	        var result = _util.listStruct.apply(this, testCase.input.args);
+	        _chai.assert.strictEqual(result.length, testCase.expect);
+	      });
+	    });
+	  });
+	});
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	exports.getFromPath = getFromPath;
+	exports.getFromPathArray = getFromPathArray;
+	exports.listStruct = listStruct;
+	function getFromPath(root, path) {
+	  var delimiter = arguments.length <= 2 || arguments[2] === undefined ? '/' : arguments[2];
+
+	  if (path.charAt(0) == delimiter) {
+	    path = path.substr(1);
+	  }
+
+	  return getFromPathArray(root, path.split(delimiter));
+	}
+
+	function getFromPathArray(root, path) {
+	  var result = root;
+
+	  var _every = void 0;
+
+	  var _m$result = true;
+
+	  var _m$i = 0,
+	      _m$I = path.length;
+	  while (_m$i < _m$I) {
+	    var _val2 = path[_m$i];
+
+	    var _m$visitor4 = void 0;
+
+	    result = result[_val2];
+	    _m$visitor4 = result !== undefined && result !== null;
+
+	    if (!_m$visitor4) {
+	      _m$result = false;
+	      break;
+	    }
+
+	    _m$i++;
+	  }
+
+	  _every = _m$result;
+	  _every;
+	  return result;
+	}
+
+	function listStruct(target) {
+	  var type = arguments.length <= 1 || arguments[1] === undefined ? 'bfs' : arguments[1];
+	  var depth = arguments[2];
+
+	  var result = [];
+	  type = type.toLowerCase();
+	  if (type == 'bfs') {
+	    var _breadthFirstTraversal2 = void 0;
+
+	    var _m$buffer = [[target, [], []]];
+	    var _m$tmp, _m$node, _m$path, _m$parent;
+	    var _m$key, _m$newNode;
+	    while (_m$buffer.length) {
+	      _m$tmp = _m$buffer.shift();
+	      _m$node = _m$tmp[0];
+	      _m$path = _m$tmp[1];
+	      _m$parent = _m$tmp[2];
+	      if (depth === undefined || _m$path.length == depth) {
+	        var _m$visitor5 = void 0;
+
+	        result.push([_m$path, _m$parent, _m$node]);
+
+	        _m$visitor5;
+	      }
+	      if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (depth === undefined || _m$path.length < depth)) {
+	        _m$parent = _m$parent.slice();
+	        _m$parent.push(_m$node);
+	        for (_m$key in _m$node) {
+	          _m$newNode = _m$node[_m$key];
+	          if (_m$parent.indexOf(_m$newNode) == -1) {
+	            _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
+	          }
+	        }
+	      }
+	    }
+
+	    _breadthFirstTraversal2;
+	  } else if (type == 'dfs') {
+	    var _depthFirstTraversal2 = void 0;
+
+	    var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
+	      var _m$visitor3 = void 0;
+
+	      result.push([m$path, m$parent, m$node]);
+
+	      _m$visitor3;
+	      if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	        var m$key, m$newNode;
+	        m$parent = m$parent.slice();
+	        m$parent.push(m$node);
+	        for (m$key in m$node) {
+	          m$newNode = m$node[m$key];
+	          if (m$parent.indexOf(m$newNode) == -1) {
+	            m$traverse(m$newNode, m$path.concat(m$key), m$parent);
+	          }
+	        }
+	      }
+	    };
+
+	    _m$traverse(target, [], []);
+
+	    _depthFirstTraversal2;
+	  }
+
+	  return result;
+	}
+
+/***/ },
+/* 45 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"menu": {
+			"id": "file",
+			"value": "File",
+			"test": null,
+			"popup": {
+				"menuitem": [
+					{
+						"value": "New",
+						"onclick": "CreateNewDoc()",
+						"menuitem2": [
+							{
+								"value": "New2_1",
+								"onclick": "CreateNewDoc2_1()"
+							},
+							{
+								"value": "Open2_1",
+								"onclick": "OpenDoc2_1()"
+							},
+							{
+								"value": "Close2_1",
+								"onclick": "CloseDoc2_1()"
+							}
+						]
+					},
+					{
+						"value": "Open",
+						"onclick": "OpenDoc()",
+						"menuitem2": [
+							{
+								"value": "New2_2",
+								"onclick": "CreateNewDoc2_2()"
+							},
+							{
+								"value": "Open2_2",
+								"onclick": "OpenDoc2_2()"
+							},
+							{
+								"value": "Close2_2",
+								"onclick": "CloseDoc2_2()"
+							}
+						]
+					},
+					{
+						"value": "Close",
+						"onclick": "CloseDoc()",
+						"menuitem2": [
+							{
+								"value": "New2_3",
+								"onclick": "CreateNewDoc2_3()"
+							},
+							{
+								"value": "Open2_3",
+								"onclick": "OpenDoc2_3()"
+							},
+							{
+								"value": "Close2_3",
+								"onclick": "CloseDoc2_3()"
+							}
+						]
+					}
+				]
+			}
+		}
+	};
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _selector = __webpack_require__(47);
+
+	var _selector2 = _interopRequireDefault(_selector);
+
+	var _chai = __webpack_require__(4);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	describe('Selector', function () {
+
+	  describe('constructor', function () {
+	    it('new Selector with testData1', function () {
+	      var data1 = __webpack_require__(45);
+	      var result = new _selector2.default(data1, {});
+	      _chai.assert.deepEqual(result.__root__, data1);
+	    });
+	    it('new Selector with testData2', function () {
+	      var data2 = __webpack_require__(48);
+	      var result = new _selector2.default(data2, {});
+	      _chai.assert.deepEqual(result.__root__, data2);
+	    });
+	  });
+
+	  describe('selectOne', function () {
+	    describe('Complex Object', function () {
+	      var data = __webpack_require__(45);
+	      [{
+	        input: 'value',
+	        expect: {
+	          path: 'menu,value',
+	          value: 'File'
+	        }
+	      }, {
+	        input: 'value abc',
+	        expect: {
+	          value: undefined
+	        }
+	      }, {
+	        input: 'popup value',
+	        expect: {
+	          path: 'menu,popup,menuitem,0,value',
+	          value: 'New'
+	        }
+	      }, {
+	        input: 'popup>value',
+	        expect: {
+	          value: undefined
+	        }
+	      }, {
+	        input: 'menuitem>value',
+	        expect: {
+	          value: undefined
+	        }
+	      }, {
+	        input: '#file',
+	        expect: {
+	          path: 'menu',
+	          value: data.menu,
+	          desc: 'menu Object'
+	        }
+	      }, {
+	        input: 'menu',
+	        expect: {
+	          path: 'menu',
+	          value: data.menu,
+	          desc: 'menu Object'
+	        }
+	      }, {
+	        input: '>menu',
+	        expect: {
+	          path: 'menu',
+	          value: data.menu,
+	          desc: 'menu Object'
+	        }
+	      }, {
+	        input: 'popup>value, >menu',
+	        expect: {
+	          path: 'menu',
+	          value: data.menu,
+	          desc: 'menu Object'
+	        }
+	      }, {
+	        input: 'popup>menuitem menuitem2 value',
+	        expect: {
+	          path: 'menu,popup,menuitem,0,menuitem2,0,value',
+	          value: 'New2_1'
+	        }
+	      }, {
+	        input: '>menu>popup>menuitem>value',
+	        expect: {
+	          value: undefined
+	        }
+	      }, {
+	        input: ':equal("CreateNewDoc()")',
+	        expect: {
+	          path: 'menu,popup,menuitem,0,onclick',
+	          value: 'CreateNewDoc()'
+	        }
+	      }, {
+	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
+	        expect: {
+	          path: 'menu,popup,menuitem,2,menuitem2,2,onclick',
+	          value: 'CloseDoc2_3()'
+	        }
+	      }].forEach(function (testCase) {
+	        it('should return ' + (testCase.expect.desc || testCase.expect.value) + ' when the select is ' + testCase.input, function () {
+	          var result = new _selector2.default(data, {}).selectOne(testCase.input);
+	          if (result[0]) {
+	            _chai.assert.equal(result[0].value, testCase.expect.value);
+	            _chai.assert.equal(result[0].path.toString(), testCase.expect.path);
+	          } else {
+	            _chai.assert.equal(result[0], testCase.expect.value);
+	          }
+	        });
+	      });
+	    });
+	    describe('Multdimensionalz Array', function () {
+	      var data = __webpack_require__(48);
+	      [{
+	        input: '>"0">"0">"0"',
+	        expect: '0,0,0'
+	      }, {
+	        input: '>"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
+	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
+	      }, {
+	        input: '>"4">"4">"4">"1" "popup">"menuitem">"0" "0">"value"',
+	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
+	      }, {
+	        input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
+	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
+	      }, {
+	        input: ':equal(5555)',
+	        expect: '2,3,3,0,1,1'
+	      }, {
+	        input: ':equal(6666)',
+	        expect: '3,4,4,3,2,2'
+	      }, {
+	        input: ':equal(9000)',
+	        expect: '4,4,4,0,2,2'
+	      }, {
+	        input: ':equal(22)',
+	        expect: '0,3,0,1'
+	      }, {
+	        input: '>:equal(1000)',
+	        expect: '6'
+	      }, {
+	        input: 'popup value',
+	        expect: '4,4,4,1,menu,popup,menuitem,0,value'
+	      }, {
+	        input: 'popup>value',
+	        expect: undefined
+	      }, {
+	        input: ':equal("CreateNewDoc()")',
+	        expect: '0,3,4,onclick'
+	      }, {
+	        input: ':equal("CreateNewDoc2_1()")',
+	        expect: '0,3,4,menuitem2,0,onclick'
+	      }, {
+	        input: 'popup>menuitem menuitem2 value',
+	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
+	      }, {
+	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
+	        expect: '4,4,4,1,menu,popup,menuitem,2,menuitem2,2,onclick'
+	      }].forEach(function (testCase) {
+	        it('should return ' + testCase.expect + ' when the select is ' + testCase.input, function () {
+	          var result = new _selector2.default(data, {}).selectOne(testCase.input);
+	          if (result[0]) {
+	            _chai.assert.equal(result[0].path.toString(), testCase.expect);
+	          } else {
+	            _chai.assert.equal(result[0], testCase.expect);
+	          }
+	        });
+	      });
+	    });
+	  });
+
+	  describe('selectAll', function () {
+	    describe('Complex Object', function () {
+	      var data = __webpack_require__(45);
+	      [{
+	        input: 'value',
+	        expect: 13
+	      }, {
+	        input: 'popup value',
+	        expect: 12
+	      }, {
+	        input: 'popup>value',
+	        expect: 0
+	      }, {
+	        input: 'menuitem2 value',
+	        expect: 9
+	      }, {
+	        input: '#file',
+	        expect: 1
+	      }, {
+	        input: 'menu',
+	        expect: 1
+	      }, {
+	        input: '>menu',
+	        expect: 1
+	      }, {
+	        input: 'popup value, >menu',
+	        expect: 13
+	      }, {
+	        input: ':equal("CreateNewDoc()")',
+	        expect: 1
+	      }, {
+	        input: ':equal("CreateNewDoc2_1()")',
+	        expect: 1
+	      }, {
+	        input: 'popup>menuitem menuitem2 value',
+	        expect: 9
+	      }, {
+	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
+	        expect: 1
+	      }, {
+	        input: ':regexpTest(/2_/)',
+	        expect: 18
+	      }, {
+	        input: ':regexpTest(/2_/), :regexpTest(/2_/)',
+	        expect: 18
+	      }, {
+	        input: '"0", "1"',
+	        expect: 8
+	      }].forEach(function (testCase) {
+	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
+	          var result = new _selector2.default(data).selectAll(testCase.input);
+	          _chai.assert.equal(result.length, testCase.expect);
+	        });
+	      });
+	    });
+	    describe('Multdimensional Array', function () {
+	      var data = __webpack_require__(48);
+	      [{
+	        input: '>"0">"0">"0"',
+	        expect: 1
+	      }, {
+	        input: '"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
+	        expect: 1
+	      }, {
+	        input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
+	        expect: 3
+	      }, {
+	        input: ':equal(5555)',
+	        expect: 2
+	      }, {
+	        input: ':equal(22)',
+	        expect: 1
+	      }, {
+	        input: ':equal(1), :equal(5)',
+	        expect: 34
+	      }, {
+	        input: 'popup value',
+	        expect: 12
+	      }, {
+	        input: 'popup>value',
+	        expect: 0
+	      }, {
+	        input: ':equal("CreateNewDoc()")',
+	        expect: 2
+	      }, {
+	        input: ':equal("CreateNewDoc2_1()")',
+	        expect: 2
+	      }, {
+	        input: 'popup>menuitem menuitem2 value',
+	        expect: 9
+	      }, {
+	        input: ':regexpTest(/2_/)',
+	        expect: 36
+	      }].forEach(function (testCase) {
+	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
+	          var result = new _selector2.default(data).selectAll(testCase.input);
+	          _chai.assert.equal(result.length, testCase.expect);
+	        });
+	      });
+	    });
+	  });
+
+	  describe('pseudoClass', function () {
+	    describe('defined', function () {
+	      var data = __webpack_require__(48);
+	      [{
+	        input: {
+	          select: ':gt(2000)',
+	          option: {
+	            pseudoClass: {
+	              gt: function gt(v1, path, parent, v2) {
+	                return v1 > v2;
+	              }
+	            }
+	          }
+	        },
+	        expect: 5
+	      }, {
+	        input: {
+	          select: ':lt(1)',
+	          option: {
+	            pseudoClass: {
+	              lt: function lt(v1, path, parent, v2) {
+	                return v1 < v2;
+	              }
+	            }
+	          }
+	        },
+	        expect: 13
+	      }].forEach(function (testCase) {
+	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
+	          var result = new _selector2.default(data, testCase.input.option);
+	          result = result.selectAll(testCase.input.select);
+	          _chai.assert.equal(result.length, testCase.expect);
+	        });
+	      });
+	    });
+
+	    describe('link', function () {
+	      var data = __webpack_require__(48);
+	      [{
+	        input: {
+	          select: [':gt(2000)', ':lt(6000)'],
+	          option: {
+	            pseudoClass: {
+	              gt: function gt(v1, path, parent, v2) {
+	                return v1 > v2;
+	              },
+	              lt: function lt(v1, path, parent, v2) {
+	                return v1 < v2;
+	              }
+	            }
+	          }
+	        },
+	        expect: 2
+	      }].forEach(function (testCase) {
+	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
+	          var result = new _selector2.default(data, testCase.input.option);
+	          result = result.selectAll(testCase.input.select[0]);
+	          result = result.selectAll(testCase.input.select[1]);
+	          _chai.assert.equal(result.length, testCase.expect);
+	        });
+	      });
+	    });
+	  });
+
+	  describe('getFromPath', function () {
+	    var data = __webpack_require__(45);
+	    it('should get 2 node when the select \'"0", "1"\' and get path \'menuitem2 0\'', function () {
+	      var result = new _selector2.default(data).selectAll('"0", "1"').getFromPath('/menuitem2/0');
+	      _chai.assert.equal(result.length, 2);
+	      _chai.assert.equal(result[0].path.length, 6);
+	      _chai.assert.equal(result[1].path.length, 6);
+	    });
+	  });
+
+	  describe('resetRoot', function () {
+	    var data = __webpack_require__(45);
+	    it('should reset root property', function () {
+	      var result = new _selector2.default(data).selectAll('"0", "1"').resetRoot();
+	      _chai.assert.equal(result.__root__, result.__data__);
+	      (0, _chai.assert)(result.every(function (rec) {
+	        return rec.path.length == 0 && rec.root == result.__data__;
+	      }));
+	    });
+	  });
+	});
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _cssParser = __webpack_require__(3);
+
+	var _cssParser2 = _interopRequireDefault(_cssParser);
+
+	var _util = __webpack_require__(44);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// c3Selector(root, {
+	//   updateIndexInConstructor:true,
+	//   _index:{},
+	//   pseudoClass:{}
+	// })
+	// c3Selector.selectOne
+	// c3Selector.selectAll
+	// c3Selector.getFromPath(path)
+
+	var Selector = function (_Array) {
+	  _inherits(Selector, _Array);
+
+	  function Selector(root, option) {
+	    _classCallCheck(this, Selector);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Selector).call(this));
+
+	    var self = _this;
+	    Object.assign(_this,
+	    // default public property
+	    {
+	      selectOne: function selectOne(input) {
+	        var result = new Selector(undefined, self.__option__);
+	        var cssRules = _cssParser2.default.parse(input);
+	        var target;
+
+	        var _some = void 0;
+
+	        var _m$result = false;
+
+	        var _m$i = 0,
+	            _m$I = cssRules.length;
+	        while (_m$i < _m$I) {
+	          var _m$visitor25 = void 0;
+
+	          target = findFirstMatchNode(cssRules[_m$i].start, self.__data__);
+	          _m$visitor25 = target !== errorValue;
+
+	          if (_m$visitor25) {
+	            _m$result = true;
+	            break;
+	          }
+
+	          _m$i++;
+	        }
+
+	        _some = _m$result;
+	        if (_some) {
+	          result[0] = {
+	            value: target[0],
+	            path: target[1],
+	            root: self.__root__
+	          };
+	          result.__data__ = target[0];
+	          result.__root__ = self.__root__;
+	        }
+
+	        return result;
+	      },
+	      selectAll: function selectAll(input) {
+	        var result = new Selector(undefined, self.__option__);
+	        var cssRules = _cssParser2.default.parse(input);
+	        var targetList = [],
+	            tmp;
+
+	        var _forEach = void 0;
+
+	        var _m$i11 = 0,
+	            _m$I11 = cssRules.length;
+	        while (_m$i11 < _m$I11) {
+	          var _m$visitor26 = void 0;
+
+	          var _m$input5 = findMatchNode(cssRules[_m$i11].start, self.__data__);
+
+	          var _filter4 = void 0;
+
+	          var _m$filtered4 = [];
+
+	          var _m$i25 = 0,
+	              _m$I25 = _m$input5.length,
+	              _m$val4 = void 0;
+	          while (_m$i25 < _m$I25) {
+	            _m$val4 = _m$input5[_m$i25];
+
+	            var _m$visitor27 = void 0;
+
+	            var _every6 = void 0;
+
+	            var _m$result14 = true;
+
+	            var _m$i26 = 0,
+	                _m$I26 = targetList.length;
+	            while (_m$i26 < _m$I26) {
+	              var _node4 = targetList[_m$i26];
+
+	              var _m$visitor28 = void 0;
+
+	              if (_m$val4[0] !== _node4[0]) {
+	                var _m$array9 = _m$val4[1];
+	                var _m$array10 = _node4[1];
+
+	                var _compareTwoArray5 = void 0;
+
+	                var _m$result15 = true;
+
+	                if (_m$array9.length == _m$array10.length) {
+	                  var _m$i10 = 0,
+	                      _m$I10 = _m$array9.length;
+	                  while (_m$i10 < _m$I10) {
+	                    if (_m$array9[_m$i10] !== _m$array10[_m$i10]) {
+	                      _m$result15 = false;
+	                      break;
+	                    }
+
+	                    _m$i10++;
+	                  }
+	                } else {
+	                  _m$result15 = false;
+	                }
+
+	                _compareTwoArray5 = _m$result15;
+
+	                if (!_compareTwoArray5) {
+	                  _m$visitor28 = true;
+	                }
+	              }
+
+	              if (!_m$visitor28) {
+	                _m$result14 = false;
+	                break;
+	              }
+
+	              _m$i26++;
+	            }
+
+	            _every6 = _m$result14;
+	            _m$visitor27 = _every6;
+	            if (_m$visitor27) {
+	              _m$filtered4.push(_m$val4);
+	            }
+
+	            _m$i25++;
+	          }
+
+	          _filter4 = _m$filtered4;
+
+	          tmp = _filter4;
+	          Array.prototype.push.apply(targetList, tmp);
+
+	          _m$visitor26;
+	          _m$i11++;
+	        }
+	        _forEach;
+	        if (targetList.length) {
+	          var _forEach10 = void 0;
+
+	          var _m$i27 = 0,
+	              _m$I27 = targetList.length;while (_m$i27 < _m$I27) {
+	            var _nodeInfo3 = targetList[_m$i27];
+
+	            var _m$visitor29 = void 0;
+
+	            result[_m$i27] = {
+	              value: _nodeInfo3[0],
+	              path: _nodeInfo3[1],
+	              root: self.__root__
+	            };
+	            _m$visitor29;_m$i27++;
+	          }
+	          _forEach10;
+
+	          var _map3 = void 0;
+
+	          var _m$length3 = targetList.length;
+	          var _m$result16 = new Array(_m$length3);
+
+	          var _m$i28 = 0,
+	              _m$I28 = targetList.length;
+	          while (_m$i28 < _m$I28) {
+	            _m$result16[_m$i28] = targetList[_m$i28][0];
+	            _m$i28++;
+	          }
+
+	          _map3 = _m$result16;
+	          result.__data__ = _map3;
+	          result.__root__ = self.__root__;
+	        }
+
+	        return result;
+	      },
+	      getFromPath: function getFromPath(path) {
+	        var delimiter = arguments.length <= 1 || arguments[1] === undefined ? '/' : arguments[1];
+
+	        var result = new Selector(self.__root__, self.__option__);
+	        if (path.charAt(0) == delimiter) {
+	          path = path.substr(1);
+	        }
+
+	        path = path.split(delimiter);
+
+	        var _map2 = void 0;
+
+	        var _m$length2 = self.length;var _m$result10 = new Array(_m$length2);var _m$i16 = 0,
+	            _m$I16 = self.length;while (_m$i16 < _m$I16) {
+	          var _nodeInfo4 = self[_m$i16];
+
+	          var _m$visitor30 = void 0;
+
+	          _m$visitor30 = {
+	            value: (0, _util.getFromPathArray)(_nodeInfo4.value, path, delimiter),
+	            path: _nodeInfo4.path.concat(path),
+	            root: _nodeInfo4.root
+	          };
+	          _m$result10[_m$i16] = _m$visitor30;_m$i16++;
+	        }_map2 = _m$result10;
+	        var _m$input4 = _map2;
+
+	        var _filter3 = void 0;
+
+	        var _m$filtered3 = [];var _m$i15 = 0,
+	            _m$I15 = _m$input4.length,
+	            _m$val3 = void 0;while (_m$i15 < _m$I15) {
+	          _m$val3 = _m$input4[_m$i15];if (_m$val3.value) {
+	            _m$filtered3.push(_m$val3);
+	          }_m$i15++;
+	        }_filter3 = _m$filtered3;
+	        var _m$input3 = _filter3;
+
+	        var _forEach3 = void 0;
+
+	        var _m$i14 = 0,
+	            _m$I14 = _m$input3.length;while (_m$i14 < _m$I14) {
+	          result[_m$i14] = _m$input3[_m$i14];_m$i14++;
+	        }_forEach3;
+	        return result;
+	      },
+	      resetRoot: function resetRoot() {
+	        var result = new Selector(self.__data__, self.__option__);
+
+	        var _forEach4 = void 0;
+
+	        var _m$i17 = 0,
+	            _m$I17 = self.length;while (_m$i17 < _m$I17) {
+	          var _m$visitor31 = void 0;
+
+	          var _tmp = Object.assign({}, self[_m$i17]);
+	          _tmp.path = [];
+	          _tmp.root = self.__data__;
+	          result[_m$i17] = _tmp;
+	          _m$visitor31;_m$i17++;
+	        }_forEach4;
+	        return result;
+	      },
+
+	      pseudoClass: {
+	        regexpTest: function regexpTest(node, path, parent, val) {
+	          return val.test(node);
+	        },
+	        equal: function equal(node, path, parent, val) {
+	          return val === node;
+	        }
+	      }
+	    },
+	    // default private property
+	    {
+	      __root__: root,
+	      __data__: root,
+	      __option__: option
+	    }, option);
+	    if (root) {
+	      _get(Object.getPrototypeOf(Selector.prototype), 'push', _this).call(_this, { value: root, path: [], root: root });
+	    }
+
+	    var errorValue = {};
+	    // private method -----------------------------------------------------------------
+	    function findFirstMatchNode(combinator, node) {
+	      var result;
+	      if (combinator.operator == ' ') {
+	        var _depthFirstSearch2 = void 0;
+
+	        _DEPTH_FIRST_SEARCH: {
+	          var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
+	            var _m$visitor14 = void 0;
+
+	            var _m$compound2 = combinator.next;
+
+	            var _fatchCompoundSelector2 = void 0;
+
+	            _FATCH_COMPOUND_SELECTOR: {
+	              if (_m$compound2.element === undefined || m$path[m$path.length - 1] === _m$compound2.element.ident) {
+	                if (_m$compound2.attributes === undefined || matchAttribute(_m$compound2.attributes, m$node)) {
+	                  if (_m$compound2.pseudoClasses !== undefined) {
+	                    var _m$tmp3 = findPesudoClass(_m$compound2.pseudoClasses, m$node, m$path, m$parent);
+	                    if (_m$tmp3) {
+	                      _fatchCompoundSelector2 = _m$tmp3;
+	                      break _FATCH_COMPOUND_SELECTOR;
+	                    }
+	                  } else {
+	                    _fatchCompoundSelector2 = [m$node, m$path, m$parent];
+	                    break _FATCH_COMPOUND_SELECTOR;
+	                  }
+	                }
+	              }
+
+	              _fatchCompoundSelector2 = errorValue;
+	            }
+
+	            result = _fatchCompoundSelector2;
+	            if (result !== errorValue) {
+	              var _m$combinator9 = combinator.next.next;
+
+	              var _fetchNextSelector9 = void 0;
+
+	              _FETCH_NEXT_SELECTOR: {
+	                if (_m$combinator9) {
+	                  if (_typeof(result[0]) == 'object') {
+	                    var _m$tmp4 = findFirstMatchNode(_m$combinator9, result[0]);
+	                    if (_m$tmp4 !== errorValue) {
+	                      result[0] = _m$tmp4[0];
+	                      Array.prototype.push.apply(result[1], _m$tmp4[1]);
+	                      Array.prototype.push.apply(result[2], _m$tmp4[2]);
+	                      _fetchNextSelector9 = result;
+	                      break _FETCH_NEXT_SELECTOR;
+	                    }
+	                  }
+
+	                  _fetchNextSelector9 = errorValue;
+	                  break _FETCH_NEXT_SELECTOR;
+	                }
+
+	                _fetchNextSelector9 = result;
+	              }
+
+	              result = _fetchNextSelector9;
+	              if (result !== errorValue) {
+	                _m$visitor14 = true;
+	              }
+	            }
+
+	            if (_m$visitor14) {
+	              return [m$node, m$path, m$parent];
+	            }
+
+	            if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	              var m$key, m$newNode, m$tmp;
+	              m$parent = m$parent.slice();
+	              m$parent.push(m$node);
+	              for (m$key in m$node) {
+	                m$newNode = m$node[m$key];
+	                if (m$parent.indexOf(m$newNode) == -1) {
+	                  if (m$tmp = m$traverse(m$newNode, m$path.concat(m$key), m$parent)) {
+	                    return m$tmp;
+	                  }
+	                }
+	              }
+	            }
+	          };
+
+	          _depthFirstSearch2 = _m$traverse(node, [], []);
+	        }
+
+	        _depthFirstSearch2;
+	      } else if (combinator.operator == '>') {
+	        var _m$depth3 = 1;
+
+	        var _breadthFirstSearch2 = void 0;
+
+	        var _m$result11;
+
+	        var _m$buffer = [[node, [], []]];
+	        var _m$tmp9, _m$node, _m$path, _m$parent;
+	        var _m$key, _m$newNode;
+	        while (_m$buffer.length) {
+	          _m$tmp9 = _m$buffer.shift();
+	          _m$node = _m$tmp9[0];
+	          _m$path = _m$tmp9[1];
+	          _m$parent = _m$tmp9[2];
+	          if (_m$depth3 === undefined || _m$path.length == _m$depth3) {
+	            var _m$visitor32 = void 0;
+
+	            var _m$compound9 = combinator.next;
+
+	            var _fatchCompoundSelector9 = void 0;
+
+	            _FATCH_COMPOUND_SELECTOR2: {
+	              if (_m$compound9.element === undefined || _m$path[_m$path.length - 1] === _m$compound9.element.ident) {
+	                if (_m$compound9.attributes === undefined || matchAttribute(_m$compound9.attributes, _m$node)) {
+	                  if (_m$compound9.pseudoClasses !== undefined) {
+	                    var _m$tmp7 = findPesudoClass(_m$compound9.pseudoClasses, _m$node, _m$path, _m$parent);if (_m$tmp7) {
+	                      _fatchCompoundSelector9 = _m$tmp7;
+	                      break _FATCH_COMPOUND_SELECTOR2;
+	                    }
+	                  } else {
+	                    _fatchCompoundSelector9 = [_m$node, _m$path, _m$parent];
+	                    break _FATCH_COMPOUND_SELECTOR2;
+	                  }
+	                }
+	              }_fatchCompoundSelector9 = errorValue;
+	            }
+
+	            result = _fatchCompoundSelector9;
+	            if (result !== errorValue) {
+	              var _m$combinator10 = combinator.next.next;
+
+	              var _fetchNextSelector10 = void 0;
+
+	              _FETCH_NEXT_SELECTOR2: {
+	                if (_m$combinator10) {
+	                  if (_typeof(result[0]) == 'object') {
+	                    var _m$tmp8 = findFirstMatchNode(_m$combinator10, result[0]);if (_m$tmp8 !== errorValue) {
+	                      result[0] = _m$tmp8[0];Array.prototype.push.apply(result[1], _m$tmp8[1]);Array.prototype.push.apply(result[2], _m$tmp8[2]);_fetchNextSelector10 = result;
+	                      break _FETCH_NEXT_SELECTOR2;
+	                    }
+	                  }_fetchNextSelector10 = errorValue;
+	                  break _FETCH_NEXT_SELECTOR2;
+	                }_fetchNextSelector10 = result;
+	              }
+
+	              result = _fetchNextSelector10;
+	              if (result !== errorValue) {
+	                _m$visitor32 = true;
+	              }
+	            }
+
+	            if (_m$visitor32) {
+	              _m$result11 = [_m$node, _m$path, _m$parent];
+	              break;
+	            }
+	          } else if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (_m$depth3 === undefined || _m$path.length < _m$depth3)) {
+	            _m$parent = _m$parent.slice();
+	            _m$parent.push(_m$node);
+	            for (_m$key in _m$node) {
+	              _m$newNode = _m$node[_m$key];
+	              if (_m$parent.indexOf(_m$newNode) == -1) {
+	                _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
+	              }
+	            }
+	          }
+	        }
+
+	        _breadthFirstSearch2 = _m$result11;
+
+	        _breadthFirstSearch2;
+	      }
+
+	      return result;
+	    }
+
+	    function findMatchNode(combinator, node) {
+	      var result = [],
+	          tmp;
+	      if (combinator.operator == ' ') {
+	        var _depthFirstTraversal2 = void 0;
+
+	        var _m$traverse2 = function m$traverse(m$node, m$path, m$parent) {
+	          var _m$visitor18 = void 0;
+
+	          var _m$compound6 = combinator.next;
+
+	          var _fatchCompoundSelector6 = void 0;
+
+	          _FATCH_COMPOUND_SELECTOR3: {
+	            if (_m$compound6.element === undefined || m$path[m$path.length - 1] === _m$compound6.element.ident) {
+	              if (_m$compound6.attributes === undefined || matchAttribute(_m$compound6.attributes, m$node)) {
+	                if (_m$compound6.pseudoClasses !== undefined) {
+	                  var _m$tmp12 = findPesudoClass(_m$compound6.pseudoClasses, m$node, m$path, m$parent);if (_m$tmp12) {
+	                    _fatchCompoundSelector6 = _m$tmp12;
+	                    break _FATCH_COMPOUND_SELECTOR3;
+	                  }
+	                } else {
+	                  _fatchCompoundSelector6 = [m$node, m$path, m$parent];
+	                  break _FATCH_COMPOUND_SELECTOR3;
+	                }
+	              }
+	            }_fatchCompoundSelector6 = errorValue;
+	          }
+
+	          tmp = _fatchCompoundSelector6;
+	          if (tmp !== errorValue) {
+	            var _m$combinator11 = combinator.next.next;
+
+	            var _fetchNextSelector11 = void 0;
+
+	            _FETCH_NEXT_SELECTOR3: {
+	              if (_m$combinator11) {
+	                if (_typeof(tmp[0]) == 'object') {
+	                  var _m$tmp13 = findMatchNode(_m$combinator11, tmp[0]);
+	                  if (_m$tmp13 !== errorValue) {
+	                    var _forEach11 = void 0;
+
+	                    var _m$i29 = 0,
+	                        _m$I29 = _m$tmp13.length;while (_m$i29 < _m$I29) {
+	                      var _rec6 = _m$tmp13[_m$i29];
+
+	                      var _m$visitor33 = void 0;
+
+	                      Array.prototype.unshift.apply(_rec6[1], tmp[1]);
+	                      Array.prototype.unshift.apply(_rec6[2], tmp[2]);
+	                      _m$visitor33;_m$i29++;
+	                    }
+	                    _forEach11;
+	                    _fetchNextSelector11 = _m$tmp13;
+	                    break _FETCH_NEXT_SELECTOR3;
+	                  }
+	                }
+
+	                _fetchNextSelector11 = errorValue;
+	                break _FETCH_NEXT_SELECTOR3;
+	              }
+
+	              _fetchNextSelector11 = [tmp];
+	            }
+
+	            tmp = _fetchNextSelector11;
+	            if (tmp !== errorValue) {
+	              Array.prototype.push.apply(result, tmp);
+	            }
+	          }
+
+	          _m$visitor18;
+	          if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	            var m$key, m$newNode;
+	            m$parent = m$parent.slice();
+	            m$parent.push(m$node);
+	            for (m$key in m$node) {
+	              m$newNode = m$node[m$key];
+	              if (m$parent.indexOf(m$newNode) == -1) {
+	                m$traverse(m$newNode, m$path.concat(m$key), m$parent);
+	              }
+	            }
+	          }
+	        };
+
+	        _m$traverse2(node, [], []);
+
+	        _depthFirstTraversal2;
+	      } else if (combinator.operator == '>') {
+	        var _m$depth4 = 1;
+
+	        var _breadthFirstTraversal2 = void 0;
+
+	        var _m$buffer2 = [[node, [], []]];
+	        var _m$tmp18, _m$node2, _m$path2, _m$parent2;
+	        var _m$key2, _m$newNode2;
+	        while (_m$buffer2.length) {
+	          _m$tmp18 = _m$buffer2.shift();
+	          _m$node2 = _m$tmp18[0];
+	          _m$path2 = _m$tmp18[1];
+	          _m$parent2 = _m$tmp18[2];
+	          if (_m$depth4 === undefined || _m$path2.length == _m$depth4) {
+	            var _m$visitor34 = void 0;
+
+	            var _m$compound10 = combinator.next;
+
+	            var _fatchCompoundSelector10 = void 0;
+
+	            _FATCH_COMPOUND_SELECTOR4: {
+	              if (_m$compound10.element === undefined || _m$path2[_m$path2.length - 1] === _m$compound10.element.ident) {
+	                if (_m$compound10.attributes === undefined || matchAttribute(_m$compound10.attributes, _m$node2)) {
+	                  if (_m$compound10.pseudoClasses !== undefined) {
+	                    var _m$tmp16 = findPesudoClass(_m$compound10.pseudoClasses, _m$node2, _m$path2, _m$parent2);if (_m$tmp16) {
+	                      _fatchCompoundSelector10 = _m$tmp16;
+	                      break _FATCH_COMPOUND_SELECTOR4;
+	                    }
+	                  } else {
+	                    _fatchCompoundSelector10 = [_m$node2, _m$path2, _m$parent2];
+	                    break _FATCH_COMPOUND_SELECTOR4;
+	                  }
+	                }
+	              }_fatchCompoundSelector10 = errorValue;
+	            }
+
+	            tmp = _fatchCompoundSelector10;
+	            if (tmp !== errorValue) {
+	              var _m$combinator12 = combinator.next.next;
+
+	              var _fetchNextSelector12 = void 0;
+
+	              _FETCH_NEXT_SELECTOR4: {
+	                if (_m$combinator12) {
+	                  if (_typeof(tmp[0]) == 'object') {
+	                    var _m$tmp17 = findMatchNode(_m$combinator12, tmp[0]);if (_m$tmp17 !== errorValue) {
+	                      var _forEach12 = void 0;
+
+	                      var _m$i30 = 0,
+	                          _m$I30 = _m$tmp17.length;while (_m$i30 < _m$I30) {
+	                        var _rec7 = _m$tmp17[_m$i30];
+
+	                        var _m$visitor35 = void 0;
+
+	                        Array.prototype.unshift.apply(_rec7[1], tmp[1]);Array.prototype.unshift.apply(_rec7[2], tmp[2]);_m$visitor35;_m$i30++;
+	                      }_forEach12;_fetchNextSelector12 = _m$tmp17;
+	                      break _FETCH_NEXT_SELECTOR4;
+	                    }
+	                  }_fetchNextSelector12 = errorValue;
+	                  break _FETCH_NEXT_SELECTOR4;
+	                }_fetchNextSelector12 = [tmp];
+	              }
+
+	              tmp = _fetchNextSelector12;
+	              if (tmp !== errorValue) {
+	                Array.prototype.push.apply(result, tmp);
+	              }
+	            }
+
+	            _m$visitor34;
+	          }
+	          if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && (_m$depth4 === undefined || _m$path2.length < _m$depth4)) {
+	            _m$parent2 = _m$parent2.slice();
+	            _m$parent2.push(_m$node2);
+	            for (_m$key2 in _m$node2) {
+	              _m$newNode2 = _m$node2[_m$key2];
+	              if (_m$parent2.indexOf(_m$newNode2) == -1) {
+	                _m$buffer2.push([_m$newNode2, _m$path2.concat(_m$key2), _m$parent2]);
+	              }
+	            }
+	          }
+	        }
+
+	        _breadthFirstTraversal2;
+	      }
+
+	      return result;
+	    }
+
+	    function matchAttribute(attrSelectors, node) {
+	      var _every4 = void 0;
+
+	      var _m$result12 = true;var _m$i23 = 0,
+	          _m$I23 = attrSelectors.length;while (_m$i23 < _m$I23) {
+	        var _attrSelector2 = attrSelectors[_m$i23];
+
+	        var _m$visitor36 = void 0;
+
+	        _M$VISITOR16: {
+	          if (_attrSelector2.type == 'Id') {
+	            _m$visitor36 = node && (node.ID == _attrSelector2.ident || node.Id == _attrSelector2.ident || node.id == _attrSelector2.ident);
+	            break _M$VISITOR16;
+	          } else if (_attrSelector2.type == 'Class') {
+	            _m$visitor36 = node && scope.constructor.name == _attrSelector2.ident;
+	            break _M$VISITOR16;
+	          }
+
+	          _m$visitor36 = false;
+	        }
+
+	        if (!_m$visitor36) {
+	          _m$result12 = false;break;
+	        }_m$i23++;
+	      }_every4 = _m$result12;
+
+	      return _every4;
+	    }
+
+	    function findPesudoClass(pseudoClasses, node, path, parent) {
+	      var result, tmp;
+
+	      var _every5 = void 0;
+
+	      var _m$result13 = true;var _m$i24 = 0,
+	          _m$I24 = pseudoClasses.length;while (_m$i24 < _m$I24) {
+	        var _pseudoClass2 = pseudoClasses[_m$i24];
+
+	        var _m$visitor37 = void 0;
+
+	        _M$VISITOR17: {
+	          var _pseudoClassMethod = self.pseudoClass[_pseudoClass2.ident];
+	          var _pseudoClassArgs = [node, path, parent];
+	          if (_pseudoClass2.args) {
+	            _pseudoClassArgs = _pseudoClassArgs.concat(_pseudoClass2.args);
+	          }
+
+	          var _tmp2 = _pseudoClassMethod.apply(self, _pseudoClassArgs);
+	          if (!_tmp2) {
+	            _m$visitor37 = false;
+	            break _M$VISITOR17;
+	          } else if (_tmp2 instanceof Array) {
+	            node = _tmp2[0];
+	            path = _tmp2[1];
+	            parent = _tmp2[2];
+	          }
+
+	          _m$visitor37 = true;
+	        }
+
+	        if (!_m$visitor37) {
+	          _m$result13 = false;break;
+	        }_m$i24++;
+	      }_every5 = _m$result13;
+	      result = _every5;
+
+	      return result ? [node, path, parent] : false;
+	    }
+	    return _this;
+	  }
+
+	  return Selector;
+	}(Array);
+
+	exports.default = Selector;
+	;
+
+/***/ },
+/* 48 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -9639,4 +10730,3 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=c3s-parser.test.js.map

@@ -11,7 +11,7 @@ const config = {
     //node_modules: ["web_modules", "node_modules"]  (Default Settings)
   },
   //Render source-map file for final build
-  devtool: 'source-map',
+  // devtool: 'source-map',
   // output config
   output: {
     path: buildPath,    //Path of output file
@@ -29,14 +29,24 @@ const config = {
     // new webpack.NoErrorsPlugin(),
   ],
 
+
+
   module: {
+    preLoaders: [
+        { 
+          test: /\.js$/, 
+          loader: path.join(__dirname, 'macro-loader.js'),
+          exclude: [nodeModulesPath]
+        }
+    ],
     loaders: [
       {
         test: /\.js$/, // All .js files
         loader: 'babel-loader', //react-hot is like browser sync and babel loads jsx and es6-7
         exclude: [nodeModulesPath],
         query: {
-          presets: ['es2015']
+          presets: ['es2015'],
+          plugins: ["macros"]
         }
       },
       {

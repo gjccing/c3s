@@ -21,8 +21,21 @@
     }
   };
   
-  function Compound(elements) {
-    this.push.apply(this, elements);
+  function Compound(element, attributes, pseudoClasses) {
+    if (element) {
+      this.element = element;
+      this.push(element);
+    }
+    
+    if (attributes && attributes.length) {
+      this.attributes = attributes;
+      this.push.apply(this, attributes);
+    }
+
+    if (pseudoClasses && pseudoClasses.length) {
+      this.pseudoClasses = pseudoClasses;
+      this.push.apply(this, pseudoClasses);
+    }
   }
   Compound.prototype = [];
   Compound.prototype.toString = function () {
@@ -122,23 +135,14 @@ combinator
   }
   
 compound_selector
-  = pseudo_class: pseudo_class {
-    return new Compound([pseudo_class]);
+  = pseudo_class: pseudo_class+ {
+    return new Compound(undefined, undefined, pseudo_class);
   }
-  / compound: ( prop ( id / class /* / attrib */ )* ) pseudo_class: pseudo_class? {
-    if (pseudo_class){
-      compound[1].push(pseudo_class);
-    }
-
-    compound[1].unshift(compound[0]);
-    return new Compound(compound[1]);
+  / compound: ( prop ( id / class /* / attrib */ )* ) pseudo_class: pseudo_class* {
+    return new Compound(compound[0], compound[1], pseudo_class);
   }
-  / compound: ( id / class /* / attrib */ )+ pseudo_class: pseudo_class? {
-    if (pseudo_class){
-      compound.push(pseudo_class);
-    }
-
-    return new Compound(compound);
+  / compound: ( id / class /* / attrib */ )+ pseudo_class: pseudo_class* {
+    return new Compound(undefined, compound, pseudo_class);
   }
 
 prop
