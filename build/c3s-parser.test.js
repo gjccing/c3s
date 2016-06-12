@@ -55,12 +55,6 @@
 
 	__webpack_require__(2);
 
-	__webpack_require__(41);
-
-	__webpack_require__(43);
-
-	__webpack_require__(46);
-
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
@@ -92,6 +86,7 @@
 	          _cssParser2.default.parse(testCase.input).forEach(function (selector, index) {
 	            var result = selector[0];
 	            for (var tmp = result; tmp = tmp.next; result = tmp) {}
+	            debugger;
 	            _chai.assert.equal(result, testCase.expect[index]);
 	          });
 	        });
@@ -307,13 +302,29 @@
 	        peg$c19 = function(val) {
 	            return new Class(val);
 	          },
-	        peg$c20 = ":",
-	        peg$c21 = { type: "literal", value: ":", description: "\":\"" },
-	        peg$c22 = "(",
-	        peg$c23 = { type: "literal", value: "(", description: "\"(\"" },
-	        peg$c24 = ")",
-	        peg$c25 = { type: "literal", value: ")", description: "\")\"" },
-	        peg$c26 = function(ident, val) {
+	        peg$c20 = "[",
+	        peg$c21 = { type: "literal", value: "[", description: "\"[\"" },
+	        peg$c22 = "]",
+	        peg$c23 = { type: "literal", value: "]", description: "\"]\"" },
+	        peg$c24 = function(name, exp) {
+	            var res = new Attribute(name);
+	            if (exp) {
+	              res.match = exp[0];
+	              res.value = exp[2];
+	              if (exp[3]) {
+	                res.flag = exp[3][1];
+	              }
+	            }
+	            
+	            return res;
+	          },
+	        peg$c25 = ":",
+	        peg$c26 = { type: "literal", value: ":", description: "\":\"" },
+	        peg$c27 = "(",
+	        peg$c28 = { type: "literal", value: "(", description: "\"(\"" },
+	        peg$c29 = ")",
+	        peg$c30 = { type: "literal", value: ")", description: "\")\"" },
+	        peg$c31 = function(ident, val) {
 	            if (val) {
 	              var tmp = [];
 	              tmp.push(val[2]);
@@ -326,23 +337,35 @@
 
 	            return new PseudoClass(ident, val);
 	          },
-	        peg$c27 = /^[$_A-Za-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0-\u08B4\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F8\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400\u4DB5\u4E00\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6EF\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABE2\uAC00\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
-	        peg$c28 = { type: "class", value: "[$_\\u0041-\\u005a\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0-\\u08b4\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0980\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0af9\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d\\u0c58-\\u0c5a\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d5f-\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua69d\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua8fd\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\ua9e0-\\ua9e4\\ua9e6-\\ua9ef\\ua9fa-\\ua9fe\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa7e-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabe2\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]", description: "[$_\\u0041-\\u005a\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0-\\u08b4\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0980\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0af9\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d\\u0c58-\\u0c5a\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d5f-\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua69d\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua8fd\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\ua9e0-\\ua9e4\\ua9e6-\\ua9ef\\ua9fa-\\ua9fe\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa7e-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabe2\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]" },
-	        peg$c29 = /^[$_\u200C\u200D0-9A-Z_a-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0300-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u0483-\u0487\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7\u05D0-\u05EA\u05F0-\u05F2\u0610-\u061A\u0620-\u0669\u066E-\u06D3\u06D5-\u06DC\u06DF-\u06E8\u06EA-\u06FC\u06FF\u0710-\u074A\u074D-\u07B1\u07C0-\u07F5\u07FA\u0800-\u082D\u0840-\u085B\u08A0-\u08B4\u08E3-\u0963\u0966-\u096F\u0971-\u0983\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BC-\u09C4\u09C7\u09C8\u09CB-\u09CE\u09D7\u09DC\u09DD\u09DF-\u09E3\u09E6-\u09F1\u0A01-\u0A03\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A3C\u0A3E-\u0A42\u0A47\u0A48\u0A4B-\u0A4D\u0A51\u0A59-\u0A5C\u0A5E\u0A66-\u0A75\u0A81-\u0A83\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABC-\u0AC5\u0AC7-\u0AC9\u0ACB-\u0ACD\u0AD0\u0AE0-\u0AE3\u0AE6-\u0AEF\u0AF9\u0B01-\u0B03\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3C-\u0B44\u0B47\u0B48\u0B4B-\u0B4D\u0B56\u0B57\u0B5C\u0B5D\u0B5F-\u0B63\u0B66-\u0B6F\u0B71\u0B82\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD0\u0BD7\u0BE6-\u0BEF\u0C00-\u0C03\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D-\u0C44\u0C46-\u0C48\u0C4A-\u0C4D\u0C55\u0C56\u0C58-\u0C5A\u0C60-\u0C63\u0C66-\u0C6F\u0C81-\u0C83\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBC-\u0CC4\u0CC6-\u0CC8\u0CCA-\u0CCD\u0CD5\u0CD6\u0CDE\u0CE0-\u0CE3\u0CE6-\u0CEF\u0CF1\u0CF2\u0D01-\u0D03\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D-\u0D44\u0D46-\u0D48\u0D4A-\u0D4E\u0D57\u0D5F-\u0D63\u0D66-\u0D6F\u0D7A-\u0D7F\u0D82\u0D83\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0DCA\u0DCF-\u0DD4\u0DD6\u0DD8-\u0DDF\u0DE6-\u0DEF\u0DF2\u0DF3\u0E01-\u0E3A\u0E40-\u0E4E\u0E50-\u0E59\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB9\u0EBB-\u0EBD\u0EC0-\u0EC4\u0EC6\u0EC8-\u0ECD\u0ED0-\u0ED9\u0EDC-\u0EDF\u0F00\u0F18\u0F19\u0F20-\u0F29\u0F35\u0F37\u0F39\u0F3E-\u0F47\u0F49-\u0F6C\u0F71-\u0F84\u0F86-\u0F97\u0F99-\u0FBC\u0FC6\u1000-\u1049\u1050-\u109D\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u135D-\u135F\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F8\u1700-\u170C\u170E-\u1714\u1720-\u1734\u1740-\u1753\u1760-\u176C\u176E-\u1770\u1772\u1773\u1780-\u17D3\u17D7\u17DC\u17DD\u17E0-\u17E9\u180B-\u180D\u1810-\u1819\u1820-\u1877\u1880-\u18AA\u18B0-\u18F5\u1900-\u191E\u1920-\u192B\u1930-\u193B\u1946-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u19D0-\u19D9\u1A00-\u1A1B\u1A20-\u1A5E\u1A60-\u1A7C\u1A7F-\u1A89\u1A90-\u1A99\u1AA7\u1AB0-\u1ABD\u1B00-\u1B4B\u1B50-\u1B59\u1B6B-\u1B73\u1B80-\u1BF3\u1C00-\u1C37\u1C40-\u1C49\u1C4D-\u1C7D\u1CD0-\u1CD2\u1CD4-\u1CF6\u1CF8\u1CF9\u1D00-\u1DF5\u1DFC-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u203F\u2040\u2054\u2071\u207F\u2090-\u209C\u20D0-\u20DC\u20E1\u20E5-\u20F0\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D7F-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2DE0-\u2DFF\u2E2F\u3005-\u3007\u3021-\u302F\u3031-\u3035\u3038-\u303C\u3041-\u3096\u3099\u309A\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400\u4DB5\u4E00\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA62B\uA640-\uA66F\uA674-\uA67D\uA67F-\uA6F1\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA827\uA840-\uA873\uA880-\uA8C4\uA8D0-\uA8D9\uA8E0-\uA8F7\uA8FB\uA8FD\uA900-\uA92D\uA930-\uA953\uA960-\uA97C\uA980-\uA9C0\uA9CF-\uA9D9\uA9E0-\uA9FE\uAA00-\uAA36\uAA40-\uAA4D\uAA50-\uAA59\uAA60-\uAA76\uAA7A-\uAAC2\uAADB-\uAADD\uAAE0-\uAAEF\uAAF2-\uAAF6\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABEA\uABEC\uABED\uABF0-\uABF9\uAC00\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE00-\uFE0F\uFE20-\uFE2F\uFE33\uFE34\uFE4D-\uFE4F\uFE70-\uFE74\uFE76-\uFEFC\uFF10-\uFF19\uFF21-\uFF3A\uFF3F\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
-	        peg$c30 = { type: "class", value: "[$_\\u200c\\u200d\\u0030-\\u0039\\u0041-\\u005a\\u005f\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0300-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u0483-\\u0487\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u0591-\\u05bd\\u05bf\\u05c1\\u05c2\\u05c4\\u05c5\\u05c7\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0610-\\u061a\\u0620-\\u0669\\u066e-\\u06d3\\u06d5-\\u06dc\\u06df-\\u06e8\\u06ea-\\u06fc\\u06ff\\u0710-\\u074a\\u074d-\\u07b1\\u07c0-\\u07f5\\u07fa\\u0800-\\u082d\\u0840-\\u085b\\u08a0-\\u08b4\\u08e3-\\u0963\\u0966-\\u096f\\u0971-\\u0983\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bc-\\u09c4\\u09c7\\u09c8\\u09cb-\\u09ce\\u09d7\\u09dc\\u09dd\\u09df-\\u09e3\\u09e6-\\u09f1\\u0a01-\\u0a03\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a3c\\u0a3e-\\u0a42\\u0a47\\u0a48\\u0a4b-\\u0a4d\\u0a51\\u0a59-\\u0a5c\\u0a5e\\u0a66-\\u0a75\\u0a81-\\u0a83\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abc-\\u0ac5\\u0ac7-\\u0ac9\\u0acb-\\u0acd\\u0ad0\\u0ae0-\\u0ae3\\u0ae6-\\u0aef\\u0af9\\u0b01-\\u0b03\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3c-\\u0b44\\u0b47\\u0b48\\u0b4b-\\u0b4d\\u0b56\\u0b57\\u0b5c\\u0b5d\\u0b5f-\\u0b63\\u0b66-\\u0b6f\\u0b71\\u0b82\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bbe-\\u0bc2\\u0bc6-\\u0bc8\\u0bca-\\u0bcd\\u0bd0\\u0bd7\\u0be6-\\u0bef\\u0c00-\\u0c03\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d-\\u0c44\\u0c46-\\u0c48\\u0c4a-\\u0c4d\\u0c55\\u0c56\\u0c58-\\u0c5a\\u0c60-\\u0c63\\u0c66-\\u0c6f\\u0c81-\\u0c83\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbc-\\u0cc4\\u0cc6-\\u0cc8\\u0cca-\\u0ccd\\u0cd5\\u0cd6\\u0cde\\u0ce0-\\u0ce3\\u0ce6-\\u0cef\\u0cf1\\u0cf2\\u0d01-\\u0d03\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d-\\u0d44\\u0d46-\\u0d48\\u0d4a-\\u0d4e\\u0d57\\u0d5f-\\u0d63\\u0d66-\\u0d6f\\u0d7a-\\u0d7f\\u0d82\\u0d83\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0dca\\u0dcf-\\u0dd4\\u0dd6\\u0dd8-\\u0ddf\\u0de6-\\u0def\\u0df2\\u0df3\\u0e01-\\u0e3a\\u0e40-\\u0e4e\\u0e50-\\u0e59\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb9\\u0ebb-\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0ec8-\\u0ecd\\u0ed0-\\u0ed9\\u0edc-\\u0edf\\u0f00\\u0f18\\u0f19\\u0f20-\\u0f29\\u0f35\\u0f37\\u0f39\\u0f3e-\\u0f47\\u0f49-\\u0f6c\\u0f71-\\u0f84\\u0f86-\\u0f97\\u0f99-\\u0fbc\\u0fc6\\u1000-\\u1049\\u1050-\\u109d\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u135d-\\u135f\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1714\\u1720-\\u1734\\u1740-\\u1753\\u1760-\\u176c\\u176e-\\u1770\\u1772\\u1773\\u1780-\\u17d3\\u17d7\\u17dc\\u17dd\\u17e0-\\u17e9\\u180b-\\u180d\\u1810-\\u1819\\u1820-\\u1877\\u1880-\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1920-\\u192b\\u1930-\\u193b\\u1946-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u19d0-\\u19d9\\u1a00-\\u1a1b\\u1a20-\\u1a5e\\u1a60-\\u1a7c\\u1a7f-\\u1a89\\u1a90-\\u1a99\\u1aa7\\u1ab0-\\u1abd\\u1b00-\\u1b4b\\u1b50-\\u1b59\\u1b6b-\\u1b73\\u1b80-\\u1bf3\\u1c00-\\u1c37\\u1c40-\\u1c49\\u1c4d-\\u1c7d\\u1cd0-\\u1cd2\\u1cd4-\\u1cf6\\u1cf8\\u1cf9\\u1d00-\\u1df5\\u1dfc-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u203f\\u2040\\u2054\\u2071\\u207f\\u2090-\\u209c\\u20d0-\\u20dc\\u20e1\\u20e5-\\u20f0\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d7f-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2de0-\\u2dff\\u2e2f\\u3005-\\u3007\\u3021-\\u302f\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u3099\\u309a\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua62b\\ua640-\\ua66f\\ua674-\\ua67d\\ua67f-\\ua6f1\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua827\\ua840-\\ua873\\ua880-\\ua8c4\\ua8d0-\\ua8d9\\ua8e0-\\ua8f7\\ua8fb\\ua8fd\\ua900-\\ua92d\\ua930-\\ua953\\ua960-\\ua97c\\ua980-\\ua9c0\\ua9cf-\\ua9d9\\ua9e0-\\ua9fe\\uaa00-\\uaa36\\uaa40-\\uaa4d\\uaa50-\\uaa59\\uaa60-\\uaa76\\uaa7a-\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaef\\uaaf2-\\uaaf6\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabea\\uabec\\uabed\\uabf0-\\uabf9\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe00-\\ufe0f\\ufe20-\\ufe2f\\ufe33\\ufe34\\ufe4d-\\ufe4f\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff10-\\uff19\\uff21-\\uff3a\\uff3f\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]", description: "[$_\\u200c\\u200d\\u0030-\\u0039\\u0041-\\u005a\\u005f\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0300-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u0483-\\u0487\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u0591-\\u05bd\\u05bf\\u05c1\\u05c2\\u05c4\\u05c5\\u05c7\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0610-\\u061a\\u0620-\\u0669\\u066e-\\u06d3\\u06d5-\\u06dc\\u06df-\\u06e8\\u06ea-\\u06fc\\u06ff\\u0710-\\u074a\\u074d-\\u07b1\\u07c0-\\u07f5\\u07fa\\u0800-\\u082d\\u0840-\\u085b\\u08a0-\\u08b4\\u08e3-\\u0963\\u0966-\\u096f\\u0971-\\u0983\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bc-\\u09c4\\u09c7\\u09c8\\u09cb-\\u09ce\\u09d7\\u09dc\\u09dd\\u09df-\\u09e3\\u09e6-\\u09f1\\u0a01-\\u0a03\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a3c\\u0a3e-\\u0a42\\u0a47\\u0a48\\u0a4b-\\u0a4d\\u0a51\\u0a59-\\u0a5c\\u0a5e\\u0a66-\\u0a75\\u0a81-\\u0a83\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abc-\\u0ac5\\u0ac7-\\u0ac9\\u0acb-\\u0acd\\u0ad0\\u0ae0-\\u0ae3\\u0ae6-\\u0aef\\u0af9\\u0b01-\\u0b03\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3c-\\u0b44\\u0b47\\u0b48\\u0b4b-\\u0b4d\\u0b56\\u0b57\\u0b5c\\u0b5d\\u0b5f-\\u0b63\\u0b66-\\u0b6f\\u0b71\\u0b82\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bbe-\\u0bc2\\u0bc6-\\u0bc8\\u0bca-\\u0bcd\\u0bd0\\u0bd7\\u0be6-\\u0bef\\u0c00-\\u0c03\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d-\\u0c44\\u0c46-\\u0c48\\u0c4a-\\u0c4d\\u0c55\\u0c56\\u0c58-\\u0c5a\\u0c60-\\u0c63\\u0c66-\\u0c6f\\u0c81-\\u0c83\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbc-\\u0cc4\\u0cc6-\\u0cc8\\u0cca-\\u0ccd\\u0cd5\\u0cd6\\u0cde\\u0ce0-\\u0ce3\\u0ce6-\\u0cef\\u0cf1\\u0cf2\\u0d01-\\u0d03\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d-\\u0d44\\u0d46-\\u0d48\\u0d4a-\\u0d4e\\u0d57\\u0d5f-\\u0d63\\u0d66-\\u0d6f\\u0d7a-\\u0d7f\\u0d82\\u0d83\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0dca\\u0dcf-\\u0dd4\\u0dd6\\u0dd8-\\u0ddf\\u0de6-\\u0def\\u0df2\\u0df3\\u0e01-\\u0e3a\\u0e40-\\u0e4e\\u0e50-\\u0e59\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb9\\u0ebb-\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0ec8-\\u0ecd\\u0ed0-\\u0ed9\\u0edc-\\u0edf\\u0f00\\u0f18\\u0f19\\u0f20-\\u0f29\\u0f35\\u0f37\\u0f39\\u0f3e-\\u0f47\\u0f49-\\u0f6c\\u0f71-\\u0f84\\u0f86-\\u0f97\\u0f99-\\u0fbc\\u0fc6\\u1000-\\u1049\\u1050-\\u109d\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u135d-\\u135f\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1714\\u1720-\\u1734\\u1740-\\u1753\\u1760-\\u176c\\u176e-\\u1770\\u1772\\u1773\\u1780-\\u17d3\\u17d7\\u17dc\\u17dd\\u17e0-\\u17e9\\u180b-\\u180d\\u1810-\\u1819\\u1820-\\u1877\\u1880-\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1920-\\u192b\\u1930-\\u193b\\u1946-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u19d0-\\u19d9\\u1a00-\\u1a1b\\u1a20-\\u1a5e\\u1a60-\\u1a7c\\u1a7f-\\u1a89\\u1a90-\\u1a99\\u1aa7\\u1ab0-\\u1abd\\u1b00-\\u1b4b\\u1b50-\\u1b59\\u1b6b-\\u1b73\\u1b80-\\u1bf3\\u1c00-\\u1c37\\u1c40-\\u1c49\\u1c4d-\\u1c7d\\u1cd0-\\u1cd2\\u1cd4-\\u1cf6\\u1cf8\\u1cf9\\u1d00-\\u1df5\\u1dfc-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u203f\\u2040\\u2054\\u2071\\u207f\\u2090-\\u209c\\u20d0-\\u20dc\\u20e1\\u20e5-\\u20f0\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d7f-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2de0-\\u2dff\\u2e2f\\u3005-\\u3007\\u3021-\\u302f\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u3099\\u309a\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua62b\\ua640-\\ua66f\\ua674-\\ua67d\\ua67f-\\ua6f1\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua827\\ua840-\\ua873\\ua880-\\ua8c4\\ua8d0-\\ua8d9\\ua8e0-\\ua8f7\\ua8fb\\ua8fd\\ua900-\\ua92d\\ua930-\\ua953\\ua960-\\ua97c\\ua980-\\ua9c0\\ua9cf-\\ua9d9\\ua9e0-\\ua9fe\\uaa00-\\uaa36\\uaa40-\\uaa4d\\uaa50-\\uaa59\\uaa60-\\uaa76\\uaa7a-\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaef\\uaaf2-\\uaaf6\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabea\\uabec\\uabed\\uabf0-\\uabf9\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe00-\\ufe0f\\ufe20-\\ufe2f\\ufe33\\ufe34\\ufe4d-\\ufe4f\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff10-\\uff19\\uff21-\\uff3a\\uff3f\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]" },
-	        peg$c31 = function() {
+	        peg$c32 = "=",
+	        peg$c33 = { type: "literal", value: "=", description: "\"=\"" },
+	        peg$c34 = "^=",
+	        peg$c35 = { type: "literal", value: "^=", description: "\"^=\"" },
+	        peg$c36 = "$=",
+	        peg$c37 = { type: "literal", value: "$=", description: "\"$=\"" },
+	        peg$c38 = "*=",
+	        peg$c39 = { type: "literal", value: "*=", description: "\"*=\"" },
+	        peg$c40 = "~=",
+	        peg$c41 = { type: "literal", value: "~=", description: "\"~=\"" },
+	        peg$c42 = "|=",
+	        peg$c43 = { type: "literal", value: "|=", description: "\"|=\"" },
+	        peg$c44 = /^[A-Za-z]/,
+	        peg$c45 = { type: "class", value: "[A-Za-z]", description: "[A-Za-z]" },
+	        peg$c46 = /^[$_A-Za-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0-\u08B4\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F8\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400\u4DB5\u4E00\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6EF\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABE2\uAC00\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
+	        peg$c47 = { type: "class", value: "[$_\\u0041-\\u005a\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0-\\u08b4\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0980\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0af9\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d\\u0c58-\\u0c5a\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d5f-\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua69d\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua8fd\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\ua9e0-\\ua9e4\\ua9e6-\\ua9ef\\ua9fa-\\ua9fe\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa7e-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabe2\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]", description: "[$_\\u0041-\\u005a\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0-\\u08b4\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0980\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0af9\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d\\u0c58-\\u0c5a\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d5f-\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua69d\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua8fd\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\ua9e0-\\ua9e4\\ua9e6-\\ua9ef\\ua9fa-\\ua9fe\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa7e-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabe2\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]" },
+	        peg$c48 = /^[$_\u200C\u200D0-9A-Z_a-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0300-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u0483-\u0487\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7\u05D0-\u05EA\u05F0-\u05F2\u0610-\u061A\u0620-\u0669\u066E-\u06D3\u06D5-\u06DC\u06DF-\u06E8\u06EA-\u06FC\u06FF\u0710-\u074A\u074D-\u07B1\u07C0-\u07F5\u07FA\u0800-\u082D\u0840-\u085B\u08A0-\u08B4\u08E3-\u0963\u0966-\u096F\u0971-\u0983\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BC-\u09C4\u09C7\u09C8\u09CB-\u09CE\u09D7\u09DC\u09DD\u09DF-\u09E3\u09E6-\u09F1\u0A01-\u0A03\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A3C\u0A3E-\u0A42\u0A47\u0A48\u0A4B-\u0A4D\u0A51\u0A59-\u0A5C\u0A5E\u0A66-\u0A75\u0A81-\u0A83\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABC-\u0AC5\u0AC7-\u0AC9\u0ACB-\u0ACD\u0AD0\u0AE0-\u0AE3\u0AE6-\u0AEF\u0AF9\u0B01-\u0B03\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3C-\u0B44\u0B47\u0B48\u0B4B-\u0B4D\u0B56\u0B57\u0B5C\u0B5D\u0B5F-\u0B63\u0B66-\u0B6F\u0B71\u0B82\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD0\u0BD7\u0BE6-\u0BEF\u0C00-\u0C03\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D-\u0C44\u0C46-\u0C48\u0C4A-\u0C4D\u0C55\u0C56\u0C58-\u0C5A\u0C60-\u0C63\u0C66-\u0C6F\u0C81-\u0C83\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBC-\u0CC4\u0CC6-\u0CC8\u0CCA-\u0CCD\u0CD5\u0CD6\u0CDE\u0CE0-\u0CE3\u0CE6-\u0CEF\u0CF1\u0CF2\u0D01-\u0D03\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D-\u0D44\u0D46-\u0D48\u0D4A-\u0D4E\u0D57\u0D5F-\u0D63\u0D66-\u0D6F\u0D7A-\u0D7F\u0D82\u0D83\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0DCA\u0DCF-\u0DD4\u0DD6\u0DD8-\u0DDF\u0DE6-\u0DEF\u0DF2\u0DF3\u0E01-\u0E3A\u0E40-\u0E4E\u0E50-\u0E59\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB9\u0EBB-\u0EBD\u0EC0-\u0EC4\u0EC6\u0EC8-\u0ECD\u0ED0-\u0ED9\u0EDC-\u0EDF\u0F00\u0F18\u0F19\u0F20-\u0F29\u0F35\u0F37\u0F39\u0F3E-\u0F47\u0F49-\u0F6C\u0F71-\u0F84\u0F86-\u0F97\u0F99-\u0FBC\u0FC6\u1000-\u1049\u1050-\u109D\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u135D-\u135F\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F8\u1700-\u170C\u170E-\u1714\u1720-\u1734\u1740-\u1753\u1760-\u176C\u176E-\u1770\u1772\u1773\u1780-\u17D3\u17D7\u17DC\u17DD\u17E0-\u17E9\u180B-\u180D\u1810-\u1819\u1820-\u1877\u1880-\u18AA\u18B0-\u18F5\u1900-\u191E\u1920-\u192B\u1930-\u193B\u1946-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u19D0-\u19D9\u1A00-\u1A1B\u1A20-\u1A5E\u1A60-\u1A7C\u1A7F-\u1A89\u1A90-\u1A99\u1AA7\u1AB0-\u1ABD\u1B00-\u1B4B\u1B50-\u1B59\u1B6B-\u1B73\u1B80-\u1BF3\u1C00-\u1C37\u1C40-\u1C49\u1C4D-\u1C7D\u1CD0-\u1CD2\u1CD4-\u1CF6\u1CF8\u1CF9\u1D00-\u1DF5\u1DFC-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u203F\u2040\u2054\u2071\u207F\u2090-\u209C\u20D0-\u20DC\u20E1\u20E5-\u20F0\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D7F-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2DE0-\u2DFF\u2E2F\u3005-\u3007\u3021-\u302F\u3031-\u3035\u3038-\u303C\u3041-\u3096\u3099\u309A\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400\u4DB5\u4E00\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA62B\uA640-\uA66F\uA674-\uA67D\uA67F-\uA6F1\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA827\uA840-\uA873\uA880-\uA8C4\uA8D0-\uA8D9\uA8E0-\uA8F7\uA8FB\uA8FD\uA900-\uA92D\uA930-\uA953\uA960-\uA97C\uA980-\uA9C0\uA9CF-\uA9D9\uA9E0-\uA9FE\uAA00-\uAA36\uAA40-\uAA4D\uAA50-\uAA59\uAA60-\uAA76\uAA7A-\uAAC2\uAADB-\uAADD\uAAE0-\uAAEF\uAAF2-\uAAF6\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABEA\uABEC\uABED\uABF0-\uABF9\uAC00\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE00-\uFE0F\uFE20-\uFE2F\uFE33\uFE34\uFE4D-\uFE4F\uFE70-\uFE74\uFE76-\uFEFC\uFF10-\uFF19\uFF21-\uFF3A\uFF3F\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
+	        peg$c49 = { type: "class", value: "[$_\\u200c\\u200d\\u0030-\\u0039\\u0041-\\u005a\\u005f\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0300-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u0483-\\u0487\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u0591-\\u05bd\\u05bf\\u05c1\\u05c2\\u05c4\\u05c5\\u05c7\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0610-\\u061a\\u0620-\\u0669\\u066e-\\u06d3\\u06d5-\\u06dc\\u06df-\\u06e8\\u06ea-\\u06fc\\u06ff\\u0710-\\u074a\\u074d-\\u07b1\\u07c0-\\u07f5\\u07fa\\u0800-\\u082d\\u0840-\\u085b\\u08a0-\\u08b4\\u08e3-\\u0963\\u0966-\\u096f\\u0971-\\u0983\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bc-\\u09c4\\u09c7\\u09c8\\u09cb-\\u09ce\\u09d7\\u09dc\\u09dd\\u09df-\\u09e3\\u09e6-\\u09f1\\u0a01-\\u0a03\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a3c\\u0a3e-\\u0a42\\u0a47\\u0a48\\u0a4b-\\u0a4d\\u0a51\\u0a59-\\u0a5c\\u0a5e\\u0a66-\\u0a75\\u0a81-\\u0a83\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abc-\\u0ac5\\u0ac7-\\u0ac9\\u0acb-\\u0acd\\u0ad0\\u0ae0-\\u0ae3\\u0ae6-\\u0aef\\u0af9\\u0b01-\\u0b03\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3c-\\u0b44\\u0b47\\u0b48\\u0b4b-\\u0b4d\\u0b56\\u0b57\\u0b5c\\u0b5d\\u0b5f-\\u0b63\\u0b66-\\u0b6f\\u0b71\\u0b82\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bbe-\\u0bc2\\u0bc6-\\u0bc8\\u0bca-\\u0bcd\\u0bd0\\u0bd7\\u0be6-\\u0bef\\u0c00-\\u0c03\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d-\\u0c44\\u0c46-\\u0c48\\u0c4a-\\u0c4d\\u0c55\\u0c56\\u0c58-\\u0c5a\\u0c60-\\u0c63\\u0c66-\\u0c6f\\u0c81-\\u0c83\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbc-\\u0cc4\\u0cc6-\\u0cc8\\u0cca-\\u0ccd\\u0cd5\\u0cd6\\u0cde\\u0ce0-\\u0ce3\\u0ce6-\\u0cef\\u0cf1\\u0cf2\\u0d01-\\u0d03\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d-\\u0d44\\u0d46-\\u0d48\\u0d4a-\\u0d4e\\u0d57\\u0d5f-\\u0d63\\u0d66-\\u0d6f\\u0d7a-\\u0d7f\\u0d82\\u0d83\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0dca\\u0dcf-\\u0dd4\\u0dd6\\u0dd8-\\u0ddf\\u0de6-\\u0def\\u0df2\\u0df3\\u0e01-\\u0e3a\\u0e40-\\u0e4e\\u0e50-\\u0e59\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb9\\u0ebb-\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0ec8-\\u0ecd\\u0ed0-\\u0ed9\\u0edc-\\u0edf\\u0f00\\u0f18\\u0f19\\u0f20-\\u0f29\\u0f35\\u0f37\\u0f39\\u0f3e-\\u0f47\\u0f49-\\u0f6c\\u0f71-\\u0f84\\u0f86-\\u0f97\\u0f99-\\u0fbc\\u0fc6\\u1000-\\u1049\\u1050-\\u109d\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u135d-\\u135f\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1714\\u1720-\\u1734\\u1740-\\u1753\\u1760-\\u176c\\u176e-\\u1770\\u1772\\u1773\\u1780-\\u17d3\\u17d7\\u17dc\\u17dd\\u17e0-\\u17e9\\u180b-\\u180d\\u1810-\\u1819\\u1820-\\u1877\\u1880-\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1920-\\u192b\\u1930-\\u193b\\u1946-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u19d0-\\u19d9\\u1a00-\\u1a1b\\u1a20-\\u1a5e\\u1a60-\\u1a7c\\u1a7f-\\u1a89\\u1a90-\\u1a99\\u1aa7\\u1ab0-\\u1abd\\u1b00-\\u1b4b\\u1b50-\\u1b59\\u1b6b-\\u1b73\\u1b80-\\u1bf3\\u1c00-\\u1c37\\u1c40-\\u1c49\\u1c4d-\\u1c7d\\u1cd0-\\u1cd2\\u1cd4-\\u1cf6\\u1cf8\\u1cf9\\u1d00-\\u1df5\\u1dfc-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u203f\\u2040\\u2054\\u2071\\u207f\\u2090-\\u209c\\u20d0-\\u20dc\\u20e1\\u20e5-\\u20f0\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d7f-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2de0-\\u2dff\\u2e2f\\u3005-\\u3007\\u3021-\\u302f\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u3099\\u309a\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua62b\\ua640-\\ua66f\\ua674-\\ua67d\\ua67f-\\ua6f1\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua827\\ua840-\\ua873\\ua880-\\ua8c4\\ua8d0-\\ua8d9\\ua8e0-\\ua8f7\\ua8fb\\ua8fd\\ua900-\\ua92d\\ua930-\\ua953\\ua960-\\ua97c\\ua980-\\ua9c0\\ua9cf-\\ua9d9\\ua9e0-\\ua9fe\\uaa00-\\uaa36\\uaa40-\\uaa4d\\uaa50-\\uaa59\\uaa60-\\uaa76\\uaa7a-\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaef\\uaaf2-\\uaaf6\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabea\\uabec\\uabed\\uabf0-\\uabf9\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe00-\\ufe0f\\ufe20-\\ufe2f\\ufe33\\ufe34\\ufe4d-\\ufe4f\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff10-\\uff19\\uff21-\\uff3a\\uff3f\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]", description: "[$_\\u200c\\u200d\\u0030-\\u0039\\u0041-\\u005a\\u005f\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0300-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u0483-\\u0487\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u0591-\\u05bd\\u05bf\\u05c1\\u05c2\\u05c4\\u05c5\\u05c7\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0610-\\u061a\\u0620-\\u0669\\u066e-\\u06d3\\u06d5-\\u06dc\\u06df-\\u06e8\\u06ea-\\u06fc\\u06ff\\u0710-\\u074a\\u074d-\\u07b1\\u07c0-\\u07f5\\u07fa\\u0800-\\u082d\\u0840-\\u085b\\u08a0-\\u08b4\\u08e3-\\u0963\\u0966-\\u096f\\u0971-\\u0983\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bc-\\u09c4\\u09c7\\u09c8\\u09cb-\\u09ce\\u09d7\\u09dc\\u09dd\\u09df-\\u09e3\\u09e6-\\u09f1\\u0a01-\\u0a03\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a3c\\u0a3e-\\u0a42\\u0a47\\u0a48\\u0a4b-\\u0a4d\\u0a51\\u0a59-\\u0a5c\\u0a5e\\u0a66-\\u0a75\\u0a81-\\u0a83\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abc-\\u0ac5\\u0ac7-\\u0ac9\\u0acb-\\u0acd\\u0ad0\\u0ae0-\\u0ae3\\u0ae6-\\u0aef\\u0af9\\u0b01-\\u0b03\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3c-\\u0b44\\u0b47\\u0b48\\u0b4b-\\u0b4d\\u0b56\\u0b57\\u0b5c\\u0b5d\\u0b5f-\\u0b63\\u0b66-\\u0b6f\\u0b71\\u0b82\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bbe-\\u0bc2\\u0bc6-\\u0bc8\\u0bca-\\u0bcd\\u0bd0\\u0bd7\\u0be6-\\u0bef\\u0c00-\\u0c03\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d-\\u0c44\\u0c46-\\u0c48\\u0c4a-\\u0c4d\\u0c55\\u0c56\\u0c58-\\u0c5a\\u0c60-\\u0c63\\u0c66-\\u0c6f\\u0c81-\\u0c83\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbc-\\u0cc4\\u0cc6-\\u0cc8\\u0cca-\\u0ccd\\u0cd5\\u0cd6\\u0cde\\u0ce0-\\u0ce3\\u0ce6-\\u0cef\\u0cf1\\u0cf2\\u0d01-\\u0d03\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d-\\u0d44\\u0d46-\\u0d48\\u0d4a-\\u0d4e\\u0d57\\u0d5f-\\u0d63\\u0d66-\\u0d6f\\u0d7a-\\u0d7f\\u0d82\\u0d83\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0dca\\u0dcf-\\u0dd4\\u0dd6\\u0dd8-\\u0ddf\\u0de6-\\u0def\\u0df2\\u0df3\\u0e01-\\u0e3a\\u0e40-\\u0e4e\\u0e50-\\u0e59\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb9\\u0ebb-\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0ec8-\\u0ecd\\u0ed0-\\u0ed9\\u0edc-\\u0edf\\u0f00\\u0f18\\u0f19\\u0f20-\\u0f29\\u0f35\\u0f37\\u0f39\\u0f3e-\\u0f47\\u0f49-\\u0f6c\\u0f71-\\u0f84\\u0f86-\\u0f97\\u0f99-\\u0fbc\\u0fc6\\u1000-\\u1049\\u1050-\\u109d\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u135d-\\u135f\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1714\\u1720-\\u1734\\u1740-\\u1753\\u1760-\\u176c\\u176e-\\u1770\\u1772\\u1773\\u1780-\\u17d3\\u17d7\\u17dc\\u17dd\\u17e0-\\u17e9\\u180b-\\u180d\\u1810-\\u1819\\u1820-\\u1877\\u1880-\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1920-\\u192b\\u1930-\\u193b\\u1946-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u19d0-\\u19d9\\u1a00-\\u1a1b\\u1a20-\\u1a5e\\u1a60-\\u1a7c\\u1a7f-\\u1a89\\u1a90-\\u1a99\\u1aa7\\u1ab0-\\u1abd\\u1b00-\\u1b4b\\u1b50-\\u1b59\\u1b6b-\\u1b73\\u1b80-\\u1bf3\\u1c00-\\u1c37\\u1c40-\\u1c49\\u1c4d-\\u1c7d\\u1cd0-\\u1cd2\\u1cd4-\\u1cf6\\u1cf8\\u1cf9\\u1d00-\\u1df5\\u1dfc-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u203f\\u2040\\u2054\\u2071\\u207f\\u2090-\\u209c\\u20d0-\\u20dc\\u20e1\\u20e5-\\u20f0\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d7f-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2de0-\\u2dff\\u2e2f\\u3005-\\u3007\\u3021-\\u302f\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u3099\\u309a\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua62b\\ua640-\\ua66f\\ua674-\\ua67d\\ua67f-\\ua6f1\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua827\\ua840-\\ua873\\ua880-\\ua8c4\\ua8d0-\\ua8d9\\ua8e0-\\ua8f7\\ua8fb\\ua8fd\\ua900-\\ua92d\\ua930-\\ua953\\ua960-\\ua97c\\ua980-\\ua9c0\\ua9cf-\\ua9d9\\ua9e0-\\ua9fe\\uaa00-\\uaa36\\uaa40-\\uaa4d\\uaa50-\\uaa59\\uaa60-\\uaa76\\uaa7a-\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaef\\uaaf2-\\uaaf6\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabea\\uabec\\uabed\\uabf0-\\uabf9\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe00-\\ufe0f\\ufe20-\\ufe2f\\ufe33\\ufe34\\ufe4d-\\ufe4f\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff10-\\uff19\\uff21-\\uff3a\\uff3f\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]" },
+	        peg$c50 = function() {
 	            return text();
 	          },
-	        peg$c32 = "/",
-	        peg$c33 = { type: "literal", value: "/", description: "\"/\"" },
-	        peg$c34 = "\\",
-	        peg$c35 = { type: "literal", value: "\\", description: "\"\\\\\"" },
-	        peg$c36 = { type: "any", description: "any character" },
-	        peg$c37 = /^[^\/\\]/,
-	        peg$c38 = { type: "class", value: "[^/\\\\]", description: "[^/\\\\]" },
-	        peg$c39 = /^[A-Za-z]/,
-	        peg$c40 = { type: "class", value: "[A-Za-z]", description: "[A-Za-z]" },
-	        peg$c41 = function(source, flag) {
+	        peg$c51 = "/",
+	        peg$c52 = { type: "literal", value: "/", description: "\"/\"" },
+	        peg$c53 = "\\",
+	        peg$c54 = { type: "literal", value: "\\", description: "\"\\\\\"" },
+	        peg$c55 = { type: "any", description: "any character" },
+	        peg$c56 = /^[^\/\\]/,
+	        peg$c57 = { type: "class", value: "[^/\\\\]", description: "[^/\\\\]" },
+	        peg$c58 = function(source, flag) {
 	            var src = '', item;
 	            for (var i in source) {
 	              item = source[i];
@@ -351,50 +374,50 @@
 
 	            return new RegExp(src, flag.join(''));
 	          },
-	        peg$c42 = function() {
+	        peg$c59 = function() {
 	            return eval(text());
 	          },
-	        peg$c43 = "\"",
-	        peg$c44 = { type: "literal", value: "\"", description: "\"\\\"\"" },
-	        peg$c45 = /^[^"\\]/,
-	        peg$c46 = { type: "class", value: "[^\"\\\\]", description: "[^\"\\\\]" },
-	        peg$c47 = "'",
-	        peg$c48 = { type: "literal", value: "'", description: "\"'\"" },
-	        peg$c49 = /^[^'\\]/,
-	        peg$c50 = { type: "class", value: "[^'\\\\]", description: "[^'\\\\]" },
-	        peg$c51 = function(sign, val) {
+	        peg$c60 = "\"",
+	        peg$c61 = { type: "literal", value: "\"", description: "\"\\\"\"" },
+	        peg$c62 = /^[^"\\]/,
+	        peg$c63 = { type: "class", value: "[^\"\\\\]", description: "[^\"\\\\]" },
+	        peg$c64 = "'",
+	        peg$c65 = { type: "literal", value: "'", description: "\"'\"" },
+	        peg$c66 = /^[^'\\]/,
+	        peg$c67 = { type: "class", value: "[^'\\\\]", description: "[^'\\\\]" },
+	        peg$c68 = function(sign, val) {
 	            return (sign=='-')?-val:val;
 	          },
-	        peg$c52 = "NaN",
-	        peg$c53 = { type: "literal", value: "NaN", description: "\"NaN\"" },
-	        peg$c54 = function() {
+	        peg$c69 = "NaN",
+	        peg$c70 = { type: "literal", value: "NaN", description: "\"NaN\"" },
+	        peg$c71 = function() {
 	            return NaN;
 	          },
-	        peg$c55 = "Infinity",
-	        peg$c56 = { type: "literal", value: "Infinity", description: "\"Infinity\"" },
-	        peg$c57 = function() {
+	        peg$c72 = "Infinity",
+	        peg$c73 = { type: "literal", value: "Infinity", description: "\"Infinity\"" },
+	        peg$c74 = function() {
 	            return Infinity;
 	          },
-	        peg$c58 = "0",
-	        peg$c59 = { type: "literal", value: "0", description: "\"0\"" },
-	        peg$c60 = /^[Bb]/,
-	        peg$c61 = { type: "class", value: "[Bb]", description: "[Bb]" },
-	        peg$c62 = /^[01]/,
-	        peg$c63 = { type: "class", value: "[01]", description: "[01]" },
-	        peg$c64 = function() {
+	        peg$c75 = "0",
+	        peg$c76 = { type: "literal", value: "0", description: "\"0\"" },
+	        peg$c77 = /^[Bb]/,
+	        peg$c78 = { type: "class", value: "[Bb]", description: "[Bb]" },
+	        peg$c79 = /^[01]/,
+	        peg$c80 = { type: "class", value: "[01]", description: "[01]" },
+	        peg$c81 = function() {
 	            return Number(text());
 	          },
-	        peg$c65 = /^[Oo]/,
-	        peg$c66 = { type: "class", value: "[Oo]", description: "[Oo]" },
-	        peg$c67 = /^[0-7]/,
-	        peg$c68 = { type: "class", value: "[0-7]", description: "[0-7]" },
-	        peg$c69 = /^[Xx]/,
-	        peg$c70 = { type: "class", value: "[Xx]", description: "[Xx]" },
-	        peg$c71 = /^[0-9A-Fa-f]/,
-	        peg$c72 = { type: "class", value: "[0-9A-Fa-f]", description: "[0-9A-Fa-f]" },
-	        peg$c73 = /^[0-9]/,
-	        peg$c74 = { type: "class", value: "[0-9]", description: "[0-9]" },
-	        peg$c75 = function() {
+	        peg$c82 = /^[Oo]/,
+	        peg$c83 = { type: "class", value: "[Oo]", description: "[Oo]" },
+	        peg$c84 = /^[0-7]/,
+	        peg$c85 = { type: "class", value: "[0-7]", description: "[0-7]" },
+	        peg$c86 = /^[Xx]/,
+	        peg$c87 = { type: "class", value: "[Xx]", description: "[Xx]" },
+	        peg$c88 = /^[0-9A-Fa-f]/,
+	        peg$c89 = { type: "class", value: "[0-9A-Fa-f]", description: "[0-9A-Fa-f]" },
+	        peg$c90 = /^[0-9]/,
+	        peg$c91 = { type: "class", value: "[0-9]", description: "[0-9]" },
+	        peg$c92 = function() {
 	            var val = text();
 	            if ( /^0[0-7]+$/.test(val) ) {
 	              val = val.charAt(0) + 'O' + val.substr(1);
@@ -402,12 +425,12 @@
 
 	            return Number(val);
 	          },
-	        peg$c76 = "e",
-	        peg$c77 = { type: "literal", value: "e", description: "\"e\"" },
-	        peg$c78 = /^[+\-]/,
-	        peg$c79 = { type: "class", value: "[+-]", description: "[+-]" },
-	        peg$c80 = /^[ \t\r\n\f]/,
-	        peg$c81 = { type: "class", value: "[ \\t\\r\\n\\f]", description: "[ \\t\\r\\n\\f]" },
+	        peg$c93 = "e",
+	        peg$c94 = { type: "literal", value: "e", description: "\"e\"" },
+	        peg$c95 = /^[+\-]/,
+	        peg$c96 = { type: "class", value: "[+-]", description: "[+-]" },
+	        peg$c97 = /^[ \t\r\n\f]/,
+	        peg$c98 = { type: "class", value: "[ \\t\\r\\n\\f]", description: "[ \\t\\r\\n\\f]" },
 
 	        peg$currPos          = 0,
 	        peg$savedPos         = 0,
@@ -841,12 +864,18 @@
 	          s4 = peg$parseid();
 	          if (s4 === peg$FAILED) {
 	            s4 = peg$parseclass();
+	            if (s4 === peg$FAILED) {
+	              s4 = peg$parseattrib();
+	            }
 	          }
 	          while (s4 !== peg$FAILED) {
 	            s3.push(s4);
 	            s4 = peg$parseid();
 	            if (s4 === peg$FAILED) {
 	              s4 = peg$parseclass();
+	              if (s4 === peg$FAILED) {
+	                s4 = peg$parseattrib();
+	              }
 	            }
 	          }
 	          if (s3 !== peg$FAILED) {
@@ -885,6 +914,9 @@
 	          s2 = peg$parseid();
 	          if (s2 === peg$FAILED) {
 	            s2 = peg$parseclass();
+	            if (s2 === peg$FAILED) {
+	              s2 = peg$parseattrib();
+	            }
 	          }
 	          if (s2 !== peg$FAILED) {
 	            while (s2 !== peg$FAILED) {
@@ -892,6 +924,9 @@
 	              s2 = peg$parseid();
 	              if (s2 === peg$FAILED) {
 	                s2 = peg$parseclass();
+	                if (s2 === peg$FAILED) {
+	                  s2 = peg$parseattrib();
+	                }
 	              }
 	            }
 	          } else {
@@ -1003,11 +1038,11 @@
 	      return s0;
 	    }
 
-	    function peg$parsepseudo_class() {
-	      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13;
+	    function peg$parseattrib() {
+	      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11;
 
 	      s0 = peg$currPos;
-	      if (input.charCodeAt(peg$currPos) === 58) {
+	      if (input.charCodeAt(peg$currPos) === 91) {
 	        s1 = peg$c20;
 	        peg$currPos++;
 	      } else {
@@ -1015,15 +1050,138 @@
 	        if (peg$silentFails === 0) { peg$fail(peg$c21); }
 	      }
 	      if (s1 !== peg$FAILED) {
+	        s2 = peg$parseS();
+	        if (s2 === peg$FAILED) {
+	          s2 = null;
+	        }
+	        if (s2 !== peg$FAILED) {
+	          s3 = peg$parsePROP();
+	          if (s3 !== peg$FAILED) {
+	            s4 = peg$parseS();
+	            if (s4 === peg$FAILED) {
+	              s4 = null;
+	            }
+	            if (s4 !== peg$FAILED) {
+	              s5 = peg$currPos;
+	              s6 = peg$parseATTRIB_MATCH();
+	              if (s6 !== peg$FAILED) {
+	                s7 = peg$parseS();
+	                if (s7 === peg$FAILED) {
+	                  s7 = null;
+	                }
+	                if (s7 !== peg$FAILED) {
+	                  s8 = peg$parseVALUE();
+	                  if (s8 !== peg$FAILED) {
+	                    s9 = peg$currPos;
+	                    s10 = peg$parseS();
+	                    if (s10 !== peg$FAILED) {
+	                      s11 = peg$parseATTRIB_FLAGS();
+	                      if (s11 !== peg$FAILED) {
+	                        s10 = [s10, s11];
+	                        s9 = s10;
+	                      } else {
+	                        peg$currPos = s9;
+	                        s9 = peg$FAILED;
+	                      }
+	                    } else {
+	                      peg$currPos = s9;
+	                      s9 = peg$FAILED;
+	                    }
+	                    if (s9 === peg$FAILED) {
+	                      s9 = null;
+	                    }
+	                    if (s9 !== peg$FAILED) {
+	                      s6 = [s6, s7, s8, s9];
+	                      s5 = s6;
+	                    } else {
+	                      peg$currPos = s5;
+	                      s5 = peg$FAILED;
+	                    }
+	                  } else {
+	                    peg$currPos = s5;
+	                    s5 = peg$FAILED;
+	                  }
+	                } else {
+	                  peg$currPos = s5;
+	                  s5 = peg$FAILED;
+	                }
+	              } else {
+	                peg$currPos = s5;
+	                s5 = peg$FAILED;
+	              }
+	              if (s5 === peg$FAILED) {
+	                s5 = null;
+	              }
+	              if (s5 !== peg$FAILED) {
+	                s6 = peg$parseS();
+	                if (s6 === peg$FAILED) {
+	                  s6 = null;
+	                }
+	                if (s6 !== peg$FAILED) {
+	                  if (input.charCodeAt(peg$currPos) === 93) {
+	                    s7 = peg$c22;
+	                    peg$currPos++;
+	                  } else {
+	                    s7 = peg$FAILED;
+	                    if (peg$silentFails === 0) { peg$fail(peg$c23); }
+	                  }
+	                  if (s7 !== peg$FAILED) {
+	                    peg$savedPos = s0;
+	                    s1 = peg$c24(s3, s5);
+	                    s0 = s1;
+	                  } else {
+	                    peg$currPos = s0;
+	                    s0 = peg$FAILED;
+	                  }
+	                } else {
+	                  peg$currPos = s0;
+	                  s0 = peg$FAILED;
+	                }
+	              } else {
+	                peg$currPos = s0;
+	                s0 = peg$FAILED;
+	              }
+	            } else {
+	              peg$currPos = s0;
+	              s0 = peg$FAILED;
+	            }
+	          } else {
+	            peg$currPos = s0;
+	            s0 = peg$FAILED;
+	          }
+	        } else {
+	          peg$currPos = s0;
+	          s0 = peg$FAILED;
+	        }
+	      } else {
+	        peg$currPos = s0;
+	        s0 = peg$FAILED;
+	      }
+
+	      return s0;
+	    }
+
+	    function peg$parsepseudo_class() {
+	      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13;
+
+	      s0 = peg$currPos;
+	      if (input.charCodeAt(peg$currPos) === 58) {
+	        s1 = peg$c25;
+	        peg$currPos++;
+	      } else {
+	        s1 = peg$FAILED;
+	        if (peg$silentFails === 0) { peg$fail(peg$c26); }
+	      }
+	      if (s1 !== peg$FAILED) {
 	        s2 = peg$parseIDENT();
 	        if (s2 !== peg$FAILED) {
 	          s3 = peg$currPos;
 	          if (input.charCodeAt(peg$currPos) === 40) {
-	            s4 = peg$c22;
+	            s4 = peg$c27;
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c23); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c28); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            s5 = peg$parseS();
@@ -1127,11 +1285,11 @@
 	                    }
 	                    if (s9 !== peg$FAILED) {
 	                      if (input.charCodeAt(peg$currPos) === 41) {
-	                        s10 = peg$c24;
+	                        s10 = peg$c29;
 	                        peg$currPos++;
 	                      } else {
 	                        s10 = peg$FAILED;
-	                        if (peg$silentFails === 0) { peg$fail(peg$c25); }
+	                        if (peg$silentFails === 0) { peg$fail(peg$c30); }
 	                      }
 	                      if (s10 !== peg$FAILED) {
 	                        s4 = [s4, s5, s6, s7, s8, s9, s10];
@@ -1169,7 +1327,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c26(s2, s3);
+	            s1 = peg$c31(s2, s3);
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -1201,6 +1359,94 @@
 	      return s0;
 	    }
 
+	    function peg$parseATTRIB_MATCH() {
+	      var s0;
+
+	      if (input.charCodeAt(peg$currPos) === 61) {
+	        s0 = peg$c32;
+	        peg$currPos++;
+	      } else {
+	        s0 = peg$FAILED;
+	        if (peg$silentFails === 0) { peg$fail(peg$c33); }
+	      }
+	      if (s0 === peg$FAILED) {
+	        if (input.substr(peg$currPos, 2) === peg$c34) {
+	          s0 = peg$c34;
+	          peg$currPos += 2;
+	        } else {
+	          s0 = peg$FAILED;
+	          if (peg$silentFails === 0) { peg$fail(peg$c35); }
+	        }
+	        if (s0 === peg$FAILED) {
+	          if (input.substr(peg$currPos, 2) === peg$c36) {
+	            s0 = peg$c36;
+	            peg$currPos += 2;
+	          } else {
+	            s0 = peg$FAILED;
+	            if (peg$silentFails === 0) { peg$fail(peg$c37); }
+	          }
+	          if (s0 === peg$FAILED) {
+	            if (input.substr(peg$currPos, 2) === peg$c38) {
+	              s0 = peg$c38;
+	              peg$currPos += 2;
+	            } else {
+	              s0 = peg$FAILED;
+	              if (peg$silentFails === 0) { peg$fail(peg$c39); }
+	            }
+	            if (s0 === peg$FAILED) {
+	              if (input.substr(peg$currPos, 2) === peg$c40) {
+	                s0 = peg$c40;
+	                peg$currPos += 2;
+	              } else {
+	                s0 = peg$FAILED;
+	                if (peg$silentFails === 0) { peg$fail(peg$c41); }
+	              }
+	              if (s0 === peg$FAILED) {
+	                if (input.substr(peg$currPos, 2) === peg$c42) {
+	                  s0 = peg$c42;
+	                  peg$currPos += 2;
+	                } else {
+	                  s0 = peg$FAILED;
+	                  if (peg$silentFails === 0) { peg$fail(peg$c43); }
+	                }
+	              }
+	            }
+	          }
+	        }
+	      }
+
+	      return s0;
+	    }
+
+	    function peg$parseATTRIB_FLAGS() {
+	      var s0, s1;
+
+	      s0 = [];
+	      if (peg$c44.test(input.charAt(peg$currPos))) {
+	        s1 = input.charAt(peg$currPos);
+	        peg$currPos++;
+	      } else {
+	        s1 = peg$FAILED;
+	        if (peg$silentFails === 0) { peg$fail(peg$c45); }
+	      }
+	      if (s1 !== peg$FAILED) {
+	        while (s1 !== peg$FAILED) {
+	          s0.push(s1);
+	          if (peg$c44.test(input.charAt(peg$currPos))) {
+	            s1 = input.charAt(peg$currPos);
+	            peg$currPos++;
+	          } else {
+	            s1 = peg$FAILED;
+	            if (peg$silentFails === 0) { peg$fail(peg$c45); }
+	          }
+	        }
+	      } else {
+	        s0 = peg$FAILED;
+	      }
+
+	      return s0;
+	    }
+
 	    function peg$parsePROP() {
 	      var s0;
 
@@ -1216,35 +1462,35 @@
 	      var s0, s1, s2, s3;
 
 	      s0 = peg$currPos;
-	      if (peg$c27.test(input.charAt(peg$currPos))) {
+	      if (peg$c46.test(input.charAt(peg$currPos))) {
 	        s1 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c28); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c47); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
-	        if (peg$c29.test(input.charAt(peg$currPos))) {
+	        if (peg$c48.test(input.charAt(peg$currPos))) {
 	          s3 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s3 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c30); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c49); }
 	        }
 	        while (s3 !== peg$FAILED) {
 	          s2.push(s3);
-	          if (peg$c29.test(input.charAt(peg$currPos))) {
+	          if (peg$c48.test(input.charAt(peg$currPos))) {
 	            s3 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c30); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c49); }
 	          }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          peg$savedPos = s0;
-	          s1 = peg$c31();
+	          s1 = peg$c50();
 	          s0 = s1;
 	        } else {
 	          peg$currPos = s0;
@@ -1263,21 +1509,21 @@
 
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 47) {
-	        s1 = peg$c32;
+	        s1 = peg$c51;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c33); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c52); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
 	        s3 = peg$currPos;
 	        if (input.charCodeAt(peg$currPos) === 92) {
-	          s4 = peg$c34;
+	          s4 = peg$c53;
 	          peg$currPos++;
 	        } else {
 	          s4 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c35); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c54); }
 	        }
 	        if (s4 !== peg$FAILED) {
 	          if (input.length > peg$currPos) {
@@ -1285,7 +1531,7 @@
 	            peg$currPos++;
 	          } else {
 	            s5 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c36); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c55); }
 	          }
 	          if (s5 !== peg$FAILED) {
 	            s4 = [s4, s5];
@@ -1299,12 +1545,12 @@
 	          s3 = peg$FAILED;
 	        }
 	        if (s3 === peg$FAILED) {
-	          if (peg$c37.test(input.charAt(peg$currPos))) {
+	          if (peg$c56.test(input.charAt(peg$currPos))) {
 	            s3 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c38); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c57); }
 	          }
 	        }
 	        if (s3 !== peg$FAILED) {
@@ -1312,11 +1558,11 @@
 	            s2.push(s3);
 	            s3 = peg$currPos;
 	            if (input.charCodeAt(peg$currPos) === 92) {
-	              s4 = peg$c34;
+	              s4 = peg$c53;
 	              peg$currPos++;
 	            } else {
 	              s4 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c35); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c54); }
 	            }
 	            if (s4 !== peg$FAILED) {
 	              if (input.length > peg$currPos) {
@@ -1324,7 +1570,7 @@
 	                peg$currPos++;
 	              } else {
 	                s5 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c36); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c55); }
 	              }
 	              if (s5 !== peg$FAILED) {
 	                s4 = [s4, s5];
@@ -1338,12 +1584,12 @@
 	              s3 = peg$FAILED;
 	            }
 	            if (s3 === peg$FAILED) {
-	              if (peg$c37.test(input.charAt(peg$currPos))) {
+	              if (peg$c56.test(input.charAt(peg$currPos))) {
 	                s3 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s3 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c38); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c57); }
 	              }
 	            }
 	          }
@@ -1352,34 +1598,34 @@
 	        }
 	        if (s2 !== peg$FAILED) {
 	          if (input.charCodeAt(peg$currPos) === 47) {
-	            s3 = peg$c32;
+	            s3 = peg$c51;
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c33); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c52); }
 	          }
 	          if (s3 !== peg$FAILED) {
 	            s4 = [];
-	            if (peg$c39.test(input.charAt(peg$currPos))) {
+	            if (peg$c44.test(input.charAt(peg$currPos))) {
 	              s5 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s5 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c40); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c45); }
 	            }
 	            while (s5 !== peg$FAILED) {
 	              s4.push(s5);
-	              if (peg$c39.test(input.charAt(peg$currPos))) {
+	              if (peg$c44.test(input.charAt(peg$currPos))) {
 	                s5 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s5 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c40); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c45); }
 	              }
 	            }
 	            if (s4 !== peg$FAILED) {
 	              peg$savedPos = s0;
-	              s1 = peg$c41(s2, s4);
+	              s1 = peg$c58(s2, s4);
 	              s0 = s1;
 	            } else {
 	              peg$currPos = s0;
@@ -1411,7 +1657,7 @@
 	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
-	        s1 = peg$c42();
+	        s1 = peg$c59();
 	      }
 	      s0 = s1;
 
@@ -1423,21 +1669,21 @@
 
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 34) {
-	        s1 = peg$c43;
+	        s1 = peg$c60;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c44); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c61); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
 	        s3 = peg$currPos;
 	        if (input.charCodeAt(peg$currPos) === 92) {
-	          s4 = peg$c34;
+	          s4 = peg$c53;
 	          peg$currPos++;
 	        } else {
 	          s4 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c35); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c54); }
 	        }
 	        if (s4 !== peg$FAILED) {
 	          if (input.length > peg$currPos) {
@@ -1445,7 +1691,7 @@
 	            peg$currPos++;
 	          } else {
 	            s5 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c36); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c55); }
 	          }
 	          if (s5 !== peg$FAILED) {
 	            s4 = [s4, s5];
@@ -1459,23 +1705,23 @@
 	          s3 = peg$FAILED;
 	        }
 	        if (s3 === peg$FAILED) {
-	          if (peg$c45.test(input.charAt(peg$currPos))) {
+	          if (peg$c62.test(input.charAt(peg$currPos))) {
 	            s3 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c46); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c63); }
 	          }
 	        }
 	        while (s3 !== peg$FAILED) {
 	          s2.push(s3);
 	          s3 = peg$currPos;
 	          if (input.charCodeAt(peg$currPos) === 92) {
-	            s4 = peg$c34;
+	            s4 = peg$c53;
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c35); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c54); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            if (input.length > peg$currPos) {
@@ -1483,7 +1729,7 @@
 	              peg$currPos++;
 	            } else {
 	              s5 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c36); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c55); }
 	            }
 	            if (s5 !== peg$FAILED) {
 	              s4 = [s4, s5];
@@ -1497,22 +1743,22 @@
 	            s3 = peg$FAILED;
 	          }
 	          if (s3 === peg$FAILED) {
-	            if (peg$c45.test(input.charAt(peg$currPos))) {
+	            if (peg$c62.test(input.charAt(peg$currPos))) {
 	              s3 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s3 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c46); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c63); }
 	            }
 	          }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          if (input.charCodeAt(peg$currPos) === 34) {
-	            s3 = peg$c43;
+	            s3 = peg$c60;
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c44); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c61); }
 	          }
 	          if (s3 !== peg$FAILED) {
 	            s1 = [s1, s2, s3];
@@ -1538,21 +1784,21 @@
 
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 39) {
-	        s1 = peg$c47;
+	        s1 = peg$c64;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c48); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c65); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
 	        s3 = peg$currPos;
 	        if (input.charCodeAt(peg$currPos) === 92) {
-	          s4 = peg$c34;
+	          s4 = peg$c53;
 	          peg$currPos++;
 	        } else {
 	          s4 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c35); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c54); }
 	        }
 	        if (s4 !== peg$FAILED) {
 	          if (input.length > peg$currPos) {
@@ -1560,7 +1806,7 @@
 	            peg$currPos++;
 	          } else {
 	            s5 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c36); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c55); }
 	          }
 	          if (s5 !== peg$FAILED) {
 	            s4 = [s4, s5];
@@ -1574,23 +1820,23 @@
 	          s3 = peg$FAILED;
 	        }
 	        if (s3 === peg$FAILED) {
-	          if (peg$c49.test(input.charAt(peg$currPos))) {
+	          if (peg$c66.test(input.charAt(peg$currPos))) {
 	            s3 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c50); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c67); }
 	          }
 	        }
 	        while (s3 !== peg$FAILED) {
 	          s2.push(s3);
 	          s3 = peg$currPos;
 	          if (input.charCodeAt(peg$currPos) === 92) {
-	            s4 = peg$c34;
+	            s4 = peg$c53;
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c35); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c54); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            if (input.length > peg$currPos) {
@@ -1598,7 +1844,7 @@
 	              peg$currPos++;
 	            } else {
 	              s5 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c36); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c55); }
 	            }
 	            if (s5 !== peg$FAILED) {
 	              s4 = [s4, s5];
@@ -1612,22 +1858,22 @@
 	            s3 = peg$FAILED;
 	          }
 	          if (s3 === peg$FAILED) {
-	            if (peg$c49.test(input.charAt(peg$currPos))) {
+	            if (peg$c66.test(input.charAt(peg$currPos))) {
 	              s3 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s3 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c50); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c67); }
 	            }
 	          }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          if (input.charCodeAt(peg$currPos) === 39) {
-	            s3 = peg$c47;
+	            s3 = peg$c64;
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c48); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c65); }
 	          }
 	          if (s3 !== peg$FAILED) {
 	            s1 = [s1, s2, s3];
@@ -1678,7 +1924,7 @@
 	        }
 	        if (s2 !== peg$FAILED) {
 	          peg$savedPos = s0;
-	          s1 = peg$c51(s1, s2);
+	          s1 = peg$c68(s1, s2);
 	          s0 = s1;
 	        } else {
 	          peg$currPos = s0;
@@ -1696,16 +1942,16 @@
 	      var s0, s1;
 
 	      s0 = peg$currPos;
-	      if (input.substr(peg$currPos, 3) === peg$c52) {
-	        s1 = peg$c52;
+	      if (input.substr(peg$currPos, 3) === peg$c69) {
+	        s1 = peg$c69;
 	        peg$currPos += 3;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c53); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c70); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
-	        s1 = peg$c54();
+	        s1 = peg$c71();
 	      }
 	      s0 = s1;
 
@@ -1716,16 +1962,16 @@
 	      var s0, s1;
 
 	      s0 = peg$currPos;
-	      if (input.substr(peg$currPos, 8) === peg$c55) {
-	        s1 = peg$c55;
+	      if (input.substr(peg$currPos, 8) === peg$c72) {
+	        s1 = peg$c72;
 	        peg$currPos += 8;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c56); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c73); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
-	        s1 = peg$c57();
+	        s1 = peg$c74();
 	      }
 	      s0 = s1;
 
@@ -1737,38 +1983,38 @@
 
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
-	        s1 = peg$c58;
+	        s1 = peg$c75;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c59); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c76); }
 	      }
 	      if (s1 !== peg$FAILED) {
-	        if (peg$c60.test(input.charAt(peg$currPos))) {
+	        if (peg$c77.test(input.charAt(peg$currPos))) {
 	          s2 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s2 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c61); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c78); }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = [];
-	          if (peg$c62.test(input.charAt(peg$currPos))) {
+	          if (peg$c79.test(input.charAt(peg$currPos))) {
 	            s4 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c63); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c80); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            while (s4 !== peg$FAILED) {
 	              s3.push(s4);
-	              if (peg$c62.test(input.charAt(peg$currPos))) {
+	              if (peg$c79.test(input.charAt(peg$currPos))) {
 	                s4 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s4 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c63); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c80); }
 	              }
 	            }
 	          } else {
@@ -1776,7 +2022,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c64();
+	            s1 = peg$c81();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -1799,38 +2045,38 @@
 
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
-	        s1 = peg$c58;
+	        s1 = peg$c75;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c59); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c76); }
 	      }
 	      if (s1 !== peg$FAILED) {
-	        if (peg$c65.test(input.charAt(peg$currPos))) {
+	        if (peg$c82.test(input.charAt(peg$currPos))) {
 	          s2 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s2 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c66); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c83); }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = [];
-	          if (peg$c67.test(input.charAt(peg$currPos))) {
+	          if (peg$c84.test(input.charAt(peg$currPos))) {
 	            s4 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c68); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c85); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            while (s4 !== peg$FAILED) {
 	              s3.push(s4);
-	              if (peg$c67.test(input.charAt(peg$currPos))) {
+	              if (peg$c84.test(input.charAt(peg$currPos))) {
 	                s4 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s4 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c68); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c85); }
 	              }
 	            }
 	          } else {
@@ -1838,7 +2084,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c64();
+	            s1 = peg$c81();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -1861,38 +2107,38 @@
 
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
-	        s1 = peg$c58;
+	        s1 = peg$c75;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c59); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c76); }
 	      }
 	      if (s1 !== peg$FAILED) {
-	        if (peg$c69.test(input.charAt(peg$currPos))) {
+	        if (peg$c86.test(input.charAt(peg$currPos))) {
 	          s2 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s2 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c70); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c87); }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = [];
-	          if (peg$c71.test(input.charAt(peg$currPos))) {
+	          if (peg$c88.test(input.charAt(peg$currPos))) {
 	            s4 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c72); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            while (s4 !== peg$FAILED) {
 	              s3.push(s4);
-	              if (peg$c71.test(input.charAt(peg$currPos))) {
+	              if (peg$c88.test(input.charAt(peg$currPos))) {
 	                s4 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s4 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c72); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	              }
 	            }
 	          } else {
@@ -1900,7 +2146,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c64();
+	            s1 = peg$c81();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -1923,22 +2169,22 @@
 
 	      s0 = peg$currPos;
 	      s1 = [];
-	      if (peg$c73.test(input.charAt(peg$currPos))) {
+	      if (peg$c90.test(input.charAt(peg$currPos))) {
 	        s2 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s2 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c91); }
 	      }
 	      if (s2 !== peg$FAILED) {
 	        while (s2 !== peg$FAILED) {
 	          s1.push(s2);
-	          if (peg$c73.test(input.charAt(peg$currPos))) {
+	          if (peg$c90.test(input.charAt(peg$currPos))) {
 	            s2 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s2 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c91); }
 	          }
 	        }
 	      } else {
@@ -1955,21 +2201,21 @@
 	        }
 	        if (s3 !== peg$FAILED) {
 	          s4 = [];
-	          if (peg$c73.test(input.charAt(peg$currPos))) {
+	          if (peg$c90.test(input.charAt(peg$currPos))) {
 	            s5 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s5 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c91); }
 	          }
 	          while (s5 !== peg$FAILED) {
 	            s4.push(s5);
-	            if (peg$c73.test(input.charAt(peg$currPos))) {
+	            if (peg$c90.test(input.charAt(peg$currPos))) {
 	              s5 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s5 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c91); }
 	            }
 	          }
 	          if (s4 !== peg$FAILED) {
@@ -1993,7 +2239,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c75();
+	            s1 = peg$c92();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -2024,22 +2270,22 @@
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
-	        if (peg$c73.test(input.charAt(peg$currPos))) {
+	        if (peg$c90.test(input.charAt(peg$currPos))) {
 	          s3 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s3 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c91); }
 	        }
 	        if (s3 !== peg$FAILED) {
 	          while (s3 !== peg$FAILED) {
 	            s2.push(s3);
-	            if (peg$c73.test(input.charAt(peg$currPos))) {
+	            if (peg$c90.test(input.charAt(peg$currPos))) {
 	              s3 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s3 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c91); }
 	            }
 	          }
 	        } else {
@@ -2052,7 +2298,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c64();
+	            s1 = peg$c81();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -2075,11 +2321,11 @@
 
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 101) {
-	        s1 = peg$c76;
+	        s1 = peg$c93;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c77); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c94); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = peg$parseSIGN();
@@ -2088,22 +2334,22 @@
 	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = [];
-	          if (peg$c73.test(input.charAt(peg$currPos))) {
+	          if (peg$c90.test(input.charAt(peg$currPos))) {
 	            s4 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c91); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            while (s4 !== peg$FAILED) {
 	              s3.push(s4);
-	              if (peg$c73.test(input.charAt(peg$currPos))) {
+	              if (peg$c90.test(input.charAt(peg$currPos))) {
 	                s4 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s4 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c91); }
 	              }
 	            }
 	          } else {
@@ -2131,12 +2377,12 @@
 	    function peg$parseSIGN() {
 	      var s0;
 
-	      if (peg$c78.test(input.charAt(peg$currPos))) {
+	      if (peg$c95.test(input.charAt(peg$currPos))) {
 	        s0 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s0 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c79); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c96); }
 	      }
 
 	      return s0;
@@ -2146,22 +2392,22 @@
 	      var s0, s1;
 
 	      s0 = [];
-	      if (peg$c80.test(input.charAt(peg$currPos))) {
+	      if (peg$c97.test(input.charAt(peg$currPos))) {
 	        s1 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c81); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c98); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        while (s1 !== peg$FAILED) {
 	          s0.push(s1);
-	          if (peg$c80.test(input.charAt(peg$currPos))) {
+	          if (peg$c97.test(input.charAt(peg$currPos))) {
 	            s1 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s1 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c81); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c98); }
 	          }
 	        }
 	      } else {
@@ -2259,15 +2505,24 @@
 	          }
 	        }
 	      };
-	      
-	      /*
-	      function Attribute(ident, match, value, flag) {
+
+	      function Attribute(ident, operator, value, flag) {
 	        this.ident = ident;
-	        this.match = match;
+	        this.operator = operator;
 	        this.value = value;
 	        this.flag = flag;
 	      }
-	      */
+	      Attribute.prototype = {
+	        toString: function () {
+	          return 
+	            '[' + 
+	            this.ident + 
+	            (this.operator||'')+
+	            (this.value||'')+
+	            (this.flag?(' '+this.flag):'') +
+	            ']';
+	        }
+	      };
 
 
 	    peg$result = peg$startRuleFunction();
@@ -2478,7 +2733,11 @@
 	  if (ssf && Error.captureStackTrace) {
 	    Error.captureStackTrace(this, ssf);
 	  } else {
-	    this.stack = new Error().stack;
+	    try {
+	      throw new Error();
+	    } catch(e) {
+	      this.stack = e.stack;
+	    }
 	  }
 	}
 
@@ -8586,2147 +8845,6 @@
 	  ('isNotFrozen', 'notFrozen');
 	};
 
-
-/***/ },
-/* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var _chai = __webpack_require__(4);
-
-	describe('traversal', function () {
-
-	  describe('BREADTH_FIRST_TRAVERSAL', function () {
-	    var data = __webpack_require__(42);
-	    data.a = data;
-	    data.menu.popup.menuitem.a = data.menu;
-	    [{
-	      input: {
-	        target: data,
-	        depth: undefined
-	      },
-	      expect: 46
-	    }, {
-	      input: {
-	        target: data.menu.id,
-	        depth: undefined
-	      },
-	      expect: 1
-	    }, {
-	      input: {
-	        target: data.menu.popup.menuitem[0],
-	        depth: undefined
-	      },
-	      expect: 13
-	    }, {
-	      input: {
-	        target: data.menu.popup.menuitem[0],
-	        depth: 1
-	      },
-	      expect: 3
-	    }].forEach(function (testCase) {
-	      it('should traverse over ' + testCase.expect + ' node', function () {
-	        var result = 0;
-
-	        var _m$depth = testCase.input.depth;
-
-	        var _breadthFirstTraversal = void 0;
-
-	        var _m$buffer = [[testCase.input.target, [], []]];
-	        var _m$tmp, _m$node, _m$path, _m$parent;
-	        var _m$key, _m$newNode;
-	        while (_m$buffer.length) {
-	          _m$tmp = _m$buffer.shift();
-	          _m$node = _m$tmp[0];
-	          _m$path = _m$tmp[1];
-	          _m$parent = _m$tmp[2];
-	          if (_m$depth === undefined || _m$path.length == _m$depth) {
-	            var _m$visitor5 = void 0;
-
-	            result++;
-
-	            _m$visitor5;
-	          }
-	          if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (_m$depth === undefined || _m$path.length < _m$depth)) {
-	            _m$parent = _m$parent.slice();
-	            _m$parent.push(_m$node);
-	            for (_m$key in _m$node) {
-	              _m$newNode = _m$node[_m$key];
-	              if (_m$parent.indexOf(_m$newNode) == -1) {
-	                _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
-	              }
-	            }
-	          }
-	        }
-	        _breadthFirstTraversal;
-
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
-	    });
-	  });
-
-	  describe('BREADTH_FIRST_SEARCH', function () {
-	    var data = __webpack_require__(42);
-	    data.a = data;
-	    data.menu.popup.menuitem.a = data.menu;
-	    [{
-	      input: {
-	        target: data,
-	        depth: undefined
-	      },
-	      targetVal: 'CreateNewDoc()',
-	      expect: 1
-	    }, {
-	      input: {
-	        target: data.menu.id,
-	        depth: undefined
-	      },
-	      targetVal: 'CreateNewDoc',
-	      expect: 1
-	    }, {
-	      input: {
-	        target: data.menu.popup.menuitem[0],
-	        depth: undefined
-	      },
-	      targetVal: 'New2_1',
-	      expect: 1
-	    }, {
-	      input: {
-	        target: data,
-	        depth: 1
-	      },
-	      targetVal: 'CreateNewDoc()',
-	      expect: 1
-	    }].forEach(function (testCase) {
-	      it('should traverse over ' + testCase.expect + ' node', function () {
-	        var result = 0;
-
-	        var _m$depth2 = testCase.input.depth;
-
-	        var _breadthFirstSearch = void 0;
-
-	        var _m$result;
-
-	        var _m$buffer2 = [[testCase.input.target, [], []]];
-	        var _m$tmp2, _m$node2, _m$path2, _m$parent2;
-	        var _m$key2, _m$newNode2;
-	        while (_m$buffer2.length) {
-	          _m$tmp2 = _m$buffer2.shift();
-	          _m$node2 = _m$tmp2[0];
-	          _m$path2 = _m$tmp2[1];
-	          _m$parent2 = _m$tmp2[2];
-	          if (_m$depth2 === undefined || _m$path2.length == _m$depth2) {
-	            var _m$visitor6 = void 0;
-
-	            result++;
-	            _m$visitor6 = _m$node2 == testCase.targetVal;
-
-	            if (_m$visitor6) {
-	              _m$result = [_m$node2, _m$path2, _m$parent2];
-	              break;
-	            }
-	          } else if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && (_m$depth2 === undefined || _m$path2.length < _m$depth2)) {
-	            _m$parent2 = _m$parent2.slice();
-	            _m$parent2.push(_m$node2);
-	            for (_m$key2 in _m$node2) {
-	              _m$newNode2 = _m$node2[_m$key2];
-	              if (_m$parent2.indexOf(_m$newNode2) == -1) {
-	                _m$buffer2.push([_m$newNode2, _m$path2.concat(_m$key2), _m$parent2]);
-	              }
-	            }
-	          }
-	        }
-
-	        _breadthFirstSearch = _m$result;
-	        var returnval = _breadthFirstSearch;
-
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
-	    });
-	  });
-
-	  describe('DEPTH_FIRST_TRAVERSAL', function () {
-	    var data = __webpack_require__(42);
-	    data.a = data;
-	    data.menu.popup.menuitem.a = data.menu;
-	    [{
-	      input: data,
-	      expect: 46
-	    }, {
-	      input: data.menu.popup.menuitem,
-	      expect: 45
-	    }, {
-	      input: data.menu.id,
-	      expect: 1
-	    }, {
-	      input: data.menu.popup.menuitem[0],
-	      expect: 13
-	    }].forEach(function (testCase) {
-	      it('should traverse over ' + testCase.expect + ' node', function () {
-	        var result = 0;
-
-	        var _depthFirstTraversal = void 0;
-
-	        var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
-	          var _m$visitor3 = void 0;
-
-	          result++;
-
-	          _m$visitor3;
-	          if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
-	            var m$key, m$newNode;
-	            m$parent = m$parent.slice();
-	            m$parent.push(m$node);
-	            for (m$key in m$node) {
-	              m$newNode = m$node[m$key];
-	              if (m$parent.indexOf(m$newNode) == -1) {
-	                m$traverse(m$newNode, m$path.concat(m$key), m$parent);
-	              }
-	            }
-	          }
-	        };
-
-	        _m$traverse(testCase.input, [], []);
-	        _depthFirstTraversal;
-
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
-	    });
-	  });
-
-	  describe('DEPTH_FIRST_SEARCH', function () {
-	    var data = __webpack_require__(42);
-	    data.a = data;
-	    data.menu.popup.menuitem.a = data.menu;
-	    [{
-	      input: data,
-	      targetVal: 'CreateNewDoc()',
-	      expect: 10
-	    }, {
-	      input: data.menu.popup.menuitem,
-	      targetVal: 'OpenDoc()',
-	      expect: 17
-	    }, {
-	      input: data.menu.id,
-	      targetVal: 'CreateNewDoc',
-	      expect: 1
-	    }, {
-	      input: data.menu.popup.menuitem[0],
-	      targetVal: 'New2_1',
-	      expect: 6
-	    }].forEach(function (testCase) {
-	      it('should traverse over ' + testCase.expect + ' node', function () {
-	        var result = 0;
-
-	        var _depthFirstSearch = void 0;
-
-	        _DEPTH_FIRST_SEARCH: {
-	          var _m$traverse2 = function m$traverse(m$node, m$path, m$parent) {
-	            var _m$visitor4 = void 0;
-
-	            result++;
-	            _m$visitor4 = m$node == testCase.targetVal;
-
-	            if (_m$visitor4) {
-	              return [m$node, m$path, m$parent];
-	            }
-
-	            if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
-	              var m$key, m$newNode, m$tmp;
-	              m$parent = m$parent.slice();
-	              m$parent.push(m$node);
-	              for (m$key in m$node) {
-	                m$newNode = m$node[m$key];
-	                if (m$parent.indexOf(m$newNode) == -1) {
-	                  if (m$tmp = m$traverse(m$newNode, m$path.concat(m$key), m$parent)) {
-	                    return m$tmp;
-	                  }
-	                }
-	              }
-	            }
-	          };
-
-	          _depthFirstSearch = _m$traverse2(testCase.input, [], []);
-	        }
-
-	        var returnval = _depthFirstSearch;
-
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
-	    });
-	  });
-	});
-
-/***/ },
-/* 42 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		"menu": {
-			"id": "file",
-			"value": "File",
-			"test": null,
-			"popup": {
-				"menuitem": [
-					{
-						"value": "New",
-						"onclick": "CreateNewDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_1",
-								"onclick": "CreateNewDoc2_1()"
-							},
-							{
-								"value": "Open2_1",
-								"onclick": "OpenDoc2_1()"
-							},
-							{
-								"value": "Close2_1",
-								"onclick": "CloseDoc2_1()"
-							}
-						]
-					},
-					{
-						"value": "Open",
-						"onclick": "OpenDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_2",
-								"onclick": "CreateNewDoc2_2()"
-							},
-							{
-								"value": "Open2_2",
-								"onclick": "OpenDoc2_2()"
-							},
-							{
-								"value": "Close2_2",
-								"onclick": "CloseDoc2_2()"
-							}
-						]
-					},
-					{
-						"value": "Close",
-						"onclick": "CloseDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_3",
-								"onclick": "CreateNewDoc2_3()"
-							},
-							{
-								"value": "Open2_3",
-								"onclick": "OpenDoc2_3()"
-							},
-							{
-								"value": "Close2_3",
-								"onclick": "CloseDoc2_3()"
-							}
-						]
-					}
-				]
-			}
-		}
-	};
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _util = __webpack_require__(44);
-
-	var _chai = __webpack_require__(4);
-
-	describe('traversal', function () {
-
-	  describe('getFromPath', function () {
-	    var data = __webpack_require__(45);
-	    [{
-	      input: '/menu/id',
-	      expect: 'file'
-	    }, {
-	      input: 'menu/popup/menuitem/1/value',
-	      expect: 'Open'
-	    }, {
-	      input: '/menu/popup/menuitem/3',
-	      expect: undefined
-	    }, {
-	      input: '/menu/test',
-	      expect: null
-	    }].forEach(function (testCase) {
-	      it('should return ' + testCase.expect + ' when the path is ' + testCase.input, function () {
-	        var result = (0, _util.getFromPath)(data, testCase.input);
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
-	    });
-	  });
-
-	  describe('getFromPathArray', function () {
-	    var data = __webpack_require__(45);
-	    [{
-	      input: ['menu', 'id'],
-	      expect: 'file'
-	    }, {
-	      input: ['menu', 'popup', 'menuitem', '1', 'value'],
-	      expect: 'Open'
-	    }, {
-	      input: ['menu', 'popup', 'menuitem', '3'],
-	      expect: undefined
-	    }, {
-	      input: ['menu', 'test'],
-	      expect: null
-	    }].forEach(function (testCase) {
-	      it('should return ' + testCase.expect + ' when the path is ' + JSON.stringify(testCase.input), function () {
-	        var result = (0, _util.getFromPathArray)(data, testCase.input);
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
-	    });
-	  });
-
-	  describe('listStruct', function () {
-	    var data = __webpack_require__(45);
-	    [{
-	      input: {
-	        name: 'data',
-	        args: [data]
-	      },
-	      expect: 46
-	    }, {
-	      input: {
-	        name: 'data.menu.popup.menuitem',
-	        args: [data.menu.popup.menuitem, 'bfs', 1]
-	      },
-	      expect: 3
-	    }, {
-	      input: {
-	        name: 'data.menu.popup.menuitem',
-	        args: [data.menu.popup.menuitem, 'dfs']
-	      },
-	      expect: 40
-	    }, {
-	      input: {
-	        name: 'data.xxxx',
-	        args: [data.xxxx]
-	      },
-	      expect: 1
-	    }].forEach(function (testCase) {
-	      it('should return ' + testCase.expect + ' when the path is ' + testCase.input.name, function () {
-	        var result = _util.listStruct.apply(this, testCase.input.args);
-	        _chai.assert.strictEqual(result.length, testCase.expect);
-	      });
-	    });
-	  });
-	});
-
-/***/ },
-/* 44 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	exports.getFromPath = getFromPath;
-	exports.getFromPathArray = getFromPathArray;
-	exports.listStruct = listStruct;
-	function getFromPath(root, path) {
-	  var delimiter = arguments.length <= 2 || arguments[2] === undefined ? '/' : arguments[2];
-
-	  if (path.charAt(0) == delimiter) {
-	    path = path.substr(1);
-	  }
-
-	  return getFromPathArray(root, path.split(delimiter));
-	}
-
-	function getFromPathArray(root, path) {
-	  var result = root;
-
-	  var _every = void 0;
-
-	  var _m$result = true;
-
-	  var _m$i = 0,
-	      _m$I = path.length;
-	  while (_m$i < _m$I) {
-	    var _val2 = path[_m$i];
-
-	    var _m$visitor4 = void 0;
-
-	    result = result[_val2];
-	    _m$visitor4 = result !== undefined && result !== null;
-
-	    if (!_m$visitor4) {
-	      _m$result = false;
-	      break;
-	    }
-
-	    _m$i++;
-	  }
-
-	  _every = _m$result;
-	  _every;
-	  return result;
-	}
-
-	function listStruct(target) {
-	  var type = arguments.length <= 1 || arguments[1] === undefined ? 'bfs' : arguments[1];
-	  var depth = arguments[2];
-
-	  var result = [];
-	  type = type.toLowerCase();
-	  if (type == 'bfs') {
-	    var _breadthFirstTraversal2 = void 0;
-
-	    var _m$buffer = [[target, [], []]];
-	    var _m$tmp, _m$node, _m$path, _m$parent;
-	    var _m$key, _m$newNode;
-	    while (_m$buffer.length) {
-	      _m$tmp = _m$buffer.shift();
-	      _m$node = _m$tmp[0];
-	      _m$path = _m$tmp[1];
-	      _m$parent = _m$tmp[2];
-	      if (depth === undefined || _m$path.length == depth) {
-	        var _m$visitor5 = void 0;
-
-	        result.push([_m$path, _m$parent, _m$node]);
-
-	        _m$visitor5;
-	      }
-	      if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (depth === undefined || _m$path.length < depth)) {
-	        _m$parent = _m$parent.slice();
-	        _m$parent.push(_m$node);
-	        for (_m$key in _m$node) {
-	          _m$newNode = _m$node[_m$key];
-	          if (_m$parent.indexOf(_m$newNode) == -1) {
-	            _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
-	          }
-	        }
-	      }
-	    }
-
-	    _breadthFirstTraversal2;
-	  } else if (type == 'dfs') {
-	    var _depthFirstTraversal2 = void 0;
-
-	    var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
-	      var _m$visitor3 = void 0;
-
-	      result.push([m$path, m$parent, m$node]);
-
-	      _m$visitor3;
-	      if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
-	        var m$key, m$newNode;
-	        m$parent = m$parent.slice();
-	        m$parent.push(m$node);
-	        for (m$key in m$node) {
-	          m$newNode = m$node[m$key];
-	          if (m$parent.indexOf(m$newNode) == -1) {
-	            m$traverse(m$newNode, m$path.concat(m$key), m$parent);
-	          }
-	        }
-	      }
-	    };
-
-	    _m$traverse(target, [], []);
-
-	    _depthFirstTraversal2;
-	  }
-
-	  return result;
-	}
-
-/***/ },
-/* 45 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		"menu": {
-			"id": "file",
-			"value": "File",
-			"test": null,
-			"popup": {
-				"menuitem": [
-					{
-						"value": "New",
-						"onclick": "CreateNewDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_1",
-								"onclick": "CreateNewDoc2_1()"
-							},
-							{
-								"value": "Open2_1",
-								"onclick": "OpenDoc2_1()"
-							},
-							{
-								"value": "Close2_1",
-								"onclick": "CloseDoc2_1()"
-							}
-						]
-					},
-					{
-						"value": "Open",
-						"onclick": "OpenDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_2",
-								"onclick": "CreateNewDoc2_2()"
-							},
-							{
-								"value": "Open2_2",
-								"onclick": "OpenDoc2_2()"
-							},
-							{
-								"value": "Close2_2",
-								"onclick": "CloseDoc2_2()"
-							}
-						]
-					},
-					{
-						"value": "Close",
-						"onclick": "CloseDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_3",
-								"onclick": "CreateNewDoc2_3()"
-							},
-							{
-								"value": "Open2_3",
-								"onclick": "OpenDoc2_3()"
-							},
-							{
-								"value": "Close2_3",
-								"onclick": "CloseDoc2_3()"
-							}
-						]
-					}
-				]
-			}
-		}
-	};
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _selector = __webpack_require__(47);
-
-	var _selector2 = _interopRequireDefault(_selector);
-
-	var _chai = __webpack_require__(4);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	describe('Selector', function () {
-
-	  describe('constructor', function () {
-	    it('new Selector with testData1', function () {
-	      var data1 = __webpack_require__(45);
-	      var result = new _selector2.default(data1, {});
-	      _chai.assert.deepEqual(result.__root__, data1);
-	    });
-	    it('new Selector with testData2', function () {
-	      var data2 = __webpack_require__(48);
-	      var result = new _selector2.default(data2, {});
-	      _chai.assert.deepEqual(result.__root__, data2);
-	    });
-	  });
-
-	  describe('selectOne', function () {
-	    describe('Complex Object', function () {
-	      var data = __webpack_require__(45);
-	      [{
-	        input: 'value',
-	        expect: {
-	          path: 'menu,value',
-	          value: 'File'
-	        }
-	      }, {
-	        input: 'value abc',
-	        expect: {
-	          value: undefined
-	        }
-	      }, {
-	        input: 'popup value',
-	        expect: {
-	          path: 'menu,popup,menuitem,0,value',
-	          value: 'New'
-	        }
-	      }, {
-	        input: 'popup>value',
-	        expect: {
-	          value: undefined
-	        }
-	      }, {
-	        input: 'menuitem>value',
-	        expect: {
-	          value: undefined
-	        }
-	      }, {
-	        input: '#file',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'menu',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: '>menu',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'popup>value, >menu',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: {
-	          path: 'menu,popup,menuitem,0,menuitem2,0,value',
-	          value: 'New2_1'
-	        }
-	      }, {
-	        input: '>menu>popup>menuitem>value',
-	        expect: {
-	          value: undefined
-	        }
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: {
-	          path: 'menu,popup,menuitem,0,onclick',
-	          value: 'CreateNewDoc()'
-	        }
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: {
-	          path: 'menu,popup,menuitem,2,menuitem2,2,onclick',
-	          value: 'CloseDoc2_3()'
-	        }
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expect.desc || testCase.expect.value) + ' when the select is ' + testCase.input, function () {
-	          var result = new _selector2.default(data, {}).selectOne(testCase.input);
-	          if (result[0]) {
-	            _chai.assert.equal(result[0].value, testCase.expect.value);
-	            _chai.assert.equal(result[0].path.toString(), testCase.expect.path);
-	          } else {
-	            _chai.assert.equal(result[0], testCase.expect.value);
-	          }
-	        });
-	      });
-	    });
-	    describe('Multdimensionalz Array', function () {
-	      var data = __webpack_require__(48);
-	      [{
-	        input: '>"0">"0">"0"',
-	        expect: '0,0,0'
-	      }, {
-	        input: '>"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: '>"4">"4">"4">"1" "popup">"menuitem">"0" "0">"value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: ':equal(5555)',
-	        expect: '2,3,3,0,1,1'
-	      }, {
-	        input: ':equal(6666)',
-	        expect: '3,4,4,3,2,2'
-	      }, {
-	        input: ':equal(9000)',
-	        expect: '4,4,4,0,2,2'
-	      }, {
-	        input: ':equal(22)',
-	        expect: '0,3,0,1'
-	      }, {
-	        input: '>:equal(1000)',
-	        expect: '6'
-	      }, {
-	        input: 'popup value',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,value'
-	      }, {
-	        input: 'popup>value',
-	        expect: undefined
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: '0,3,4,onclick'
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: '0,3,4,menuitem2,0,onclick'
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: '4,4,4,1,menu,popup,menuitem,2,menuitem2,2,onclick'
-	      }].forEach(function (testCase) {
-	        it('should return ' + testCase.expect + ' when the select is ' + testCase.input, function () {
-	          var result = new _selector2.default(data, {}).selectOne(testCase.input);
-	          if (result[0]) {
-	            _chai.assert.equal(result[0].path.toString(), testCase.expect);
-	          } else {
-	            _chai.assert.equal(result[0], testCase.expect);
-	          }
-	        });
-	      });
-	    });
-	  });
-
-	  describe('selectAll', function () {
-	    describe('Complex Object', function () {
-	      var data = __webpack_require__(45);
-	      [{
-	        input: 'value',
-	        expect: 13
-	      }, {
-	        input: 'popup value',
-	        expect: 12
-	      }, {
-	        input: 'popup>value',
-	        expect: 0
-	      }, {
-	        input: 'menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: '#file',
-	        expect: 1
-	      }, {
-	        input: 'menu',
-	        expect: 1
-	      }, {
-	        input: '>menu',
-	        expect: 1
-	      }, {
-	        input: 'popup value, >menu',
-	        expect: 13
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: 1
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: 1
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: 1
-	      }, {
-	        input: ':regexpTest(/2_/)',
-	        expect: 18
-	      }, {
-	        input: ':regexpTest(/2_/), :regexpTest(/2_/)',
-	        expect: 18
-	      }, {
-	        input: '"0", "1"',
-	        expect: 8
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
-	          var result = new _selector2.default(data).selectAll(testCase.input);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	    describe('Multdimensional Array', function () {
-	      var data = __webpack_require__(48);
-	      [{
-	        input: '>"0">"0">"0"',
-	        expect: 1
-	      }, {
-	        input: '"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
-	        expect: 1
-	      }, {
-	        input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
-	        expect: 3
-	      }, {
-	        input: ':equal(5555)',
-	        expect: 2
-	      }, {
-	        input: ':equal(22)',
-	        expect: 1
-	      }, {
-	        input: ':equal(1), :equal(5)',
-	        expect: 34
-	      }, {
-	        input: 'popup value',
-	        expect: 12
-	      }, {
-	        input: 'popup>value',
-	        expect: 0
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: 2
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: 2
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: ':regexpTest(/2_/)',
-	        expect: 36
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
-	          var result = new _selector2.default(data).selectAll(testCase.input);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	  });
-
-	  describe('pseudoClass', function () {
-	    describe('defined', function () {
-	      var data = __webpack_require__(48);
-	      [{
-	        input: {
-	          select: ':gt(2000)',
-	          option: {
-	            pseudoClass: {
-	              gt: function gt(v1, path, parent, v2) {
-	                return v1 > v2;
-	              }
-	            }
-	          }
-	        },
-	        expect: 5
-	      }, {
-	        input: {
-	          select: ':lt(1)',
-	          option: {
-	            pseudoClass: {
-	              lt: function lt(v1, path, parent, v2) {
-	                return v1 < v2;
-	              }
-	            }
-	          }
-	        },
-	        expect: 13
-	      }].forEach(function (testCase) {
-	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
-	          var result = new _selector2.default(data, testCase.input.option);
-	          result = result.selectAll(testCase.input.select);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-
-	    describe('link', function () {
-	      var data = __webpack_require__(48);
-	      [{
-	        input: {
-	          select: [':gt(2000)', ':lt(6000)'],
-	          option: {
-	            pseudoClass: {
-	              gt: function gt(v1, path, parent, v2) {
-	                return v1 > v2;
-	              },
-	              lt: function lt(v1, path, parent, v2) {
-	                return v1 < v2;
-	              }
-	            }
-	          }
-	        },
-	        expect: 2
-	      }].forEach(function (testCase) {
-	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
-	          var result = new _selector2.default(data, testCase.input.option);
-	          result = result.selectAll(testCase.input.select[0]);
-	          result = result.selectAll(testCase.input.select[1]);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	  });
-
-	  describe('getFromPath', function () {
-	    var data = __webpack_require__(45);
-	    it('should get 2 node when the select \'"0", "1"\' and get path \'menuitem2 0\'', function () {
-	      var result = new _selector2.default(data).selectAll('"0", "1"').getFromPath('/menuitem2/0');
-	      _chai.assert.equal(result.length, 2);
-	      _chai.assert.equal(result[0].path.length, 6);
-	      _chai.assert.equal(result[1].path.length, 6);
-	    });
-	  });
-
-	  describe('resetRoot', function () {
-	    var data = __webpack_require__(45);
-	    it('should reset root property', function () {
-	      var result = new _selector2.default(data).selectAll('"0", "1"').resetRoot();
-	      _chai.assert.equal(result.__root__, result.__data__);
-	      (0, _chai.assert)(result.every(function (rec) {
-	        return rec.path.length == 0 && rec.root == result.__data__;
-	      }));
-	    });
-	  });
-	});
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _cssParser = __webpack_require__(3);
-
-	var _cssParser2 = _interopRequireDefault(_cssParser);
-
-	var _util = __webpack_require__(44);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// c3Selector(root, {
-	//   updateIndexInConstructor:true,
-	//   _index:{},
-	//   pseudoClass:{}
-	// })
-	// c3Selector.selectOne
-	// c3Selector.selectAll
-	// c3Selector.getFromPath(path)
-
-	var Selector = function (_Array) {
-	  _inherits(Selector, _Array);
-
-	  function Selector(root, option) {
-	    _classCallCheck(this, Selector);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Selector).call(this));
-
-	    var self = _this;
-	    Object.assign(_this,
-	    // default public property
-	    {
-	      selectOne: function selectOne(input) {
-	        var result = new Selector(undefined, self.__option__);
-	        var cssRules = _cssParser2.default.parse(input);
-	        var target;
-
-	        var _some = void 0;
-
-	        var _m$result = false;
-
-	        var _m$i = 0,
-	            _m$I = cssRules.length;
-	        while (_m$i < _m$I) {
-	          var _m$visitor25 = void 0;
-
-	          target = findFirstMatchNode(cssRules[_m$i].start, self.__data__);
-	          _m$visitor25 = target !== errorValue;
-
-	          if (_m$visitor25) {
-	            _m$result = true;
-	            break;
-	          }
-
-	          _m$i++;
-	        }
-
-	        _some = _m$result;
-	        if (_some) {
-	          result[0] = {
-	            value: target[0],
-	            path: target[1],
-	            root: self.__root__
-	          };
-	          result.__data__ = target[0];
-	          result.__root__ = self.__root__;
-	        }
-
-	        return result;
-	      },
-	      selectAll: function selectAll(input) {
-	        var result = new Selector(undefined, self.__option__);
-	        var cssRules = _cssParser2.default.parse(input);
-	        var targetList = [],
-	            tmp;
-
-	        var _forEach = void 0;
-
-	        var _m$i11 = 0,
-	            _m$I11 = cssRules.length;
-	        while (_m$i11 < _m$I11) {
-	          var _m$visitor26 = void 0;
-
-	          var _m$input5 = findMatchNode(cssRules[_m$i11].start, self.__data__);
-
-	          var _filter4 = void 0;
-
-	          var _m$filtered4 = [];
-
-	          var _m$i25 = 0,
-	              _m$I25 = _m$input5.length,
-	              _m$val4 = void 0;
-	          while (_m$i25 < _m$I25) {
-	            _m$val4 = _m$input5[_m$i25];
-
-	            var _m$visitor27 = void 0;
-
-	            var _every6 = void 0;
-
-	            var _m$result14 = true;
-
-	            var _m$i26 = 0,
-	                _m$I26 = targetList.length;
-	            while (_m$i26 < _m$I26) {
-	              var _node4 = targetList[_m$i26];
-
-	              var _m$visitor28 = void 0;
-
-	              if (_m$val4[0] !== _node4[0]) {
-	                var _m$array9 = _m$val4[1];
-	                var _m$array10 = _node4[1];
-
-	                var _compareTwoArray5 = void 0;
-
-	                var _m$result15 = true;
-
-	                if (_m$array9.length == _m$array10.length) {
-	                  var _m$i10 = 0,
-	                      _m$I10 = _m$array9.length;
-	                  while (_m$i10 < _m$I10) {
-	                    if (_m$array9[_m$i10] !== _m$array10[_m$i10]) {
-	                      _m$result15 = false;
-	                      break;
-	                    }
-
-	                    _m$i10++;
-	                  }
-	                } else {
-	                  _m$result15 = false;
-	                }
-
-	                _compareTwoArray5 = _m$result15;
-
-	                if (!_compareTwoArray5) {
-	                  _m$visitor28 = true;
-	                }
-	              }
-
-	              if (!_m$visitor28) {
-	                _m$result14 = false;
-	                break;
-	              }
-
-	              _m$i26++;
-	            }
-
-	            _every6 = _m$result14;
-	            _m$visitor27 = _every6;
-	            if (_m$visitor27) {
-	              _m$filtered4.push(_m$val4);
-	            }
-
-	            _m$i25++;
-	          }
-
-	          _filter4 = _m$filtered4;
-
-	          tmp = _filter4;
-	          Array.prototype.push.apply(targetList, tmp);
-
-	          _m$visitor26;
-	          _m$i11++;
-	        }
-	        _forEach;
-	        if (targetList.length) {
-	          var _forEach10 = void 0;
-
-	          var _m$i27 = 0,
-	              _m$I27 = targetList.length;while (_m$i27 < _m$I27) {
-	            var _nodeInfo3 = targetList[_m$i27];
-
-	            var _m$visitor29 = void 0;
-
-	            result[_m$i27] = {
-	              value: _nodeInfo3[0],
-	              path: _nodeInfo3[1],
-	              root: self.__root__
-	            };
-	            _m$visitor29;_m$i27++;
-	          }
-	          _forEach10;
-
-	          var _map3 = void 0;
-
-	          var _m$length3 = targetList.length;
-	          var _m$result16 = new Array(_m$length3);
-
-	          var _m$i28 = 0,
-	              _m$I28 = targetList.length;
-	          while (_m$i28 < _m$I28) {
-	            _m$result16[_m$i28] = targetList[_m$i28][0];
-	            _m$i28++;
-	          }
-
-	          _map3 = _m$result16;
-	          result.__data__ = _map3;
-	          result.__root__ = self.__root__;
-	        }
-
-	        return result;
-	      },
-	      getFromPath: function getFromPath(path) {
-	        var delimiter = arguments.length <= 1 || arguments[1] === undefined ? '/' : arguments[1];
-
-	        var result = new Selector(self.__root__, self.__option__);
-	        if (path.charAt(0) == delimiter) {
-	          path = path.substr(1);
-	        }
-
-	        path = path.split(delimiter);
-
-	        var _map2 = void 0;
-
-	        var _m$length2 = self.length;var _m$result10 = new Array(_m$length2);var _m$i16 = 0,
-	            _m$I16 = self.length;while (_m$i16 < _m$I16) {
-	          var _nodeInfo4 = self[_m$i16];
-
-	          var _m$visitor30 = void 0;
-
-	          _m$visitor30 = {
-	            value: (0, _util.getFromPathArray)(_nodeInfo4.value, path, delimiter),
-	            path: _nodeInfo4.path.concat(path),
-	            root: _nodeInfo4.root
-	          };
-	          _m$result10[_m$i16] = _m$visitor30;_m$i16++;
-	        }_map2 = _m$result10;
-	        var _m$input4 = _map2;
-
-	        var _filter3 = void 0;
-
-	        var _m$filtered3 = [];var _m$i15 = 0,
-	            _m$I15 = _m$input4.length,
-	            _m$val3 = void 0;while (_m$i15 < _m$I15) {
-	          _m$val3 = _m$input4[_m$i15];if (_m$val3.value) {
-	            _m$filtered3.push(_m$val3);
-	          }_m$i15++;
-	        }_filter3 = _m$filtered3;
-	        var _m$input3 = _filter3;
-
-	        var _forEach3 = void 0;
-
-	        var _m$i14 = 0,
-	            _m$I14 = _m$input3.length;while (_m$i14 < _m$I14) {
-	          result[_m$i14] = _m$input3[_m$i14];_m$i14++;
-	        }_forEach3;
-	        return result;
-	      },
-	      resetRoot: function resetRoot() {
-	        var result = new Selector(self.__data__, self.__option__);
-
-	        var _forEach4 = void 0;
-
-	        var _m$i17 = 0,
-	            _m$I17 = self.length;while (_m$i17 < _m$I17) {
-	          var _m$visitor31 = void 0;
-
-	          var _tmp = Object.assign({}, self[_m$i17]);
-	          _tmp.path = [];
-	          _tmp.root = self.__data__;
-	          result[_m$i17] = _tmp;
-	          _m$visitor31;_m$i17++;
-	        }_forEach4;
-	        return result;
-	      },
-
-	      pseudoClass: {
-	        regexpTest: function regexpTest(node, path, parent, val) {
-	          return val.test(node);
-	        },
-	        equal: function equal(node, path, parent, val) {
-	          return val === node;
-	        }
-	      }
-	    },
-	    // default private property
-	    {
-	      __root__: root,
-	      __data__: root,
-	      __option__: option
-	    }, option);
-	    if (root) {
-	      _get(Object.getPrototypeOf(Selector.prototype), 'push', _this).call(_this, { value: root, path: [], root: root });
-	    }
-
-	    var errorValue = {};
-	    // private method -----------------------------------------------------------------
-	    function findFirstMatchNode(combinator, node) {
-	      var result;
-	      if (combinator.operator == ' ') {
-	        var _depthFirstSearch2 = void 0;
-
-	        _DEPTH_FIRST_SEARCH: {
-	          var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
-	            var _m$visitor14 = void 0;
-
-	            var _m$compound2 = combinator.next;
-
-	            var _fatchCompoundSelector2 = void 0;
-
-	            _FATCH_COMPOUND_SELECTOR: {
-	              if (_m$compound2.element === undefined || m$path[m$path.length - 1] === _m$compound2.element.ident) {
-	                if (_m$compound2.attributes === undefined || matchAttribute(_m$compound2.attributes, m$node)) {
-	                  if (_m$compound2.pseudoClasses !== undefined) {
-	                    var _m$tmp3 = findPesudoClass(_m$compound2.pseudoClasses, m$node, m$path, m$parent);
-	                    if (_m$tmp3) {
-	                      _fatchCompoundSelector2 = _m$tmp3;
-	                      break _FATCH_COMPOUND_SELECTOR;
-	                    }
-	                  } else {
-	                    _fatchCompoundSelector2 = [m$node, m$path, m$parent];
-	                    break _FATCH_COMPOUND_SELECTOR;
-	                  }
-	                }
-	              }
-
-	              _fatchCompoundSelector2 = errorValue;
-	            }
-
-	            result = _fatchCompoundSelector2;
-	            if (result !== errorValue) {
-	              var _m$combinator9 = combinator.next.next;
-
-	              var _fetchNextSelector9 = void 0;
-
-	              _FETCH_NEXT_SELECTOR: {
-	                if (_m$combinator9) {
-	                  if (_typeof(result[0]) == 'object') {
-	                    var _m$tmp4 = findFirstMatchNode(_m$combinator9, result[0]);
-	                    if (_m$tmp4 !== errorValue) {
-	                      result[0] = _m$tmp4[0];
-	                      Array.prototype.push.apply(result[1], _m$tmp4[1]);
-	                      Array.prototype.push.apply(result[2], _m$tmp4[2]);
-	                      _fetchNextSelector9 = result;
-	                      break _FETCH_NEXT_SELECTOR;
-	                    }
-	                  }
-
-	                  _fetchNextSelector9 = errorValue;
-	                  break _FETCH_NEXT_SELECTOR;
-	                }
-
-	                _fetchNextSelector9 = result;
-	              }
-
-	              result = _fetchNextSelector9;
-	              if (result !== errorValue) {
-	                _m$visitor14 = true;
-	              }
-	            }
-
-	            if (_m$visitor14) {
-	              return [m$node, m$path, m$parent];
-	            }
-
-	            if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
-	              var m$key, m$newNode, m$tmp;
-	              m$parent = m$parent.slice();
-	              m$parent.push(m$node);
-	              for (m$key in m$node) {
-	                m$newNode = m$node[m$key];
-	                if (m$parent.indexOf(m$newNode) == -1) {
-	                  if (m$tmp = m$traverse(m$newNode, m$path.concat(m$key), m$parent)) {
-	                    return m$tmp;
-	                  }
-	                }
-	              }
-	            }
-	          };
-
-	          _depthFirstSearch2 = _m$traverse(node, [], []);
-	        }
-
-	        _depthFirstSearch2;
-	      } else if (combinator.operator == '>') {
-	        var _m$depth3 = 1;
-
-	        var _breadthFirstSearch2 = void 0;
-
-	        var _m$result11;
-
-	        var _m$buffer = [[node, [], []]];
-	        var _m$tmp9, _m$node, _m$path, _m$parent;
-	        var _m$key, _m$newNode;
-	        while (_m$buffer.length) {
-	          _m$tmp9 = _m$buffer.shift();
-	          _m$node = _m$tmp9[0];
-	          _m$path = _m$tmp9[1];
-	          _m$parent = _m$tmp9[2];
-	          if (_m$depth3 === undefined || _m$path.length == _m$depth3) {
-	            var _m$visitor32 = void 0;
-
-	            var _m$compound9 = combinator.next;
-
-	            var _fatchCompoundSelector9 = void 0;
-
-	            _FATCH_COMPOUND_SELECTOR2: {
-	              if (_m$compound9.element === undefined || _m$path[_m$path.length - 1] === _m$compound9.element.ident) {
-	                if (_m$compound9.attributes === undefined || matchAttribute(_m$compound9.attributes, _m$node)) {
-	                  if (_m$compound9.pseudoClasses !== undefined) {
-	                    var _m$tmp7 = findPesudoClass(_m$compound9.pseudoClasses, _m$node, _m$path, _m$parent);if (_m$tmp7) {
-	                      _fatchCompoundSelector9 = _m$tmp7;
-	                      break _FATCH_COMPOUND_SELECTOR2;
-	                    }
-	                  } else {
-	                    _fatchCompoundSelector9 = [_m$node, _m$path, _m$parent];
-	                    break _FATCH_COMPOUND_SELECTOR2;
-	                  }
-	                }
-	              }_fatchCompoundSelector9 = errorValue;
-	            }
-
-	            result = _fatchCompoundSelector9;
-	            if (result !== errorValue) {
-	              var _m$combinator10 = combinator.next.next;
-
-	              var _fetchNextSelector10 = void 0;
-
-	              _FETCH_NEXT_SELECTOR2: {
-	                if (_m$combinator10) {
-	                  if (_typeof(result[0]) == 'object') {
-	                    var _m$tmp8 = findFirstMatchNode(_m$combinator10, result[0]);if (_m$tmp8 !== errorValue) {
-	                      result[0] = _m$tmp8[0];Array.prototype.push.apply(result[1], _m$tmp8[1]);Array.prototype.push.apply(result[2], _m$tmp8[2]);_fetchNextSelector10 = result;
-	                      break _FETCH_NEXT_SELECTOR2;
-	                    }
-	                  }_fetchNextSelector10 = errorValue;
-	                  break _FETCH_NEXT_SELECTOR2;
-	                }_fetchNextSelector10 = result;
-	              }
-
-	              result = _fetchNextSelector10;
-	              if (result !== errorValue) {
-	                _m$visitor32 = true;
-	              }
-	            }
-
-	            if (_m$visitor32) {
-	              _m$result11 = [_m$node, _m$path, _m$parent];
-	              break;
-	            }
-	          } else if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (_m$depth3 === undefined || _m$path.length < _m$depth3)) {
-	            _m$parent = _m$parent.slice();
-	            _m$parent.push(_m$node);
-	            for (_m$key in _m$node) {
-	              _m$newNode = _m$node[_m$key];
-	              if (_m$parent.indexOf(_m$newNode) == -1) {
-	                _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
-	              }
-	            }
-	          }
-	        }
-
-	        _breadthFirstSearch2 = _m$result11;
-
-	        _breadthFirstSearch2;
-	      }
-
-	      return result;
-	    }
-
-	    function findMatchNode(combinator, node) {
-	      var result = [],
-	          tmp;
-	      if (combinator.operator == ' ') {
-	        var _depthFirstTraversal2 = void 0;
-
-	        var _m$traverse2 = function m$traverse(m$node, m$path, m$parent) {
-	          var _m$visitor18 = void 0;
-
-	          var _m$compound6 = combinator.next;
-
-	          var _fatchCompoundSelector6 = void 0;
-
-	          _FATCH_COMPOUND_SELECTOR3: {
-	            if (_m$compound6.element === undefined || m$path[m$path.length - 1] === _m$compound6.element.ident) {
-	              if (_m$compound6.attributes === undefined || matchAttribute(_m$compound6.attributes, m$node)) {
-	                if (_m$compound6.pseudoClasses !== undefined) {
-	                  var _m$tmp12 = findPesudoClass(_m$compound6.pseudoClasses, m$node, m$path, m$parent);if (_m$tmp12) {
-	                    _fatchCompoundSelector6 = _m$tmp12;
-	                    break _FATCH_COMPOUND_SELECTOR3;
-	                  }
-	                } else {
-	                  _fatchCompoundSelector6 = [m$node, m$path, m$parent];
-	                  break _FATCH_COMPOUND_SELECTOR3;
-	                }
-	              }
-	            }_fatchCompoundSelector6 = errorValue;
-	          }
-
-	          tmp = _fatchCompoundSelector6;
-	          if (tmp !== errorValue) {
-	            var _m$combinator11 = combinator.next.next;
-
-	            var _fetchNextSelector11 = void 0;
-
-	            _FETCH_NEXT_SELECTOR3: {
-	              if (_m$combinator11) {
-	                if (_typeof(tmp[0]) == 'object') {
-	                  var _m$tmp13 = findMatchNode(_m$combinator11, tmp[0]);
-	                  if (_m$tmp13 !== errorValue) {
-	                    var _forEach11 = void 0;
-
-	                    var _m$i29 = 0,
-	                        _m$I29 = _m$tmp13.length;while (_m$i29 < _m$I29) {
-	                      var _rec6 = _m$tmp13[_m$i29];
-
-	                      var _m$visitor33 = void 0;
-
-	                      Array.prototype.unshift.apply(_rec6[1], tmp[1]);
-	                      Array.prototype.unshift.apply(_rec6[2], tmp[2]);
-	                      _m$visitor33;_m$i29++;
-	                    }
-	                    _forEach11;
-	                    _fetchNextSelector11 = _m$tmp13;
-	                    break _FETCH_NEXT_SELECTOR3;
-	                  }
-	                }
-
-	                _fetchNextSelector11 = errorValue;
-	                break _FETCH_NEXT_SELECTOR3;
-	              }
-
-	              _fetchNextSelector11 = [tmp];
-	            }
-
-	            tmp = _fetchNextSelector11;
-	            if (tmp !== errorValue) {
-	              Array.prototype.push.apply(result, tmp);
-	            }
-	          }
-
-	          _m$visitor18;
-	          if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
-	            var m$key, m$newNode;
-	            m$parent = m$parent.slice();
-	            m$parent.push(m$node);
-	            for (m$key in m$node) {
-	              m$newNode = m$node[m$key];
-	              if (m$parent.indexOf(m$newNode) == -1) {
-	                m$traverse(m$newNode, m$path.concat(m$key), m$parent);
-	              }
-	            }
-	          }
-	        };
-
-	        _m$traverse2(node, [], []);
-
-	        _depthFirstTraversal2;
-	      } else if (combinator.operator == '>') {
-	        var _m$depth4 = 1;
-
-	        var _breadthFirstTraversal2 = void 0;
-
-	        var _m$buffer2 = [[node, [], []]];
-	        var _m$tmp18, _m$node2, _m$path2, _m$parent2;
-	        var _m$key2, _m$newNode2;
-	        while (_m$buffer2.length) {
-	          _m$tmp18 = _m$buffer2.shift();
-	          _m$node2 = _m$tmp18[0];
-	          _m$path2 = _m$tmp18[1];
-	          _m$parent2 = _m$tmp18[2];
-	          if (_m$depth4 === undefined || _m$path2.length == _m$depth4) {
-	            var _m$visitor34 = void 0;
-
-	            var _m$compound10 = combinator.next;
-
-	            var _fatchCompoundSelector10 = void 0;
-
-	            _FATCH_COMPOUND_SELECTOR4: {
-	              if (_m$compound10.element === undefined || _m$path2[_m$path2.length - 1] === _m$compound10.element.ident) {
-	                if (_m$compound10.attributes === undefined || matchAttribute(_m$compound10.attributes, _m$node2)) {
-	                  if (_m$compound10.pseudoClasses !== undefined) {
-	                    var _m$tmp16 = findPesudoClass(_m$compound10.pseudoClasses, _m$node2, _m$path2, _m$parent2);if (_m$tmp16) {
-	                      _fatchCompoundSelector10 = _m$tmp16;
-	                      break _FATCH_COMPOUND_SELECTOR4;
-	                    }
-	                  } else {
-	                    _fatchCompoundSelector10 = [_m$node2, _m$path2, _m$parent2];
-	                    break _FATCH_COMPOUND_SELECTOR4;
-	                  }
-	                }
-	              }_fatchCompoundSelector10 = errorValue;
-	            }
-
-	            tmp = _fatchCompoundSelector10;
-	            if (tmp !== errorValue) {
-	              var _m$combinator12 = combinator.next.next;
-
-	              var _fetchNextSelector12 = void 0;
-
-	              _FETCH_NEXT_SELECTOR4: {
-	                if (_m$combinator12) {
-	                  if (_typeof(tmp[0]) == 'object') {
-	                    var _m$tmp17 = findMatchNode(_m$combinator12, tmp[0]);if (_m$tmp17 !== errorValue) {
-	                      var _forEach12 = void 0;
-
-	                      var _m$i30 = 0,
-	                          _m$I30 = _m$tmp17.length;while (_m$i30 < _m$I30) {
-	                        var _rec7 = _m$tmp17[_m$i30];
-
-	                        var _m$visitor35 = void 0;
-
-	                        Array.prototype.unshift.apply(_rec7[1], tmp[1]);Array.prototype.unshift.apply(_rec7[2], tmp[2]);_m$visitor35;_m$i30++;
-	                      }_forEach12;_fetchNextSelector12 = _m$tmp17;
-	                      break _FETCH_NEXT_SELECTOR4;
-	                    }
-	                  }_fetchNextSelector12 = errorValue;
-	                  break _FETCH_NEXT_SELECTOR4;
-	                }_fetchNextSelector12 = [tmp];
-	              }
-
-	              tmp = _fetchNextSelector12;
-	              if (tmp !== errorValue) {
-	                Array.prototype.push.apply(result, tmp);
-	              }
-	            }
-
-	            _m$visitor34;
-	          }
-	          if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && (_m$depth4 === undefined || _m$path2.length < _m$depth4)) {
-	            _m$parent2 = _m$parent2.slice();
-	            _m$parent2.push(_m$node2);
-	            for (_m$key2 in _m$node2) {
-	              _m$newNode2 = _m$node2[_m$key2];
-	              if (_m$parent2.indexOf(_m$newNode2) == -1) {
-	                _m$buffer2.push([_m$newNode2, _m$path2.concat(_m$key2), _m$parent2]);
-	              }
-	            }
-	          }
-	        }
-
-	        _breadthFirstTraversal2;
-	      }
-
-	      return result;
-	    }
-
-	    function matchAttribute(attrSelectors, node) {
-	      var _every4 = void 0;
-
-	      var _m$result12 = true;var _m$i23 = 0,
-	          _m$I23 = attrSelectors.length;while (_m$i23 < _m$I23) {
-	        var _attrSelector2 = attrSelectors[_m$i23];
-
-	        var _m$visitor36 = void 0;
-
-	        _M$VISITOR16: {
-	          if (_attrSelector2.type == 'Id') {
-	            _m$visitor36 = node && (node.ID == _attrSelector2.ident || node.Id == _attrSelector2.ident || node.id == _attrSelector2.ident);
-	            break _M$VISITOR16;
-	          } else if (_attrSelector2.type == 'Class') {
-	            _m$visitor36 = node && scope.constructor.name == _attrSelector2.ident;
-	            break _M$VISITOR16;
-	          }
-
-	          _m$visitor36 = false;
-	        }
-
-	        if (!_m$visitor36) {
-	          _m$result12 = false;break;
-	        }_m$i23++;
-	      }_every4 = _m$result12;
-
-	      return _every4;
-	    }
-
-	    function findPesudoClass(pseudoClasses, node, path, parent) {
-	      var result, tmp;
-
-	      var _every5 = void 0;
-
-	      var _m$result13 = true;var _m$i24 = 0,
-	          _m$I24 = pseudoClasses.length;while (_m$i24 < _m$I24) {
-	        var _pseudoClass2 = pseudoClasses[_m$i24];
-
-	        var _m$visitor37 = void 0;
-
-	        _M$VISITOR17: {
-	          var _pseudoClassMethod = self.pseudoClass[_pseudoClass2.ident];
-	          var _pseudoClassArgs = [node, path, parent];
-	          if (_pseudoClass2.args) {
-	            _pseudoClassArgs = _pseudoClassArgs.concat(_pseudoClass2.args);
-	          }
-
-	          var _tmp2 = _pseudoClassMethod.apply(self, _pseudoClassArgs);
-	          if (!_tmp2) {
-	            _m$visitor37 = false;
-	            break _M$VISITOR17;
-	          } else if (_tmp2 instanceof Array) {
-	            node = _tmp2[0];
-	            path = _tmp2[1];
-	            parent = _tmp2[2];
-	          }
-
-	          _m$visitor37 = true;
-	        }
-
-	        if (!_m$visitor37) {
-	          _m$result13 = false;break;
-	        }_m$i24++;
-	      }_every5 = _m$result13;
-	      result = _every5;
-
-	      return result ? [node, path, parent] : false;
-	    }
-	    return _this;
-	  }
-
-	  return Selector;
-	}(Array);
-
-	exports.default = Selector;
-	;
-
-/***/ },
-/* 48 */
-/***/ function(module, exports) {
-
-	module.exports = [
-		[
-			[
-				1,
-				2,
-				3
-			],
-			[
-				4,
-				5,
-				6
-			],
-			[
-				7,
-				8,
-				9
-			],
-			[
-				[
-					1,
-					22,
-					3
-				],
-				[
-					4,
-					5,
-					6
-				],
-				[
-					7,
-					8,
-					9
-				],
-				[
-					[
-						[
-							1,
-							2,
-							3
-						],
-						[
-							4,
-							5,
-							6
-						],
-						[
-							7,
-							8,
-							9
-						]
-					]
-				],
-				{
-					"value": "New",
-					"onclick": "CreateNewDoc()",
-					"menuitem2": [
-						{
-							"value": "New2_1",
-							"onclick": "CreateNewDoc2_1()"
-						},
-						{
-							"value": "Open2_1",
-							"onclick": "OpenDoc2_1()"
-						},
-						{
-							"value": "Close2_1",
-							"onclick": "CloseDoc2_1()"
-						}
-					]
-				}
-			],
-			[
-				1,
-				2,
-				[
-					3,
-					4,
-					5
-				],
-				6
-			]
-		],
-		[
-			[],
-			[
-				null,
-				null
-			],
-			[],
-			[
-				null,
-				false
-			],
-			[
-				0,
-				0,
-				0,
-				0,
-				0,
-				101
-			],
-			0
-		],
-		[
-			[
-				1,
-				2,
-				3
-			],
-			[
-				4,
-				5,
-				6
-			],
-			[
-				7,
-				8,
-				9
-			],
-			[
-				[
-					1,
-					2,
-					3
-				],
-				[
-					4,
-					5,
-					6
-				],
-				[
-					7,
-					8,
-					9
-				],
-				[
-					[
-						[
-							1,
-							2,
-							3
-						],
-						[
-							4,
-							5555,
-							6
-						],
-						[
-							7,
-							8,
-							9
-						]
-					]
-				]
-			],
-			[
-				1,
-				2,
-				[
-					3,
-					433,
-					5
-				],
-				6
-			]
-		],
-		[
-			[
-				1,
-				2,
-				3
-			],
-			0,
-			[
-				7,
-				8,
-				9
-			],
-			[
-				1,
-				2,
-				[
-					3,
-					4,
-					5555
-				],
-				6
-			],
-			[
-				[
-					1,
-					2,
-					3
-				],
-				[
-					4,
-					5,
-					6
-				],
-				[
-					4,
-					5,
-					6
-				],
-				[
-					7,
-					8,
-					9
-				],
-				[
-					[
-						1,
-						2,
-						3
-					],
-					[
-						4,
-						5,
-						6,
-						{
-							"value": "Close2_3",
-							"onclick": "CloseDoc2_3()"
-						}
-					],
-					[
-						7,
-						8,
-						9
-					],
-					[
-						[
-							1,
-							2,
-							3
-						],
-						[
-							4,
-							5,
-							6
-						],
-						[
-							4,
-							5,
-							6666
-						],
-						[
-							7,
-							8,
-							9
-						]
-					]
-				]
-			]
-		],
-		[
-			[
-				[
-					1,
-					2,
-					3,
-					{
-						"value": "Close2_3",
-						"onclick": "CloseDoc2_3()"
-					}
-				],
-				[
-					4,
-					5,
-					6
-				],
-				[
-					7,
-					8,
-					9,
-					{
-						"value": "Close2_3",
-						"onclick": "CloseDoc2_3()"
-					}
-				]
-			],
-			[
-				1,
-				2,
-				3
-			],
-			[
-				4,
-				5,
-				6000
-			],
-			[
-				7,
-				8,
-				9
-			],
-			[
-				1,
-				2,
-				[
-					3,
-					4,
-					5,
-					{
-						"value": "Open",
-						"onclick": "OpenDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_2",
-								"onclick": "CreateNewDoc2_2()"
-							},
-							{
-								"value": "Open2_2",
-								"onclick": "OpenDoc2_2()"
-							},
-							{
-								"value": "Close2_2",
-								"onclick": "CloseDoc2_2()"
-							}
-						]
-					}
-				],
-				6,
-				[
-					[
-						[
-							1,
-							2,
-							3
-						],
-						[
-							4,
-							5,
-							6
-						],
-						[
-							7,
-							8,
-							9000
-						]
-					],
-					{
-						"menu": {
-							"id": "file",
-							"value": "File",
-							"popup": {
-								"menuitem": [
-									{
-										"value": "New",
-										"onclick": "CreateNewDoc()",
-										"menuitem2": [
-											{
-												"value": "New2_1",
-												"onclick": "CreateNewDoc2_1()"
-											},
-											{
-												"value": "Open2_1",
-												"onclick": "OpenDoc2_1()"
-											},
-											{
-												"value": "Close2_1",
-												"onclick": "CloseDoc2_1()"
-											}
-										]
-									},
-									{
-										"value": "Open",
-										"onclick": "OpenDoc()",
-										"menuitem2": [
-											{
-												"value": "New2_2",
-												"onclick": "CreateNewDoc2_2()"
-											},
-											{
-												"value": "Open2_2",
-												"onclick": "OpenDoc2_2()"
-											},
-											{
-												"value": "Close2_2",
-												"onclick": "CloseDoc2_2()"
-											}
-										]
-									},
-									{
-										"value": "Close",
-										"onclick": "CloseDoc()",
-										"menuitem2": [
-											{
-												"value": "New2_3",
-												"onclick": "CreateNewDoc2_3()"
-											},
-											{
-												"value": "Open2_3",
-												"onclick": "OpenDoc2_3()"
-											},
-											{
-												"value": "Close2_3",
-												"onclick": "CloseDoc2_3()"
-											}
-										]
-									}
-								]
-							}
-						}
-					}
-				]
-			]
-		],
-		5,
-		1000
-	];
 
 /***/ }
 /******/ ]);

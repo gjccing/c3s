@@ -86,15 +86,24 @@
       }
     }
   };
-  
-  /*
-  function Attribute(ident, match, value, flag) {
+
+  function Attribute(ident, operator, value, flag) {
     this.ident = ident;
-    this.match = match;
+    this.operator = operator;
     this.value = value;
     this.flag = flag;
   }
-  */
+  Attribute.prototype = {
+    toString: function () {
+      return 
+        '[' + 
+        this.ident + 
+        (this.operator||'')+
+        (this.value||'')+
+        (this.flag?(' '+this.flag):'') +
+        ']';
+    }
+  };
 }
 
 scope_relative_selector_list
@@ -138,10 +147,10 @@ compound_selector
   = pseudo_class: pseudo_class+ {
     return new Compound(undefined, undefined, pseudo_class);
   }
-  / compound: ( prop ( id / class /* / attrib */ )* ) pseudo_class: pseudo_class* {
+  / compound: ( prop ( id / class / attrib )* ) pseudo_class: pseudo_class* {
     return new Compound(compound[0], compound[1], pseudo_class);
   }
-  / compound: ( id / class /* / attrib */ )+ pseudo_class: pseudo_class* {
+  / compound: ( id / class / attrib )+ pseudo_class: pseudo_class* {
     return new Compound(undefined, compound, pseudo_class);
   }
 
@@ -160,7 +169,6 @@ class
     return new Class(val);
   }
 
-/*
 attrib
   = '[' S? name:PROP S? exp:(ATTRIB_MATCH S? VALUE (S ATTRIB_FLAGS)?)? S? ']' {
     var res = new Attribute(name);
@@ -174,7 +182,6 @@ attrib
     
     return res;
   }
-*/
 
 pseudo_class
   = ':' ident:IDENT val:( '(' S? VALUE S? (',' S? VALUE S?)* S? ')' )? {
@@ -195,7 +202,7 @@ pseudo_class
 
 VALUE
   = NUMBER / STRING / REGEX 
-/*
+
 ATTRIB_MATCH
   = '='
     / '^='
@@ -205,7 +212,6 @@ ATTRIB_MATCH
     / '|='
 ATTRIB_FLAGS
   = [A-Za-z]+ 
-*/
 PROP
   = STRING / IDENT /* / REGEX */
 IDENT

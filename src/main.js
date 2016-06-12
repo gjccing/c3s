@@ -1,4 +1,4 @@
-import Selector from './selector.js';
+import Selector from './Selector.js';
 import {getFromPath, getFromPathArray, listStruct} from './util.js';
 
 function c3s(root, option) {

@@ -1,21 +1,7 @@
-import Selector from '../src/selector.js';
+import Selector from '../src/Selector.js';
 import {assert} from 'chai';
 
 describe('Selector', function() {
-
-  describe('constructor', function () {
-    it(`new Selector with testData1`, function () {
-      var data1 = require('./data/testData1.json');
-      var result = new Selector(data1, {});
-      assert.deepEqual(result.__root__, data1);
-    });
-    it(`new Selector with testData2`, function () {
-      var data2 = require('./data/testData2.json');
-      var result = new Selector(data2, {});
-      assert.deepEqual(result.__root__, data2);
-    });
-  });
-
   describe('selectOne', function () {
     describe('Complex Object', function () {
       var data = require('./data/testData1.json');
@@ -114,11 +100,11 @@ describe('Selector', function() {
       ].forEach(function (testCase) {
         it(`should return ${testCase.expect.desc||testCase.expect.value} when the select is ${testCase.input}`, function () {
           var result = new Selector(data, {}).selectOne(testCase.input);
-          if (result[0]) {
-            assert.equal(result[0].value, testCase.expect.value);
-            assert.equal(result[0].path.toString(), testCase.expect.path);
+          if (result) {
+            assert.equal(result.node, testCase.expect.value);
+            assert.equal(result.path.toString(), testCase.expect.path);
           } else {
-            assert.equal(result[0], testCase.expect.value);
+            assert.equal(result, testCase.expect.value);
           }
         });
       });
@@ -189,10 +175,10 @@ describe('Selector', function() {
       ].forEach(function (testCase) {
         it(`should return ${testCase.expect} when the select is ${testCase.input}`, function () {
           var result = new Selector(data, {}).selectOne(testCase.input);
-          if (result[0]) {
-            assert.equal(result[0].path.toString(), testCase.expect);
+          if (result) {
+            assert.equal(result.path.toString(), testCase.expect);
           } else {
-            assert.equal(result[0], testCase.expect);
+            assert.equal(result, testCase.expect);
           }
         });
       });
@@ -338,7 +324,7 @@ describe('Selector', function() {
           input: {
             select: ':gt(2000)',
             option : {
-              pseudoClass: {
+              pseudoClasses: {
                 gt: function (v1, path, parent, v2) {
                   return v1 > v2;
                 }
@@ -351,7 +337,7 @@ describe('Selector', function() {
           input: {
             select: ':lt(1)',
             option : {
-              pseudoClass: {
+              pseudoClasses: {
                 lt: function (v1, path, parent, v2) {
                   return v1 < v2;
                 }
@@ -363,39 +349,7 @@ describe('Selector', function() {
       ].forEach(function (testCase) {
         it(`should return ${testCase.expect} when the select is ${JSON.stringify(testCase.input.select)}`, function () {
           var result = new Selector(data, testCase.input.option)
-          result = result.selectAll(testCase.input.select);
-          assert.equal(result.length, testCase.expect);
-        });
-      });
-    });
-
-    describe('link', function () {
-      var data = require('./data/testData2.json');
-      [
-        {
-          input: {
-            select: [
-                ':gt(2000)',
-                ':lt(6000)'
-            ],
-            option : {
-              pseudoClass: {
-                gt: function (v1, path, parent, v2) {
-                  return v1 > v2;
-                },
-                lt: function (v1, path, parent, v2) {
-                  return v1 < v2;
-                }
-              }
-            }
-          },
-          expect: 2
-        }
-      ].forEach(function (testCase) {
-        it(`should return ${testCase.expect} when the select is ${JSON.stringify(testCase.input.select)}`, function () {
-          var result = new Selector(data, testCase.input.option);
-          result = result.selectAll(testCase.input.select[0])
-          result = result.selectAll(testCase.input.select[1]);
+            .selectAll(testCase.input.select);
           assert.equal(result.length, testCase.expect);
         });
       });
@@ -404,22 +358,10 @@ describe('Selector', function() {
 
   describe('getFromPath', function () {
     var data = require('./data/testData1.json');
-    it(`should get 2 node when the select '"0", "1"' and get path 'menuitem2 0'`, function () {
+    it('should return value from "menu/popup/menuitem/0/menuitem2/0"', function () {
       var result = new Selector(data)
-        .selectAll('"0", "1"')
-        .getFromPath('/menuitem2/0');
-      assert.equal(result.length, 2);
-      assert.equal(result[0].path.length, 6);
-      assert.equal(result[1].path.length, 6);
-    });
-  });
-
-  describe('resetRoot', function () {
-    var data = require('./data/testData1.json');
-    it(`should reset root property`, function () {
-      var result = new Selector(data).selectAll('"0", "1"').resetRoot();
-      assert.equal(result.__root__, result.__data__);
-      assert(result.every((rec)=>rec.path.length == 0 && rec.root == result.__data__));
+        .getFromPath('menu/popup/menuitem/0/menuitem2/0');
+      assert.equal(result, data.menu.popup.menuitem[0].menuitem2[0]);
     });
   });
   
