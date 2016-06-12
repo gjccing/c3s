@@ -130,6 +130,7 @@ NodeInfo實例, 含有以下參數:
 * path: 從root到node的屬性路徑
 * parent: 從root到node的所有祖先
 * root: 查詢對象
+
 #### Parameters
 * input: string, 查詢語句
 
