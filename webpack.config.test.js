@@ -11,7 +11,7 @@ const config = {
     //node_modules: ["web_modules", "node_modules"]  (Default Settings)
   },
   //Render source-map file for final build
-  // devtool: 'source-map',
+  devtool: 'source-map',
   // output config
   output: {
     path: buildPath,    //Path of output file

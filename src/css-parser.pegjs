@@ -88,10 +88,15 @@
   };
 
   function Attribute(ident, operator, value, flag) {
+    this.type = 'Attribute';
     this.ident = ident;
     this.operator = operator;
     this.value = value;
     this.flag = flag;
+    if (this.ident.charAt(this.ident.length-1) == '$') {
+      this.ident = this.ident.substr(0, this.ident.length-1);
+      this.operator = '$' + this.operator;
+    }
   }
   Attribute.prototype = {
     toString: function () {
@@ -208,8 +213,10 @@ ATTRIB_MATCH
     / '^='
     / '$='
     / '*='
+    /*
     / '~='
     / '|='
+    */
 ATTRIB_FLAGS
   = [A-Za-z]+ 
 PROP

@@ -47,14 +47,6 @@ describe('Selector', function() {
           }
         },
         {
-          input: 'menu',
-          expect: {
-            path: 'menu', 
-            value:data.menu,
-            desc: 'menu Object'
-          }
-        },
-        {
           input: '>menu',
           expect: {
             path: 'menu', 
@@ -95,6 +87,46 @@ describe('Selector', function() {
           expect: {
             path: 'menu,popup,menuitem,2,menuitem2,2,onclick', 
             value:'CloseDoc2_3()'
+          }
+        },
+        {
+          input: 'menu[value]',
+          expect: {
+            path: 'menu', 
+            value:data.menu,
+            desc: 'menu Object'
+          }
+        },
+        {
+          input: 'menu[value="File"]',
+          expect: {
+            path: 'menu', 
+            value:data.menu,
+            desc: 'menu Object'
+          }
+        },
+        {
+          input: 'menu[value^="Fi"]',
+          expect: {
+            path: 'menu', 
+            value:data.menu,
+            desc: 'menu Object'
+          }
+        },
+        {
+          input: 'menu[value$="le"]',
+          expect: {
+            path: 'menu', 
+            value:data.menu,
+            desc: 'menu Object'
+          }
+        },
+        {
+          input: 'menu[value*="il"]',
+          expect: {
+            path: 'menu', 
+            value:data.menu,
+            desc: 'menu Object'
           }
         }
       ].forEach(function (testCase) {

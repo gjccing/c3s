@@ -22,6 +22,26 @@ DEFINE_MACRO(IS_MATCH_ATTR_SELECTOR, (m$compound, m$node) => {
         return m$node && 
           m$node.constructor &&
           m$node.constructor.name == attrSelector.ident;
+      } else if (attrSelector.type == 'Attribute') {
+        var m$attrValue =m$node[attrSelector.ident].toString();
+        if (attrSelector.operator == '=') {
+          return m$attrValue === attrSelector.value;
+        } else if (attrSelector.operator == '^=') {
+          return m$attrValue.indexOf(attrSelector.value) === 0;
+        } else if (attrSelector.operator == '$=') {
+          debugger;
+          console.log(
+            m$attrValue.indexOf(attrSelector.value),
+            m$attrValue.length,
+            attrSelector.value.length
+          );
+          return m$attrValue.indexOf(attrSelector.value) === 
+            (m$attrValue.length - attrSelector.value.length);
+        } else if (attrSelector.operator == '*=') {
+          return m$attrValue.indexOf(attrSelector.value) !== -1;
+        } else {
+          return m$node.hasOwnProperty(attrSelector.ident);
+        }
       } else {
         return false;
       }
@@ -137,7 +157,7 @@ function findMatchNode(combinator, node, option) {
 export default class Selector{
   constructor(root, option) {
     this.root = root;
-    this.option = option;
+    this.option = option || { pseudoClasses: {} };
   }
   selectOne(input) {
     var self = this;

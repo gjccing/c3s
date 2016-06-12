@@ -1,6 +1,6 @@
 {
   "name": "c3s",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "use css selector manipulate complex javascript object.",
   "main": "build/c3s-parser.min.js",
   "author": "gjccing",
@@ -24,7 +24,6 @@
     "eslint": "^2.5.1",
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
-    "node-debug": "^0.1.0",
     "node-inspector": "^0.12.8",
     "pegjs": "^0.9.0",
     "pegjs-loader": "^0.4.0",

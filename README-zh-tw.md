@@ -1,137 +1,170 @@
 # c3s
 
-CSS Selector，讓使用者以css selector語法操作、查詢javascript物件和陣列的工具。
+CSS Selector, 以css選擇器選擇物件的內容
 
 ## Code Example
 
 ```javascript
-var a = {
-  b: {
-    c: {
-      d:'d'
-    },
-    e: {
-      d:'d'
+var root = {
+  a: {
+    b: {
+      c:'c-val'
     }
   }
 }
 
-c3s(a).selectOne('e>d');
-// get "d"
+c3s(root).selectOne('b>c');
+// get "c-val"
 ```
 
 ## Installation
 
 `npm install c3s`
 
-#### Tests
-
-`npm run test`
-
-#### debug
-
-`npm run debug`
-
 ## Support Syntax
+### Elemental selectors
+`prop`, 選取屬性名稱等於`prop`的值
 
-#### Space
-  
-  ex: `div a`<br>
-  遍歷節點的屬性及包含的所有物件。
-  預設若語法一開始未加任何連接符號(Space or Arrow)則會插入Space。
-  
-  
-#### Arrow
+### Attribute selectors
+* `#idVal` 
+選取擁有id、Id、ID屬性且該屬性值等於`idVal`
 
-  ex: `div>a`<br>
-  遍歷節點的屬性。
-  
-  
-#### Element
+* `.classVal` 
+選取`constructor.name`值等於`classVal`
 
-  ex: `div` `"div"` `'div'`<br>
-  選取節點上屬性名稱等於**Element**字串的屬性的值。
+* `[att]` 
+選取擁有`att`屬性的物件
 
-#### Class
-  
-  ex: `.Class` `."Class"` `.'Class'`<br>
-  選取擁有`class`屬性(stirng or array)且屬性值包含**Class**字串的節點；
-  或著選取**Class**等於其類別的名稱（`obj.constructor.name`）的節點。
-  
-#### Id
+* `[att=val]` 
+選取擁有`att`屬性並且該屬性值轉為字串(`toString()`)後等於`val`的物件
 
-  ex: `#Id` `#"Id"` `#'Id'`<br>
-  選取擁有`id`屬性且屬性值等於**Id**字串的節點。
-  
-#### persuade class
-  
-  ex: `:value(123)`<br>
-  選取符合persuade class定義的節點。目前預設有以下persuade class:
-  
-  * `:value(val)`
-  
-    節點如果與**val**相等的話就選取。
+* `[att^=val]` 
+選取擁有`att`屬性並且該屬性值轉為字串(`toString()`)後以`val`開始的物件
 
-  * `:regexpTest(regexp)`
-    
-    如果`regexp.test(節點)`回傳true的話就選取。
+* `[att$=val]` 
+選取擁有`att`屬性並且該屬性值轉為字串(`toString()`)後以`val`結尾的物件
 
-  可以自訂或改寫現有的persuade class，ex:
-  ```javascript
-  c3s(['example'], {
-    pseudoClass: {
-      metho1: function ( 
-          element/* c3s將會傳入目前要判斷的element */, 
-          arg1, arg2 /* 任意數量參數 */
-        ) {
-        return true /* 選取該element or false 不選取 */
-      }
+* `[att*=val]` 
+選取擁有`att`屬性並且該屬性值轉為字串(`toString()`)後包含`val`的物件
+
+### Pseudo-classes
+
+* `:regexpTest(arg)`
+選取符合正規表達式`arg`的值
+
+* `:equal(arg)`
+選取等於`arg`的值
+
+你可以於c3s的option.pseudoClasses中宣告新的pseudo-class, ex:
+```javascript
+c3s(root, {
+  pseudoClasses: {
+    newClass: function (
+      node, // 目前搜尋結果
+      path, // 從root到node的路徑
+      parent, // 從root到node的所有祖先
+      arg1, // 於selector語句中出現的參數
+      /* arg2, ... */
+    ) {
+      /* 
+      return 
+        Truthy 選取
+        Falsy 不選取
+        Array 包含[node, path, parent]新節點資訊,選取此新節點
+    */
     }
-  } ).selectAll(':metho1("arg1", "arg2")');
-  ```
+  }
+})
+.selectOne(':newClass, :newClass(arg), :newClass("arg1", 3.14)');
+```
+
+### Combinators
+
+* `prop1 prop2`
+搜尋prop1的屬性和包含物件所擁有的屬性, 若語句開頭沒有`Combinator`則帶入<code>&nbsp;</code>, ex: `prop1` = <code>&nbsp;prop1</code>
+
+* `prop1>prop2`
+搜尋prop1的屬性
+
 
 ## API Reference
 
-#### c3s
-  
-  ex: `c3s(root, option)`<br>
-  依照設定回傳c3Selector類別實俐。
+### c3s  
+依照參數創建並回傳Selector實例
+```javascript
+var root = { a : { b: { c: 'target' } } };
+c3s(root, {});
+```
+#### Returns
+Selector實例
+#### Parameters
+* root: object, 搜尋目標
+* option: object
+  * pseudoClasses: object, 宣告新的pseudo-class
 
-  * root: 想要搜尋的物件。
-  * option: 設定物件，目前只有pseudoClass的設定。
+### c3s.getByPath  
+取得`root`在`path`的值, 若找不到則回傳`undefined`
+```javascript
+var root = { a : { b: { c: 'target' } } };
+c3s.getByPath(root, 'a/b/c'); 
+// 'target'
+```
+#### Returns
+查詢路徑的結果
+#### Parameters
+* root:  object, 想要搜尋的物件
+* path: string, 由屬性組成的路徑
+* delimiter: string, default = '/', 分隔符
 
-#### c3s.getByPath
-  
-  ex: `c3s.getByPath(root, path)`<br>
-  依照path取出root中內涵的值。
+### SelectorInstance.selectOne
+取得第一個匹配查詢語法的值和它的詳細資訊
+```javascript
+var root = { a : { b: { c: 'target' } } };
+c3s(root).selectOne('c');
+// 'target'的NodeInfo實例
+```
+#### Returns
+NodeInfo實例, 含有以下參數:
 
-  * root: 想要搜尋的物件。
-  * path，array:查找路徑。
+* node: 查詢結果
+* path: 從root到node的屬性路徑
+* parent: 從root到node的所有祖先
+* root: 查詢對象
+#### Parameters
+* input: string, 查詢語句
 
-#### c3Selector.selectOne
-  
-  ex: `c3s(root, option).selectOne(input)`<br>
-  依照輸入的css語句選取第一筆符合規則的節點。
+### SelectorInstance.selectAll
+取得所有匹配查詢語法的值並這些值的詳細資訊
+```javascript
+var root = { a : { 
+  b: { c: 'target1' },
+  c: 'target2'
+} };
+c3s(root).selectAll('c');
+// 'target1', 'target2'的NodeInfo實例
+```
+#### Returns
+Array, 包含匹配值的NodeInfo實例
+#### Parameters
+* input: string, 查詢語句
 
-  回傳值c3Selector為Array的子類別並且結果會以`{value, path, root}`這種形式放置。
+### SelectorInstance.getFromPath
+取得Selector搜尋對象內指定屬性路徑的值, 若找不到則回傳`undefined`
+```javascript
+var root = { a : { b: { c: 'target' } } };
+c3s(root).getByPath('a/b/c');
+// 'target'
+```
+#### Returns
+查詢路徑的結果
+#### Parameters
+* path: string, 查找路徑
+* delimiter: string, default = '/', 分隔符
 
-  ```javascript
-  var root = ['example'];
-  c3s(root)
-    .selectOne(':value("example")')
-    .forEach(function(rec) {
-      console.log(rec);
-      // {value:'example', path: ["0"],  root: root}
-    })
-  ```
+## Tests
 
-  * input css語句。
+`npm run test`
 
-#### c3Selector.selectAll
-  
-  ex: `c3s(root, option).selectOne(input)`<br>
-  依照輸入的css語句選取所有符合規則的節點。
+## debug
 
-  回傳值如`c3Selector.selectOne`。
-
-  * input css語句。
+`npm run debug`
