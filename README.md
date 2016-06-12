@@ -1,6 +1,6 @@
 # c3s
 
-CSS Selector, use css selector to select object content.
+CSS Selector, use css selector to select js object content.
 
 ## Code Example
 
