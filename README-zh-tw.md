@@ -1,6 +1,6 @@
 # c3s
 
-CSS Selector, 以css選擇器選擇物件的內容
+CSS Selector, 以css選擇器選擇js物件的內容
 
 ## Code Example
 
