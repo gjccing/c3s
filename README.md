@@ -131,6 +131,7 @@ NodeInfo instance, contains the following parameters:
 * path: property path from root to node
 * parent: all parents from root to node
 * root: object being queried
+
 #### Parameters
 * input: string, search statement
 
