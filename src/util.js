@@ -22,11 +22,11 @@ export function listStruct(target, type='bfs', depth) {
   var result = [];
   type = type.toLowerCase();
   if (type == 'bfs') {
-    BREADTH_FIRST_TRAVERSAL(target, depth, (val, path, parent)=>{
+    BREADTH_FIRST_TRAVERSAL(target, depth, depth, (val, path, parent)=>{
       result.push([path, parent, val]);
     });
   } else if (type == 'dfs') {
-    DEPTH_FIRST_TRAVERSAL(target, (val, path, parent)=>{
+    DEPTH_FIRST_TRAVERSAL(target, depth, depth,  (val, path, parent)=>{
       result.push([path, parent, val]);
     });
   }

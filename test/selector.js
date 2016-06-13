@@ -47,6 +47,38 @@ describe('Selector', function() {
           }
         },
         {
+          input: '#"file"',
+          expect: {
+            path: 'menu',
+            value:data.menu,
+            desc: 'menu Object'
+          }
+        },
+        {
+          input: '#300',
+          expect: {
+            path: 'menu,popup,menuitem,0',
+            value:data.menu.popup.menuitem[0],
+            desc: 'menu Object'
+          }
+        },
+        {
+          input: '.Object',
+          expect: {
+            path: 'menu',
+            value:data.menu,
+            desc: 'menu Object'
+          }
+        },
+        {
+          input: '.Array',
+          expect: {
+            path: 'menu,popup,menuitem',
+            value:data.menu.popup.menuitem,
+            desc: 'menu Object'
+          }
+        },
+        {
           input: '>menu',
           expect: {
             path: 'menu', 

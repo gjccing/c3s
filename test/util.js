@@ -65,7 +65,7 @@ describe('traversal', function() {
           name: 'data',
           args: [data]
         },
-        expect: 46
+        expect: 47
       },
       { 
         input:{
@@ -79,7 +79,7 @@ describe('traversal', function() {
           name: 'data.menu.popup.menuitem',
           args: [data.menu.popup.menuitem, 'dfs']
         },
-        expect: 40
+        expect: 41
       },
       { 
         input:{

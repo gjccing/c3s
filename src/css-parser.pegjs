@@ -165,7 +165,7 @@ prop
   }
 
 id
-  = '#' val:IDENT {
+  = '#' val:(NUMBER / STRING / IDENT) {
     return new Id(val);
   }
 

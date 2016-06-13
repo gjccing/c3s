@@ -15,13 +15,13 @@ DEFINE_MACRO(IS_MATCH_ATTR_SELECTOR, (m$compound, m$node) => {
     return EVERY(m$compound.attributes, (attrSelector) => {
       if (attrSelector.type == 'Id') {
         return m$node && (
-          m$node.ID == attrSelector.ident ||
-          m$node.Id == attrSelector.ident ||
-          m$node.id == attrSelector.ident);
+          m$node.ID === attrSelector.ident ||
+          m$node.Id === attrSelector.ident ||
+          m$node.id === attrSelector.ident);
       } else if (attrSelector.type == 'Class') {
         return m$node && 
           m$node.constructor &&
-          m$node.constructor.name == attrSelector.ident;
+          m$node.constructor.name === attrSelector.ident;
       } else if (attrSelector.type == 'Attribute') {
         var m$attrValue =m$node[attrSelector.ident].toString();
         if (attrSelector.operator == '=') {
@@ -81,12 +81,12 @@ DEFINE_MACRO(IS_MATCH_ALL_SELECTOR, (subNode, path, parent, option)=> {
 function findFirstMatchNode(combinator, node, option) {
   var result, compound = combinator.next;
   if (combinator.operator == ' ') {
-    DEPTH_FIRST_SEARCH(node, (subNode, path, parent) => {
+    DEPTH_FIRST_SEARCH(node, 1, undefined, (subNode, path, parent) => {
       return result = IS_MATCH_ALL_SELECTOR(subNode, path, parent, option)
         .FETCH_NEXT_SELECTOR(compound.next);
     });
   } else if (combinator.operator == '>') {
-    BREADTH_FIRST_SEARCH(node, 1, (subNode, path, parent) => {
+    BREADTH_FIRST_SEARCH(node, 1, 1, (subNode, path, parent) => {
       return result = IS_MATCH_ALL_SELECTOR(subNode, path, parent, option)
         .FETCH_NEXT_SELECTOR(compound.next);
     });
@@ -115,7 +115,7 @@ function findFirstMatchNode(combinator, node, option) {
 function findMatchNode(combinator, node, option) {
   var result = [], compound = combinator.next, tmp;
   if (combinator.operator == ' ') {
-    BREADTH_FIRST_TRAVERSAL(node, undefined, (subNode, path, parent) => {
+    BREADTH_FIRST_TRAVERSAL(node, 1, undefined, (subNode, path, parent) => {
       tmp = IS_MATCH_ALL_SELECTOR(subNode, path, parent, option)
         .FETCH_NEXT_SELECTOR(compound.next);
       if (tmp) {
@@ -123,7 +123,7 @@ function findMatchNode(combinator, node, option) {
       }
     });
   } else if (combinator.operator == '>') {
-    BREADTH_FIRST_TRAVERSAL(node, 1, (subNode, path, parent) => {
+    BREADTH_FIRST_TRAVERSAL(node, 1, 1, (subNode, path, parent) => {
       tmp = IS_MATCH_ALL_SELECTOR(subNode, path, parent, option)
         .FETCH_NEXT_SELECTOR(compound.next);
       if (tmp) {

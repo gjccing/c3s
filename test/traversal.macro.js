@@ -40,7 +40,7 @@ describe('traversal', function() {
       it(`should traverse over ${testCase.expect} node`, function () {
         var result = 0;
 
-        BREADTH_FIRST_TRAVERSAL(testCase.input.target, testCase.input.depth, (val, path, parent)=>{
+        BREADTH_FIRST_TRAVERSAL(testCase.input.target, testCase.input.depth, testCase.input.depth, (val, path, parent)=>{
           result++;
         });
 
@@ -90,7 +90,7 @@ describe('traversal', function() {
       it(`should traverse over ${testCase.expect} node`, function () {
         var result = 0;
 
-        var returnval = BREADTH_FIRST_SEARCH(testCase.input.target, testCase.input.depth, (val, path, parent) => {
+        var returnval = BREADTH_FIRST_SEARCH(testCase.input.target, testCase.input.depth, testCase.input.depth, (val, path, parent) => {
           result++;
           return val==testCase.targetVal;
         });
@@ -125,7 +125,7 @@ describe('traversal', function() {
       it(`should traverse over ${testCase.expect} node`, function () {
         var result = 0;
 
-        DEPTH_FIRST_TRAVERSAL(testCase.input, (val, path, parent)=>{
+        DEPTH_FIRST_TRAVERSAL(testCase.input, undefined, undefined, (val, path, parent)=>{
           result++;
         });
 
@@ -163,7 +163,7 @@ describe('traversal', function() {
       it(`should traverse over ${testCase.expect} node`, function () {
         var result = 0;
 
-        var returnval = DEPTH_FIRST_SEARCH(testCase.input, (val, path, parent) => {
+        var returnval = DEPTH_FIRST_SEARCH(testCase.input, undefined, undefined, (val, path, parent) => {
           result++;
           return val==testCase.targetVal;
         });

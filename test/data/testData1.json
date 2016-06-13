@@ -8,6 +8,7 @@
         {
           "value": "New", 
           "onclick": "CreateNewDoc()",
+          "id":300,
           "menuitem2": [
             {"value": "New2_1", "onclick": "CreateNewDoc2_1()"},
             {"value": "Open2_1", "onclick": "OpenDoc2_1()"},

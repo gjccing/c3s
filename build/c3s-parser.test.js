@@ -993,7 +993,13 @@
 	        if (peg$silentFails === 0) { peg$fail(peg$c15); }
 	      }
 	      if (s1 !== peg$FAILED) {
-	        s2 = peg$parseIDENT();
+	        s2 = peg$parseNUMBER();
+	        if (s2 === peg$FAILED) {
+	          s2 = peg$parseSTRING();
+	          if (s2 === peg$FAILED) {
+	            s2 = peg$parseIDENT();
+	          }
+	        }
 	        if (s2 !== peg$FAILED) {
 	          peg$savedPos = s0;
 	          s1 = peg$c16(s2);
@@ -8874,7 +8880,7 @@
 	      it('should traverse over ' + testCase.expect + ' node', function () {
 	        var result = 0;
 	
-	        var _m$depth = testCase.input.depth;
+	        var _m$endDepth = testCase.input.depth;
 	
 	        var _breadthFirstTraversal = void 0;
 	
@@ -8886,14 +8892,14 @@
 	          _m$node = _m$tmp[0];
 	          _m$path = _m$tmp[1];
 	          _m$parent = _m$tmp[2];
-	          if (_m$depth === undefined || _m$path.length == _m$depth) {
+	          if (!(_m$path.length < testCase.input.depth || _m$endDepth < _m$path.length)) {
 	            var _m$visitor5 = void 0;
 	
 	            result++;
 	
 	            _m$visitor5;
 	          }
-	          if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (_m$depth === undefined || _m$path.length < _m$depth)) {
+	          if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && !(_m$endDepth < _m$path.length)) {
 	            _m$parent = _m$parent.slice();
 	            _m$parent.push(_m$node);
 	            for (_m$key in _m$node) {
@@ -8947,7 +8953,7 @@
 	      it('should traverse over ' + testCase.expect + ' node', function () {
 	        var result = 0;
 	
-	        var _m$depth2 = testCase.input.depth;
+	        var _m$endDepth2 = testCase.input.depth;
 	
 	        var _breadthFirstSearch = void 0;
 	
@@ -8961,7 +8967,7 @@
 	          _m$node2 = _m$tmp2[0];
 	          _m$path2 = _m$tmp2[1];
 	          _m$parent2 = _m$tmp2[2];
-	          if (_m$depth2 === undefined || _m$path2.length == _m$depth2) {
+	          if (!(_m$path2.length < testCase.input.depth || _m$endDepth2 < _m$path2.length)) {
 	            var _m$visitor6 = void 0;
 	
 	            result++;
@@ -8971,7 +8977,7 @@
 	              _m$result = [_m$node2, _m$path2, _m$parent2];
 	              break;
 	            }
-	          } else if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && (_m$depth2 === undefined || _m$path2.length < _m$depth2)) {
+	          } else if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && !(_m$endDepth2 < _m$path2.length)) {
 	            _m$parent2 = _m$parent2.slice();
 	            _m$parent2.push(_m$node2);
 	            for (_m$key2 in _m$node2) {
@@ -9013,13 +9019,16 @@
 	
 	        var _depthFirstTraversal = void 0;
 	
-	        var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
-	          var _m$visitor3 = void 0;
+	        var _m$traverse = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
+	          if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
+	            var _m$visitor7 = void 0;
 	
-	          result++;
+	            result++;
 	
-	          _m$visitor3;
-	          if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	            _m$visitor7;
+	          }
+	
+	          if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object' && !(m$endDepth < m$path.length)) {
 	            var m$key, m$newNode;
 	            m$parent = m$parent.slice();
 	            m$parent.push(m$node);
@@ -9032,7 +9041,7 @@
 	          }
 	        };
 	
-	        _m$traverse(testCase.input, [], []);
+	        _m$traverse(testCase.input, [], [], undefined, undefined);
 	        _depthFirstTraversal;
 	
 	        _chai.assert.strictEqual(result, testCase.expect);
@@ -9067,17 +9076,19 @@
 	        var _depthFirstSearch = void 0;
 	
 	        _DEPTH_FIRST_SEARCH: {
-	          var _m$traverse2 = function m$traverse(m$node, m$path, m$parent) {
-	            var _m$visitor4 = void 0;
+	          var _m$traverse2 = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
+	            if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
+	              var _m$visitor8 = void 0;
 	
-	            result++;
-	            _m$visitor4 = m$node == testCase.targetVal;
+	              result++;
+	              _m$visitor8 = m$node == testCase.targetVal;
 	
-	            if (_m$visitor4) {
-	              return [m$node, m$path, m$parent];
+	              if (_m$visitor8) {
+	                return [m$node, m$path, m$parent];
+	              }
 	            }
 	
-	            if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	            if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object' && !(m$endDepth < m$path.length)) {
 	              var m$key, m$newNode, m$tmp;
 	              m$parent = m$parent.slice();
 	              m$parent.push(m$node);
@@ -9092,7 +9103,7 @@
 	            }
 	          };
 	
-	          _depthFirstSearch = _m$traverse2(testCase.input, [], []);
+	          _depthFirstSearch = _m$traverse2(testCase.input, [], [], undefined, undefined);
 	        }
 	
 	        var returnval = _depthFirstSearch;
@@ -9236,7 +9247,7 @@
 	        name: 'data',
 	        args: [data]
 	      },
-	      expect: 46
+	      expect: 47
 	    }, {
 	      input: {
 	        name: 'data.menu.popup.menuitem',
@@ -9248,7 +9259,7 @@
 	        name: 'data.menu.popup.menuitem',
 	        args: [data.menu.popup.menuitem, 'dfs']
 	      },
-	      expect: 40
+	      expect: 41
 	    }, {
 	      input: {
 	        name: 'data.xxxx',
@@ -9336,14 +9347,14 @@
 	      _m$node = _m$tmp[0];
 	      _m$path = _m$tmp[1];
 	      _m$parent = _m$tmp[2];
-	      if (depth === undefined || _m$path.length == depth) {
+	      if (!(_m$path.length < depth || depth < _m$path.length)) {
 	        var _m$visitor5 = void 0;
 	
 	        result.push([_m$path, _m$parent, _m$node]);
 	
 	        _m$visitor5;
 	      }
-	      if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (depth === undefined || _m$path.length < depth)) {
+	      if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && !(depth < _m$path.length)) {
 	        _m$parent = _m$parent.slice();
 	        _m$parent.push(_m$node);
 	        for (_m$key in _m$node) {
@@ -9359,13 +9370,16 @@
 	  } else if (type == 'dfs') {
 	    var _depthFirstTraversal2 = void 0;
 	
-	    var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
-	      var _m$visitor3 = void 0;
+	    var _m$traverse = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
+	      if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
+	        var _m$visitor6 = void 0;
 	
-	      result.push([m$path, m$parent, m$node]);
+	        result.push([m$path, m$parent, m$node]);
 	
-	      _m$visitor3;
-	      if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	        _m$visitor6;
+	      }
+	
+	      if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object' && !(m$endDepth < m$path.length)) {
 	        var m$key, m$newNode;
 	        m$parent = m$parent.slice();
 	        m$parent.push(m$node);
@@ -9378,7 +9392,7 @@
 	      }
 	    };
 	
-	    _m$traverse(target, [], []);
+	    _m$traverse(target, [], [], depth, depth);
 	
 	    _depthFirstTraversal2;
 	  }
@@ -9400,6 +9414,7 @@
 					{
 						"value": "New",
 						"onclick": "CreateNewDoc()",
+						"id": 300,
 						"menuitem2": [
 							{
 								"value": "New2_1",
@@ -9506,6 +9521,34 @@
 	        expect: {
 	          path: 'menu',
 	          value: data.menu,
+	          desc: 'menu Object'
+	        }
+	      }, {
+	        input: '#"file"',
+	        expect: {
+	          path: 'menu',
+	          value: data.menu,
+	          desc: 'menu Object'
+	        }
+	      }, {
+	        input: '#300',
+	        expect: {
+	          path: 'menu,popup,menuitem,0',
+	          value: data.menu.popup.menuitem[0],
+	          desc: 'menu Object'
+	        }
+	      }, {
+	        input: '.Object',
+	        expect: {
+	          path: 'menu',
+	          value: data.menu,
+	          desc: 'menu Object'
+	        }
+	      }, {
+	        input: '.Array',
+	        expect: {
+	          path: 'menu,popup,menuitem',
+	          value: data.menu.popup.menuitem,
 	          desc: 'menu Object'
 	        }
 	      }, {
@@ -9837,155 +9880,159 @@
 	  var result,
 	      compound = combinator.next;
 	  if (combinator.operator == ' ') {
+	    var _m$startDepth5 = 1;
+	
 	    var _depthFirstSearch2 = void 0;
 	
 	    _DEPTH_FIRST_SEARCH: {
-	      var _m$traverse = function m$traverse(m$node, m$path, m$parent) {
-	        var _m$visitor7 = void 0;
+	      var _m$traverse = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
+	        if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
+	          var _m$visitor34 = void 0;
 	
-	        var _isMatchAllSelector2 = void 0;
+	          var _isMatchAllSelector9 = void 0;
 	
-	        var _isMatchPropSelector3 = void 0;
+	          var _isMatchPropSelector10 = void 0;
 	
-	        _isMatchPropSelector3 = compound.element === undefined || m$path[m$path.length - 1] === compound.element.ident;
+	          _isMatchPropSelector10 = compound.element === undefined || m$path[m$path.length - 1] === compound.element.ident;
 	
-	        if (_isMatchPropSelector3) {
-	          var _isMatchAttrSelector10 = void 0;
+	          if (_isMatchPropSelector10) {
+	            var _isMatchAttrSelector10 = void 0;
 	
-	          _IS_MATCH_ATTR_SELECTOR: {
-	            if (compound.attributes) {
-	              var _m$input23 = compound.attributes;
+	            _IS_MATCH_ATTR_SELECTOR: {
+	              if (compound.attributes) {
+	                var _m$input23 = compound.attributes;
 	
-	              var _every21 = void 0;
+	                var _every21 = void 0;
 	
-	              var _m$result27 = true;
+	                var _m$result27 = true;
 	
-	              var _m$i32 = 0,
-	                  _m$I32 = _m$input23.length;
-	              while (_m$i32 < _m$I32) {
-	                var _attrSelector11 = _m$input23[_m$i32];
+	                var _m$i32 = 0,
+	                    _m$I32 = _m$input23.length;
+	                while (_m$i32 < _m$I32) {
+	                  var _attrSelector11 = _m$input23[_m$i32];
 	
-	                var _m$visitor34 = void 0;
+	                  var _m$visitor35 = void 0;
 	
-	                _M$VISITOR: {
-	                  if (_attrSelector11.type == 'Id') {
-	                    _m$visitor34 = m$node && (m$node.ID == _attrSelector11.ident || m$node.Id == _attrSelector11.ident || m$node.id == _attrSelector11.ident);
-	                    break _M$VISITOR;
-	                  } else if (_attrSelector11.type == 'Class') {
-	                    _m$visitor34 = m$node && m$node.constructor && m$node.constructor.name == _attrSelector11.ident;
-	                    break _M$VISITOR;
-	                  } else if (_attrSelector11.type == 'Attribute') {
-	                    var _m$attrValue4 = m$node[_attrSelector11.ident].toString();
-	                    if (_attrSelector11.operator == '=') {
-	                      _m$visitor34 = _m$attrValue4 === _attrSelector11.value;
+	                  _M$VISITOR: {
+	                    if (_attrSelector11.type == 'Id') {
+	                      _m$visitor35 = m$node && (m$node.ID === _attrSelector11.ident || m$node.Id === _attrSelector11.ident || m$node.id === _attrSelector11.ident);
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector11.operator == '^=') {
-	                      _m$visitor34 = _m$attrValue4.indexOf(_attrSelector11.value) === 0;
+	                    } else if (_attrSelector11.type == 'Class') {
+	                      _m$visitor35 = m$node && m$node.constructor && m$node.constructor.name === _attrSelector11.ident;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector11.operator == '$=') {
-	                      debugger;
-	                      console.log(_m$attrValue4.indexOf(_attrSelector11.value), _m$attrValue4.length, _attrSelector11.value.length);
-	                      _m$visitor34 = _m$attrValue4.indexOf(_attrSelector11.value) === _m$attrValue4.length - _attrSelector11.value.length;
-	                      break _M$VISITOR;
-	                    } else if (_attrSelector11.operator == '*=') {
-	                      _m$visitor34 = _m$attrValue4.indexOf(_attrSelector11.value) !== -1;
-	                      break _M$VISITOR;
+	                    } else if (_attrSelector11.type == 'Attribute') {
+	                      var _m$attrValue4 = m$node[_attrSelector11.ident].toString();
+	                      if (_attrSelector11.operator == '=') {
+	                        _m$visitor35 = _m$attrValue4 === _attrSelector11.value;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector11.operator == '^=') {
+	                        _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) === 0;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector11.operator == '$=') {
+	                        debugger;
+	                        console.log(_m$attrValue4.indexOf(_attrSelector11.value), _m$attrValue4.length, _attrSelector11.value.length);
+	                        _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) === _m$attrValue4.length - _attrSelector11.value.length;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector11.operator == '*=') {
+	                        _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) !== -1;
+	                        break _M$VISITOR;
+	                      } else {
+	                        _m$visitor35 = m$node.hasOwnProperty(_attrSelector11.ident);
+	                        break _M$VISITOR;
+	                      }
 	                    } else {
-	                      _m$visitor34 = m$node.hasOwnProperty(_attrSelector11.ident);
+	                      _m$visitor35 = false;
 	                      break _M$VISITOR;
 	                    }
-	                  } else {
-	                    _m$visitor34 = false;
-	                    break _M$VISITOR;
 	                  }
+	
+	                  if (!_m$visitor35) {
+	                    _m$result27 = false;
+	                    break;
+	                  }
+	
+	                  _m$i32++;
 	                }
 	
-	                if (!_m$visitor34) {
-	                  _m$result27 = false;
-	                  break;
-	                }
-	
-	                _m$i32++;
+	                _every21 = _m$result27;
+	                _isMatchAttrSelector10 = _every21;
+	                break _IS_MATCH_ATTR_SELECTOR;
 	              }
 	
-	              _every21 = _m$result27;
-	              _isMatchAttrSelector10 = _every21;
-	              break _IS_MATCH_ATTR_SELECTOR;
+	              _isMatchAttrSelector10 = true;
 	            }
 	
-	            _isMatchAttrSelector10 = true;
-	          }
+	            if (_isMatchAttrSelector10) {
+	              var _matchPseudoClass10 = void 0;
 	
-	          if (_isMatchAttrSelector10) {
-	            var _matchPseudoClass10 = void 0;
+	              var _result3 = [m$node, m$path, m$parent];
+	              var _pseudoClassMethod3, _pseudoClassArgs3, _tmp3;
+	              if (compound.pseudoClasses) {
+	                var _m$input24 = compound.pseudoClasses;
 	
-	            var _result3 = [m$node, m$path, m$parent];
-	            var _pseudoClassMethod3, _pseudoClassArgs3, _tmp3;
-	            if (compound.pseudoClasses) {
-	              var _m$input24 = compound.pseudoClasses;
+	                var _every22 = void 0;
 	
-	              var _every22 = void 0;
+	                var _m$result28 = true;var _m$i33 = 0,
+	                    _m$I33 = _m$input24.length;while (_m$i33 < _m$I33) {
+	                  var _pseudoClass11 = _m$input24[_m$i33];
 	
-	              var _m$result28 = true;var _m$i33 = 0,
-	                  _m$I33 = _m$input24.length;while (_m$i33 < _m$I33) {
-	                var _pseudoClass11 = _m$input24[_m$i33];
+	                  var _m$visitor36 = void 0;
 	
-	                var _m$visitor35 = void 0;
+	                  _pseudoClassMethod3 = _PseudoClass2.default[_pseudoClass11.ident] || option.pseudoClasses[_pseudoClass11.ident];
+	                  _pseudoClassArgs3 = _pseudoClass11.args ? _result3.concat(_pseudoClass11.args) : _result3;
+	                  _tmp3 = _pseudoClassMethod3.apply(undefined, _pseudoClassArgs3);
+	                  if (_tmp3 instanceof Array || !_tmp3) {
+	                    _result3 = _tmp3;
+	                  }
 	
-	                _pseudoClassMethod3 = _PseudoClass2.default[_pseudoClass11.ident] || option.pseudoClasses[_pseudoClass11.ident];
-	                _pseudoClassArgs3 = _pseudoClass11.args ? _result3.concat(_pseudoClass11.args) : _result3;
-	                _tmp3 = _pseudoClassMethod3.apply(undefined, _pseudoClassArgs3);
-	                if (_tmp3 instanceof Array || !_tmp3) {
-	                  _result3 = _tmp3;
-	                }
+	                  _m$visitor36 = _tmp3;
+	                  if (!_m$visitor36) {
+	                    _m$result28 = false;break;
+	                  }_m$i33++;
+	                }_every22 = _m$result28;
 	
-	                _m$visitor35 = _tmp3;
-	                if (!_m$visitor35) {
-	                  _m$result28 = false;break;
-	                }_m$i33++;
-	              }_every22 = _m$result28;
-	
-	              _every22;
-	            }
-	
-	            _matchPseudoClass10 = _result3;
-	            _isMatchAllSelector2 = _matchPseudoClass10;
-	          }
-	        }
-	        var _m$nodeInfo2 = _isMatchAllSelector2;
-	        var _m$combinator2 = compound.next;
-	
-	        var _fetchNextSelector2 = void 0;
-	
-	        _FETCH_NEXT_SELECTOR: {
-	          var _m$tmp2;
-	          if (_m$nodeInfo2) {
-	            if (_m$combinator2) {
-	              if (_typeof(_m$nodeInfo2[0]) !== 'object') {
-	                _fetchNextSelector2 = false;
-	                break _FETCH_NEXT_SELECTOR;
-	              } else if (!(_m$tmp2 = findFirstMatchNode(_m$combinator2, _m$nodeInfo2[0]))) {
-	                _fetchNextSelector2 = false;
-	                break _FETCH_NEXT_SELECTOR;
+	                _every22;
 	              }
 	
-	              _m$nodeInfo2[0] = _m$tmp2[0];
-	              Array.prototype.push.apply(_m$nodeInfo2[1], _m$tmp2[1]);
-	              Array.prototype.push.apply(_m$nodeInfo2[2], _m$tmp2[2]);
+	              _matchPseudoClass10 = _result3;
+	              _isMatchAllSelector9 = _matchPseudoClass10;
 	            }
+	          }
+	          var _m$nodeInfo9 = _isMatchAllSelector9;
+	          var _m$combinator9 = compound.next;
 	
-	            _fetchNextSelector2 = _m$nodeInfo2;
-	            break _FETCH_NEXT_SELECTOR;
+	          var _fetchNextSelector9 = void 0;
+	
+	          _FETCH_NEXT_SELECTOR: {
+	            var _m$tmp2;
+	            if (_m$nodeInfo9) {
+	              if (_m$combinator9) {
+	                if (_typeof(_m$nodeInfo9[0]) !== 'object') {
+	                  _fetchNextSelector9 = false;
+	                  break _FETCH_NEXT_SELECTOR;
+	                } else if (!(_m$tmp2 = findFirstMatchNode(_m$combinator9, _m$nodeInfo9[0]))) {
+	                  _fetchNextSelector9 = false;
+	                  break _FETCH_NEXT_SELECTOR;
+	                }
+	
+	                _m$nodeInfo9[0] = _m$tmp2[0];
+	                Array.prototype.push.apply(_m$nodeInfo9[1], _m$tmp2[1]);
+	                Array.prototype.push.apply(_m$nodeInfo9[2], _m$tmp2[2]);
+	              }
+	
+	              _fetchNextSelector9 = _m$nodeInfo9;
+	              break _FETCH_NEXT_SELECTOR;
+	            }
+	          }
+	
+	          _m$visitor34 = result = _fetchNextSelector9;
+	
+	          if (_m$visitor34) {
+	            return [m$node, m$path, m$parent];
 	          }
 	        }
 	
-	        _m$visitor7 = result = _fetchNextSelector2;
-	
-	        if (_m$visitor7) {
-	          return [m$node, m$path, m$parent];
-	        }
-	
-	        if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object') {
+	        if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object' && !(m$endDepth < m$path.length)) {
 	          var m$key, m$newNode, m$tmp;
 	          m$parent = m$parent.slice();
 	          m$parent.push(m$node);
@@ -10000,12 +10047,13 @@
 	        }
 	      };
 	
-	      _depthFirstSearch2 = _m$traverse(node, [], []);
+	      _depthFirstSearch2 = _m$traverse(node, [], [], _m$startDepth5, undefined);
 	    }
 	
 	    _depthFirstSearch2;
 	  } else if (combinator.operator == '>') {
-	    var _m$depth3 = 1;
+	    var _m$startDepth6 = 1;
+	    var _m$endDepth3 = 1;
 	
 	    var _breadthFirstSearch2 = void 0;
 	
@@ -10019,15 +10067,15 @@
 	      _m$node = _m$tmp5[0];
 	      _m$path = _m$tmp5[1];
 	      _m$parent = _m$tmp5[2];
-	      if (_m$depth3 === undefined || _m$path.length == _m$depth3) {
-	        var _m$visitor36 = void 0;
+	      if (!(_m$path.length < _m$startDepth6 || _m$endDepth3 < _m$path.length)) {
+	        var _m$visitor37 = void 0;
 	
-	        var _isMatchAllSelector9 = void 0;
+	        var _isMatchAllSelector10 = void 0;
 	
-	        var _isMatchPropSelector10 = void 0;
+	        var _isMatchPropSelector11 = void 0;
 	
-	        _isMatchPropSelector10 = compound.element === undefined || _m$path[_m$path.length - 1] === compound.element.ident;
-	        if (_isMatchPropSelector10) {
+	        _isMatchPropSelector11 = compound.element === undefined || _m$path[_m$path.length - 1] === compound.element.ident;
+	        if (_isMatchPropSelector11) {
 	          var _isMatchAttrSelector11 = void 0;
 	
 	          _IS_MATCH_ATTR_SELECTOR: {
@@ -10040,39 +10088,39 @@
 	                  _m$I34 = _m$input25.length;while (_m$i34 < _m$I34) {
 	                var _attrSelector12 = _m$input25[_m$i34];
 	
-	                var _m$visitor37 = void 0;
+	                var _m$visitor38 = void 0;
 	
 	                _M$VISITOR: {
 	                  if (_attrSelector12.type == 'Id') {
-	                    _m$visitor37 = _m$node && (_m$node.ID == _attrSelector12.ident || _m$node.Id == _attrSelector12.ident || _m$node.id == _attrSelector12.ident);
+	                    _m$visitor38 = _m$node && (_m$node.ID === _attrSelector12.ident || _m$node.Id === _attrSelector12.ident || _m$node.id === _attrSelector12.ident);
 	                    break _M$VISITOR;
 	                  } else if (_attrSelector12.type == 'Class') {
-	                    _m$visitor37 = _m$node && _m$node.constructor && _m$node.constructor.name == _attrSelector12.ident;
+	                    _m$visitor38 = _m$node && _m$node.constructor && _m$node.constructor.name === _attrSelector12.ident;
 	                    break _M$VISITOR;
 	                  } else if (_attrSelector12.type == 'Attribute') {
 	                    var _m$attrValue6 = _m$node[_attrSelector12.ident].toString();if (_attrSelector12.operator == '=') {
-	                      _m$visitor37 = _m$attrValue6 === _attrSelector12.value;
+	                      _m$visitor38 = _m$attrValue6 === _attrSelector12.value;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector12.operator == '^=') {
-	                      _m$visitor37 = _m$attrValue6.indexOf(_attrSelector12.value) === 0;
+	                      _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) === 0;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector12.operator == '$=') {
-	                      debugger;console.log(_m$attrValue6.indexOf(_attrSelector12.value), _m$attrValue6.length, _attrSelector12.value.length);_m$visitor37 = _m$attrValue6.indexOf(_attrSelector12.value) === _m$attrValue6.length - _attrSelector12.value.length;
+	                      debugger;console.log(_m$attrValue6.indexOf(_attrSelector12.value), _m$attrValue6.length, _attrSelector12.value.length);_m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) === _m$attrValue6.length - _attrSelector12.value.length;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector12.operator == '*=') {
-	                      _m$visitor37 = _m$attrValue6.indexOf(_attrSelector12.value) !== -1;
+	                      _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) !== -1;
 	                      break _M$VISITOR;
 	                    } else {
-	                      _m$visitor37 = _m$node.hasOwnProperty(_attrSelector12.ident);
+	                      _m$visitor38 = _m$node.hasOwnProperty(_attrSelector12.ident);
 	                      break _M$VISITOR;
 	                    }
 	                  } else {
-	                    _m$visitor37 = false;
+	                    _m$visitor38 = false;
 	                    break _M$VISITOR;
 	                  }
 	                }
 	
-	                if (!_m$visitor37) {
+	                if (!_m$visitor38) {
 	                  _m$result29 = false;break;
 	                }_m$i34++;
 	              }_every23 = _m$result29;
@@ -10093,46 +10141,46 @@
 	                  _m$I35 = _m$input26.length;while (_m$i35 < _m$I35) {
 	                var _pseudoClass12 = _m$input26[_m$i35];
 	
-	                var _m$visitor38 = void 0;
+	                var _m$visitor39 = void 0;
 	
 	                _pseudoClassMethod5 = _PseudoClass2.default[_pseudoClass12.ident] || option.pseudoClasses[_pseudoClass12.ident];_pseudoClassArgs5 = _pseudoClass12.args ? _result5.concat(_pseudoClass12.args) : _result5;_tmp5 = _pseudoClassMethod5.apply(undefined, _pseudoClassArgs5);if (_tmp5 instanceof Array || !_tmp5) {
 	                  _result5 = _tmp5;
-	                }_m$visitor38 = _tmp5;
-	                if (!_m$visitor38) {
+	                }_m$visitor39 = _tmp5;
+	                if (!_m$visitor39) {
 	                  _m$result30 = false;break;
 	                }_m$i35++;
 	              }_every24 = _m$result30;
 	              _every24;
 	            }_matchPseudoClass11 = _result5;
-	            _isMatchAllSelector9 = _matchPseudoClass11;
+	            _isMatchAllSelector10 = _matchPseudoClass11;
 	          }
-	        }var _m$nodeInfo9 = _isMatchAllSelector9;
-	        var _m$combinator9 = compound.next;
+	        }var _m$nodeInfo10 = _isMatchAllSelector10;
+	        var _m$combinator10 = compound.next;
 	
-	        var _fetchNextSelector9 = void 0;
+	        var _fetchNextSelector10 = void 0;
 	
 	        _FETCH_NEXT_SELECTOR2: {
-	          var _m$tmp4;if (_m$nodeInfo9) {
-	            if (_m$combinator9) {
-	              if (_typeof(_m$nodeInfo9[0]) !== 'object') {
-	                _fetchNextSelector9 = false;
+	          var _m$tmp4;if (_m$nodeInfo10) {
+	            if (_m$combinator10) {
+	              if (_typeof(_m$nodeInfo10[0]) !== 'object') {
+	                _fetchNextSelector10 = false;
 	                break _FETCH_NEXT_SELECTOR2;
-	              } else if (!(_m$tmp4 = findFirstMatchNode(_m$combinator9, _m$nodeInfo9[0]))) {
-	                _fetchNextSelector9 = false;
+	              } else if (!(_m$tmp4 = findFirstMatchNode(_m$combinator10, _m$nodeInfo10[0]))) {
+	                _fetchNextSelector10 = false;
 	                break _FETCH_NEXT_SELECTOR2;
-	              }_m$nodeInfo9[0] = _m$tmp4[0];Array.prototype.push.apply(_m$nodeInfo9[1], _m$tmp4[1]);Array.prototype.push.apply(_m$nodeInfo9[2], _m$tmp4[2]);
-	            }_fetchNextSelector9 = _m$nodeInfo9;
+	              }_m$nodeInfo10[0] = _m$tmp4[0];Array.prototype.push.apply(_m$nodeInfo10[1], _m$tmp4[1]);Array.prototype.push.apply(_m$nodeInfo10[2], _m$tmp4[2]);
+	            }_fetchNextSelector10 = _m$nodeInfo10;
 	            break _FETCH_NEXT_SELECTOR2;
 	          }
 	        }
 	
-	        _m$visitor36 = result = _fetchNextSelector9;
+	        _m$visitor37 = result = _fetchNextSelector10;
 	
-	        if (_m$visitor36) {
+	        if (_m$visitor37) {
 	          _m$result13 = [_m$node, _m$path, _m$parent];
 	          break;
 	        }
-	      } else if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && (_m$depth3 === undefined || _m$path.length < _m$depth3)) {
+	      } else if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && !(_m$endDepth3 < _m$path.length)) {
 	        _m$parent = _m$parent.slice();
 	        _m$parent.push(_m$node);
 	        for (_m$key in _m$node) {
@@ -10156,6 +10204,8 @@
 	      compound = combinator.next,
 	      tmp;
 	  if (combinator.operator == ' ') {
+	    var _m$startDepth7 = 1;
+	
 	    var _breadthFirstTraversal3 = void 0;
 	
 	    var _m$buffer2 = [[node, [], []]];
@@ -10166,15 +10216,15 @@
 	      _m$node2 = _m$tmp8[0];
 	      _m$path2 = _m$tmp8[1];
 	      _m$parent2 = _m$tmp8[2];
-	      if (undefined === undefined || _m$path2.length == undefined) {
-	        var _m$visitor39 = void 0;
+	      if (!(_m$path2.length < _m$startDepth7 || undefined < _m$path2.length)) {
+	        var _m$visitor40 = void 0;
 	
-	        var _isMatchAllSelector10 = void 0;
+	        var _isMatchAllSelector11 = void 0;
 	
-	        var _isMatchPropSelector11 = void 0;
+	        var _isMatchPropSelector12 = void 0;
 	
-	        _isMatchPropSelector11 = compound.element === undefined || _m$path2[_m$path2.length - 1] === compound.element.ident;
-	        if (_isMatchPropSelector11) {
+	        _isMatchPropSelector12 = compound.element === undefined || _m$path2[_m$path2.length - 1] === compound.element.ident;
+	        if (_isMatchPropSelector12) {
 	          var _isMatchAttrSelector12 = void 0;
 	
 	          _IS_MATCH_ATTR_SELECTOR: {
@@ -10187,39 +10237,39 @@
 	                  _m$I36 = _m$input27.length;while (_m$i36 < _m$I36) {
 	                var _attrSelector13 = _m$input27[_m$i36];
 	
-	                var _m$visitor40 = void 0;
+	                var _m$visitor41 = void 0;
 	
 	                _M$VISITOR: {
 	                  if (_attrSelector13.type == 'Id') {
-	                    _m$visitor40 = _m$node2 && (_m$node2.ID == _attrSelector13.ident || _m$node2.Id == _attrSelector13.ident || _m$node2.id == _attrSelector13.ident);
+	                    _m$visitor41 = _m$node2 && (_m$node2.ID === _attrSelector13.ident || _m$node2.Id === _attrSelector13.ident || _m$node2.id === _attrSelector13.ident);
 	                    break _M$VISITOR;
 	                  } else if (_attrSelector13.type == 'Class') {
-	                    _m$visitor40 = _m$node2 && _m$node2.constructor && _m$node2.constructor.name == _attrSelector13.ident;
+	                    _m$visitor41 = _m$node2 && _m$node2.constructor && _m$node2.constructor.name === _attrSelector13.ident;
 	                    break _M$VISITOR;
 	                  } else if (_attrSelector13.type == 'Attribute') {
 	                    var _m$attrValue8 = _m$node2[_attrSelector13.ident].toString();if (_attrSelector13.operator == '=') {
-	                      _m$visitor40 = _m$attrValue8 === _attrSelector13.value;
+	                      _m$visitor41 = _m$attrValue8 === _attrSelector13.value;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector13.operator == '^=') {
-	                      _m$visitor40 = _m$attrValue8.indexOf(_attrSelector13.value) === 0;
+	                      _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) === 0;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector13.operator == '$=') {
-	                      debugger;console.log(_m$attrValue8.indexOf(_attrSelector13.value), _m$attrValue8.length, _attrSelector13.value.length);_m$visitor40 = _m$attrValue8.indexOf(_attrSelector13.value) === _m$attrValue8.length - _attrSelector13.value.length;
+	                      debugger;console.log(_m$attrValue8.indexOf(_attrSelector13.value), _m$attrValue8.length, _attrSelector13.value.length);_m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) === _m$attrValue8.length - _attrSelector13.value.length;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector13.operator == '*=') {
-	                      _m$visitor40 = _m$attrValue8.indexOf(_attrSelector13.value) !== -1;
+	                      _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) !== -1;
 	                      break _M$VISITOR;
 	                    } else {
-	                      _m$visitor40 = _m$node2.hasOwnProperty(_attrSelector13.ident);
+	                      _m$visitor41 = _m$node2.hasOwnProperty(_attrSelector13.ident);
 	                      break _M$VISITOR;
 	                    }
 	                  } else {
-	                    _m$visitor40 = false;
+	                    _m$visitor41 = false;
 	                    break _M$VISITOR;
 	                  }
 	                }
 	
-	                if (!_m$visitor40) {
+	                if (!_m$visitor41) {
 	                  _m$result31 = false;break;
 	                }_m$i36++;
 	              }_every25 = _m$result31;
@@ -10240,33 +10290,33 @@
 	                  _m$I37 = _m$input28.length;while (_m$i37 < _m$I37) {
 	                var _pseudoClass13 = _m$input28[_m$i37];
 	
-	                var _m$visitor41 = void 0;
+	                var _m$visitor42 = void 0;
 	
 	                _pseudoClassMethod7 = _PseudoClass2.default[_pseudoClass13.ident] || option.pseudoClasses[_pseudoClass13.ident];_pseudoClassArgs7 = _pseudoClass13.args ? _result7.concat(_pseudoClass13.args) : _result7;_tmp7 = _pseudoClassMethod7.apply(undefined, _pseudoClassArgs7);if (_tmp7 instanceof Array || !_tmp7) {
 	                  _result7 = _tmp7;
-	                }_m$visitor41 = _tmp7;
-	                if (!_m$visitor41) {
+	                }_m$visitor42 = _tmp7;
+	                if (!_m$visitor42) {
 	                  _m$result32 = false;break;
 	                }_m$i37++;
 	              }_every26 = _m$result32;
 	              _every26;
 	            }_matchPseudoClass12 = _result7;
-	            _isMatchAllSelector10 = _matchPseudoClass12;
+	            _isMatchAllSelector11 = _matchPseudoClass12;
 	          }
-	        }var _m$nodeInfo10 = _isMatchAllSelector10;
-	        var _m$combinator10 = compound.next;
+	        }var _m$nodeInfo11 = _isMatchAllSelector11;
+	        var _m$combinator11 = compound.next;
 	
-	        var _fetchNextSelector10 = void 0;
+	        var _fetchNextSelector11 = void 0;
 	
 	        _FETCH_NEXT_SELECTOR3: {
 	          var _m$tmp7;
-	          if (_m$nodeInfo10) {
-	            if (_m$combinator10) {
-	              if (_typeof(_m$nodeInfo10[0]) !== 'object') {
-	                _fetchNextSelector10 = false;
+	          if (_m$nodeInfo11) {
+	            if (_m$combinator11) {
+	              if (_typeof(_m$nodeInfo11[0]) !== 'object') {
+	                _fetchNextSelector11 = false;
 	                break _FETCH_NEXT_SELECTOR3;
-	              } else if (!(_m$tmp7 = findMatchNode(_m$combinator10, _m$nodeInfo10[0]))) {
-	                _fetchNextSelector10 = false;
+	              } else if (!(_m$tmp7 = findMatchNode(_m$combinator11, _m$nodeInfo11[0]))) {
+	                _fetchNextSelector11 = false;
 	                break _FETCH_NEXT_SELECTOR3;
 	              }
 	
@@ -10277,32 +10327,32 @@
 	              while (_m$i38 < _m$I38) {
 	                var _rec6 = _m$tmp7[_m$i38];
 	
-	                var _m$visitor42 = void 0;
+	                var _m$visitor43 = void 0;
 	
-	                Array.prototype.unshift.apply(_rec6[1], _m$nodeInfo10[1]);
-	                Array.prototype.unshift.apply(_rec6[2], _m$nodeInfo10[2]);
+	                Array.prototype.unshift.apply(_rec6[1], _m$nodeInfo11[1]);
+	                Array.prototype.unshift.apply(_rec6[2], _m$nodeInfo11[2]);
 	
-	                _m$visitor42;
+	                _m$visitor43;
 	                _m$i38++;
 	              }
 	              _forEach6;
-	              _fetchNextSelector10 = _m$tmp7;
+	              _fetchNextSelector11 = _m$tmp7;
 	              break _FETCH_NEXT_SELECTOR3;
 	            }
 	
-	            _fetchNextSelector10 = [_m$nodeInfo10];
+	            _fetchNextSelector11 = [_m$nodeInfo11];
 	            break _FETCH_NEXT_SELECTOR3;
 	          }
 	        }
 	
-	        tmp = _fetchNextSelector10;
+	        tmp = _fetchNextSelector11;
 	        if (tmp) {
 	          Array.prototype.push.apply(result, tmp);
 	        }
 	
-	        _m$visitor39;
+	        _m$visitor40;
 	      }
-	      if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && (undefined === undefined || _m$path2.length < undefined)) {
+	      if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && !(undefined < _m$path2.length)) {
 	        _m$parent2 = _m$parent2.slice();
 	        _m$parent2.push(_m$node2);
 	        for (_m$key2 in _m$node2) {
@@ -10316,20 +10366,21 @@
 	
 	    _breadthFirstTraversal3;
 	  } else if (combinator.operator == '>') {
-	    var _m$depth4 = 1;
+	    var _m$startDepth8 = 1;
+	    var _m$endDepth4 = 1;
 	
 	    var _breadthFirstTraversal4 = void 0;
 	
 	    var _m$buffer3 = [[node, [], []]];var _m$tmp11, _m$node3, _m$path3, _m$parent3;var _m$key3, _m$newNode3;while (_m$buffer3.length) {
-	      _m$tmp11 = _m$buffer3.shift();_m$node3 = _m$tmp11[0];_m$path3 = _m$tmp11[1];_m$parent3 = _m$tmp11[2];if (_m$depth4 === undefined || _m$path3.length == _m$depth4) {
-	        var _m$visitor43 = void 0;
+	      _m$tmp11 = _m$buffer3.shift();_m$node3 = _m$tmp11[0];_m$path3 = _m$tmp11[1];_m$parent3 = _m$tmp11[2];if (!(_m$path3.length < _m$startDepth8 || _m$endDepth4 < _m$path3.length)) {
+	        var _m$visitor44 = void 0;
 	
-	        var _isMatchAllSelector11 = void 0;
+	        var _isMatchAllSelector12 = void 0;
 	
-	        var _isMatchPropSelector12 = void 0;
+	        var _isMatchPropSelector13 = void 0;
 	
-	        _isMatchPropSelector12 = compound.element === undefined || _m$path3[_m$path3.length - 1] === compound.element.ident;
-	        if (_isMatchPropSelector12) {
+	        _isMatchPropSelector13 = compound.element === undefined || _m$path3[_m$path3.length - 1] === compound.element.ident;
+	        if (_isMatchPropSelector13) {
 	          var _isMatchAttrSelector13 = void 0;
 	
 	          _IS_MATCH_ATTR_SELECTOR: {
@@ -10342,39 +10393,39 @@
 	                  _m$I39 = _m$input29.length;while (_m$i39 < _m$I39) {
 	                var _attrSelector14 = _m$input29[_m$i39];
 	
-	                var _m$visitor44 = void 0;
+	                var _m$visitor45 = void 0;
 	
 	                _M$VISITOR: {
 	                  if (_attrSelector14.type == 'Id') {
-	                    _m$visitor44 = _m$node3 && (_m$node3.ID == _attrSelector14.ident || _m$node3.Id == _attrSelector14.ident || _m$node3.id == _attrSelector14.ident);
+	                    _m$visitor45 = _m$node3 && (_m$node3.ID === _attrSelector14.ident || _m$node3.Id === _attrSelector14.ident || _m$node3.id === _attrSelector14.ident);
 	                    break _M$VISITOR;
 	                  } else if (_attrSelector14.type == 'Class') {
-	                    _m$visitor44 = _m$node3 && _m$node3.constructor && _m$node3.constructor.name == _attrSelector14.ident;
+	                    _m$visitor45 = _m$node3 && _m$node3.constructor && _m$node3.constructor.name === _attrSelector14.ident;
 	                    break _M$VISITOR;
 	                  } else if (_attrSelector14.type == 'Attribute') {
 	                    var _m$attrValue10 = _m$node3[_attrSelector14.ident].toString();if (_attrSelector14.operator == '=') {
-	                      _m$visitor44 = _m$attrValue10 === _attrSelector14.value;
+	                      _m$visitor45 = _m$attrValue10 === _attrSelector14.value;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector14.operator == '^=') {
-	                      _m$visitor44 = _m$attrValue10.indexOf(_attrSelector14.value) === 0;
+	                      _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) === 0;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector14.operator == '$=') {
-	                      debugger;console.log(_m$attrValue10.indexOf(_attrSelector14.value), _m$attrValue10.length, _attrSelector14.value.length);_m$visitor44 = _m$attrValue10.indexOf(_attrSelector14.value) === _m$attrValue10.length - _attrSelector14.value.length;
+	                      debugger;console.log(_m$attrValue10.indexOf(_attrSelector14.value), _m$attrValue10.length, _attrSelector14.value.length);_m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) === _m$attrValue10.length - _attrSelector14.value.length;
 	                      break _M$VISITOR;
 	                    } else if (_attrSelector14.operator == '*=') {
-	                      _m$visitor44 = _m$attrValue10.indexOf(_attrSelector14.value) !== -1;
+	                      _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) !== -1;
 	                      break _M$VISITOR;
 	                    } else {
-	                      _m$visitor44 = _m$node3.hasOwnProperty(_attrSelector14.ident);
+	                      _m$visitor45 = _m$node3.hasOwnProperty(_attrSelector14.ident);
 	                      break _M$VISITOR;
 	                    }
 	                  } else {
-	                    _m$visitor44 = false;
+	                    _m$visitor45 = false;
 	                    break _M$VISITOR;
 	                  }
 	                }
 	
-	                if (!_m$visitor44) {
+	                if (!_m$visitor45) {
 	                  _m$result33 = false;break;
 	                }_m$i39++;
 	              }_every27 = _m$result33;
@@ -10395,32 +10446,32 @@
 	                  _m$I40 = _m$input30.length;while (_m$i40 < _m$I40) {
 	                var _pseudoClass14 = _m$input30[_m$i40];
 	
-	                var _m$visitor45 = void 0;
+	                var _m$visitor46 = void 0;
 	
 	                _pseudoClassMethod9 = _PseudoClass2.default[_pseudoClass14.ident] || option.pseudoClasses[_pseudoClass14.ident];_pseudoClassArgs9 = _pseudoClass14.args ? _result9.concat(_pseudoClass14.args) : _result9;_tmp9 = _pseudoClassMethod9.apply(undefined, _pseudoClassArgs9);if (_tmp9 instanceof Array || !_tmp9) {
 	                  _result9 = _tmp9;
-	                }_m$visitor45 = _tmp9;
-	                if (!_m$visitor45) {
+	                }_m$visitor46 = _tmp9;
+	                if (!_m$visitor46) {
 	                  _m$result34 = false;break;
 	                }_m$i40++;
 	              }_every28 = _m$result34;
 	              _every28;
 	            }_matchPseudoClass13 = _result9;
-	            _isMatchAllSelector11 = _matchPseudoClass13;
+	            _isMatchAllSelector12 = _matchPseudoClass13;
 	          }
-	        }var _m$nodeInfo11 = _isMatchAllSelector11;
-	        var _m$combinator11 = compound.next;
+	        }var _m$nodeInfo12 = _isMatchAllSelector12;
+	        var _m$combinator12 = compound.next;
 	
-	        var _fetchNextSelector11 = void 0;
+	        var _fetchNextSelector12 = void 0;
 	
 	        _FETCH_NEXT_SELECTOR4: {
-	          var _m$tmp10;if (_m$nodeInfo11) {
-	            if (_m$combinator11) {
-	              if (_typeof(_m$nodeInfo11[0]) !== 'object') {
-	                _fetchNextSelector11 = false;
+	          var _m$tmp10;if (_m$nodeInfo12) {
+	            if (_m$combinator12) {
+	              if (_typeof(_m$nodeInfo12[0]) !== 'object') {
+	                _fetchNextSelector12 = false;
 	                break _FETCH_NEXT_SELECTOR4;
-	              } else if (!(_m$tmp10 = findMatchNode(_m$combinator11, _m$nodeInfo11[0]))) {
-	                _fetchNextSelector11 = false;
+	              } else if (!(_m$tmp10 = findMatchNode(_m$combinator12, _m$nodeInfo12[0]))) {
+	                _fetchNextSelector12 = false;
 	                break _FETCH_NEXT_SELECTOR4;
 	              }
 	              var _forEach7 = void 0;
@@ -10429,22 +10480,22 @@
 	                  _m$I41 = _m$tmp10.length;while (_m$i41 < _m$I41) {
 	                var _rec7 = _m$tmp10[_m$i41];
 	
-	                var _m$visitor46 = void 0;
+	                var _m$visitor47 = void 0;
 	
-	                Array.prototype.unshift.apply(_rec7[1], _m$nodeInfo11[1]);Array.prototype.unshift.apply(_rec7[2], _m$nodeInfo11[2]);_m$visitor46;_m$i41++;
-	              }_forEach7;_fetchNextSelector11 = _m$tmp10;
+	                Array.prototype.unshift.apply(_rec7[1], _m$nodeInfo12[1]);Array.prototype.unshift.apply(_rec7[2], _m$nodeInfo12[2]);_m$visitor47;_m$i41++;
+	              }_forEach7;_fetchNextSelector12 = _m$tmp10;
 	              break _FETCH_NEXT_SELECTOR4;
-	            }_fetchNextSelector11 = [_m$nodeInfo11];
+	            }_fetchNextSelector12 = [_m$nodeInfo12];
 	            break _FETCH_NEXT_SELECTOR4;
 	          }
 	        }
 	
-	        tmp = _fetchNextSelector11;
+	        tmp = _fetchNextSelector12;
 	        if (tmp) {
 	          Array.prototype.push.apply(result, tmp);
 	        }
-	        _m$visitor43;
-	      }if ((typeof _m$node3 === 'undefined' ? 'undefined' : _typeof(_m$node3)) == 'object' && (_m$depth4 === undefined || _m$path3.length < _m$depth4)) {
+	        _m$visitor44;
+	      }if ((typeof _m$node3 === 'undefined' ? 'undefined' : _typeof(_m$node3)) == 'object' && !(_m$endDepth4 < _m$path3.length)) {
 	        _m$parent3 = _m$parent3.slice();_m$parent3.push(_m$node3);for (_m$key3 in _m$node3) {
 	          _m$newNode3 = _m$node3[_m$key3];if (_m$parent3.indexOf(_m$newNode3) == -1) {
 	            _m$buffer3.push([_m$newNode3, _m$path3.concat(_m$key3), _m$parent3]);
@@ -10479,11 +10530,11 @@
 	      var _m$i26 = 0,
 	          _m$I26 = cssRules.length;
 	      while (_m$i26 < _m$I26) {
-	        var _m$visitor47 = void 0;
+	        var _m$visitor48 = void 0;
 	
-	        _m$visitor47 = result = findFirstMatchNode(cssRules[_m$i26].start, self.root, self.option);
+	        _m$visitor48 = result = findFirstMatchNode(cssRules[_m$i26].start, self.root, self.option);
 	
-	        if (_m$visitor47) {
+	        if (_m$visitor48) {
 	          _m$result22 = true;
 	          break;
 	        }
@@ -10510,11 +10561,11 @@
 	      var _m$i31 = 0,
 	          _m$I31 = cssRules.length;
 	      while (_m$i31 < _m$I31) {
-	        var _m$visitor48 = void 0;
+	        var _m$visitor49 = void 0;
 	
-	        _m$visitor48 = _m$result26.concat(findMatchNode(cssRules[_m$i31].start, self.root, self.option));
+	        _m$visitor49 = _m$result26.concat(findMatchNode(cssRules[_m$i31].start, self.root, self.option));
 	
-	        _m$result26 = _m$visitor48;
+	        _m$result26 = _m$visitor49;
 	        _m$i31++;
 	      }
 	
@@ -10531,7 +10582,7 @@
 	      while (_m$i30 < _m$I30) {
 	        _m$val = _m$input22[_m$i30];
 	
-	        var _m$visitor49 = void 0;
+	        var _m$visitor50 = void 0;
 	
 	        _M$VISITOR10: {
 	          for (var _i2 = 0, _testNode2; _i2 < _m$i30; _i2++) {
@@ -10562,16 +10613,16 @@
 	              _compareTwoArray3 = _m$result35;
 	
 	              if (_compareTwoArray3) {
-	                _m$visitor49 = false;
+	                _m$visitor50 = false;
 	                break _M$VISITOR10;
 	              }
 	            }
 	          }
 	
-	          _m$visitor49 = true;
+	          _m$visitor50 = true;
 	        }
 	
-	        if (_m$visitor49) {
+	        if (_m$visitor50) {
 	          _m$filtered.push(_m$val);
 	        }
 	
@@ -10591,11 +10642,11 @@
 	      while (_m$i27 < _m$I27) {
 	        var _node2 = _m$input21[_m$i27];
 	
-	        var _m$visitor50 = void 0;
+	        var _m$visitor51 = void 0;
 	
-	        _m$visitor50 = new _NodeInfo2.default(_node2[0], _node2[1], _node2[2], self.root);
+	        _m$visitor51 = new _NodeInfo2.default(_node2[0], _node2[1], _node2[2], self.root);
 	
-	        _m$result23[_m$i27] = _m$visitor50;
+	        _m$result23[_m$i27] = _m$visitor51;
 	        _m$i27++;
 	      }
 	
