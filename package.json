@@ -1,11 +1,12 @@
 {
   "name": "c3s",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "use css selector to select js object content.",
   "main": "build/c3s-parser.min.js",
   "author": "gjccing",
   "license": "ISC",
   "scripts": {
+    "prepublish": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.config.js",
     "test": "webpack --config webpack.config.test.js --target node && mocha build/c3s-parser.test.js",
     "debug": "webpack --config webpack.config.test.js --target node && node-debug _mocha --debug-brk --require source-map-support/register build/c3s-parser.test.js"
