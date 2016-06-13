@@ -17,6 +17,9 @@ c3s(root).selectOne('b>c');
 // get "c-val"
 ```
 
+[more demo]https://tonicdev.com/gjccing/c3s)
+
+
 ## Installation
 
 `npm install c3s`
