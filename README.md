@@ -51,10 +51,10 @@ select object which contain `att` property and this property value(`toString()`)
 ### Pseudo-classes
 
 * `:regexpTest(arg)`
-select which match regexp's `arg`
+select match regexp's `arg` value
 
 * `:equal(arg)`
-select which equal `arg`
+select equal `arg` value
 
 You can define new pseudo-class in c3s option.pseudoClasses, ex:
 ```javascript

@@ -9490,6 +9490,13 @@
 	    describe('Complex Object', function () {
 	      var data = __webpack_require__(45);
 	      [{
+	        input: '#file [value="New"]',
+	        expect: {
+	          path: 'menu,popup,menuitem,0',
+	          value: data.menu.popup.menuitem[0],
+	          desc: 'menu Object'
+	        }
+	      }, {
 	        input: 'value',
 	        expect: {
 	          path: 'menu,value',
@@ -9914,36 +9921,35 @@
 	                  var _m$visitor35 = void 0;
 	
 	                  _M$VISITOR: {
-	                    if (_attrSelector11.type == 'Id') {
-	                      _m$visitor35 = m$node && (m$node.ID === _attrSelector11.ident || m$node.Id === _attrSelector11.ident || m$node.id === _attrSelector11.ident);
-	                      break _M$VISITOR;
-	                    } else if (_attrSelector11.type == 'Class') {
-	                      _m$visitor35 = m$node && m$node.constructor && m$node.constructor.name === _attrSelector11.ident;
-	                      break _M$VISITOR;
-	                    } else if (_attrSelector11.type == 'Attribute') {
-	                      var _m$attrValue4 = m$node[_attrSelector11.ident].toString();
-	                      if (_attrSelector11.operator == '=') {
-	                        _m$visitor35 = _m$attrValue4 === _attrSelector11.value;
+	                    if (m$node !== undefined && m$node !== null) {
+	                      if (_attrSelector11.type == 'Id') {
+	                        _m$visitor35 = m$node.ID === _attrSelector11.ident || m$node.Id === _attrSelector11.ident || m$node.id === _attrSelector11.ident;
 	                        break _M$VISITOR;
-	                      } else if (_attrSelector11.operator == '^=') {
-	                        _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) === 0;
+	                      } else if (_attrSelector11.type == 'Class') {
+	                        _m$visitor35 = m$node.constructor && m$node.constructor.name === _attrSelector11.ident;
 	                        break _M$VISITOR;
-	                      } else if (_attrSelector11.operator == '$=') {
-	                        debugger;
-	                        console.log(_m$attrValue4.indexOf(_attrSelector11.value), _m$attrValue4.length, _attrSelector11.value.length);
-	                        _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) === _m$attrValue4.length - _attrSelector11.value.length;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector11.operator == '*=') {
-	                        _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) !== -1;
-	                        break _M$VISITOR;
-	                      } else {
-	                        _m$visitor35 = m$node.hasOwnProperty(_attrSelector11.ident);
-	                        break _M$VISITOR;
+	                      } else if (_attrSelector11.type == 'Attribute') {
+	                        var _m$attrValue4 = '' + m$node[_attrSelector11.ident];
+	                        if (_attrSelector11.operator == '=') {
+	                          _m$visitor35 = _m$attrValue4 == _attrSelector11.value;
+	                          break _M$VISITOR;
+	                        } else if (_attrSelector11.operator == '^=') {
+	                          _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) == 0;
+	                          break _M$VISITOR;
+	                        } else if (_attrSelector11.operator == '$=') {
+	                          _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) == _m$attrValue4.length - _attrSelector11.value.length;
+	                          break _M$VISITOR;
+	                        } else if (_attrSelector11.operator == '*=') {
+	                          _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) != -1;
+	                          break _M$VISITOR;
+	                        } else {
+	                          _m$visitor35 = m$node.hasOwnProperty(_attrSelector11.ident);
+	                          break _M$VISITOR;
+	                        }
 	                      }
-	                    } else {
-	                      _m$visitor35 = false;
-	                      break _M$VISITOR;
 	                    }
+	
+	                    _m$visitor35 = false;
 	                  }
 	
 	                  if (!_m$visitor35) {
@@ -10091,33 +10097,32 @@
 	                var _m$visitor38 = void 0;
 	
 	                _M$VISITOR: {
-	                  if (_attrSelector12.type == 'Id') {
-	                    _m$visitor38 = _m$node && (_m$node.ID === _attrSelector12.ident || _m$node.Id === _attrSelector12.ident || _m$node.id === _attrSelector12.ident);
-	                    break _M$VISITOR;
-	                  } else if (_attrSelector12.type == 'Class') {
-	                    _m$visitor38 = _m$node && _m$node.constructor && _m$node.constructor.name === _attrSelector12.ident;
-	                    break _M$VISITOR;
-	                  } else if (_attrSelector12.type == 'Attribute') {
-	                    var _m$attrValue6 = _m$node[_attrSelector12.ident].toString();if (_attrSelector12.operator == '=') {
-	                      _m$visitor38 = _m$attrValue6 === _attrSelector12.value;
+	                  if (_m$node !== undefined && _m$node !== null) {
+	                    if (_attrSelector12.type == 'Id') {
+	                      _m$visitor38 = _m$node.ID === _attrSelector12.ident || _m$node.Id === _attrSelector12.ident || _m$node.id === _attrSelector12.ident;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector12.operator == '^=') {
-	                      _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) === 0;
+	                    } else if (_attrSelector12.type == 'Class') {
+	                      _m$visitor38 = _m$node.constructor && _m$node.constructor.name === _attrSelector12.ident;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector12.operator == '$=') {
-	                      debugger;console.log(_m$attrValue6.indexOf(_attrSelector12.value), _m$attrValue6.length, _attrSelector12.value.length);_m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) === _m$attrValue6.length - _attrSelector12.value.length;
-	                      break _M$VISITOR;
-	                    } else if (_attrSelector12.operator == '*=') {
-	                      _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) !== -1;
-	                      break _M$VISITOR;
-	                    } else {
-	                      _m$visitor38 = _m$node.hasOwnProperty(_attrSelector12.ident);
-	                      break _M$VISITOR;
+	                    } else if (_attrSelector12.type == 'Attribute') {
+	                      var _m$attrValue6 = '' + _m$node[_attrSelector12.ident];if (_attrSelector12.operator == '=') {
+	                        _m$visitor38 = _m$attrValue6 == _attrSelector12.value;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector12.operator == '^=') {
+	                        _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) == 0;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector12.operator == '$=') {
+	                        _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) == _m$attrValue6.length - _attrSelector12.value.length;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector12.operator == '*=') {
+	                        _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) != -1;
+	                        break _M$VISITOR;
+	                      } else {
+	                        _m$visitor38 = _m$node.hasOwnProperty(_attrSelector12.ident);
+	                        break _M$VISITOR;
+	                      }
 	                    }
-	                  } else {
-	                    _m$visitor38 = false;
-	                    break _M$VISITOR;
-	                  }
+	                  }_m$visitor38 = false;
 	                }
 	
 	                if (!_m$visitor38) {
@@ -10240,33 +10245,32 @@
 	                var _m$visitor41 = void 0;
 	
 	                _M$VISITOR: {
-	                  if (_attrSelector13.type == 'Id') {
-	                    _m$visitor41 = _m$node2 && (_m$node2.ID === _attrSelector13.ident || _m$node2.Id === _attrSelector13.ident || _m$node2.id === _attrSelector13.ident);
-	                    break _M$VISITOR;
-	                  } else if (_attrSelector13.type == 'Class') {
-	                    _m$visitor41 = _m$node2 && _m$node2.constructor && _m$node2.constructor.name === _attrSelector13.ident;
-	                    break _M$VISITOR;
-	                  } else if (_attrSelector13.type == 'Attribute') {
-	                    var _m$attrValue8 = _m$node2[_attrSelector13.ident].toString();if (_attrSelector13.operator == '=') {
-	                      _m$visitor41 = _m$attrValue8 === _attrSelector13.value;
+	                  if (_m$node2 !== undefined && _m$node2 !== null) {
+	                    if (_attrSelector13.type == 'Id') {
+	                      _m$visitor41 = _m$node2.ID === _attrSelector13.ident || _m$node2.Id === _attrSelector13.ident || _m$node2.id === _attrSelector13.ident;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector13.operator == '^=') {
-	                      _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) === 0;
+	                    } else if (_attrSelector13.type == 'Class') {
+	                      _m$visitor41 = _m$node2.constructor && _m$node2.constructor.name === _attrSelector13.ident;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector13.operator == '$=') {
-	                      debugger;console.log(_m$attrValue8.indexOf(_attrSelector13.value), _m$attrValue8.length, _attrSelector13.value.length);_m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) === _m$attrValue8.length - _attrSelector13.value.length;
-	                      break _M$VISITOR;
-	                    } else if (_attrSelector13.operator == '*=') {
-	                      _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) !== -1;
-	                      break _M$VISITOR;
-	                    } else {
-	                      _m$visitor41 = _m$node2.hasOwnProperty(_attrSelector13.ident);
-	                      break _M$VISITOR;
+	                    } else if (_attrSelector13.type == 'Attribute') {
+	                      var _m$attrValue8 = '' + _m$node2[_attrSelector13.ident];if (_attrSelector13.operator == '=') {
+	                        _m$visitor41 = _m$attrValue8 == _attrSelector13.value;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector13.operator == '^=') {
+	                        _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) == 0;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector13.operator == '$=') {
+	                        _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) == _m$attrValue8.length - _attrSelector13.value.length;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector13.operator == '*=') {
+	                        _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) != -1;
+	                        break _M$VISITOR;
+	                      } else {
+	                        _m$visitor41 = _m$node2.hasOwnProperty(_attrSelector13.ident);
+	                        break _M$VISITOR;
+	                      }
 	                    }
-	                  } else {
-	                    _m$visitor41 = false;
-	                    break _M$VISITOR;
-	                  }
+	                  }_m$visitor41 = false;
 	                }
 	
 	                if (!_m$visitor41) {
@@ -10396,33 +10400,32 @@
 	                var _m$visitor45 = void 0;
 	
 	                _M$VISITOR: {
-	                  if (_attrSelector14.type == 'Id') {
-	                    _m$visitor45 = _m$node3 && (_m$node3.ID === _attrSelector14.ident || _m$node3.Id === _attrSelector14.ident || _m$node3.id === _attrSelector14.ident);
-	                    break _M$VISITOR;
-	                  } else if (_attrSelector14.type == 'Class') {
-	                    _m$visitor45 = _m$node3 && _m$node3.constructor && _m$node3.constructor.name === _attrSelector14.ident;
-	                    break _M$VISITOR;
-	                  } else if (_attrSelector14.type == 'Attribute') {
-	                    var _m$attrValue10 = _m$node3[_attrSelector14.ident].toString();if (_attrSelector14.operator == '=') {
-	                      _m$visitor45 = _m$attrValue10 === _attrSelector14.value;
+	                  if (_m$node3 !== undefined && _m$node3 !== null) {
+	                    if (_attrSelector14.type == 'Id') {
+	                      _m$visitor45 = _m$node3.ID === _attrSelector14.ident || _m$node3.Id === _attrSelector14.ident || _m$node3.id === _attrSelector14.ident;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector14.operator == '^=') {
-	                      _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) === 0;
+	                    } else if (_attrSelector14.type == 'Class') {
+	                      _m$visitor45 = _m$node3.constructor && _m$node3.constructor.name === _attrSelector14.ident;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector14.operator == '$=') {
-	                      debugger;console.log(_m$attrValue10.indexOf(_attrSelector14.value), _m$attrValue10.length, _attrSelector14.value.length);_m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) === _m$attrValue10.length - _attrSelector14.value.length;
-	                      break _M$VISITOR;
-	                    } else if (_attrSelector14.operator == '*=') {
-	                      _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) !== -1;
-	                      break _M$VISITOR;
-	                    } else {
-	                      _m$visitor45 = _m$node3.hasOwnProperty(_attrSelector14.ident);
-	                      break _M$VISITOR;
+	                    } else if (_attrSelector14.type == 'Attribute') {
+	                      var _m$attrValue10 = '' + _m$node3[_attrSelector14.ident];if (_attrSelector14.operator == '=') {
+	                        _m$visitor45 = _m$attrValue10 == _attrSelector14.value;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector14.operator == '^=') {
+	                        _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) == 0;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector14.operator == '$=') {
+	                        _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) == _m$attrValue10.length - _attrSelector14.value.length;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector14.operator == '*=') {
+	                        _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) != -1;
+	                        break _M$VISITOR;
+	                      } else {
+	                        _m$visitor45 = _m$node3.hasOwnProperty(_attrSelector14.ident);
+	                        break _M$VISITOR;
+	                      }
 	                    }
-	                  } else {
-	                    _m$visitor45 = false;
-	                    break _M$VISITOR;
-	                  }
+	                  }_m$visitor45 = false;
 	                }
 	
 	                if (!_m$visitor45) {

@@ -13,38 +13,32 @@ DEFINE_MACRO(IS_MATCH_PROP_SELECTOR, (m$compound, m$path) => {
 DEFINE_MACRO(IS_MATCH_ATTR_SELECTOR, (m$compound, m$node) => {
   if (m$compound.attributes) {
     return EVERY(m$compound.attributes, (attrSelector) => {
-      if (attrSelector.type == 'Id') {
-        return m$node && (
-          m$node.ID === attrSelector.ident ||
-          m$node.Id === attrSelector.ident ||
-          m$node.id === attrSelector.ident);
-      } else if (attrSelector.type == 'Class') {
-        return m$node && 
-          m$node.constructor &&
-          m$node.constructor.name === attrSelector.ident;
-      } else if (attrSelector.type == 'Attribute') {
-        var m$attrValue =m$node[attrSelector.ident].toString();
-        if (attrSelector.operator == '=') {
-          return m$attrValue === attrSelector.value;
-        } else if (attrSelector.operator == '^=') {
-          return m$attrValue.indexOf(attrSelector.value) === 0;
-        } else if (attrSelector.operator == '$=') {
-          debugger;
-          console.log(
-            m$attrValue.indexOf(attrSelector.value),
-            m$attrValue.length,
-            attrSelector.value.length
-          );
-          return m$attrValue.indexOf(attrSelector.value) === 
-            (m$attrValue.length - attrSelector.value.length);
-        } else if (attrSelector.operator == '*=') {
-          return m$attrValue.indexOf(attrSelector.value) !== -1;
-        } else {
-          return m$node.hasOwnProperty(attrSelector.ident);
+      if (m$node !== undefined && m$node !== null) {
+        if (attrSelector.type == 'Id') {
+          return m$node.ID === attrSelector.ident ||
+            m$node.Id === attrSelector.ident ||
+            m$node.id === attrSelector.ident;
+        } else if (attrSelector.type == 'Class') {
+          return m$node.constructor &&
+            m$node.constructor.name === attrSelector.ident;
+        } else if (attrSelector.type == 'Attribute') {
+          var m$attrValue = ''+m$node[attrSelector.ident];
+          if (attrSelector.operator == '=') {
+            return m$attrValue == attrSelector.value;
+          } else if (attrSelector.operator == '^=') {
+            return m$attrValue.indexOf(attrSelector.value) == 0;
+          } else if (attrSelector.operator == '$=') {
+            return m$attrValue.indexOf(attrSelector.value) == 
+              (m$attrValue.length - attrSelector.value.length);
+          } else if (attrSelector.operator == '*=') {
+            return m$attrValue.indexOf(attrSelector.value) != -1;
+          } else {
+            return m$node.hasOwnProperty(attrSelector.ident);
+          }
         }
-      } else {
-        return false;
       }
+      
+      return false;
     });
   }
 

@@ -7,6 +7,14 @@ describe('Selector', function() {
       var data = require('./data/testData1.json');
       [
         {
+          input: '#file [value="New"]',
+          expect: {
+            path: 'menu,popup,menuitem,0',
+            value:data.menu.popup.menuitem[0],
+            desc: 'menu Object'
+          }
+        },
+        {
           input: 'value',
           expect: {
             path: 'menu,value', 
