@@ -93,7 +93,7 @@
     this.operator = operator;
     this.value = value;
     this.flag = flag;
-    if (this.ident.charAt(this.ident.length-1) == '$') {
+    if (this.ident.charAt(this.ident.length-1) == '$' && this.operator == '=') {
       this.ident = this.ident.substr(0, this.ident.length-1);
       this.operator = '$' + this.operator;
     }
@@ -176,16 +176,16 @@ class
 
 attrib
   = '[' S? name:PROP S? exp:(ATTRIB_MATCH S? VALUE (S ATTRIB_FLAGS)?)? S? ']' {
-    var res = new Attribute(name);
+    var ident = name,operator, value, flag;
     if (exp) {
-      res.match = exp[0];
-      res.value = exp[2];
+      operator = exp[0];
+      value = exp[2];
       if (exp[3]) {
-        res.flag = exp[3][1];
+        flag = exp[3][1];
       }
     }
-    
-    return res;
+
+    return new Attribute(name,operator, value, flag);
   }
 
 pseudo_class

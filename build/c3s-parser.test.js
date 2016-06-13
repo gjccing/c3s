@@ -312,16 +312,16 @@
 	        peg$c22 = "]",
 	        peg$c23 = { type: "literal", value: "]", description: "\"]\"" },
 	        peg$c24 = function(name, exp) {
-	            var res = new Attribute(name);
+	            var ident = name,operator, value, flag;
 	            if (exp) {
-	              res.match = exp[0];
-	              res.value = exp[2];
+	              operator = exp[0];
+	              value = exp[2];
 	              if (exp[3]) {
-	                res.flag = exp[3][1];
+	                flag = exp[3][1];
 	              }
 	            }
-	            
-	            return res;
+	
+	            return new Attribute(name,operator, value, flag);
 	          },
 	        peg$c25 = ":",
 	        peg$c26 = { type: "literal", value: ":", description: "\":\"" },
@@ -2501,7 +2501,7 @@
 	        this.operator = operator;
 	        this.value = value;
 	        this.flag = flag;
-	        if (this.ident.charAt(this.ident.length-1) == '$') {
+	        if (this.ident.charAt(this.ident.length-1) == '$' && this.operator == '=') {
 	          this.ident = this.ident.substr(0, this.ident.length-1);
 	          this.operator = '$' + this.operator;
 	        }
@@ -9490,7 +9490,7 @@
 	    describe('Complex Object', function () {
 	      var data = __webpack_require__(45);
 	      [{
-	        input: '#file [value="New"]',
+	        input: '[value="New"]',
 	        expect: {
 	          path: 'menu,popup,menuitem,0',
 	          value: data.menu.popup.menuitem[0],
@@ -9907,21 +9907,21 @@
 	
 	            _IS_MATCH_ATTR_SELECTOR: {
 	              if (compound.attributes) {
-	                var _m$input23 = compound.attributes;
+	                if (m$node !== undefined && m$node !== null) {
+	                  var _m$input23 = compound.attributes;
 	
-	                var _every21 = void 0;
+	                  var _every21 = void 0;
 	
-	                var _m$result27 = true;
+	                  var _m$result27 = true;
 	
-	                var _m$i32 = 0,
-	                    _m$I32 = _m$input23.length;
-	                while (_m$i32 < _m$I32) {
-	                  var _attrSelector11 = _m$input23[_m$i32];
+	                  var _m$i32 = 0,
+	                      _m$I32 = _m$input23.length;
+	                  while (_m$i32 < _m$I32) {
+	                    var _attrSelector11 = _m$input23[_m$i32];
 	
-	                  var _m$visitor35 = void 0;
+	                    var _m$visitor35 = void 0;
 	
-	                  _M$VISITOR: {
-	                    if (m$node !== undefined && m$node !== null) {
+	                    _M$VISITOR: {
 	                      if (_attrSelector11.type == 'Id') {
 	                        _m$visitor35 = m$node.ID === _attrSelector11.ident || m$node.Id === _attrSelector11.ident || m$node.id === _attrSelector11.ident;
 	                        break _M$VISITOR;
@@ -9937,6 +9937,11 @@
 	                          _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) == 0;
 	                          break _M$VISITOR;
 	                        } else if (_attrSelector11.operator == '$=') {
+	
+	                          var _a4 = _m$attrValue4.indexOf(_attrSelector11.value);
+	                          var _b4 = _m$attrValue4.length;
+	                          var _c4 = _attrSelector11.value.length;
+	                          debugger;
 	                          _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) == _m$attrValue4.length - _attrSelector11.value.length;
 	                          break _M$VISITOR;
 	                        } else if (_attrSelector11.operator == '*=') {
@@ -9947,22 +9952,25 @@
 	                          break _M$VISITOR;
 	                        }
 	                      }
+	
+	                      _m$visitor35 = false;
 	                    }
 	
-	                    _m$visitor35 = false;
+	                    if (!_m$visitor35) {
+	                      _m$result27 = false;
+	                      break;
+	                    }
+	
+	                    _m$i32++;
 	                  }
 	
-	                  if (!_m$visitor35) {
-	                    _m$result27 = false;
-	                    break;
-	                  }
-	
-	                  _m$i32++;
+	                  _every21 = _m$result27;
+	                  _isMatchAttrSelector10 = _every21;
+	                  break _IS_MATCH_ATTR_SELECTOR;
+	                } else {
+	                  _isMatchAttrSelector10 = false;
+	                  break _IS_MATCH_ATTR_SELECTOR;
 	                }
-	
-	                _every21 = _m$result27;
-	                _isMatchAttrSelector10 = _every21;
-	                break _IS_MATCH_ATTR_SELECTOR;
 	              }
 	
 	              _isMatchAttrSelector10 = true;
@@ -10086,18 +10094,18 @@
 	
 	          _IS_MATCH_ATTR_SELECTOR: {
 	            if (compound.attributes) {
-	              var _m$input25 = compound.attributes;
+	              if (_m$node !== undefined && _m$node !== null) {
+	                var _m$input25 = compound.attributes;
 	
-	              var _every23 = void 0;
+	                var _every23 = void 0;
 	
-	              var _m$result29 = true;var _m$i34 = 0,
-	                  _m$I34 = _m$input25.length;while (_m$i34 < _m$I34) {
-	                var _attrSelector12 = _m$input25[_m$i34];
+	                var _m$result29 = true;var _m$i34 = 0,
+	                    _m$I34 = _m$input25.length;while (_m$i34 < _m$I34) {
+	                  var _attrSelector12 = _m$input25[_m$i34];
 	
-	                var _m$visitor38 = void 0;
+	                  var _m$visitor38 = void 0;
 	
-	                _M$VISITOR: {
-	                  if (_m$node !== undefined && _m$node !== null) {
+	                  _M$VISITOR: {
 	                    if (_attrSelector12.type == 'Id') {
 	                      _m$visitor38 = _m$node.ID === _attrSelector12.ident || _m$node.Id === _attrSelector12.ident || _m$node.id === _attrSelector12.ident;
 	                      break _M$VISITOR;
@@ -10112,7 +10120,7 @@
 	                        _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) == 0;
 	                        break _M$VISITOR;
 	                      } else if (_attrSelector12.operator == '$=') {
-	                        _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) == _m$attrValue6.length - _attrSelector12.value.length;
+	                        var _a6 = _m$attrValue6.indexOf(_attrSelector12.value);var _b6 = _m$attrValue6.length;var _c6 = _attrSelector12.value.length;debugger;_m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) == _m$attrValue6.length - _attrSelector12.value.length;
 	                        break _M$VISITOR;
 	                      } else if (_attrSelector12.operator == '*=') {
 	                        _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) != -1;
@@ -10121,16 +10129,19 @@
 	                        _m$visitor38 = _m$node.hasOwnProperty(_attrSelector12.ident);
 	                        break _M$VISITOR;
 	                      }
-	                    }
-	                  }_m$visitor38 = false;
-	                }
+	                    }_m$visitor38 = false;
+	                  }
 	
-	                if (!_m$visitor38) {
-	                  _m$result29 = false;break;
-	                }_m$i34++;
-	              }_every23 = _m$result29;
-	              _isMatchAttrSelector11 = _every23;
-	              break _IS_MATCH_ATTR_SELECTOR;
+	                  if (!_m$visitor38) {
+	                    _m$result29 = false;break;
+	                  }_m$i34++;
+	                }_every23 = _m$result29;
+	                _isMatchAttrSelector11 = _every23;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              } else {
+	                _isMatchAttrSelector11 = false;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              }
 	            }_isMatchAttrSelector11 = true;
 	          }
 	
@@ -10234,18 +10245,18 @@
 	
 	          _IS_MATCH_ATTR_SELECTOR: {
 	            if (compound.attributes) {
-	              var _m$input27 = compound.attributes;
+	              if (_m$node2 !== undefined && _m$node2 !== null) {
+	                var _m$input27 = compound.attributes;
 	
-	              var _every25 = void 0;
+	                var _every25 = void 0;
 	
-	              var _m$result31 = true;var _m$i36 = 0,
-	                  _m$I36 = _m$input27.length;while (_m$i36 < _m$I36) {
-	                var _attrSelector13 = _m$input27[_m$i36];
+	                var _m$result31 = true;var _m$i36 = 0,
+	                    _m$I36 = _m$input27.length;while (_m$i36 < _m$I36) {
+	                  var _attrSelector13 = _m$input27[_m$i36];
 	
-	                var _m$visitor41 = void 0;
+	                  var _m$visitor41 = void 0;
 	
-	                _M$VISITOR: {
-	                  if (_m$node2 !== undefined && _m$node2 !== null) {
+	                  _M$VISITOR: {
 	                    if (_attrSelector13.type == 'Id') {
 	                      _m$visitor41 = _m$node2.ID === _attrSelector13.ident || _m$node2.Id === _attrSelector13.ident || _m$node2.id === _attrSelector13.ident;
 	                      break _M$VISITOR;
@@ -10260,7 +10271,7 @@
 	                        _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) == 0;
 	                        break _M$VISITOR;
 	                      } else if (_attrSelector13.operator == '$=') {
-	                        _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) == _m$attrValue8.length - _attrSelector13.value.length;
+	                        var _a8 = _m$attrValue8.indexOf(_attrSelector13.value);var _b8 = _m$attrValue8.length;var _c8 = _attrSelector13.value.length;debugger;_m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) == _m$attrValue8.length - _attrSelector13.value.length;
 	                        break _M$VISITOR;
 	                      } else if (_attrSelector13.operator == '*=') {
 	                        _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) != -1;
@@ -10269,16 +10280,19 @@
 	                        _m$visitor41 = _m$node2.hasOwnProperty(_attrSelector13.ident);
 	                        break _M$VISITOR;
 	                      }
-	                    }
-	                  }_m$visitor41 = false;
-	                }
+	                    }_m$visitor41 = false;
+	                  }
 	
-	                if (!_m$visitor41) {
-	                  _m$result31 = false;break;
-	                }_m$i36++;
-	              }_every25 = _m$result31;
-	              _isMatchAttrSelector12 = _every25;
-	              break _IS_MATCH_ATTR_SELECTOR;
+	                  if (!_m$visitor41) {
+	                    _m$result31 = false;break;
+	                  }_m$i36++;
+	                }_every25 = _m$result31;
+	                _isMatchAttrSelector12 = _every25;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              } else {
+	                _isMatchAttrSelector12 = false;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              }
 	            }_isMatchAttrSelector12 = true;
 	          }
 	
@@ -10389,18 +10403,18 @@
 	
 	          _IS_MATCH_ATTR_SELECTOR: {
 	            if (compound.attributes) {
-	              var _m$input29 = compound.attributes;
+	              if (_m$node3 !== undefined && _m$node3 !== null) {
+	                var _m$input29 = compound.attributes;
 	
-	              var _every27 = void 0;
+	                var _every27 = void 0;
 	
-	              var _m$result33 = true;var _m$i39 = 0,
-	                  _m$I39 = _m$input29.length;while (_m$i39 < _m$I39) {
-	                var _attrSelector14 = _m$input29[_m$i39];
+	                var _m$result33 = true;var _m$i39 = 0,
+	                    _m$I39 = _m$input29.length;while (_m$i39 < _m$I39) {
+	                  var _attrSelector14 = _m$input29[_m$i39];
 	
-	                var _m$visitor45 = void 0;
+	                  var _m$visitor45 = void 0;
 	
-	                _M$VISITOR: {
-	                  if (_m$node3 !== undefined && _m$node3 !== null) {
+	                  _M$VISITOR: {
 	                    if (_attrSelector14.type == 'Id') {
 	                      _m$visitor45 = _m$node3.ID === _attrSelector14.ident || _m$node3.Id === _attrSelector14.ident || _m$node3.id === _attrSelector14.ident;
 	                      break _M$VISITOR;
@@ -10415,7 +10429,7 @@
 	                        _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) == 0;
 	                        break _M$VISITOR;
 	                      } else if (_attrSelector14.operator == '$=') {
-	                        _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) == _m$attrValue10.length - _attrSelector14.value.length;
+	                        var _a10 = _m$attrValue10.indexOf(_attrSelector14.value);var _b10 = _m$attrValue10.length;var _c10 = _attrSelector14.value.length;debugger;_m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) == _m$attrValue10.length - _attrSelector14.value.length;
 	                        break _M$VISITOR;
 	                      } else if (_attrSelector14.operator == '*=') {
 	                        _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) != -1;
@@ -10424,16 +10438,19 @@
 	                        _m$visitor45 = _m$node3.hasOwnProperty(_attrSelector14.ident);
 	                        break _M$VISITOR;
 	                      }
-	                    }
-	                  }_m$visitor45 = false;
-	                }
+	                    }_m$visitor45 = false;
+	                  }
 	
-	                if (!_m$visitor45) {
-	                  _m$result33 = false;break;
-	                }_m$i39++;
-	              }_every27 = _m$result33;
-	              _isMatchAttrSelector13 = _every27;
-	              break _IS_MATCH_ATTR_SELECTOR;
+	                  if (!_m$visitor45) {
+	                    _m$result33 = false;break;
+	                  }_m$i39++;
+	                }_every27 = _m$result33;
+	                _isMatchAttrSelector13 = _every27;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              } else {
+	                _isMatchAttrSelector13 = false;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              }
 	            }_isMatchAttrSelector13 = true;
 	          }
 	

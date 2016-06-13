@@ -12,8 +12,8 @@ DEFINE_MACRO(IS_MATCH_PROP_SELECTOR, (m$compound, m$path) => {
 });
 DEFINE_MACRO(IS_MATCH_ATTR_SELECTOR, (m$compound, m$node) => {
   if (m$compound.attributes) {
-    return EVERY(m$compound.attributes, (attrSelector) => {
-      if (m$node !== undefined && m$node !== null) {
+    if (m$node !== undefined && m$node !== null) {
+      return EVERY(m$compound.attributes, (attrSelector) => {
         if (attrSelector.type == 'Id') {
           return m$node.ID === attrSelector.ident ||
             m$node.Id === attrSelector.ident ||
@@ -36,10 +36,12 @@ DEFINE_MACRO(IS_MATCH_ATTR_SELECTOR, (m$compound, m$node) => {
             return m$node.hasOwnProperty(attrSelector.ident);
           }
         }
-      }
-      
+        
+        return false;
+      });
+    } else {
       return false;
-    });
+    }
   }
 
   return true;
