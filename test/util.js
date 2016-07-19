@@ -2,9 +2,8 @@ import {getFromPath, getFromPathArray, listStruct} from '../src/util.js';
 import {assert} from 'chai';
 
 describe('traversal', function() {
-
+  var data = require('./data/testData1.json');
   describe('getFromPath', function () {
-    var data = require('./data/testData1.json');
     [
       { 
         input: '/menu/id',
@@ -29,9 +28,7 @@ describe('traversal', function() {
       });
     });
   });
-
   describe('getFromPathArray', function () {
-    var data = require('./data/testData1.json');
     [
       { 
         input: ['menu','id'],
@@ -56,9 +53,7 @@ describe('traversal', function() {
       });
     });
   });
-  
   describe('listStruct', function () {
-    var data = require('./data/testData1.json');
     [
       { 
         input:{
@@ -69,31 +64,30 @@ describe('traversal', function() {
       },
       { 
         input:{
-          name: 'data.menu.popup.menuitem',
-          args: [data.menu.popup.menuitem, 'bfs', 1]
+          name: 'data',
+          args: [data, 'bfs']
         },
-        expect: 3
+        expect: 47
       },
       { 
         input:{
-          name: 'data.menu.popup.menuitem',
-          args: [data.menu.popup.menuitem, 'dfs']
+          name: 'data',
+          args: [data, 'dfs']
         },
-        expect: 41
+        expect: 47
       },
       { 
         input:{
-          name: 'data.xxxx',
-          args: [data.xxxx]
+          name: 'undefined',
+          args: [undefined]
         },
         expect: 1
       }
     ].forEach(function (testCase) {
       it(`should return ${testCase.expect} when the path is ${testCase.input.name}`, function () {
         var result = listStruct.apply(this, testCase.input.args);
-        assert.strictEqual(result.length, testCase.expect);
+        assert.equal(result.length, testCase.expect);
       });
     });
   });
-
 });

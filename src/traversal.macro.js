@@ -1,52 +1,42 @@
 
-DEFINE_MACRO(BREADTH_FIRST_TRAVERSAL, (m$target, m$startDepth, m$endDepth, m$visitor) => {
-  var m$buffer = [[m$target, [], []]];
-  var m$tmp, m$node, m$path, m$parent;
-  var m$key, m$newNode;
+DEFINE_MACRO(BREADTH_FIRST_TRAVERSAL, (m$nodeInfo, m$startDepth, m$endDepth, m$visitor) => {
+  var m$buffer = [m$nodeInfo];
+  var m$tmpNodeInfo, m$key, m$newNode;
   while (m$buffer.length) {
-    m$tmp = m$buffer.shift();
-    m$node = m$tmp[0];
-    m$path = m$tmp[1];
-    m$parent = m$tmp[2];
-    if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
-      m$visitor(m$node, m$path, m$parent);
+    m$tmpNodeInfo = m$buffer.shift();
+    if (m$startDepth <= m$tmpNodeInfo.path.length) {
+      m$visitor(m$tmpNodeInfo);
     }
-    if (typeof m$node == 'object' && !(m$endDepth < m$path.length)) {
-      m$parent = m$parent.slice();
-      m$parent.push(m$node);
-      for (m$key in m$node) {
-        m$newNode = m$node[m$key];
-        if (m$parent.indexOf(m$newNode) == -1) {
-          m$buffer.push([m$newNode, m$path.concat(m$key), m$parent]);
+
+    if (typeof m$tmpNodeInfo.node == 'object' && m$tmpNodeInfo.path.length < m$endDepth) {
+      for (m$key in m$tmpNodeInfo.node) {
+        m$newNode = m$tmpNodeInfo.node[m$key];
+        if (m$tmpNodeInfo.parent.indexOf(m$newNode) == -1) {
+          m$buffer.push(m$tmpNodeInfo.getChild(m$key));
         }
       }
     }
   }
 });
 
-DEFINE_MACRO(BREADTH_FIRST_SEARCH, (m$target, m$startDepth, m$endDepth, m$visitor) => {
+DEFINE_MACRO(BREADTH_FIRST_SEARCH, (m$nodeInfo, m$startDepth, m$endDepth, m$visitor) => {
   var m$result;
-
-  var m$buffer = [[m$target, [], []]];
-  var m$tmp, m$node, m$path, m$parent;
-  var m$key, m$newNode;
+  var m$buffer = [m$nodeInfo];
+  var m$tmpNodeInfo, m$key, m$newNode;
   while (m$buffer.length) {
-    m$tmp = m$buffer.shift();
-    m$node = m$tmp[0];
-    m$path = m$tmp[1];
-    m$parent = m$tmp[2];
-    if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
-      if (m$visitor(m$node, m$path, m$parent)){
-        m$result = [m$node, m$path, m$parent];
+    m$tmpNodeInfo = m$buffer.shift();
+    if (m$startDepth <= m$tmpNodeInfo.path.length) {
+      if (m$visitor(m$tmpNodeInfo)) {
+        m$result = m$tmpNodeInfo;
         break;
       }
-    } else if (typeof m$node == 'object' && !(m$endDepth < m$path.length)) {
-      m$parent = m$parent.slice();
-      m$parent.push(m$node);
-      for (m$key in m$node) {
-        m$newNode = m$node[m$key];
-        if (m$parent.indexOf(m$newNode) == -1) {
-          m$buffer.push([m$newNode, m$path.concat(m$key), m$parent]);
+    } 
+
+    if (typeof m$tmpNodeInfo.node == 'object' && m$tmpNodeInfo.path.length < m$endDepth) {
+      for (m$key in m$tmpNodeInfo.node) {
+        m$newNode = m$tmpNodeInfo.node[m$key];
+        if (m$tmpNodeInfo.parent.indexOf(m$newNode) == -1) {
+          m$buffer.push(m$tmpNodeInfo.getChild(m$key))
         }
       }
     }
@@ -55,44 +45,40 @@ DEFINE_MACRO(BREADTH_FIRST_SEARCH, (m$target, m$startDepth, m$endDepth, m$visito
   return m$result;
 });
 
-DEFINE_MACRO(DEPTH_FIRST_TRAVERSAL, (m$target, m$startDepth, m$endDepth, m$visitor) => {
-  var m$traverse = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
-    if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
-      m$visitor(m$node, m$path, m$parent);
+DEFINE_MACRO(DEPTH_FIRST_TRAVERSAL, (m$nodeInfo, m$startDepth, m$endDepth, m$visitor) => {
+  var m$traverse = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+    if (m$_startDepth <= m$_nodeInfo.path.length) {
+      m$visitor(m$_nodeInfo);
     }
 
-    if (typeof m$node == 'object' && !(m$endDepth < m$path.length)) {
+    if (typeof m$_nodeInfo.node == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
       var m$key, m$newNode;
-      m$parent = m$parent.slice();
-      m$parent.push(m$node);
-      for (m$key in m$node) {
-        m$newNode = m$node[m$key];
-        if (m$parent.indexOf(m$newNode) == -1) {
-          m$traverse(m$newNode, m$path.concat(m$key), m$parent)
+      for (m$key in m$_nodeInfo.node) {
+        m$newNode = m$_nodeInfo.node[m$key];
+        if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+          m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth);
         }
       }
     }
   };
 
-  m$traverse(m$target, [], [], m$startDepth, m$endDepth);
+  m$traverse(m$nodeInfo, m$startDepth, m$endDepth);
 });
 
-DEFINE_MACRO(DEPTH_FIRST_SEARCH, (m$target, m$startDepth, m$endDepth, m$visitor) => {
-  var m$traverse = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
-    if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
-      if (m$visitor(m$node, m$path, m$parent)) {
-        return [m$node, m$path, m$parent];
+DEFINE_MACRO(DEPTH_FIRST_SEARCH, (m$nodeInfo, m$startDepth, m$endDepth, m$visitor) => {
+  var m$traverse = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+    if (m$_startDepth <= m$_nodeInfo.path.length) {
+      if (m$visitor(m$_nodeInfo)) {
+        return m$_nodeInfo;
       }
     }
 
-    if (typeof m$node == 'object' && !(m$endDepth < m$path.length)) {
+    if (typeof m$_nodeInfo.node == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
       var m$key, m$newNode, m$tmp;
-      m$parent = m$parent.slice();
-      m$parent.push(m$node);
-      for (m$key in m$node) {
-        m$newNode = m$node[m$key];
-        if (m$parent.indexOf(m$newNode) == -1) {
-          if (m$tmp = m$traverse(m$newNode, m$path.concat(m$key), m$parent)) {
+      for (m$key in m$_nodeInfo.node) {
+        m$newNode = m$_nodeInfo.node[m$key];
+        if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+          if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
             return m$tmp;
           }
         }
@@ -100,5 +86,5 @@ DEFINE_MACRO(DEPTH_FIRST_SEARCH, (m$target, m$startDepth, m$endDepth, m$visitor)
     }
   };
 
-  return m$traverse(m$target, [], [], m$startDepth, m$endDepth);
+  return m$traverse(m$nodeInfo, m$startDepth, m$endDepth);
 });

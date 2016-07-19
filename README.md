@@ -25,8 +25,10 @@ c3s(root).selectOne('b>c');
 
 ## Support Syntax
 ### Elemental selectors
-`prop`
+* `prop`
 select property value which name is `prop`
+* `*`
+select any property
 
 ### Attribute selectors
 * `#idVal`
@@ -50,6 +52,9 @@ select object which contain `att` property and this property value(`toString()`)
 * `[att*=val]`
 select object which contain `att` property and this property value(`toString()`) contains `val`
 
+* `[att=val i]` 
+case insensitive
+
 ### Pseudo-classes
 
 * `:regexpTest(arg)`
@@ -57,6 +62,9 @@ select match regexp's `arg` value
 
 * `:equal(arg)`
 select equal `arg` value
+
+* `:type(arg)`
+select type equal `arg` value
 
 You can define new pseudo-class in c3s option.pseudoClasses, ex:
 ```javascript
@@ -88,6 +96,9 @@ search prop1 property and contain object property, if statement start isn't `Com
 
 * `prop1>prop2`
 search prop1 property
+
+* `prop1~prop2`
+seach prop1 sibling property
 
 
 ## API Reference
@@ -160,7 +171,7 @@ c3s(root).getByPath('a/b/c');
 // 'target'
 ```
 #### Returns
-return search result
+return a NodeInfo Instance contain search result
 #### Parameters
 * path: string, property path
 * delimiter: string, default = '/'

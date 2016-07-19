@@ -25,7 +25,11 @@ c3s(root).selectOne('b>c');
 
 ## Support Syntax
 ### Elemental selectors
-`prop`, 選取屬性名稱等於`prop`的值
+* `prop`
+選取屬性名稱等於`prop`的值
+
+* `*`
+符合任何屬性名稱
 
 ### Attribute selectors
 * `#idVal` 
@@ -49,6 +53,9 @@ c3s(root).selectOne('b>c');
 * `[att*=val]` 
 選取擁有`att`屬性並且該屬性值轉為字串(`toString()`)後包含`val`的物件
 
+* `[att=val i]` 
+忽略大小寫
+
 ### Pseudo-classes
 
 * `:regexpTest(arg)`
@@ -56,6 +63,9 @@ c3s(root).selectOne('b>c');
 
 * `:equal(arg)`
 選取等於`arg`的值
+
+* `:type(arg)`
+選取類型等於`arg`的值
 
 你可以於c3s的option.pseudoClasses中宣告新的pseudo-class, ex:
 ```javascript
@@ -87,6 +97,9 @@ c3s(root, {
 
 * `prop1>prop2`
 搜尋prop1的屬性
+
+* `prop1~prop2`
+搜尋prop1同parent的屬性
 
 
 ## API Reference
@@ -159,7 +172,7 @@ c3s(root).getByPath('a/b/c');
 // 'target'
 ```
 #### Returns
-查詢路徑的結果
+包含查詢路徑結果的NodeInfo實例
 #### Parameters
 * path: string, 查找路徑
 * delimiter: string, default = '/', 分隔符

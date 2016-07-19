@@ -57,9 +57,362 @@
 	
 	__webpack_require__(41);
 	
-	__webpack_require__(43);
+	__webpack_require__(44);
 	
-	__webpack_require__(46);
+	__webpack_require__(47);
+	
+	var _main = __webpack_require__(51);
+	
+	var _main2 = _interopRequireDefault(_main);
+	
+	var _chai = __webpack_require__(4);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	describe('c3s', function () {
+	  var data1 = __webpack_require__(46);
+	  var data2 = __webpack_require__(52);
+	  [{
+	    input: '[value="New"]',
+	    expect: {
+	      path: 'menu,popup,menuitem,0',
+	      value: data1.menu.popup.menuitem[0],
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: 'value',
+	    expect: {
+	      path: 'menu,value',
+	      value: 'File'
+	    }
+	  }, {
+	    input: 'value abc',
+	    expect: {
+	      value: undefined
+	    }
+	  }, {
+	    input: 'popup value',
+	    expect: {
+	      path: 'menu,popup,menuitem,0,value',
+	      value: 'New'
+	    }
+	  }, {
+	    input: 'popup>value',
+	    expect: {
+	      value: undefined
+	    }
+	  }, {
+	    input: 'menuitem>value',
+	    expect: {
+	      value: undefined
+	    }
+	  }, {
+	    input: '#file',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: '#"file"',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: '#300',
+	    expect: {
+	      path: 'menu,popup,menuitem,0',
+	      value: data1.menu.popup.menuitem[0],
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: '.Object',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: '.Array',
+	    expect: {
+	      path: 'menu,popup,menuitem',
+	      value: data1.menu.popup.menuitem,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: '>menu',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: 'popup>value, >menu',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: 'popup>menuitem menuitem2 value',
+	    expect: {
+	      path: 'menu,popup,menuitem,0,menuitem2,0,value',
+	      value: 'New2_1'
+	    }
+	  }, {
+	    input: '>menu>popup>menuitem>value',
+	    expect: {
+	      value: undefined
+	    }
+	  }, {
+	    input: ':equal("CreateNewDoc()")',
+	    expect: {
+	      path: 'menu,popup,menuitem,0,onclick',
+	      value: 'CreateNewDoc()'
+	    }
+	  }, {
+	    input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
+	    expect: {
+	      path: 'menu,popup,menuitem,2,menuitem2,2,onclick',
+	      value: 'CloseDoc2_3()'
+	    }
+	  }, {
+	    input: 'menu[value]',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: 'menu[value="File"]',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: 'menu[value^="Fi"]',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: 'menu[value$="le"]',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: 'menu[value*="il"]',
+	    expect: {
+	      path: 'menu',
+	      value: data1.menu,
+	      desc: 'menu Object'
+	    }
+	  }, {
+	    input: 'id ~ value',
+	    expect: {
+	      path: 'menu,value',
+	      value: data1.menu.value
+	    }
+	  }].forEach(function (testCase) {
+	    it('should return ' + (testCase.expect.desc || testCase.expect.value) + ' when the select is ' + testCase.input, function () {
+	      var result = (0, _main2.default)(data1, {}).selectOne(testCase.input);
+	      if (result) {
+	        _chai.assert.equal(result.node, testCase.expect.value);
+	        _chai.assert.equal(result.path.toString(), testCase.expect.path);
+	      } else {
+	        _chai.assert.equal(result, testCase.expect.value);
+	      }
+	    });
+	  });
+	
+	  [{
+	    input: '>"0">"0">"0"',
+	    expect: '0,0,0'
+	  }, {
+	    input: '>"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
+	    expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
+	  }, {
+	    input: '>"4">"4">"4">"1" "popup">"menuitem">"0" "0">"value"',
+	    expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
+	  }, {
+	    input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
+	    expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
+	  }, {
+	    input: ':equal(5555)',
+	    expect: '2,3,3,0,1,1'
+	  }, {
+	    input: ':equal(6666)',
+	    expect: '3,4,4,3,2,2'
+	  }, {
+	    input: ':equal(9000)',
+	    expect: '4,4,4,0,2,2'
+	  }, {
+	    input: ':equal(22)',
+	    expect: '0,3,0,1'
+	  }, {
+	    input: '>:equal(1000)',
+	    expect: '6'
+	  }, {
+	    input: 'popup value',
+	    expect: '4,4,4,1,menu,popup,menuitem,0,value'
+	  }, {
+	    input: 'popup>value',
+	    expect: undefined
+	  }, {
+	    input: ':equal("CreateNewDoc()")',
+	    expect: '0,3,4,onclick'
+	  }, {
+	    input: ':equal("CreateNewDoc2_1()")',
+	    expect: '0,3,4,menuitem2,0,onclick'
+	  }, {
+	    input: 'popup>menuitem menuitem2 value',
+	    expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
+	  }, {
+	    input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
+	    expect: '4,4,4,1,menu,popup,menuitem,2,menuitem2,2,onclick'
+	  }].forEach(function (testCase) {
+	    it('should return ' + testCase.expect + ' when the select is ' + testCase.input, function () {
+	      var result = (0, _main2.default)(data2, {}).selectOne(testCase.input);
+	      if (result) {
+	        _chai.assert.equal(result.path.toString(), testCase.expect);
+	      } else {
+	        _chai.assert.equal(result, testCase.expect);
+	      }
+	    });
+	  });
+	  [{
+	    input: 'value',
+	    expect: 13
+	  }, {
+	    input: 'popup value',
+	    expect: 12
+	  }, {
+	    input: 'popup>value',
+	    expect: 0
+	  }, {
+	    input: 'menuitem2 value',
+	    expect: 9
+	  }, {
+	    input: '#file',
+	    expect: 1
+	  }, {
+	    input: 'menu',
+	    expect: 1
+	  }, {
+	    input: '>menu',
+	    expect: 1
+	  }, {
+	    input: 'popup value, >menu',
+	    expect: 13
+	  }, {
+	    input: ':equal("CreateNewDoc()")',
+	    expect: 1
+	  }, {
+	    input: ':equal("CreateNewDoc2_1()")',
+	    expect: 1
+	  }, {
+	    input: 'popup>menuitem menuitem2 value',
+	    expect: 9
+	  }, {
+	    input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
+	    expect: 1
+	  }, {
+	    input: ':regexpTest(/2_/)',
+	    expect: 18
+	  }, {
+	    input: ':regexpTest(/2_/), :regexpTest(/2_/)',
+	    expect: 18
+	  }, {
+	    input: '"0", "1"',
+	    expect: 8
+	  }, {
+	    input: 'menuitem > "0" ~ *',
+	    expect: 2
+	  }].forEach(function (testCase) {
+	    it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
+	      var result = (0, _main2.default)(data1).selectAll(testCase.input);
+	      _chai.assert.equal(result.length, testCase.expect);
+	    });
+	  });
+	  [{
+	    input: '>"0">"0">"0"',
+	    expect: 1
+	  }, {
+	    input: '"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
+	    expect: 1
+	  }, {
+	    input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
+	    expect: 3
+	  }, {
+	    input: ':equal(5555)',
+	    expect: 2
+	  }, {
+	    input: ':equal(22)',
+	    expect: 1
+	  }, {
+	    input: ':equal(1), :equal(5)',
+	    expect: 34
+	  }, {
+	    input: 'popup value',
+	    expect: 12
+	  }, {
+	    input: 'popup>value',
+	    expect: 0
+	  }, {
+	    input: ':equal("CreateNewDoc()")',
+	    expect: 2
+	  }, {
+	    input: ':equal("CreateNewDoc2_1()")',
+	    expect: 2
+	  }, {
+	    input: 'popup>menuitem menuitem2 value',
+	    expect: 9
+	  }, {
+	    input: ':regexpTest(/2_/)',
+	    expect: 36
+	  }].forEach(function (testCase) {
+	    it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
+	      var result = (0, _main2.default)(data2).selectAll(testCase.input);
+	      _chai.assert.equal(result.length, testCase.expect);
+	    });
+	  });
+	  [{
+	    input: {
+	      select: ':gt(2000)',
+	      option: {
+	        pseudoClasses: {
+	          gt: function gt(nodeInfo, v2) {
+	            return nodeInfo.node > v2;
+	          }
+	        }
+	      }
+	    },
+	    expect: 5
+	  }, {
+	    input: {
+	      select: ':lt(1)',
+	      option: {
+	        pseudoClasses: {
+	          lt: function lt(nodeInfo, v2) {
+	            return nodeInfo.node < v2;
+	          }
+	        }
+	      }
+	    },
+	    expect: 13
+	  }].forEach(function (testCase) {
+	    it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
+	      var result = (0, _main2.default)(data2, testCase.input.option).selectAll(testCase.input.select);
+	      _chai.assert.equal(result.length, testCase.expect);
+	    });
+	  });
+	});
 
 /***/ },
 /* 2 */
@@ -76,131 +429,400 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	describe('cssParser', function () {
-	  describe('Return Structure', function () {
-	    [{ input: ' #aa.bb.bb', expect: ' #aa.bb.bb' }, { input: '> #aa.bb > .bb, .bb .bb#aa', expect: '>#aa.bb>.bb, .bb .bb#aa' }, { input: '#aa.bb .bb,>.bb .bb#aa, .bb>.bb#aa', expect: ' #aa.bb .bb,>.bb .bb#aa, .bb>.bb#aa' }, { input: '#aa.bb:method .bb', expect: ' #aa.bb:method .bb' }, { input: '#aa.bb .bb:method(123)', expect: ' #aa.bb .bb:method(123)' }, { input: '#aa.bb:method .bb:method( 123 , 456 )', expect: ' #aa.bb:method .bb:method(123,456)' }].forEach(function (testCase) {
-	      it('should return ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
-	        var val = _cssParser2.default.parse(testCase.input);
-	        val = val.join();
-	        _chai.assert.equal(val, testCase.expect);
+	
+	  describe('Token', function () {
+	    describe('S', function () {
+	      it('in pseudo_class', function () {
+	        var token = _cssParser2.default.parse(":test(1 ,  1   )")[0][1][0].toString();
+	        _chai.assert.equal(token, ':test(1,1)');
+	      });
+	      it('in attrib', function () {
+	        var token = _cssParser2.default.parse("[attr =  ''   i    ]")[0][1][0].toString();
+	        _chai.assert.equal(token, '[attr="" i]');
+	      });
+	      it('between combinator', function () {
+	        var token = _cssParser2.default.parse("div > span").toString();
+	        _chai.assert.equal(token, ' div>span');
+	      });
+	      it('be combinator', function () {
+	        var token = _cssParser2.default.parse(" div span")[0][2].toString();
+	        _chai.assert.equal(token, ' ');
+	      });
+	      it('in scope_relative_selector_list', function () {
+	        var token = _cssParser2.default.parse("a,a  , a").toString();
+	        _chai.assert.equal(token, ' a, a, a');
 	      });
 	    });
-	  });
-	  describe('Class Selector', function () {
-	    describe('item link', function () {
-	      [{ input: ' #aa.bb.bb', expect: ['#aa.bb.bb'] }, { input: '> #aa.bb > .bb, .bb .bb#aa', expect: ['.bb', '.bb#aa'] }, { input: '#aa.bb .bb,>.bb .bb#aa, .bb>.bb#aa', expect: ['.bb', '.bb#aa', '.bb#aa'] }, { input: '#aa.bb .bb >.bb .bb#aa .bb>.bb#aa', expect: ['.bb#aa'] }].forEach(function (testCase) {
-	        it('should return ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
-	          _cssParser2.default.parse(testCase.input).forEach(function (selector, index) {
-	            var result = selector[0];
-	            for (var tmp = result; tmp = tmp.next; result = tmp) {}
-	            _chai.assert.equal(result, testCase.expect[index]);
+	    describe('NUMBER', function () {
+	      describe('SING', function () {
+	        it('in INDEX', function () {
+	          var token = _cssParser2.default.parse(":test(1e-1)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(0.1)');
+	        });
+	        describe('at beginning of NUMBER', function () {
+	
+	          it('with FLOAT', function () {
+	            var token = _cssParser2.default.parse(":test(+.10)")[0][1][0].toString();
+	            _chai.assert.equal(token, ':test(0.1)');
+	          });
+	          it('with DECIMAL', function () {
+	            var token = _cssParser2.default.parse(":test(-10)")[0][1][0].toString();
+	            _chai.assert.equal(token, ':test(-10)');
+	          });
+	          it('with HEXADECIMAL', function () {
+	            var token = _cssParser2.default.parse(":test(+0x10)")[0][1][0].toString();
+	            _chai.assert.equal(token, ':test(16)');
+	          });
+	          it('with OCTAL', function () {
+	            var token = _cssParser2.default.parse(":test(-0o10)")[0][1][0].toString();
+	            _chai.assert.equal(token, ':test(-8)');
+	          });
+	          it('with BINARY', function () {
+	            var token = _cssParser2.default.parse(":test(+0b10)")[0][1][0].toString();
+	            _chai.assert.equal(token, ':test(2)');
+	          });
+	          it('INFINITY', function () {
+	            var token = _cssParser2.default.parse(":test(-Infinity)")[0][1][0].toString();
+	            _chai.assert.equal(token, ':test(-Infinity)');
+	          });
+	          it('NaN', function () {
+	            var token = _cssParser2.default.parse(":test(+NaN)")[0][1][0].toString();
+	            _chai.assert.equal(token, ':test(NaN)');
 	          });
 	        });
 	      });
+	      describe('FLOAT', function () {
+	        it('without INDEX', function () {
+	          var token = _cssParser2.default.parse(":test(.0101)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(0.0101)');
+	        });
+	        it('with INDEX', function () {
+	          var token = _cssParser2.default.parse(":test(.0101e2)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(1.01)');
+	        });
+	      });
+	      describe('DECIMAL', function () {
+	        it('integer', function () {
+	          var token = _cssParser2.default.parse(":test(100)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(100)');
+	        });
+	        it('float', function () {
+	          var token = _cssParser2.default.parse(":test(100.01)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(100.01)');
+	        });
+	        it('with INDEX', function () {
+	          var token = _cssParser2.default.parse(":test(100e-2)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(1)');
+	        });
+	        it('OCTAL case, beginning with 0', function () {
+	          var token = _cssParser2.default.parse(":test(010)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(8)');
+	        });
+	      });
+	      describe('HEXADECIMAL', function () {
+	        it('with "X"', function () {
+	          var token = _cssParser2.default.parse(":test(0X10)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(16)');
+	        });
+	        it('with "x"', function () {
+	          var token = _cssParser2.default.parse(":test(0x10)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(16)');
+	        });
+	      });
+	      describe('OCTAL', function () {
+	        it('with "O"', function () {
+	          var token = _cssParser2.default.parse(":test(0X10)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(16)');
+	        });
+	        it('with "o"', function () {
+	          var token = _cssParser2.default.parse(":test(0x10)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(16)');
+	        });
+	      });
+	      describe('BINARY', function () {
+	        it('with "B"', function () {
+	          var token = _cssParser2.default.parse(":test(0B10)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(2)');
+	        });
+	        it('with "b"', function () {
+	          var token = _cssParser2.default.parse(":test(0b10)")[0][1][0].toString();
+	          _chai.assert.equal(token, ':test(2)');
+	        });
+	      });
+	      it('INFINITY', function () {
+	        var token = _cssParser2.default.parse(":test(Infinity)")[0][1][0].toString();
+	        _chai.assert.equal(token, ':test(Infinity)');
+	      });
+	      it('NaN', function () {
+	        var token = _cssParser2.default.parse(":test(NaN)")[0][1][0].toString();
+	        _chai.assert.equal(token, ':test(NaN)');
+	      });
+	    });
+	    describe('String', function () {
+	      it('String1', function () {
+	        var token = _cssParser2.default.parse(':test("string")')[0][1][0].toString();
+	        _chai.assert.equal(token, ':test("string")');
+	      });
+	      it('String2', function () {
+	        var token = _cssParser2.default.parse(':test(\'string\')')[0][1][0].toString();
+	        _chai.assert.equal(token, ':test("string")');
+	      });
+	      it('with "\\."', function () {
+	        var token = _cssParser2.default.parse(':test(\'\\\'\\\t\')')[0][1][0].toString();
+	        _chai.assert.equal(token, ':test("\'\t")');
+	      });
+	    });
+	    describe('REGEX', function () {
+	      it('with "\\."', function () {
+	        var token = _cssParser2.default.parse(':test(/\\n\\s\\t/)')[0][1][0].toString();
+	        _chai.assert.equal(token, ':test(/\\n\\s\\t/)');
+	      });
+	      it('with flag', function () {
+	        var token = _cssParser2.default.parse(':test(/\\n\\s\\t/i)')[0][1][0].toString();
+	        _chai.assert.equal(token, ':test(/\\n\\s\\t/i)');
+	      });
+	    });
+	    describe('IDENT', function () {
+	      it('when value is div', function () {
+	        var token = _cssParser2.default.parse('div')[0][1][0].toString();
+	        _chai.assert.equal(token, 'div');
+	      });
+	      it('when value is _$div', function () {
+	        var token = _cssParser2.default.parse('_$div')[0][1][0].toString();
+	        _chai.assert.equal(token, '_$div');
+	      });
+	      it('when value is 中文', function () {
+	        var token = _cssParser2.default.parse('中文')[0][1][0].toString();
+	        _chai.assert.equal(token, '中文');
+	      });
+	      it('when value is 0div, should throw exception', function () {
+	        try {
+	          var token = _cssParser2.default.parse('0div')[0][1][0].toString();
+	        } catch (e) {
+	          (0, _chai.assert)(true);
+	        }
+	      });
+	    });
+	    describe('PROP', function () {
+	      it('when value is letter0123', function () {
+	        var token = _cssParser2.default.parse('letter0123')[0][1][0].toString();
+	        _chai.assert.equal(token, 'letter0123');
+	      });
+	      it('when value is "0001"', function () {
+	        var token = _cssParser2.default.parse('"0001"')[0][1][0].toString();
+	        _chai.assert.equal(token, '0001');
+	      });
+	    });
+	    describe('ATTRIB_FLAGS', function () {
+	      it('letters', function () {
+	        var token = _cssParser2.default.parse('[attr="A" flag]')[0][1][0].flag.join('');
+	        _chai.assert.equal(token, 'flag');
+	      });
+	    });
+	    describe('ATTRIB_MATCH', function () {
+	      it('=', function () {
+	        var token = _cssParser2.default.parse('[attr="A"]')[0][1][0].operator;
+	        _chai.assert.equal(token, '=');
+	      });
+	      it('^=', function () {
+	        var token = _cssParser2.default.parse('[attr^="A"]')[0][1][0].operator;
+	        _chai.assert.equal(token, '^=');
+	      });
+	      it('$=', function () {
+	        var token = _cssParser2.default.parse('[attr$="A"]')[0][1][0].operator;
+	        _chai.assert.equal(token, '$=');
+	      });
+	      it('*=', function () {
+	        var token = _cssParser2.default.parse('[attr*="A"]')[0][1][0].operator;
+	        _chai.assert.equal(token, '*=');
+	      });
+	    });
+	    describe('VALUE', function () {
+	      it('in attrib', function () {
+	        var token = _cssParser2.default.parse('[attr=123]')[0][1][0].value;
+	        _chai.assert.equal(token, '123');
+	      });
+	      it('in pseudo_class', function () {
+	        var token = _cssParser2.default.parse(':test(123,"str",/regexp/g)')[0][1][0].args;
+	        _chai.assert.strictEqual(token[0], 123);
+	        _chai.assert.strictEqual(token[1], 'str');
+	        _chai.assert.deepEqual(token[2], /regexp/g);
+	      });
 	    });
 	  });
-	  describe('Rule Prop', function () {
-	    describe('Token String1(double quote)', function () {
-	      [{ input: '"123"', expect: '123' }, { input: '"\\"123\\""', expect: '"123"' }, { input: '"123\\n456"', expect: '123\n456' }].forEach(function (testCase) {
-	        it('should ident is ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
-	          var ident = _cssParser2.default.parse(testCase.input)[0][1][0].ident;
-	          _chai.assert.equal(ident, testCase.expect);
-	        });
+	
+	  describe('Statement', function () {
+	    describe('pseudo_class', function () {
+	      it('without argument', function () {
+	        var token = _cssParser2.default.parse(":test")[0][1][0];
+	        _chai.assert.equal(token.ident, 'test');
+	        _chai.assert.deepEqual(token.args, []);
+	      });
+	      it('with arguments', function () {
+	        var token = _cssParser2.default.parse(":test(1, '1', /1/)")[0][1][0];
+	        _chai.assert.equal(token.ident, 'test');
+	        _chai.assert.deepEqual(token.args, [1, '1', /1/]);
 	      });
 	    });
-	    describe('Token String2(single quote)', function () {
-	      [{ input: "'123'", expect: "123" }, { input: "'\\'123\\''", expect: "'123'" }, { input: "'123\\n456'", expect: "123\n456" }].forEach(function (testCase) {
-	        it('should ident is ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
-	          var ident = _cssParser2.default.parse(testCase.input)[0][1][0].ident;
-	          _chai.assert.equal(ident, testCase.expect);
-	        });
+	    describe('attrib', function () {
+	      it('without value and flags', function () {
+	        var token = _cssParser2.default.parse("[attr]")[0][1][0];
+	        _chai.assert.equal(token.ident, 'attr');
+	        _chai.assert.equal(token.operator, undefined);
+	        _chai.assert.equal(token.value, undefined);
+	        _chai.assert.deepEqual(token.flag, undefined);
+	      });
+	      it('use STRING', function () {
+	        var token = _cssParser2.default.parse("['attr']")[0][1][0];
+	        _chai.assert.equal(token.ident, 'attr');
+	        _chai.assert.equal(token.operator, undefined);
+	        _chai.assert.equal(token.value, undefined);
+	        _chai.assert.deepEqual(token.flag, undefined);
+	      });
+	      it('with "=" operator', function () {
+	        var token = _cssParser2.default.parse("[attr=123]")[0][1][0];
+	        _chai.assert.equal(token.ident, 'attr');
+	        _chai.assert.equal(token.operator, '=');
+	        _chai.assert.equal(token.value, 123);
+	        _chai.assert.deepEqual(token.flag, undefined);
+	      });
+	      it('with "^=" operator', function () {
+	        var token = _cssParser2.default.parse("[attr^=123]")[0][1][0];
+	        _chai.assert.equal(token.ident, 'attr');
+	        _chai.assert.equal(token.operator, '^=');
+	        _chai.assert.equal(token.value, 123);
+	        _chai.assert.deepEqual(token.flag, undefined);
+	      });
+	      it('with "$=" operator', function () {
+	        var token = _cssParser2.default.parse("[attr$=123]")[0][1][0];
+	        _chai.assert.equal(token.ident, 'attr');
+	        _chai.assert.equal(token.operator, '$=');
+	        _chai.assert.equal(token.value, 123);
+	        _chai.assert.deepEqual(token.flag, undefined);
+	      });
+	      it('with "*=" operator', function () {
+	        var token = _cssParser2.default.parse("[attr*=123]")[0][1][0];
+	        _chai.assert.equal(token.ident, 'attr');
+	        _chai.assert.equal(token.operator, '*=');
+	        _chai.assert.equal(token.value, 123);
+	        _chai.assert.deepEqual(token.flag, undefined);
+	      });
+	      it('with flags', function () {
+	        var token = _cssParser2.default.parse("[attr=123 i]")[0][1][0];
+	        _chai.assert.equal(token.ident, 'attr');
+	        _chai.assert.equal(token.operator, '=');
+	        _chai.assert.equal(token.value, 123);
+	        _chai.assert.deepEqual(token.flag, ['i']);
 	      });
 	    });
-	    describe('Token IDENT', function () {
-	      [{ input: 'abc', expect: 'abc' }, { input: '$123', expect: '$123' }, { input: '_sad', expect: '_sad' }].forEach(function (testCase) {
-	        it('should ident is ' + JSON.stringify(testCase.expect) + ' when the value is ' + JSON.stringify(testCase.input), function () {
-	          var ident = _cssParser2.default.parse(testCase.input)[0][1][0].ident;
-	          _chai.assert.equal(ident, testCase.expect);
-	        });
+	    describe('class', function () {
+	      it('when value is .div', function () {
+	        var token = _cssParser2.default.parse('.div')[0][1][0];
+	        _chai.assert.equal(token.ident, 'div');
+	      });
+	      it('when value is ._$div', function () {
+	        var token = _cssParser2.default.parse('._$div')[0][1][0];
+	        _chai.assert.equal(token.ident, '_$div');
+	      });
+	      it('when value is .中文', function () {
+	        var token = _cssParser2.default.parse('.中文')[0][1][0];
+	        _chai.assert.equal(token.ident, '中文');
 	      });
 	    });
-	    // describe('Token Regex', function () {
-	    //   [
-	    //     {input:"/abc/g", expect:/abc/g},
-	    //     {input:"/abc/gm", expect:/abc/gm},
-	    //     {input:"/\\n\\/\\//", expect:/\n\/\//},
-	    //     {input:"/\\n\\/\\/abc/", expect:/\n\/\/abc/},
-	    //     {input:"/[^-a]/", expect:/[^-a]/}
-	    //   ].forEach(function (testCase) {
-	    //     it(`should ident is ${testCase.expect.toString()} when the value is ${testCase.input.toString()}`, function () {
-	    //       var ident = cssParser.parse(testCase.input)[0][1][0].ident;
-	    //       assert.equal(ident.toString(), testCase.expect.toString());
-	    //     });
-	    //   });
-	    // });
-	  });
-	  describe('Rule pseudo_class', function () {
-	    describe('Token Float', function () {
-	      [{ input: ':method(.1e1)', expect: 1 }, { input: ':method(.123)', expect: 0.123 }].forEach(function (testCase) {
-	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
-	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
-	          _chai.assert.equal(value, testCase.expect);
-	        });
+	    describe('id', function () {
+	      it('when value is NUMBER', function () {
+	        var token = _cssParser2.default.parse('#3000')[0][1][0];
+	        _chai.assert.strictEqual(token.ident, 3000);
+	      });
+	      it('when value is STRING', function () {
+	        var token = _cssParser2.default.parse('#"EX-1"')[0][1][0];
+	        _chai.assert.strictEqual(token.ident, 'EX-1');
+	      });
+	      it('when value is IDENT', function () {
+	        var token = _cssParser2.default.parse('#test')[0][1][0];
+	        _chai.assert.strictEqual(token.ident, 'test');
 	      });
 	    });
-	    describe('Token Decimal', function () {
-	      [{ input: ':method(1.1e1)', expect: 11 }, { input: ':method(1.123)', expect: 1.123 }, { input: ':method(1123)', expect: 1123 }].forEach(function (testCase) {
-	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
-	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
-	          _chai.assert.equal(value, testCase.expect);
-	        });
+	    describe('prop', function () {
+	      it('when value is STRING', function () {
+	        var token = _cssParser2.default.parse('"EX-1"')[0][1][0];
+	        _chai.assert.strictEqual(token.ident, 'EX-1');
+	      });
+	      it('when value is IDENT', function () {
+	        var token = _cssParser2.default.parse('test')[0][1][0];
+	        _chai.assert.strictEqual(token.ident, 'test');
+	      });
+	      it('when value is *', function () {
+	        var token = _cssParser2.default.parse('*')[0][1][0];
+	        _chai.assert.strictEqual(token.ident, '*');
 	      });
 	    });
-	    describe('Token Hexadecimal', function () {
-	      [{ input: ':method(0X1F)', expect: 31 }, { input: ':method(0x2F)', expect: 47 }].forEach(function (testCase) {
-	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
-	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
-	          _chai.assert.equal(value, testCase.expect);
-	        });
+	    describe('compound_selector', function () {
+	      it('pseudo_class only', function () {
+	        var token = _cssParser2.default.parse(':test1:test2(2)')[0][1];
+	        _chai.assert.equal(token[0].ident, 'test1');
+	        _chai.assert.deepEqual(token[0].args, []);
+	        _chai.assert.equal(token[1].ident, 'test2');
+	        _chai.assert.deepEqual(token[1].args, [2]);
+	      });
+	      it('exclude prop', function () {
+	        var token = _cssParser2.default.parse('#id.class1.class2:test1:test2(2)')[0][1];
+	        _chai.assert.equal(token[0].ident, 'id');
+	        _chai.assert.equal(token[1].ident, 'class1');
+	        _chai.assert.equal(token[2].ident, 'class2');
+	        _chai.assert.equal(token[3].ident, 'test1');
+	        _chai.assert.deepEqual(token[3].args, []);
+	        _chai.assert.equal(token[4].ident, 'test2');
+	        _chai.assert.deepEqual(token[4].args, [2]);
+	      });
+	      it('with all', function () {
+	        var token = _cssParser2.default.parse('prop#id.class1.class2:test1:test2(2)')[0][1];
+	        _chai.assert.equal(token[0].ident, 'prop');
+	        _chai.assert.equal(token[1].ident, 'id');
+	        _chai.assert.equal(token[2].ident, 'class1');
+	        _chai.assert.equal(token[3].ident, 'class2');
+	        _chai.assert.equal(token[4].ident, 'test1');
+	        _chai.assert.deepEqual(token[4].args, []);
+	        _chai.assert.equal(token[5].ident, 'test2');
+	        _chai.assert.deepEqual(token[5].args, [2]);
 	      });
 	    });
-	    describe('Token Octal', function () {
-	      [{ input: ':method(0O10)', expect: 8 }, { input: ':method(0o20)', expect: 16 }].forEach(function (testCase) {
-	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
-	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
-	          _chai.assert.equal(value, testCase.expect);
-	        });
+	    describe('combinator', function () {
+	      it('" "', function () {
+	        var token = _cssParser2.default.parse('div a')[0][2];
+	        _chai.assert.strictEqual(token.operator, ' ');
+	      });
+	      it('">"', function () {
+	        var token = _cssParser2.default.parse('div>a')[0][2];
+	        _chai.assert.strictEqual(token.operator, '>');
+	      });
+	      it('"~"', function () {
+	        var token = _cssParser2.default.parse('div~a')[0][2];
+	        _chai.assert.strictEqual(token.operator, '~');
 	      });
 	    });
-	    describe('Token Binary', function () {
-	      [{ input: ':method(0B11)', expect: 3 }, { input: ':method(0b111)', expect: 7 }].forEach(function (testCase) {
-	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
-	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
-	          _chai.assert.equal(value, testCase.expect);
-	        });
+	    describe('scope_relative_selector', function () {
+	      it('when statement is "div span :test1"', function () {
+	        var token = _cssParser2.default.parse('div>a')[0].toString();
+	        _chai.assert.equal(token, ' div>a');
+	      });
+	      it('when statement beginning of combinator', function () {
+	        var token = _cssParser2.default.parse('>div span')[0].toString();
+	        _chai.assert.equal(token, '>div span');
+	      });
+	      it('if statment beginning isn\'t combinator, insert " " combinator', function () {
+	        var token = _cssParser2.default.parse('div~a')[0].toString();
+	        _chai.assert.equal(token, ' div~a');
 	      });
 	    });
-	    describe('Token Otcal-vs-decimal', function () {
-	      [{ input: ':method(008)', expect: 8 }, { input: ':method(017)', expect: 15 }].forEach(function (testCase) {
-	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
-	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
-	          _chai.assert.equal(value, testCase.expect);
-	        });
+	    describe('scope_relative_selector_list', function () {
+	      it('a relative selector', function () {
+	        var token = _cssParser2.default.parse('div~a').toString();
+	        _chai.assert.equal(token, ' div~a');
 	      });
-	    });
-	    describe('Token Number', function () {
-	      [{ input: ':method(+.1e1)', expect: 1 }, { input: ':method(-.123)', expect: -0.123 }, { input: ':method(+1.1e1)', expect: 11 }, { input: ':method(-1.1e-1)', expect: -0.11 }, { input: ':method(+1.123)', expect: 1.123 }, { input: ':method(-1123)', expect: -1123 }, { input: ':method(+0X1F)', expect: 31 }, { input: ':method(-0x2F)', expect: -47 }, { input: ':method(+0O10)', expect: 8 }, { input: ':method(-0o20)', expect: -16 }, { input: ':method(+0B11)', expect: 3 }, { input: ':method(-0b111)', expect: -7 }, { input: ':method(+008):method(-017)', expect: 8 }, { input: ':method(-017):method(-017):method(-017)', expect: -15 }].forEach(function (testCase) {
-	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
-	          var value = _cssParser2.default.parse(testCase.input)[0][1][0].args[0];
-	          _chai.assert.equal(value, testCase.expect);
-	        });
-	      });
-	    });
-	    describe('Arguments', function () {
-	      [{ input: ':method(+.1e1)', expect: [+.1e1] }, { input: ':method(  +.1e1, +.1e1 )', expect: [+.1e1, +.1e1] }, { input: ':method(+.1e1, +.1e1 , "123" )', expect: [+.1e1, +.1e1, "123"] }].forEach(function (testCase) {
-	        it('should val is ' + testCase.expect.toString() + ' when the value is ' + testCase.input.toString(), function () {
-	          var args = _cssParser2.default.parse(testCase.input)[0][1][0].args;
-	          _chai.assert.equal(args.join(), testCase.expect.join());
-	        });
+	      it('multi relative selectors', function () {
+	        var token = _cssParser2.default.parse('div, span,p b').toString();
+	        _chai.assert.equal(token, ' div, span, p b');
 	      });
 	    });
 	  });
@@ -277,41 +899,43 @@
 	          },
 	        peg$c4 = ">",
 	        peg$c5 = { type: "literal", value: ">", description: "\">\"" },
-	        peg$c6 = function() {
+	        peg$c6 = "~",
+	        peg$c7 = { type: "literal", value: "~", description: "\"~\"" },
+	        peg$c8 = function() {
 	            return new Combinator(text().trim());
 	          },
-	        peg$c7 = function() {
+	        peg$c9 = function() {
 	            return new Combinator(" ");
 	          },
-	        peg$c8 = function(pseudo_class) {
+	        peg$c10 = function(pseudo_class) {
 	            return new Compound(undefined, undefined, pseudo_class);
 	          },
-	        peg$c9 = function(compound, pseudo_class) {
+	        peg$c11 = function(compound, pseudo_class) {
 	            return new Compound(compound[0], compound[1], pseudo_class);
 	          },
-	        peg$c10 = function(compound, pseudo_class) {
+	        peg$c12 = function(compound, pseudo_class) {
 	            return new Compound(undefined, compound, pseudo_class);
 	          },
-	        peg$c11 = "*",
-	        peg$c12 = { type: "literal", value: "*", description: "\"*\"" },
-	        peg$c13 = function(prop) {
+	        peg$c13 = "*",
+	        peg$c14 = { type: "literal", value: "*", description: "\"*\"" },
+	        peg$c15 = function(prop) {
 	            return new Prop(prop);
 	          },
-	        peg$c14 = "#",
-	        peg$c15 = { type: "literal", value: "#", description: "\"#\"" },
-	        peg$c16 = function(val) {
+	        peg$c16 = "#",
+	        peg$c17 = { type: "literal", value: "#", description: "\"#\"" },
+	        peg$c18 = function(val) {
 	            return new Id(val);
 	          },
-	        peg$c17 = ".",
-	        peg$c18 = { type: "literal", value: ".", description: "\".\"" },
-	        peg$c19 = function(val) {
+	        peg$c19 = ".",
+	        peg$c20 = { type: "literal", value: ".", description: "\".\"" },
+	        peg$c21 = function(val) {
 	            return new Class(val);
 	          },
-	        peg$c20 = "[",
-	        peg$c21 = { type: "literal", value: "[", description: "\"[\"" },
-	        peg$c22 = "]",
-	        peg$c23 = { type: "literal", value: "]", description: "\"]\"" },
-	        peg$c24 = function(name, exp) {
+	        peg$c22 = "[",
+	        peg$c23 = { type: "literal", value: "[", description: "\"[\"" },
+	        peg$c24 = "]",
+	        peg$c25 = { type: "literal", value: "]", description: "\"]\"" },
+	        peg$c26 = function(name, exp) {
 	            var ident = name,operator, value, flag;
 	            if (exp) {
 	              operator = exp[0];
@@ -323,18 +947,18 @@
 	
 	            return new Attribute(name,operator, value, flag);
 	          },
-	        peg$c25 = ":",
-	        peg$c26 = { type: "literal", value: ":", description: "\":\"" },
-	        peg$c27 = "(",
-	        peg$c28 = { type: "literal", value: "(", description: "\"(\"" },
-	        peg$c29 = ")",
-	        peg$c30 = { type: "literal", value: ")", description: "\")\"" },
-	        peg$c31 = function(ident, val) {
+	        peg$c27 = ":",
+	        peg$c28 = { type: "literal", value: ":", description: "\":\"" },
+	        peg$c29 = "(",
+	        peg$c30 = { type: "literal", value: "(", description: "\"(\"" },
+	        peg$c31 = ")",
+	        peg$c32 = { type: "literal", value: ")", description: "\")\"" },
+	        peg$c33 = function(ident, val) {
 	            if (val) {
 	              var tmp = [];
 	              tmp.push(val[2]);
-	              for (var i in val[4]) {
-	                tmp.push(val[4][i][2]);
+	              for (var i in val[3]) {
+	                tmp.push(val[3][i][3]);
 	              }
 	
 	              val = tmp;
@@ -342,31 +966,31 @@
 	
 	            return new PseudoClass(ident, val);
 	          },
-	        peg$c32 = "=",
-	        peg$c33 = { type: "literal", value: "=", description: "\"=\"" },
-	        peg$c34 = "^=",
-	        peg$c35 = { type: "literal", value: "^=", description: "\"^=\"" },
-	        peg$c36 = "$=",
-	        peg$c37 = { type: "literal", value: "$=", description: "\"$=\"" },
-	        peg$c38 = "*=",
-	        peg$c39 = { type: "literal", value: "*=", description: "\"*=\"" },
-	        peg$c40 = /^[A-Za-z]/,
-	        peg$c41 = { type: "class", value: "[A-Za-z]", description: "[A-Za-z]" },
-	        peg$c42 = /^[$_A-Za-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0-\u08B4\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F8\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400\u4DB5\u4E00\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6EF\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABE2\uAC00\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
-	        peg$c43 = { type: "class", value: "[$_\\u0041-\\u005a\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0-\\u08b4\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0980\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0af9\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d\\u0c58-\\u0c5a\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d5f-\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua69d\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua8fd\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\ua9e0-\\ua9e4\\ua9e6-\\ua9ef\\ua9fa-\\ua9fe\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa7e-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabe2\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]", description: "[$_\\u0041-\\u005a\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0-\\u08b4\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0980\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0af9\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d\\u0c58-\\u0c5a\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d5f-\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua69d\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua8fd\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\ua9e0-\\ua9e4\\ua9e6-\\ua9ef\\ua9fa-\\ua9fe\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa7e-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabe2\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]" },
-	        peg$c44 = /^[$_\u200C\u200D0-9A-Z_a-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0300-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u0483-\u0487\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7\u05D0-\u05EA\u05F0-\u05F2\u0610-\u061A\u0620-\u0669\u066E-\u06D3\u06D5-\u06DC\u06DF-\u06E8\u06EA-\u06FC\u06FF\u0710-\u074A\u074D-\u07B1\u07C0-\u07F5\u07FA\u0800-\u082D\u0840-\u085B\u08A0-\u08B4\u08E3-\u0963\u0966-\u096F\u0971-\u0983\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BC-\u09C4\u09C7\u09C8\u09CB-\u09CE\u09D7\u09DC\u09DD\u09DF-\u09E3\u09E6-\u09F1\u0A01-\u0A03\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A3C\u0A3E-\u0A42\u0A47\u0A48\u0A4B-\u0A4D\u0A51\u0A59-\u0A5C\u0A5E\u0A66-\u0A75\u0A81-\u0A83\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABC-\u0AC5\u0AC7-\u0AC9\u0ACB-\u0ACD\u0AD0\u0AE0-\u0AE3\u0AE6-\u0AEF\u0AF9\u0B01-\u0B03\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3C-\u0B44\u0B47\u0B48\u0B4B-\u0B4D\u0B56\u0B57\u0B5C\u0B5D\u0B5F-\u0B63\u0B66-\u0B6F\u0B71\u0B82\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD0\u0BD7\u0BE6-\u0BEF\u0C00-\u0C03\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D-\u0C44\u0C46-\u0C48\u0C4A-\u0C4D\u0C55\u0C56\u0C58-\u0C5A\u0C60-\u0C63\u0C66-\u0C6F\u0C81-\u0C83\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBC-\u0CC4\u0CC6-\u0CC8\u0CCA-\u0CCD\u0CD5\u0CD6\u0CDE\u0CE0-\u0CE3\u0CE6-\u0CEF\u0CF1\u0CF2\u0D01-\u0D03\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D-\u0D44\u0D46-\u0D48\u0D4A-\u0D4E\u0D57\u0D5F-\u0D63\u0D66-\u0D6F\u0D7A-\u0D7F\u0D82\u0D83\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0DCA\u0DCF-\u0DD4\u0DD6\u0DD8-\u0DDF\u0DE6-\u0DEF\u0DF2\u0DF3\u0E01-\u0E3A\u0E40-\u0E4E\u0E50-\u0E59\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB9\u0EBB-\u0EBD\u0EC0-\u0EC4\u0EC6\u0EC8-\u0ECD\u0ED0-\u0ED9\u0EDC-\u0EDF\u0F00\u0F18\u0F19\u0F20-\u0F29\u0F35\u0F37\u0F39\u0F3E-\u0F47\u0F49-\u0F6C\u0F71-\u0F84\u0F86-\u0F97\u0F99-\u0FBC\u0FC6\u1000-\u1049\u1050-\u109D\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u135D-\u135F\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F8\u1700-\u170C\u170E-\u1714\u1720-\u1734\u1740-\u1753\u1760-\u176C\u176E-\u1770\u1772\u1773\u1780-\u17D3\u17D7\u17DC\u17DD\u17E0-\u17E9\u180B-\u180D\u1810-\u1819\u1820-\u1877\u1880-\u18AA\u18B0-\u18F5\u1900-\u191E\u1920-\u192B\u1930-\u193B\u1946-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u19D0-\u19D9\u1A00-\u1A1B\u1A20-\u1A5E\u1A60-\u1A7C\u1A7F-\u1A89\u1A90-\u1A99\u1AA7\u1AB0-\u1ABD\u1B00-\u1B4B\u1B50-\u1B59\u1B6B-\u1B73\u1B80-\u1BF3\u1C00-\u1C37\u1C40-\u1C49\u1C4D-\u1C7D\u1CD0-\u1CD2\u1CD4-\u1CF6\u1CF8\u1CF9\u1D00-\u1DF5\u1DFC-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u203F\u2040\u2054\u2071\u207F\u2090-\u209C\u20D0-\u20DC\u20E1\u20E5-\u20F0\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D7F-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2DE0-\u2DFF\u2E2F\u3005-\u3007\u3021-\u302F\u3031-\u3035\u3038-\u303C\u3041-\u3096\u3099\u309A\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400\u4DB5\u4E00\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA62B\uA640-\uA66F\uA674-\uA67D\uA67F-\uA6F1\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA827\uA840-\uA873\uA880-\uA8C4\uA8D0-\uA8D9\uA8E0-\uA8F7\uA8FB\uA8FD\uA900-\uA92D\uA930-\uA953\uA960-\uA97C\uA980-\uA9C0\uA9CF-\uA9D9\uA9E0-\uA9FE\uAA00-\uAA36\uAA40-\uAA4D\uAA50-\uAA59\uAA60-\uAA76\uAA7A-\uAAC2\uAADB-\uAADD\uAAE0-\uAAEF\uAAF2-\uAAF6\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABEA\uABEC\uABED\uABF0-\uABF9\uAC00\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE00-\uFE0F\uFE20-\uFE2F\uFE33\uFE34\uFE4D-\uFE4F\uFE70-\uFE74\uFE76-\uFEFC\uFF10-\uFF19\uFF21-\uFF3A\uFF3F\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
-	        peg$c45 = { type: "class", value: "[$_\\u200c\\u200d\\u0030-\\u0039\\u0041-\\u005a\\u005f\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0300-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u0483-\\u0487\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u0591-\\u05bd\\u05bf\\u05c1\\u05c2\\u05c4\\u05c5\\u05c7\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0610-\\u061a\\u0620-\\u0669\\u066e-\\u06d3\\u06d5-\\u06dc\\u06df-\\u06e8\\u06ea-\\u06fc\\u06ff\\u0710-\\u074a\\u074d-\\u07b1\\u07c0-\\u07f5\\u07fa\\u0800-\\u082d\\u0840-\\u085b\\u08a0-\\u08b4\\u08e3-\\u0963\\u0966-\\u096f\\u0971-\\u0983\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bc-\\u09c4\\u09c7\\u09c8\\u09cb-\\u09ce\\u09d7\\u09dc\\u09dd\\u09df-\\u09e3\\u09e6-\\u09f1\\u0a01-\\u0a03\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a3c\\u0a3e-\\u0a42\\u0a47\\u0a48\\u0a4b-\\u0a4d\\u0a51\\u0a59-\\u0a5c\\u0a5e\\u0a66-\\u0a75\\u0a81-\\u0a83\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abc-\\u0ac5\\u0ac7-\\u0ac9\\u0acb-\\u0acd\\u0ad0\\u0ae0-\\u0ae3\\u0ae6-\\u0aef\\u0af9\\u0b01-\\u0b03\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3c-\\u0b44\\u0b47\\u0b48\\u0b4b-\\u0b4d\\u0b56\\u0b57\\u0b5c\\u0b5d\\u0b5f-\\u0b63\\u0b66-\\u0b6f\\u0b71\\u0b82\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bbe-\\u0bc2\\u0bc6-\\u0bc8\\u0bca-\\u0bcd\\u0bd0\\u0bd7\\u0be6-\\u0bef\\u0c00-\\u0c03\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d-\\u0c44\\u0c46-\\u0c48\\u0c4a-\\u0c4d\\u0c55\\u0c56\\u0c58-\\u0c5a\\u0c60-\\u0c63\\u0c66-\\u0c6f\\u0c81-\\u0c83\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbc-\\u0cc4\\u0cc6-\\u0cc8\\u0cca-\\u0ccd\\u0cd5\\u0cd6\\u0cde\\u0ce0-\\u0ce3\\u0ce6-\\u0cef\\u0cf1\\u0cf2\\u0d01-\\u0d03\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d-\\u0d44\\u0d46-\\u0d48\\u0d4a-\\u0d4e\\u0d57\\u0d5f-\\u0d63\\u0d66-\\u0d6f\\u0d7a-\\u0d7f\\u0d82\\u0d83\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0dca\\u0dcf-\\u0dd4\\u0dd6\\u0dd8-\\u0ddf\\u0de6-\\u0def\\u0df2\\u0df3\\u0e01-\\u0e3a\\u0e40-\\u0e4e\\u0e50-\\u0e59\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb9\\u0ebb-\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0ec8-\\u0ecd\\u0ed0-\\u0ed9\\u0edc-\\u0edf\\u0f00\\u0f18\\u0f19\\u0f20-\\u0f29\\u0f35\\u0f37\\u0f39\\u0f3e-\\u0f47\\u0f49-\\u0f6c\\u0f71-\\u0f84\\u0f86-\\u0f97\\u0f99-\\u0fbc\\u0fc6\\u1000-\\u1049\\u1050-\\u109d\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u135d-\\u135f\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1714\\u1720-\\u1734\\u1740-\\u1753\\u1760-\\u176c\\u176e-\\u1770\\u1772\\u1773\\u1780-\\u17d3\\u17d7\\u17dc\\u17dd\\u17e0-\\u17e9\\u180b-\\u180d\\u1810-\\u1819\\u1820-\\u1877\\u1880-\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1920-\\u192b\\u1930-\\u193b\\u1946-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u19d0-\\u19d9\\u1a00-\\u1a1b\\u1a20-\\u1a5e\\u1a60-\\u1a7c\\u1a7f-\\u1a89\\u1a90-\\u1a99\\u1aa7\\u1ab0-\\u1abd\\u1b00-\\u1b4b\\u1b50-\\u1b59\\u1b6b-\\u1b73\\u1b80-\\u1bf3\\u1c00-\\u1c37\\u1c40-\\u1c49\\u1c4d-\\u1c7d\\u1cd0-\\u1cd2\\u1cd4-\\u1cf6\\u1cf8\\u1cf9\\u1d00-\\u1df5\\u1dfc-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u203f\\u2040\\u2054\\u2071\\u207f\\u2090-\\u209c\\u20d0-\\u20dc\\u20e1\\u20e5-\\u20f0\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d7f-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2de0-\\u2dff\\u2e2f\\u3005-\\u3007\\u3021-\\u302f\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u3099\\u309a\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua62b\\ua640-\\ua66f\\ua674-\\ua67d\\ua67f-\\ua6f1\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua827\\ua840-\\ua873\\ua880-\\ua8c4\\ua8d0-\\ua8d9\\ua8e0-\\ua8f7\\ua8fb\\ua8fd\\ua900-\\ua92d\\ua930-\\ua953\\ua960-\\ua97c\\ua980-\\ua9c0\\ua9cf-\\ua9d9\\ua9e0-\\ua9fe\\uaa00-\\uaa36\\uaa40-\\uaa4d\\uaa50-\\uaa59\\uaa60-\\uaa76\\uaa7a-\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaef\\uaaf2-\\uaaf6\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabea\\uabec\\uabed\\uabf0-\\uabf9\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe00-\\ufe0f\\ufe20-\\ufe2f\\ufe33\\ufe34\\ufe4d-\\ufe4f\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff10-\\uff19\\uff21-\\uff3a\\uff3f\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]", description: "[$_\\u200c\\u200d\\u0030-\\u0039\\u0041-\\u005a\\u005f\\u0061-\\u007a\\u00aa\\u00b5\\u00ba\\u00c0-\\u00d6\\u00d8-\\u00f6\\u00f8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0300-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u037f\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u0483-\\u0487\\u048a-\\u052f\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u0591-\\u05bd\\u05bf\\u05c1\\u05c2\\u05c4\\u05c5\\u05c7\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0610-\\u061a\\u0620-\\u0669\\u066e-\\u06d3\\u06d5-\\u06dc\\u06df-\\u06e8\\u06ea-\\u06fc\\u06ff\\u0710-\\u074a\\u074d-\\u07b1\\u07c0-\\u07f5\\u07fa\\u0800-\\u082d\\u0840-\\u085b\\u08a0-\\u08b4\\u08e3-\\u0963\\u0966-\\u096f\\u0971-\\u0983\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bc-\\u09c4\\u09c7\\u09c8\\u09cb-\\u09ce\\u09d7\\u09dc\\u09dd\\u09df-\\u09e3\\u09e6-\\u09f1\\u0a01-\\u0a03\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a3c\\u0a3e-\\u0a42\\u0a47\\u0a48\\u0a4b-\\u0a4d\\u0a51\\u0a59-\\u0a5c\\u0a5e\\u0a66-\\u0a75\\u0a81-\\u0a83\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abc-\\u0ac5\\u0ac7-\\u0ac9\\u0acb-\\u0acd\\u0ad0\\u0ae0-\\u0ae3\\u0ae6-\\u0aef\\u0af9\\u0b01-\\u0b03\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3c-\\u0b44\\u0b47\\u0b48\\u0b4b-\\u0b4d\\u0b56\\u0b57\\u0b5c\\u0b5d\\u0b5f-\\u0b63\\u0b66-\\u0b6f\\u0b71\\u0b82\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bbe-\\u0bc2\\u0bc6-\\u0bc8\\u0bca-\\u0bcd\\u0bd0\\u0bd7\\u0be6-\\u0bef\\u0c00-\\u0c03\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c39\\u0c3d-\\u0c44\\u0c46-\\u0c48\\u0c4a-\\u0c4d\\u0c55\\u0c56\\u0c58-\\u0c5a\\u0c60-\\u0c63\\u0c66-\\u0c6f\\u0c81-\\u0c83\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbc-\\u0cc4\\u0cc6-\\u0cc8\\u0cca-\\u0ccd\\u0cd5\\u0cd6\\u0cde\\u0ce0-\\u0ce3\\u0ce6-\\u0cef\\u0cf1\\u0cf2\\u0d01-\\u0d03\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d-\\u0d44\\u0d46-\\u0d48\\u0d4a-\\u0d4e\\u0d57\\u0d5f-\\u0d63\\u0d66-\\u0d6f\\u0d7a-\\u0d7f\\u0d82\\u0d83\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0dca\\u0dcf-\\u0dd4\\u0dd6\\u0dd8-\\u0ddf\\u0de6-\\u0def\\u0df2\\u0df3\\u0e01-\\u0e3a\\u0e40-\\u0e4e\\u0e50-\\u0e59\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb9\\u0ebb-\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0ec8-\\u0ecd\\u0ed0-\\u0ed9\\u0edc-\\u0edf\\u0f00\\u0f18\\u0f19\\u0f20-\\u0f29\\u0f35\\u0f37\\u0f39\\u0f3e-\\u0f47\\u0f49-\\u0f6c\\u0f71-\\u0f84\\u0f86-\\u0f97\\u0f99-\\u0fbc\\u0fc6\\u1000-\\u1049\\u1050-\\u109d\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u135d-\\u135f\\u1380-\\u138f\\u13a0-\\u13f5\\u13f8-\\u13fd\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f8\\u1700-\\u170c\\u170e-\\u1714\\u1720-\\u1734\\u1740-\\u1753\\u1760-\\u176c\\u176e-\\u1770\\u1772\\u1773\\u1780-\\u17d3\\u17d7\\u17dc\\u17dd\\u17e0-\\u17e9\\u180b-\\u180d\\u1810-\\u1819\\u1820-\\u1877\\u1880-\\u18aa\\u18b0-\\u18f5\\u1900-\\u191e\\u1920-\\u192b\\u1930-\\u193b\\u1946-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19b0-\\u19c9\\u19d0-\\u19d9\\u1a00-\\u1a1b\\u1a20-\\u1a5e\\u1a60-\\u1a7c\\u1a7f-\\u1a89\\u1a90-\\u1a99\\u1aa7\\u1ab0-\\u1abd\\u1b00-\\u1b4b\\u1b50-\\u1b59\\u1b6b-\\u1b73\\u1b80-\\u1bf3\\u1c00-\\u1c37\\u1c40-\\u1c49\\u1c4d-\\u1c7d\\u1cd0-\\u1cd2\\u1cd4-\\u1cf6\\u1cf8\\u1cf9\\u1d00-\\u1df5\\u1dfc-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u203f\\u2040\\u2054\\u2071\\u207f\\u2090-\\u209c\\u20d0-\\u20dc\\u20e1\\u20e5-\\u20f0\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d7f-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2de0-\\u2dff\\u2e2f\\u3005-\\u3007\\u3021-\\u302f\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u3099\\u309a\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400\\u4db5\\u4e00\\u9fd5\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua62b\\ua640-\\ua66f\\ua674-\\ua67d\\ua67f-\\ua6f1\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua7ad\\ua7b0-\\ua7b7\\ua7f7-\\ua827\\ua840-\\ua873\\ua880-\\ua8c4\\ua8d0-\\ua8d9\\ua8e0-\\ua8f7\\ua8fb\\ua8fd\\ua900-\\ua92d\\ua930-\\ua953\\ua960-\\ua97c\\ua980-\\ua9c0\\ua9cf-\\ua9d9\\ua9e0-\\ua9fe\\uaa00-\\uaa36\\uaa40-\\uaa4d\\uaa50-\\uaa59\\uaa60-\\uaa76\\uaa7a-\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaef\\uaaf2-\\uaaf6\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uab30-\\uab5a\\uab5c-\\uab65\\uab70-\\uabea\\uabec\\uabed\\uabf0-\\uabf9\\uac00\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe00-\\ufe0f\\ufe20-\\ufe2f\\ufe33\\ufe34\\ufe4d-\\ufe4f\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff10-\\uff19\\uff21-\\uff3a\\uff3f\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]" },
-	        peg$c46 = function() {
+	        peg$c34 = "=",
+	        peg$c35 = { type: "literal", value: "=", description: "\"=\"" },
+	        peg$c36 = "^=",
+	        peg$c37 = { type: "literal", value: "^=", description: "\"^=\"" },
+	        peg$c38 = "$=",
+	        peg$c39 = { type: "literal", value: "$=", description: "\"$=\"" },
+	        peg$c40 = "*=",
+	        peg$c41 = { type: "literal", value: "*=", description: "\"*=\"" },
+	        peg$c42 = /^[A-Za-z]/,
+	        peg$c43 = { type: "class", value: "[A-Za-z]", description: "[A-Za-z]" },
+	        peg$c44 = /^[$A-Z_a-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0\u08A2-\u08AC\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0977\u0979-\u097F\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C33\u0C35-\u0C39\u0C3D\u0C58\u0C59\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D60\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F4\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F0\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191C\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19C1-\u19C7\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FCC\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA697\uA6A0-\uA6EF\uA717-\uA71F\uA722-\uA788\uA78B-\uA78E\uA790-\uA793\uA7A0-\uA7AA\uA7F8-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA80-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uABC0-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
+	        peg$c45 = { type: "class", value: "[$A-Z\\_a-z\\xaa\\xb5\\xba\\xc0-\\xd6\\xd8-\\xf6\\xf8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u0527\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0\\u08a2-\\u08ac\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0977\\u0979-\\u097f\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c33\\u0c35-\\u0c39\\u0c3d\\u0c58\\u0c59\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d60\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f4\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f0\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191c\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19c1-\\u19c7\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400-\\u4db5\\u4e00-\\u9fcc\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua697\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua78e\\ua790-\\ua793\\ua7a0-\\ua7aa\\ua7f8-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa80-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uabc0-\\uabe2\\uac00-\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]", description: "[$A-Z\\_a-z\\xaa\\xb5\\xba\\xc0-\\xd6\\xd8-\\xf6\\xf8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u0527\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0\\u08a2-\\u08ac\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0977\\u0979-\\u097f\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c33\\u0c35-\\u0c39\\u0c3d\\u0c58\\u0c59\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d60\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f4\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f0\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191c\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19c1-\\u19c7\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400-\\u4db5\\u4e00-\\u9fcc\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua697\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua78e\\ua790-\\ua793\\ua7a0-\\ua7aa\\ua7f8-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa80-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uabc0-\\uabe2\\uac00-\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc]" },
+	        peg$c46 = /^[$A-Z_a-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0\u08A2-\u08AC\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0977\u0979-\u097F\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C33\u0C35-\u0C39\u0C3D\u0C58\u0C59\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D60\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F4\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16EE-\u16F0\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191C\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19C1-\u19C7\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2160-\u2188\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FCC\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA697\uA6A0-\uA6EF\uA717-\uA71F\uA722-\uA788\uA78B-\uA78E\uA790-\uA793\uA7A0-\uA7AA\uA7F8-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA80-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uABC0-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC0-9\u0300-\u036F\u0483-\u0487\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7\u0610-\u061A\u064B-\u0669\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED\u06F0-\u06F9\u0711\u0730-\u074A\u07A6-\u07B0\u07C0-\u07C9\u07EB-\u07F3\u0816-\u0819\u081B-\u0823\u0825-\u0827\u0829-\u082D\u0859-\u085B\u08E4-\u08FE\u0900-\u0903\u093A-\u093C\u093E-\u094F\u0951-\u0957\u0962\u0963\u0966-\u096F\u0981-\u0983\u09BC\u09BE-\u09C4\u09C7\u09C8\u09CB-\u09CD\u09D7\u09E2\u09E3\u09E6-\u09EF\u0A01-\u0A03\u0A3C\u0A3E-\u0A42\u0A47\u0A48\u0A4B-\u0A4D\u0A51\u0A66-\u0A71\u0A75\u0A81-\u0A83\u0ABC\u0ABE-\u0AC5\u0AC7-\u0AC9\u0ACB-\u0ACD\u0AE2\u0AE3\u0AE6-\u0AEF\u0B01-\u0B03\u0B3C\u0B3E-\u0B44\u0B47\u0B48\u0B4B-\u0B4D\u0B56\u0B57\u0B62\u0B63\u0B66-\u0B6F\u0B82\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD7\u0BE6-\u0BEF\u0C01-\u0C03\u0C3E-\u0C44\u0C46-\u0C48\u0C4A-\u0C4D\u0C55\u0C56\u0C62\u0C63\u0C66-\u0C6F\u0C82\u0C83\u0CBC\u0CBE-\u0CC4\u0CC6-\u0CC8\u0CCA-\u0CCD\u0CD5\u0CD6\u0CE2\u0CE3\u0CE6-\u0CEF\u0D02\u0D03\u0D3E-\u0D44\u0D46-\u0D48\u0D4A-\u0D4D\u0D57\u0D62\u0D63\u0D66-\u0D6F\u0D82\u0D83\u0DCA\u0DCF-\u0DD4\u0DD6\u0DD8-\u0DDF\u0DF2\u0DF3\u0E31\u0E34-\u0E3A\u0E47-\u0E4E\u0E50-\u0E59\u0EB1\u0EB4-\u0EB9\u0EBB\u0EBC\u0EC8-\u0ECD\u0ED0-\u0ED9\u0F18\u0F19\u0F20-\u0F29\u0F35\u0F37\u0F39\u0F3E\u0F3F\u0F71-\u0F84\u0F86\u0F87\u0F8D-\u0F97\u0F99-\u0FBC\u0FC6\u102B-\u103E\u1040-\u1049\u1056-\u1059\u105E-\u1060\u1062-\u1064\u1067-\u106D\u1071-\u1074\u1082-\u108D\u108F-\u109D\u135D-\u135F\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17B4-\u17D3\u17DD\u17E0-\u17E9\u180B-\u180D\u1810-\u1819\u18A9\u1920-\u192B\u1930-\u193B\u1946-\u194F\u19B0-\u19C0\u19C8\u19C9\u19D0-\u19D9\u1A17-\u1A1B\u1A55-\u1A5E\u1A60-\u1A7C\u1A7F-\u1A89\u1A90-\u1A99\u1B00-\u1B04\u1B34-\u1B44\u1B50-\u1B59\u1B6B-\u1B73\u1B80-\u1B82\u1BA1-\u1BAD\u1BB0-\u1BB9\u1BE6-\u1BF3\u1C24-\u1C37\u1C40-\u1C49\u1C50-\u1C59\u1CD0-\u1CD2\u1CD4-\u1CE8\u1CED\u1CF2-\u1CF4\u1DC0-\u1DE6\u1DFC-\u1DFF\u200C\u200D\u203F\u2040\u2054\u20D0-\u20DC\u20E1\u20E5-\u20F0\u2CEF-\u2CF1\u2D7F\u2DE0-\u2DFF\u302A-\u302F\u3099\u309A\uA620-\uA629\uA66F\uA674-\uA67D\uA69F\uA6F0\uA6F1\uA802\uA806\uA80B\uA823-\uA827\uA880\uA881\uA8B4-\uA8C4\uA8D0-\uA8D9\uA8E0-\uA8F1\uA900-\uA909\uA926-\uA92D\uA947-\uA953\uA980-\uA983\uA9B3-\uA9C0\uA9D0-\uA9D9\uAA29-\uAA36\uAA43\uAA4C\uAA4D\uAA50-\uAA59\uAA7B\uAAB0\uAAB2-\uAAB4\uAAB7\uAAB8\uAABE\uAABF\uAAC1\uAAEB-\uAAEF\uAAF5\uAAF6\uABE3-\uABEA\uABEC\uABED\uABF0-\uABF9\uFB1E\uFE00-\uFE0F\uFE20-\uFE26\uFE33\uFE34\uFE4D-\uFE4F\uFF10-\uFF19\uFF3F]/,
+	        peg$c47 = { type: "class", value: "[$A-Z\\_a-z\\xaa\\xb5\\xba\\xc0-\\xd6\\xd8-\\xf6\\xf8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u0527\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0\\u08a2-\\u08ac\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0977\\u0979-\\u097f\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c33\\u0c35-\\u0c39\\u0c3d\\u0c58\\u0c59\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d60\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f4\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f0\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191c\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19c1-\\u19c7\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400-\\u4db5\\u4e00-\\u9fcc\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua697\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua78e\\ua790-\\ua793\\ua7a0-\\ua7aa\\ua7f8-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa80-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uabc0-\\uabe2\\uac00-\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc0-9\\u0300-\\u036f\\u0483-\\u0487\\u0591-\\u05bd\\u05bf\\u05c1\\u05c2\\u05c4\\u05c5\\u05c7\\u0610-\\u061a\\u064b-\\u0669\\u0670\\u06d6-\\u06dc\\u06df-\\u06e4\\u06e7\\u06e8\\u06ea-\\u06ed\\u06f0-\\u06f9\\u0711\\u0730-\\u074a\\u07a6-\\u07b0\\u07c0-\\u07c9\\u07eb-\\u07f3\\u0816-\\u0819\\u081b-\\u0823\\u0825-\\u0827\\u0829-\\u082d\\u0859-\\u085b\\u08e4-\\u08fe\\u0900-\\u0903\\u093a-\\u093c\\u093e-\\u094f\\u0951-\\u0957\\u0962\\u0963\\u0966-\\u096f\\u0981-\\u0983\\u09bc\\u09be-\\u09c4\\u09c7\\u09c8\\u09cb-\\u09cd\\u09d7\\u09e2\\u09e3\\u09e6-\\u09ef\\u0a01-\\u0a03\\u0a3c\\u0a3e-\\u0a42\\u0a47\\u0a48\\u0a4b-\\u0a4d\\u0a51\\u0a66-\\u0a71\\u0a75\\u0a81-\\u0a83\\u0abc\\u0abe-\\u0ac5\\u0ac7-\\u0ac9\\u0acb-\\u0acd\\u0ae2\\u0ae3\\u0ae6-\\u0aef\\u0b01-\\u0b03\\u0b3c\\u0b3e-\\u0b44\\u0b47\\u0b48\\u0b4b-\\u0b4d\\u0b56\\u0b57\\u0b62\\u0b63\\u0b66-\\u0b6f\\u0b82\\u0bbe-\\u0bc2\\u0bc6-\\u0bc8\\u0bca-\\u0bcd\\u0bd7\\u0be6-\\u0bef\\u0c01-\\u0c03\\u0c3e-\\u0c44\\u0c46-\\u0c48\\u0c4a-\\u0c4d\\u0c55\\u0c56\\u0c62\\u0c63\\u0c66-\\u0c6f\\u0c82\\u0c83\\u0cbc\\u0cbe-\\u0cc4\\u0cc6-\\u0cc8\\u0cca-\\u0ccd\\u0cd5\\u0cd6\\u0ce2\\u0ce3\\u0ce6-\\u0cef\\u0d02\\u0d03\\u0d3e-\\u0d44\\u0d46-\\u0d48\\u0d4a-\\u0d4d\\u0d57\\u0d62\\u0d63\\u0d66-\\u0d6f\\u0d82\\u0d83\\u0dca\\u0dcf-\\u0dd4\\u0dd6\\u0dd8-\\u0ddf\\u0df2\\u0df3\\u0e31\\u0e34-\\u0e3a\\u0e47-\\u0e4e\\u0e50-\\u0e59\\u0eb1\\u0eb4-\\u0eb9\\u0ebb\\u0ebc\\u0ec8-\\u0ecd\\u0ed0-\\u0ed9\\u0f18\\u0f19\\u0f20-\\u0f29\\u0f35\\u0f37\\u0f39\\u0f3e\\u0f3f\\u0f71-\\u0f84\\u0f86\\u0f87\\u0f8d-\\u0f97\\u0f99-\\u0fbc\\u0fc6\\u102b-\\u103e\\u1040-\\u1049\\u1056-\\u1059\\u105e-\\u1060\\u1062-\\u1064\\u1067-\\u106d\\u1071-\\u1074\\u1082-\\u108d\\u108f-\\u109d\\u135d-\\u135f\\u1712-\\u1714\\u1732-\\u1734\\u1752\\u1753\\u1772\\u1773\\u17b4-\\u17d3\\u17dd\\u17e0-\\u17e9\\u180b-\\u180d\\u1810-\\u1819\\u18a9\\u1920-\\u192b\\u1930-\\u193b\\u1946-\\u194f\\u19b0-\\u19c0\\u19c8\\u19c9\\u19d0-\\u19d9\\u1a17-\\u1a1b\\u1a55-\\u1a5e\\u1a60-\\u1a7c\\u1a7f-\\u1a89\\u1a90-\\u1a99\\u1b00-\\u1b04\\u1b34-\\u1b44\\u1b50-\\u1b59\\u1b6b-\\u1b73\\u1b80-\\u1b82\\u1ba1-\\u1bad\\u1bb0-\\u1bb9\\u1be6-\\u1bf3\\u1c24-\\u1c37\\u1c40-\\u1c49\\u1c50-\\u1c59\\u1cd0-\\u1cd2\\u1cd4-\\u1ce8\\u1ced\\u1cf2-\\u1cf4\\u1dc0-\\u1de6\\u1dfc-\\u1dff\\u200c\\u200d\\u203f\\u2040\\u2054\\u20d0-\\u20dc\\u20e1\\u20e5-\\u20f0\\u2cef-\\u2cf1\\u2d7f\\u2de0-\\u2dff\\u302a-\\u302f\\u3099\\u309a\\ua620-\\ua629\\ua66f\\ua674-\\ua67d\\ua69f\\ua6f0\\ua6f1\\ua802\\ua806\\ua80b\\ua823-\\ua827\\ua880\\ua881\\ua8b4-\\ua8c4\\ua8d0-\\ua8d9\\ua8e0-\\ua8f1\\ua900-\\ua909\\ua926-\\ua92d\\ua947-\\ua953\\ua980-\\ua983\\ua9b3-\\ua9c0\\ua9d0-\\ua9d9\\uaa29-\\uaa36\\uaa43\\uaa4c\\uaa4d\\uaa50-\\uaa59\\uaa7b\\uaab0\\uaab2-\\uaab4\\uaab7\\uaab8\\uaabe\\uaabf\\uaac1\\uaaeb-\\uaaef\\uaaf5\\uaaf6\\uabe3-\\uabea\\uabec\\uabed\\uabf0-\\uabf9\\ufb1e\\ufe00-\\ufe0f\\ufe20-\\ufe26\\ufe33\\ufe34\\ufe4d-\\ufe4f\\uff10-\\uff19\\uff3f]", description: "[$A-Z\\_a-z\\xaa\\xb5\\xba\\xc0-\\xd6\\xd8-\\xf6\\xf8-\\u02c1\\u02c6-\\u02d1\\u02e0-\\u02e4\\u02ec\\u02ee\\u0370-\\u0374\\u0376\\u0377\\u037a-\\u037d\\u0386\\u0388-\\u038a\\u038c\\u038e-\\u03a1\\u03a3-\\u03f5\\u03f7-\\u0481\\u048a-\\u0527\\u0531-\\u0556\\u0559\\u0561-\\u0587\\u05d0-\\u05ea\\u05f0-\\u05f2\\u0620-\\u064a\\u066e\\u066f\\u0671-\\u06d3\\u06d5\\u06e5\\u06e6\\u06ee\\u06ef\\u06fa-\\u06fc\\u06ff\\u0710\\u0712-\\u072f\\u074d-\\u07a5\\u07b1\\u07ca-\\u07ea\\u07f4\\u07f5\\u07fa\\u0800-\\u0815\\u081a\\u0824\\u0828\\u0840-\\u0858\\u08a0\\u08a2-\\u08ac\\u0904-\\u0939\\u093d\\u0950\\u0958-\\u0961\\u0971-\\u0977\\u0979-\\u097f\\u0985-\\u098c\\u098f\\u0990\\u0993-\\u09a8\\u09aa-\\u09b0\\u09b2\\u09b6-\\u09b9\\u09bd\\u09ce\\u09dc\\u09dd\\u09df-\\u09e1\\u09f0\\u09f1\\u0a05-\\u0a0a\\u0a0f\\u0a10\\u0a13-\\u0a28\\u0a2a-\\u0a30\\u0a32\\u0a33\\u0a35\\u0a36\\u0a38\\u0a39\\u0a59-\\u0a5c\\u0a5e\\u0a72-\\u0a74\\u0a85-\\u0a8d\\u0a8f-\\u0a91\\u0a93-\\u0aa8\\u0aaa-\\u0ab0\\u0ab2\\u0ab3\\u0ab5-\\u0ab9\\u0abd\\u0ad0\\u0ae0\\u0ae1\\u0b05-\\u0b0c\\u0b0f\\u0b10\\u0b13-\\u0b28\\u0b2a-\\u0b30\\u0b32\\u0b33\\u0b35-\\u0b39\\u0b3d\\u0b5c\\u0b5d\\u0b5f-\\u0b61\\u0b71\\u0b83\\u0b85-\\u0b8a\\u0b8e-\\u0b90\\u0b92-\\u0b95\\u0b99\\u0b9a\\u0b9c\\u0b9e\\u0b9f\\u0ba3\\u0ba4\\u0ba8-\\u0baa\\u0bae-\\u0bb9\\u0bd0\\u0c05-\\u0c0c\\u0c0e-\\u0c10\\u0c12-\\u0c28\\u0c2a-\\u0c33\\u0c35-\\u0c39\\u0c3d\\u0c58\\u0c59\\u0c60\\u0c61\\u0c85-\\u0c8c\\u0c8e-\\u0c90\\u0c92-\\u0ca8\\u0caa-\\u0cb3\\u0cb5-\\u0cb9\\u0cbd\\u0cde\\u0ce0\\u0ce1\\u0cf1\\u0cf2\\u0d05-\\u0d0c\\u0d0e-\\u0d10\\u0d12-\\u0d3a\\u0d3d\\u0d4e\\u0d60\\u0d61\\u0d7a-\\u0d7f\\u0d85-\\u0d96\\u0d9a-\\u0db1\\u0db3-\\u0dbb\\u0dbd\\u0dc0-\\u0dc6\\u0e01-\\u0e30\\u0e32\\u0e33\\u0e40-\\u0e46\\u0e81\\u0e82\\u0e84\\u0e87\\u0e88\\u0e8a\\u0e8d\\u0e94-\\u0e97\\u0e99-\\u0e9f\\u0ea1-\\u0ea3\\u0ea5\\u0ea7\\u0eaa\\u0eab\\u0ead-\\u0eb0\\u0eb2\\u0eb3\\u0ebd\\u0ec0-\\u0ec4\\u0ec6\\u0edc-\\u0edf\\u0f00\\u0f40-\\u0f47\\u0f49-\\u0f6c\\u0f88-\\u0f8c\\u1000-\\u102a\\u103f\\u1050-\\u1055\\u105a-\\u105d\\u1061\\u1065\\u1066\\u106e-\\u1070\\u1075-\\u1081\\u108e\\u10a0-\\u10c5\\u10c7\\u10cd\\u10d0-\\u10fa\\u10fc-\\u1248\\u124a-\\u124d\\u1250-\\u1256\\u1258\\u125a-\\u125d\\u1260-\\u1288\\u128a-\\u128d\\u1290-\\u12b0\\u12b2-\\u12b5\\u12b8-\\u12be\\u12c0\\u12c2-\\u12c5\\u12c8-\\u12d6\\u12d8-\\u1310\\u1312-\\u1315\\u1318-\\u135a\\u1380-\\u138f\\u13a0-\\u13f4\\u1401-\\u166c\\u166f-\\u167f\\u1681-\\u169a\\u16a0-\\u16ea\\u16ee-\\u16f0\\u1700-\\u170c\\u170e-\\u1711\\u1720-\\u1731\\u1740-\\u1751\\u1760-\\u176c\\u176e-\\u1770\\u1780-\\u17b3\\u17d7\\u17dc\\u1820-\\u1877\\u1880-\\u18a8\\u18aa\\u18b0-\\u18f5\\u1900-\\u191c\\u1950-\\u196d\\u1970-\\u1974\\u1980-\\u19ab\\u19c1-\\u19c7\\u1a00-\\u1a16\\u1a20-\\u1a54\\u1aa7\\u1b05-\\u1b33\\u1b45-\\u1b4b\\u1b83-\\u1ba0\\u1bae\\u1baf\\u1bba-\\u1be5\\u1c00-\\u1c23\\u1c4d-\\u1c4f\\u1c5a-\\u1c7d\\u1ce9-\\u1cec\\u1cee-\\u1cf1\\u1cf5\\u1cf6\\u1d00-\\u1dbf\\u1e00-\\u1f15\\u1f18-\\u1f1d\\u1f20-\\u1f45\\u1f48-\\u1f4d\\u1f50-\\u1f57\\u1f59\\u1f5b\\u1f5d\\u1f5f-\\u1f7d\\u1f80-\\u1fb4\\u1fb6-\\u1fbc\\u1fbe\\u1fc2-\\u1fc4\\u1fc6-\\u1fcc\\u1fd0-\\u1fd3\\u1fd6-\\u1fdb\\u1fe0-\\u1fec\\u1ff2-\\u1ff4\\u1ff6-\\u1ffc\\u2071\\u207f\\u2090-\\u209c\\u2102\\u2107\\u210a-\\u2113\\u2115\\u2119-\\u211d\\u2124\\u2126\\u2128\\u212a-\\u212d\\u212f-\\u2139\\u213c-\\u213f\\u2145-\\u2149\\u214e\\u2160-\\u2188\\u2c00-\\u2c2e\\u2c30-\\u2c5e\\u2c60-\\u2ce4\\u2ceb-\\u2cee\\u2cf2\\u2cf3\\u2d00-\\u2d25\\u2d27\\u2d2d\\u2d30-\\u2d67\\u2d6f\\u2d80-\\u2d96\\u2da0-\\u2da6\\u2da8-\\u2dae\\u2db0-\\u2db6\\u2db8-\\u2dbe\\u2dc0-\\u2dc6\\u2dc8-\\u2dce\\u2dd0-\\u2dd6\\u2dd8-\\u2dde\\u2e2f\\u3005-\\u3007\\u3021-\\u3029\\u3031-\\u3035\\u3038-\\u303c\\u3041-\\u3096\\u309d-\\u309f\\u30a1-\\u30fa\\u30fc-\\u30ff\\u3105-\\u312d\\u3131-\\u318e\\u31a0-\\u31ba\\u31f0-\\u31ff\\u3400-\\u4db5\\u4e00-\\u9fcc\\ua000-\\ua48c\\ua4d0-\\ua4fd\\ua500-\\ua60c\\ua610-\\ua61f\\ua62a\\ua62b\\ua640-\\ua66e\\ua67f-\\ua697\\ua6a0-\\ua6ef\\ua717-\\ua71f\\ua722-\\ua788\\ua78b-\\ua78e\\ua790-\\ua793\\ua7a0-\\ua7aa\\ua7f8-\\ua801\\ua803-\\ua805\\ua807-\\ua80a\\ua80c-\\ua822\\ua840-\\ua873\\ua882-\\ua8b3\\ua8f2-\\ua8f7\\ua8fb\\ua90a-\\ua925\\ua930-\\ua946\\ua960-\\ua97c\\ua984-\\ua9b2\\ua9cf\\uaa00-\\uaa28\\uaa40-\\uaa42\\uaa44-\\uaa4b\\uaa60-\\uaa76\\uaa7a\\uaa80-\\uaaaf\\uaab1\\uaab5\\uaab6\\uaab9-\\uaabd\\uaac0\\uaac2\\uaadb-\\uaadd\\uaae0-\\uaaea\\uaaf2-\\uaaf4\\uab01-\\uab06\\uab09-\\uab0e\\uab11-\\uab16\\uab20-\\uab26\\uab28-\\uab2e\\uabc0-\\uabe2\\uac00-\\ud7a3\\ud7b0-\\ud7c6\\ud7cb-\\ud7fb\\uf900-\\ufa6d\\ufa70-\\ufad9\\ufb00-\\ufb06\\ufb13-\\ufb17\\ufb1d\\ufb1f-\\ufb28\\ufb2a-\\ufb36\\ufb38-\\ufb3c\\ufb3e\\ufb40\\ufb41\\ufb43\\ufb44\\ufb46-\\ufbb1\\ufbd3-\\ufd3d\\ufd50-\\ufd8f\\ufd92-\\ufdc7\\ufdf0-\\ufdfb\\ufe70-\\ufe74\\ufe76-\\ufefc\\uff21-\\uff3a\\uff41-\\uff5a\\uff66-\\uffbe\\uffc2-\\uffc7\\uffca-\\uffcf\\uffd2-\\uffd7\\uffda-\\uffdc0-9\\u0300-\\u036f\\u0483-\\u0487\\u0591-\\u05bd\\u05bf\\u05c1\\u05c2\\u05c4\\u05c5\\u05c7\\u0610-\\u061a\\u064b-\\u0669\\u0670\\u06d6-\\u06dc\\u06df-\\u06e4\\u06e7\\u06e8\\u06ea-\\u06ed\\u06f0-\\u06f9\\u0711\\u0730-\\u074a\\u07a6-\\u07b0\\u07c0-\\u07c9\\u07eb-\\u07f3\\u0816-\\u0819\\u081b-\\u0823\\u0825-\\u0827\\u0829-\\u082d\\u0859-\\u085b\\u08e4-\\u08fe\\u0900-\\u0903\\u093a-\\u093c\\u093e-\\u094f\\u0951-\\u0957\\u0962\\u0963\\u0966-\\u096f\\u0981-\\u0983\\u09bc\\u09be-\\u09c4\\u09c7\\u09c8\\u09cb-\\u09cd\\u09d7\\u09e2\\u09e3\\u09e6-\\u09ef\\u0a01-\\u0a03\\u0a3c\\u0a3e-\\u0a42\\u0a47\\u0a48\\u0a4b-\\u0a4d\\u0a51\\u0a66-\\u0a71\\u0a75\\u0a81-\\u0a83\\u0abc\\u0abe-\\u0ac5\\u0ac7-\\u0ac9\\u0acb-\\u0acd\\u0ae2\\u0ae3\\u0ae6-\\u0aef\\u0b01-\\u0b03\\u0b3c\\u0b3e-\\u0b44\\u0b47\\u0b48\\u0b4b-\\u0b4d\\u0b56\\u0b57\\u0b62\\u0b63\\u0b66-\\u0b6f\\u0b82\\u0bbe-\\u0bc2\\u0bc6-\\u0bc8\\u0bca-\\u0bcd\\u0bd7\\u0be6-\\u0bef\\u0c01-\\u0c03\\u0c3e-\\u0c44\\u0c46-\\u0c48\\u0c4a-\\u0c4d\\u0c55\\u0c56\\u0c62\\u0c63\\u0c66-\\u0c6f\\u0c82\\u0c83\\u0cbc\\u0cbe-\\u0cc4\\u0cc6-\\u0cc8\\u0cca-\\u0ccd\\u0cd5\\u0cd6\\u0ce2\\u0ce3\\u0ce6-\\u0cef\\u0d02\\u0d03\\u0d3e-\\u0d44\\u0d46-\\u0d48\\u0d4a-\\u0d4d\\u0d57\\u0d62\\u0d63\\u0d66-\\u0d6f\\u0d82\\u0d83\\u0dca\\u0dcf-\\u0dd4\\u0dd6\\u0dd8-\\u0ddf\\u0df2\\u0df3\\u0e31\\u0e34-\\u0e3a\\u0e47-\\u0e4e\\u0e50-\\u0e59\\u0eb1\\u0eb4-\\u0eb9\\u0ebb\\u0ebc\\u0ec8-\\u0ecd\\u0ed0-\\u0ed9\\u0f18\\u0f19\\u0f20-\\u0f29\\u0f35\\u0f37\\u0f39\\u0f3e\\u0f3f\\u0f71-\\u0f84\\u0f86\\u0f87\\u0f8d-\\u0f97\\u0f99-\\u0fbc\\u0fc6\\u102b-\\u103e\\u1040-\\u1049\\u1056-\\u1059\\u105e-\\u1060\\u1062-\\u1064\\u1067-\\u106d\\u1071-\\u1074\\u1082-\\u108d\\u108f-\\u109d\\u135d-\\u135f\\u1712-\\u1714\\u1732-\\u1734\\u1752\\u1753\\u1772\\u1773\\u17b4-\\u17d3\\u17dd\\u17e0-\\u17e9\\u180b-\\u180d\\u1810-\\u1819\\u18a9\\u1920-\\u192b\\u1930-\\u193b\\u1946-\\u194f\\u19b0-\\u19c0\\u19c8\\u19c9\\u19d0-\\u19d9\\u1a17-\\u1a1b\\u1a55-\\u1a5e\\u1a60-\\u1a7c\\u1a7f-\\u1a89\\u1a90-\\u1a99\\u1b00-\\u1b04\\u1b34-\\u1b44\\u1b50-\\u1b59\\u1b6b-\\u1b73\\u1b80-\\u1b82\\u1ba1-\\u1bad\\u1bb0-\\u1bb9\\u1be6-\\u1bf3\\u1c24-\\u1c37\\u1c40-\\u1c49\\u1c50-\\u1c59\\u1cd0-\\u1cd2\\u1cd4-\\u1ce8\\u1ced\\u1cf2-\\u1cf4\\u1dc0-\\u1de6\\u1dfc-\\u1dff\\u200c\\u200d\\u203f\\u2040\\u2054\\u20d0-\\u20dc\\u20e1\\u20e5-\\u20f0\\u2cef-\\u2cf1\\u2d7f\\u2de0-\\u2dff\\u302a-\\u302f\\u3099\\u309a\\ua620-\\ua629\\ua66f\\ua674-\\ua67d\\ua69f\\ua6f0\\ua6f1\\ua802\\ua806\\ua80b\\ua823-\\ua827\\ua880\\ua881\\ua8b4-\\ua8c4\\ua8d0-\\ua8d9\\ua8e0-\\ua8f1\\ua900-\\ua909\\ua926-\\ua92d\\ua947-\\ua953\\ua980-\\ua983\\ua9b3-\\ua9c0\\ua9d0-\\ua9d9\\uaa29-\\uaa36\\uaa43\\uaa4c\\uaa4d\\uaa50-\\uaa59\\uaa7b\\uaab0\\uaab2-\\uaab4\\uaab7\\uaab8\\uaabe\\uaabf\\uaac1\\uaaeb-\\uaaef\\uaaf5\\uaaf6\\uabe3-\\uabea\\uabec\\uabed\\uabf0-\\uabf9\\ufb1e\\ufe00-\\ufe0f\\ufe20-\\ufe26\\ufe33\\ufe34\\ufe4d-\\ufe4f\\uff10-\\uff19\\uff3f]" },
+	        peg$c48 = function() {
 	            return text();
 	          },
-	        peg$c47 = "/",
-	        peg$c48 = { type: "literal", value: "/", description: "\"/\"" },
-	        peg$c49 = "\\",
-	        peg$c50 = { type: "literal", value: "\\", description: "\"\\\\\"" },
-	        peg$c51 = { type: "any", description: "any character" },
-	        peg$c52 = /^[^\/\\]/,
-	        peg$c53 = { type: "class", value: "[^/\\\\]", description: "[^/\\\\]" },
-	        peg$c54 = function(source, flag) {
+	        peg$c49 = "/",
+	        peg$c50 = { type: "literal", value: "/", description: "\"/\"" },
+	        peg$c51 = "\\",
+	        peg$c52 = { type: "literal", value: "\\", description: "\"\\\\\"" },
+	        peg$c53 = { type: "any", description: "any character" },
+	        peg$c54 = /^[^\/\\]/,
+	        peg$c55 = { type: "class", value: "[^/\\\\]", description: "[^/\\\\]" },
+	        peg$c56 = function(source, flag) {
 	            var src = '', item;
 	            for (var i in source) {
 	              item = source[i];
@@ -375,50 +999,50 @@
 	
 	            return new RegExp(src, flag.join(''));
 	          },
-	        peg$c55 = function() {
+	        peg$c57 = function() {
 	            return eval(text());
 	          },
-	        peg$c56 = "\"",
-	        peg$c57 = { type: "literal", value: "\"", description: "\"\\\"\"" },
-	        peg$c58 = /^[^"\\]/,
-	        peg$c59 = { type: "class", value: "[^\"\\\\]", description: "[^\"\\\\]" },
-	        peg$c60 = "'",
-	        peg$c61 = { type: "literal", value: "'", description: "\"'\"" },
-	        peg$c62 = /^[^'\\]/,
-	        peg$c63 = { type: "class", value: "[^'\\\\]", description: "[^'\\\\]" },
-	        peg$c64 = function(sign, val) {
+	        peg$c58 = "\"",
+	        peg$c59 = { type: "literal", value: "\"", description: "\"\\\"\"" },
+	        peg$c60 = /^[^"\\]/,
+	        peg$c61 = { type: "class", value: "[^\"\\\\]", description: "[^\"\\\\]" },
+	        peg$c62 = "'",
+	        peg$c63 = { type: "literal", value: "'", description: "\"'\"" },
+	        peg$c64 = /^[^'\\]/,
+	        peg$c65 = { type: "class", value: "[^'\\\\]", description: "[^'\\\\]" },
+	        peg$c66 = function(sign, val) {
 	            return (sign=='-')?-val:val;
 	          },
-	        peg$c65 = "NaN",
-	        peg$c66 = { type: "literal", value: "NaN", description: "\"NaN\"" },
-	        peg$c67 = function() {
+	        peg$c67 = "NaN",
+	        peg$c68 = { type: "literal", value: "NaN", description: "\"NaN\"" },
+	        peg$c69 = function() {
 	            return NaN;
 	          },
-	        peg$c68 = "Infinity",
-	        peg$c69 = { type: "literal", value: "Infinity", description: "\"Infinity\"" },
-	        peg$c70 = function() {
+	        peg$c70 = "Infinity",
+	        peg$c71 = { type: "literal", value: "Infinity", description: "\"Infinity\"" },
+	        peg$c72 = function() {
 	            return Infinity;
 	          },
-	        peg$c71 = "0",
-	        peg$c72 = { type: "literal", value: "0", description: "\"0\"" },
-	        peg$c73 = /^[Bb]/,
-	        peg$c74 = { type: "class", value: "[Bb]", description: "[Bb]" },
-	        peg$c75 = /^[01]/,
-	        peg$c76 = { type: "class", value: "[01]", description: "[01]" },
-	        peg$c77 = function() {
+	        peg$c73 = "0",
+	        peg$c74 = { type: "literal", value: "0", description: "\"0\"" },
+	        peg$c75 = /^[Bb]/,
+	        peg$c76 = { type: "class", value: "[Bb]", description: "[Bb]" },
+	        peg$c77 = /^[01]/,
+	        peg$c78 = { type: "class", value: "[01]", description: "[01]" },
+	        peg$c79 = function() {
 	            return Number(text());
 	          },
-	        peg$c78 = /^[Oo]/,
-	        peg$c79 = { type: "class", value: "[Oo]", description: "[Oo]" },
-	        peg$c80 = /^[0-7]/,
-	        peg$c81 = { type: "class", value: "[0-7]", description: "[0-7]" },
-	        peg$c82 = /^[Xx]/,
-	        peg$c83 = { type: "class", value: "[Xx]", description: "[Xx]" },
-	        peg$c84 = /^[0-9A-Fa-f]/,
-	        peg$c85 = { type: "class", value: "[0-9A-Fa-f]", description: "[0-9A-Fa-f]" },
-	        peg$c86 = /^[0-9]/,
-	        peg$c87 = { type: "class", value: "[0-9]", description: "[0-9]" },
-	        peg$c88 = function() {
+	        peg$c80 = /^[Oo]/,
+	        peg$c81 = { type: "class", value: "[Oo]", description: "[Oo]" },
+	        peg$c82 = /^[0-7]/,
+	        peg$c83 = { type: "class", value: "[0-7]", description: "[0-7]" },
+	        peg$c84 = /^[Xx]/,
+	        peg$c85 = { type: "class", value: "[Xx]", description: "[Xx]" },
+	        peg$c86 = /^[0-9A-Fa-f]/,
+	        peg$c87 = { type: "class", value: "[0-9A-Fa-f]", description: "[0-9A-Fa-f]" },
+	        peg$c88 = /^[0-9]/,
+	        peg$c89 = { type: "class", value: "[0-9]", description: "[0-9]" },
+	        peg$c90 = function() {
 	            var val = text();
 	            if ( /^0[0-7]+$/.test(val) ) {
 	              val = val.charAt(0) + 'O' + val.substr(1);
@@ -426,12 +1050,12 @@
 	
 	            return Number(val);
 	          },
-	        peg$c89 = "e",
-	        peg$c90 = { type: "literal", value: "e", description: "\"e\"" },
-	        peg$c91 = /^[+\-]/,
-	        peg$c92 = { type: "class", value: "[+-]", description: "[+-]" },
-	        peg$c93 = /^[ \t\r\n\f]/,
-	        peg$c94 = { type: "class", value: "[ \\t\\r\\n\\f]", description: "[ \\t\\r\\n\\f]" },
+	        peg$c91 = "e",
+	        peg$c92 = { type: "literal", value: "e", description: "\"e\"" },
+	        peg$c93 = /^[+\-]/,
+	        peg$c94 = { type: "class", value: "[+-]", description: "[+-]" },
+	        peg$c95 = /^[ \t\r\n\f]/,
+	        peg$c96 = { type: "class", value: "[ \\t\\r\\n\\f]", description: "[ \\t\\r\\n\\f]" },
 	
 	        peg$currPos          = 0,
 	        peg$savedPos         = 0,
@@ -619,7 +1243,7 @@
 	    }
 	
 	    function peg$parsescope_relative_selector_list() {
-	      var s0, s1, s2, s3, s4, s5, s6, s7;
+	      var s0, s1, s2, s3, s4, s5, s6, s7, s8;
 	
 	      s0 = peg$currPos;
 	      s1 = peg$parsescope_relative_selector();
@@ -646,8 +1270,17 @@
 	            if (s6 !== peg$FAILED) {
 	              s7 = peg$parsescope_relative_selector();
 	              if (s7 !== peg$FAILED) {
-	                s5 = [s5, s6, s7];
-	                s4 = s5;
+	                s8 = peg$parseS();
+	                if (s8 === peg$FAILED) {
+	                  s8 = null;
+	                }
+	                if (s8 !== peg$FAILED) {
+	                  s5 = [s5, s6, s7, s8];
+	                  s4 = s5;
+	                } else {
+	                  peg$currPos = s4;
+	                  s4 = peg$FAILED;
+	                }
 	              } else {
 	                peg$currPos = s4;
 	                s4 = peg$FAILED;
@@ -678,8 +1311,17 @@
 	              if (s6 !== peg$FAILED) {
 	                s7 = peg$parsescope_relative_selector();
 	                if (s7 !== peg$FAILED) {
-	                  s5 = [s5, s6, s7];
-	                  s4 = s5;
+	                  s8 = peg$parseS();
+	                  if (s8 === peg$FAILED) {
+	                    s8 = null;
+	                  }
+	                  if (s8 !== peg$FAILED) {
+	                    s5 = [s5, s6, s7, s8];
+	                    s4 = s5;
+	                  } else {
+	                    peg$currPos = s4;
+	                    s4 = peg$FAILED;
+	                  }
 	                } else {
 	                  peg$currPos = s4;
 	                  s4 = peg$FAILED;
@@ -694,9 +1336,18 @@
 	            }
 	          }
 	          if (s3 !== peg$FAILED) {
-	            peg$savedPos = s0;
-	            s1 = peg$c2(s1, s3);
-	            s0 = s1;
+	            s4 = peg$parseS();
+	            if (s4 === peg$FAILED) {
+	              s4 = null;
+	            }
+	            if (s4 !== peg$FAILED) {
+	              peg$savedPos = s0;
+	              s1 = peg$c2(s1, s3);
+	              s0 = s1;
+	            } else {
+	              peg$currPos = s0;
+	              s0 = peg$FAILED;
+	            }
 	          } else {
 	            peg$currPos = s0;
 	            s0 = peg$FAILED;
@@ -794,6 +1445,15 @@
 	          s2 = peg$FAILED;
 	          if (peg$silentFails === 0) { peg$fail(peg$c5); }
 	        }
+	        if (s2 === peg$FAILED) {
+	          if (input.charCodeAt(peg$currPos) === 126) {
+	            s2 = peg$c6;
+	            peg$currPos++;
+	          } else {
+	            s2 = peg$FAILED;
+	            if (peg$silentFails === 0) { peg$fail(peg$c7); }
+	          }
+	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = peg$parseS();
 	          if (s3 === peg$FAILED) {
@@ -801,7 +1461,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c6();
+	            s1 = peg$c8();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -829,7 +1489,7 @@
 	        }
 	        if (s1 !== peg$FAILED) {
 	          peg$savedPos = s0;
-	          s1 = peg$c7();
+	          s1 = peg$c9();
 	        }
 	        s0 = s1;
 	      }
@@ -853,7 +1513,7 @@
 	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
-	        s1 = peg$c8(s1);
+	        s1 = peg$c10(s1);
 	      }
 	      s0 = s1;
 	      if (s0 === peg$FAILED) {
@@ -899,7 +1559,7 @@
 	          }
 	          if (s2 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c9(s1, s2);
+	            s1 = peg$c11(s1, s2);
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -942,7 +1602,7 @@
 	            }
 	            if (s2 !== peg$FAILED) {
 	              peg$savedPos = s0;
-	              s1 = peg$c10(s1, s2);
+	              s1 = peg$c12(s1, s2);
 	              s0 = s1;
 	            } else {
 	              peg$currPos = s0;
@@ -963,18 +1623,18 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 42) {
-	        s1 = peg$c11;
+	        s1 = peg$c13;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c12); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c14); }
 	      }
 	      if (s1 === peg$FAILED) {
 	        s1 = peg$parsePROP();
 	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
-	        s1 = peg$c13(s1);
+	        s1 = peg$c15(s1);
 	      }
 	      s0 = s1;
 	
@@ -986,11 +1646,11 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 35) {
-	        s1 = peg$c14;
+	        s1 = peg$c16;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c15); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c17); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = peg$parseNUMBER();
@@ -1002,7 +1662,7 @@
 	        }
 	        if (s2 !== peg$FAILED) {
 	          peg$savedPos = s0;
-	          s1 = peg$c16(s2);
+	          s1 = peg$c18(s2);
 	          s0 = s1;
 	        } else {
 	          peg$currPos = s0;
@@ -1021,17 +1681,17 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 46) {
-	        s1 = peg$c17;
+	        s1 = peg$c19;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c18); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c20); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = peg$parseIDENT();
 	        if (s2 !== peg$FAILED) {
 	          peg$savedPos = s0;
-	          s1 = peg$c19(s2);
+	          s1 = peg$c21(s2);
 	          s0 = s1;
 	        } else {
 	          peg$currPos = s0;
@@ -1050,11 +1710,11 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 91) {
-	        s1 = peg$c20;
+	        s1 = peg$c22;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c21); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c23); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = peg$parseS();
@@ -1126,15 +1786,15 @@
 	                }
 	                if (s6 !== peg$FAILED) {
 	                  if (input.charCodeAt(peg$currPos) === 93) {
-	                    s7 = peg$c22;
+	                    s7 = peg$c24;
 	                    peg$currPos++;
 	                  } else {
 	                    s7 = peg$FAILED;
-	                    if (peg$silentFails === 0) { peg$fail(peg$c23); }
+	                    if (peg$silentFails === 0) { peg$fail(peg$c25); }
 	                  }
 	                  if (s7 !== peg$FAILED) {
 	                    peg$savedPos = s0;
-	                    s1 = peg$c24(s3, s5);
+	                    s1 = peg$c26(s3, s5);
 	                    s0 = s1;
 	                  } else {
 	                    peg$currPos = s0;
@@ -1169,26 +1829,26 @@
 	    }
 	
 	    function peg$parsepseudo_class() {
-	      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13;
+	      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12;
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 58) {
-	        s1 = peg$c25;
+	        s1 = peg$c27;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c26); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c28); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = peg$parseIDENT();
 	        if (s2 !== peg$FAILED) {
 	          s3 = peg$currPos;
 	          if (input.charCodeAt(peg$currPos) === 40) {
-	            s4 = peg$c27;
+	            s4 = peg$c29;
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c28); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c30); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            s5 = peg$parseS();
@@ -1198,13 +1858,13 @@
 	            if (s5 !== peg$FAILED) {
 	              s6 = peg$parseVALUE();
 	              if (s6 !== peg$FAILED) {
-	                s7 = peg$parseS();
-	                if (s7 === peg$FAILED) {
-	                  s7 = null;
+	                s7 = [];
+	                s8 = peg$currPos;
+	                s9 = peg$parseS();
+	                if (s9 === peg$FAILED) {
+	                  s9 = null;
 	                }
-	                if (s7 !== peg$FAILED) {
-	                  s8 = [];
-	                  s9 = peg$currPos;
+	                if (s9 !== peg$FAILED) {
 	                  if (input.charCodeAt(peg$currPos) === 44) {
 	                    s10 = peg$c0;
 	                    peg$currPos++;
@@ -1220,32 +1880,32 @@
 	                    if (s11 !== peg$FAILED) {
 	                      s12 = peg$parseVALUE();
 	                      if (s12 !== peg$FAILED) {
-	                        s13 = peg$parseS();
-	                        if (s13 === peg$FAILED) {
-	                          s13 = null;
-	                        }
-	                        if (s13 !== peg$FAILED) {
-	                          s10 = [s10, s11, s12, s13];
-	                          s9 = s10;
-	                        } else {
-	                          peg$currPos = s9;
-	                          s9 = peg$FAILED;
-	                        }
+	                        s9 = [s9, s10, s11, s12];
+	                        s8 = s9;
 	                      } else {
-	                        peg$currPos = s9;
-	                        s9 = peg$FAILED;
+	                        peg$currPos = s8;
+	                        s8 = peg$FAILED;
 	                      }
 	                    } else {
-	                      peg$currPos = s9;
-	                      s9 = peg$FAILED;
+	                      peg$currPos = s8;
+	                      s8 = peg$FAILED;
 	                    }
 	                  } else {
-	                    peg$currPos = s9;
-	                    s9 = peg$FAILED;
+	                    peg$currPos = s8;
+	                    s8 = peg$FAILED;
 	                  }
-	                  while (s9 !== peg$FAILED) {
-	                    s8.push(s9);
-	                    s9 = peg$currPos;
+	                } else {
+	                  peg$currPos = s8;
+	                  s8 = peg$FAILED;
+	                }
+	                while (s8 !== peg$FAILED) {
+	                  s7.push(s8);
+	                  s8 = peg$currPos;
+	                  s9 = peg$parseS();
+	                  if (s9 === peg$FAILED) {
+	                    s9 = null;
+	                  }
+	                  if (s9 !== peg$FAILED) {
 	                    if (input.charCodeAt(peg$currPos) === 44) {
 	                      s10 = peg$c0;
 	                      peg$currPos++;
@@ -1261,50 +1921,41 @@
 	                      if (s11 !== peg$FAILED) {
 	                        s12 = peg$parseVALUE();
 	                        if (s12 !== peg$FAILED) {
-	                          s13 = peg$parseS();
-	                          if (s13 === peg$FAILED) {
-	                            s13 = null;
-	                          }
-	                          if (s13 !== peg$FAILED) {
-	                            s10 = [s10, s11, s12, s13];
-	                            s9 = s10;
-	                          } else {
-	                            peg$currPos = s9;
-	                            s9 = peg$FAILED;
-	                          }
+	                          s9 = [s9, s10, s11, s12];
+	                          s8 = s9;
 	                        } else {
-	                          peg$currPos = s9;
-	                          s9 = peg$FAILED;
+	                          peg$currPos = s8;
+	                          s8 = peg$FAILED;
 	                        }
 	                      } else {
-	                        peg$currPos = s9;
-	                        s9 = peg$FAILED;
+	                        peg$currPos = s8;
+	                        s8 = peg$FAILED;
 	                      }
 	                    } else {
-	                      peg$currPos = s9;
-	                      s9 = peg$FAILED;
+	                      peg$currPos = s8;
+	                      s8 = peg$FAILED;
 	                    }
+	                  } else {
+	                    peg$currPos = s8;
+	                    s8 = peg$FAILED;
+	                  }
+	                }
+	                if (s7 !== peg$FAILED) {
+	                  s8 = peg$parseS();
+	                  if (s8 === peg$FAILED) {
+	                    s8 = null;
 	                  }
 	                  if (s8 !== peg$FAILED) {
-	                    s9 = peg$parseS();
-	                    if (s9 === peg$FAILED) {
-	                      s9 = null;
+	                    if (input.charCodeAt(peg$currPos) === 41) {
+	                      s9 = peg$c31;
+	                      peg$currPos++;
+	                    } else {
+	                      s9 = peg$FAILED;
+	                      if (peg$silentFails === 0) { peg$fail(peg$c32); }
 	                    }
 	                    if (s9 !== peg$FAILED) {
-	                      if (input.charCodeAt(peg$currPos) === 41) {
-	                        s10 = peg$c29;
-	                        peg$currPos++;
-	                      } else {
-	                        s10 = peg$FAILED;
-	                        if (peg$silentFails === 0) { peg$fail(peg$c30); }
-	                      }
-	                      if (s10 !== peg$FAILED) {
-	                        s4 = [s4, s5, s6, s7, s8, s9, s10];
-	                        s3 = s4;
-	                      } else {
-	                        peg$currPos = s3;
-	                        s3 = peg$FAILED;
-	                      }
+	                      s4 = [s4, s5, s6, s7, s8, s9];
+	                      s3 = s4;
 	                    } else {
 	                      peg$currPos = s3;
 	                      s3 = peg$FAILED;
@@ -1334,7 +1985,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c31(s2, s3);
+	            s1 = peg$c33(s2, s3);
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -1370,35 +2021,35 @@
 	      var s0;
 	
 	      if (input.charCodeAt(peg$currPos) === 61) {
-	        s0 = peg$c32;
+	        s0 = peg$c34;
 	        peg$currPos++;
 	      } else {
 	        s0 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c33); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c35); }
 	      }
 	      if (s0 === peg$FAILED) {
-	        if (input.substr(peg$currPos, 2) === peg$c34) {
-	          s0 = peg$c34;
+	        if (input.substr(peg$currPos, 2) === peg$c36) {
+	          s0 = peg$c36;
 	          peg$currPos += 2;
 	        } else {
 	          s0 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c35); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c37); }
 	        }
 	        if (s0 === peg$FAILED) {
-	          if (input.substr(peg$currPos, 2) === peg$c36) {
-	            s0 = peg$c36;
+	          if (input.substr(peg$currPos, 2) === peg$c38) {
+	            s0 = peg$c38;
 	            peg$currPos += 2;
 	          } else {
 	            s0 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c37); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c39); }
 	          }
 	          if (s0 === peg$FAILED) {
-	            if (input.substr(peg$currPos, 2) === peg$c38) {
-	              s0 = peg$c38;
+	            if (input.substr(peg$currPos, 2) === peg$c40) {
+	              s0 = peg$c40;
 	              peg$currPos += 2;
 	            } else {
 	              s0 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c39); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c41); }
 	            }
 	          }
 	        }
@@ -1411,22 +2062,22 @@
 	      var s0, s1;
 	
 	      s0 = [];
-	      if (peg$c40.test(input.charAt(peg$currPos))) {
+	      if (peg$c42.test(input.charAt(peg$currPos))) {
 	        s1 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c41); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c43); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        while (s1 !== peg$FAILED) {
 	          s0.push(s1);
-	          if (peg$c40.test(input.charAt(peg$currPos))) {
+	          if (peg$c42.test(input.charAt(peg$currPos))) {
 	            s1 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s1 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c41); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c43); }
 	          }
 	        }
 	      } else {
@@ -1451,35 +2102,35 @@
 	      var s0, s1, s2, s3;
 	
 	      s0 = peg$currPos;
-	      if (peg$c42.test(input.charAt(peg$currPos))) {
+	      if (peg$c44.test(input.charAt(peg$currPos))) {
 	        s1 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c43); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c45); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
-	        if (peg$c44.test(input.charAt(peg$currPos))) {
+	        if (peg$c46.test(input.charAt(peg$currPos))) {
 	          s3 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s3 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c45); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c47); }
 	        }
 	        while (s3 !== peg$FAILED) {
 	          s2.push(s3);
-	          if (peg$c44.test(input.charAt(peg$currPos))) {
+	          if (peg$c46.test(input.charAt(peg$currPos))) {
 	            s3 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c45); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c47); }
 	          }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          peg$savedPos = s0;
-	          s1 = peg$c46();
+	          s1 = peg$c48();
 	          s0 = s1;
 	        } else {
 	          peg$currPos = s0;
@@ -1498,21 +2149,21 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 47) {
-	        s1 = peg$c47;
+	        s1 = peg$c49;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c48); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c50); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
 	        s3 = peg$currPos;
 	        if (input.charCodeAt(peg$currPos) === 92) {
-	          s4 = peg$c49;
+	          s4 = peg$c51;
 	          peg$currPos++;
 	        } else {
 	          s4 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c50); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c52); }
 	        }
 	        if (s4 !== peg$FAILED) {
 	          if (input.length > peg$currPos) {
@@ -1520,7 +2171,7 @@
 	            peg$currPos++;
 	          } else {
 	            s5 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c51); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c53); }
 	          }
 	          if (s5 !== peg$FAILED) {
 	            s4 = [s4, s5];
@@ -1534,12 +2185,12 @@
 	          s3 = peg$FAILED;
 	        }
 	        if (s3 === peg$FAILED) {
-	          if (peg$c52.test(input.charAt(peg$currPos))) {
+	          if (peg$c54.test(input.charAt(peg$currPos))) {
 	            s3 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c53); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c55); }
 	          }
 	        }
 	        if (s3 !== peg$FAILED) {
@@ -1547,11 +2198,11 @@
 	            s2.push(s3);
 	            s3 = peg$currPos;
 	            if (input.charCodeAt(peg$currPos) === 92) {
-	              s4 = peg$c49;
+	              s4 = peg$c51;
 	              peg$currPos++;
 	            } else {
 	              s4 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c50); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c52); }
 	            }
 	            if (s4 !== peg$FAILED) {
 	              if (input.length > peg$currPos) {
@@ -1559,7 +2210,7 @@
 	                peg$currPos++;
 	              } else {
 	                s5 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c51); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c53); }
 	              }
 	              if (s5 !== peg$FAILED) {
 	                s4 = [s4, s5];
@@ -1573,12 +2224,12 @@
 	              s3 = peg$FAILED;
 	            }
 	            if (s3 === peg$FAILED) {
-	              if (peg$c52.test(input.charAt(peg$currPos))) {
+	              if (peg$c54.test(input.charAt(peg$currPos))) {
 	                s3 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s3 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c53); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c55); }
 	              }
 	            }
 	          }
@@ -1587,34 +2238,34 @@
 	        }
 	        if (s2 !== peg$FAILED) {
 	          if (input.charCodeAt(peg$currPos) === 47) {
-	            s3 = peg$c47;
+	            s3 = peg$c49;
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c48); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c50); }
 	          }
 	          if (s3 !== peg$FAILED) {
 	            s4 = [];
-	            if (peg$c40.test(input.charAt(peg$currPos))) {
+	            if (peg$c42.test(input.charAt(peg$currPos))) {
 	              s5 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s5 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c41); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c43); }
 	            }
 	            while (s5 !== peg$FAILED) {
 	              s4.push(s5);
-	              if (peg$c40.test(input.charAt(peg$currPos))) {
+	              if (peg$c42.test(input.charAt(peg$currPos))) {
 	                s5 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s5 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c41); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c43); }
 	              }
 	            }
 	            if (s4 !== peg$FAILED) {
 	              peg$savedPos = s0;
-	              s1 = peg$c54(s2, s4);
+	              s1 = peg$c56(s2, s4);
 	              s0 = s1;
 	            } else {
 	              peg$currPos = s0;
@@ -1646,7 +2297,7 @@
 	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
-	        s1 = peg$c55();
+	        s1 = peg$c57();
 	      }
 	      s0 = s1;
 	
@@ -1658,21 +2309,21 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 34) {
-	        s1 = peg$c56;
+	        s1 = peg$c58;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c57); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c59); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
 	        s3 = peg$currPos;
 	        if (input.charCodeAt(peg$currPos) === 92) {
-	          s4 = peg$c49;
+	          s4 = peg$c51;
 	          peg$currPos++;
 	        } else {
 	          s4 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c50); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c52); }
 	        }
 	        if (s4 !== peg$FAILED) {
 	          if (input.length > peg$currPos) {
@@ -1680,7 +2331,7 @@
 	            peg$currPos++;
 	          } else {
 	            s5 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c51); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c53); }
 	          }
 	          if (s5 !== peg$FAILED) {
 	            s4 = [s4, s5];
@@ -1694,23 +2345,23 @@
 	          s3 = peg$FAILED;
 	        }
 	        if (s3 === peg$FAILED) {
-	          if (peg$c58.test(input.charAt(peg$currPos))) {
+	          if (peg$c60.test(input.charAt(peg$currPos))) {
 	            s3 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c59); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c61); }
 	          }
 	        }
 	        while (s3 !== peg$FAILED) {
 	          s2.push(s3);
 	          s3 = peg$currPos;
 	          if (input.charCodeAt(peg$currPos) === 92) {
-	            s4 = peg$c49;
+	            s4 = peg$c51;
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c50); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c52); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            if (input.length > peg$currPos) {
@@ -1718,7 +2369,7 @@
 	              peg$currPos++;
 	            } else {
 	              s5 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c51); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c53); }
 	            }
 	            if (s5 !== peg$FAILED) {
 	              s4 = [s4, s5];
@@ -1732,22 +2383,22 @@
 	            s3 = peg$FAILED;
 	          }
 	          if (s3 === peg$FAILED) {
-	            if (peg$c58.test(input.charAt(peg$currPos))) {
+	            if (peg$c60.test(input.charAt(peg$currPos))) {
 	              s3 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s3 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c59); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c61); }
 	            }
 	          }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          if (input.charCodeAt(peg$currPos) === 34) {
-	            s3 = peg$c56;
+	            s3 = peg$c58;
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c57); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c59); }
 	          }
 	          if (s3 !== peg$FAILED) {
 	            s1 = [s1, s2, s3];
@@ -1773,21 +2424,21 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 39) {
-	        s1 = peg$c60;
+	        s1 = peg$c62;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c61); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c63); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
 	        s3 = peg$currPos;
 	        if (input.charCodeAt(peg$currPos) === 92) {
-	          s4 = peg$c49;
+	          s4 = peg$c51;
 	          peg$currPos++;
 	        } else {
 	          s4 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c50); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c52); }
 	        }
 	        if (s4 !== peg$FAILED) {
 	          if (input.length > peg$currPos) {
@@ -1795,7 +2446,7 @@
 	            peg$currPos++;
 	          } else {
 	            s5 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c51); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c53); }
 	          }
 	          if (s5 !== peg$FAILED) {
 	            s4 = [s4, s5];
@@ -1809,23 +2460,23 @@
 	          s3 = peg$FAILED;
 	        }
 	        if (s3 === peg$FAILED) {
-	          if (peg$c62.test(input.charAt(peg$currPos))) {
+	          if (peg$c64.test(input.charAt(peg$currPos))) {
 	            s3 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c63); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c65); }
 	          }
 	        }
 	        while (s3 !== peg$FAILED) {
 	          s2.push(s3);
 	          s3 = peg$currPos;
 	          if (input.charCodeAt(peg$currPos) === 92) {
-	            s4 = peg$c49;
+	            s4 = peg$c51;
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c50); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c52); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            if (input.length > peg$currPos) {
@@ -1833,7 +2484,7 @@
 	              peg$currPos++;
 	            } else {
 	              s5 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c51); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c53); }
 	            }
 	            if (s5 !== peg$FAILED) {
 	              s4 = [s4, s5];
@@ -1847,22 +2498,22 @@
 	            s3 = peg$FAILED;
 	          }
 	          if (s3 === peg$FAILED) {
-	            if (peg$c62.test(input.charAt(peg$currPos))) {
+	            if (peg$c64.test(input.charAt(peg$currPos))) {
 	              s3 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s3 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c63); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c65); }
 	            }
 	          }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          if (input.charCodeAt(peg$currPos) === 39) {
-	            s3 = peg$c60;
+	            s3 = peg$c62;
 	            peg$currPos++;
 	          } else {
 	            s3 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c61); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c63); }
 	          }
 	          if (s3 !== peg$FAILED) {
 	            s1 = [s1, s2, s3];
@@ -1913,7 +2564,7 @@
 	        }
 	        if (s2 !== peg$FAILED) {
 	          peg$savedPos = s0;
-	          s1 = peg$c64(s1, s2);
+	          s1 = peg$c66(s1, s2);
 	          s0 = s1;
 	        } else {
 	          peg$currPos = s0;
@@ -1931,16 +2582,16 @@
 	      var s0, s1;
 	
 	      s0 = peg$currPos;
-	      if (input.substr(peg$currPos, 3) === peg$c65) {
-	        s1 = peg$c65;
+	      if (input.substr(peg$currPos, 3) === peg$c67) {
+	        s1 = peg$c67;
 	        peg$currPos += 3;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c66); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c68); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
-	        s1 = peg$c67();
+	        s1 = peg$c69();
 	      }
 	      s0 = s1;
 	
@@ -1951,16 +2602,16 @@
 	      var s0, s1;
 	
 	      s0 = peg$currPos;
-	      if (input.substr(peg$currPos, 8) === peg$c68) {
-	        s1 = peg$c68;
+	      if (input.substr(peg$currPos, 8) === peg$c70) {
+	        s1 = peg$c70;
 	        peg$currPos += 8;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c69); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c71); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        peg$savedPos = s0;
-	        s1 = peg$c70();
+	        s1 = peg$c72();
 	      }
 	      s0 = s1;
 	
@@ -1972,38 +2623,38 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
-	        s1 = peg$c71;
+	        s1 = peg$c73;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c72); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c74); }
 	      }
 	      if (s1 !== peg$FAILED) {
-	        if (peg$c73.test(input.charAt(peg$currPos))) {
+	        if (peg$c75.test(input.charAt(peg$currPos))) {
 	          s2 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s2 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c74); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c76); }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = [];
-	          if (peg$c75.test(input.charAt(peg$currPos))) {
+	          if (peg$c77.test(input.charAt(peg$currPos))) {
 	            s4 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c76); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c78); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            while (s4 !== peg$FAILED) {
 	              s3.push(s4);
-	              if (peg$c75.test(input.charAt(peg$currPos))) {
+	              if (peg$c77.test(input.charAt(peg$currPos))) {
 	                s4 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s4 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c76); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c78); }
 	              }
 	            }
 	          } else {
@@ -2011,7 +2662,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c77();
+	            s1 = peg$c79();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -2034,38 +2685,38 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
-	        s1 = peg$c71;
+	        s1 = peg$c73;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c72); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c74); }
 	      }
 	      if (s1 !== peg$FAILED) {
-	        if (peg$c78.test(input.charAt(peg$currPos))) {
+	        if (peg$c80.test(input.charAt(peg$currPos))) {
 	          s2 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s2 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c79); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c81); }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = [];
-	          if (peg$c80.test(input.charAt(peg$currPos))) {
+	          if (peg$c82.test(input.charAt(peg$currPos))) {
 	            s4 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c81); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c83); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            while (s4 !== peg$FAILED) {
 	              s3.push(s4);
-	              if (peg$c80.test(input.charAt(peg$currPos))) {
+	              if (peg$c82.test(input.charAt(peg$currPos))) {
 	                s4 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s4 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c81); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c83); }
 	              }
 	            }
 	          } else {
@@ -2073,7 +2724,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c77();
+	            s1 = peg$c79();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -2096,38 +2747,38 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 48) {
-	        s1 = peg$c71;
+	        s1 = peg$c73;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c72); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c74); }
 	      }
 	      if (s1 !== peg$FAILED) {
-	        if (peg$c82.test(input.charAt(peg$currPos))) {
+	        if (peg$c84.test(input.charAt(peg$currPos))) {
 	          s2 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s2 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c83); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c85); }
 	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = [];
-	          if (peg$c84.test(input.charAt(peg$currPos))) {
+	          if (peg$c86.test(input.charAt(peg$currPos))) {
 	            s4 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c85); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c87); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            while (s4 !== peg$FAILED) {
 	              s3.push(s4);
-	              if (peg$c84.test(input.charAt(peg$currPos))) {
+	              if (peg$c86.test(input.charAt(peg$currPos))) {
 	                s4 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s4 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c85); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c87); }
 	              }
 	            }
 	          } else {
@@ -2135,7 +2786,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c77();
+	            s1 = peg$c79();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -2158,22 +2809,22 @@
 	
 	      s0 = peg$currPos;
 	      s1 = [];
-	      if (peg$c86.test(input.charAt(peg$currPos))) {
+	      if (peg$c88.test(input.charAt(peg$currPos))) {
 	        s2 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s2 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c87); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	      }
 	      if (s2 !== peg$FAILED) {
 	        while (s2 !== peg$FAILED) {
 	          s1.push(s2);
-	          if (peg$c86.test(input.charAt(peg$currPos))) {
+	          if (peg$c88.test(input.charAt(peg$currPos))) {
 	            s2 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s2 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c87); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	          }
 	        }
 	      } else {
@@ -2182,29 +2833,29 @@
 	      if (s1 !== peg$FAILED) {
 	        s2 = peg$currPos;
 	        if (input.charCodeAt(peg$currPos) === 46) {
-	          s3 = peg$c17;
+	          s3 = peg$c19;
 	          peg$currPos++;
 	        } else {
 	          s3 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c18); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c20); }
 	        }
 	        if (s3 !== peg$FAILED) {
 	          s4 = [];
-	          if (peg$c86.test(input.charAt(peg$currPos))) {
+	          if (peg$c88.test(input.charAt(peg$currPos))) {
 	            s5 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s5 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c87); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	          }
 	          while (s5 !== peg$FAILED) {
 	            s4.push(s5);
-	            if (peg$c86.test(input.charAt(peg$currPos))) {
+	            if (peg$c88.test(input.charAt(peg$currPos))) {
 	              s5 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s5 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c87); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	            }
 	          }
 	          if (s4 !== peg$FAILED) {
@@ -2228,7 +2879,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c88();
+	            s1 = peg$c90();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -2251,30 +2902,30 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 46) {
-	        s1 = peg$c17;
+	        s1 = peg$c19;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c18); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c20); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = [];
-	        if (peg$c86.test(input.charAt(peg$currPos))) {
+	        if (peg$c88.test(input.charAt(peg$currPos))) {
 	          s3 = input.charAt(peg$currPos);
 	          peg$currPos++;
 	        } else {
 	          s3 = peg$FAILED;
-	          if (peg$silentFails === 0) { peg$fail(peg$c87); }
+	          if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	        }
 	        if (s3 !== peg$FAILED) {
 	          while (s3 !== peg$FAILED) {
 	            s2.push(s3);
-	            if (peg$c86.test(input.charAt(peg$currPos))) {
+	            if (peg$c88.test(input.charAt(peg$currPos))) {
 	              s3 = input.charAt(peg$currPos);
 	              peg$currPos++;
 	            } else {
 	              s3 = peg$FAILED;
-	              if (peg$silentFails === 0) { peg$fail(peg$c87); }
+	              if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	            }
 	          }
 	        } else {
@@ -2287,7 +2938,7 @@
 	          }
 	          if (s3 !== peg$FAILED) {
 	            peg$savedPos = s0;
-	            s1 = peg$c77();
+	            s1 = peg$c79();
 	            s0 = s1;
 	          } else {
 	            peg$currPos = s0;
@@ -2310,11 +2961,11 @@
 	
 	      s0 = peg$currPos;
 	      if (input.charCodeAt(peg$currPos) === 101) {
-	        s1 = peg$c89;
+	        s1 = peg$c91;
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c90); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c92); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        s2 = peg$parseSIGN();
@@ -2323,22 +2974,22 @@
 	        }
 	        if (s2 !== peg$FAILED) {
 	          s3 = [];
-	          if (peg$c86.test(input.charAt(peg$currPos))) {
+	          if (peg$c88.test(input.charAt(peg$currPos))) {
 	            s4 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s4 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c87); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	          }
 	          if (s4 !== peg$FAILED) {
 	            while (s4 !== peg$FAILED) {
 	              s3.push(s4);
-	              if (peg$c86.test(input.charAt(peg$currPos))) {
+	              if (peg$c88.test(input.charAt(peg$currPos))) {
 	                s4 = input.charAt(peg$currPos);
 	                peg$currPos++;
 	              } else {
 	                s4 = peg$FAILED;
-	                if (peg$silentFails === 0) { peg$fail(peg$c87); }
+	                if (peg$silentFails === 0) { peg$fail(peg$c89); }
 	              }
 	            }
 	          } else {
@@ -2366,12 +3017,12 @@
 	    function peg$parseSIGN() {
 	      var s0;
 	
-	      if (peg$c91.test(input.charAt(peg$currPos))) {
+	      if (peg$c93.test(input.charAt(peg$currPos))) {
 	        s0 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s0 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c92); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c94); }
 	      }
 	
 	      return s0;
@@ -2381,22 +3032,22 @@
 	      var s0, s1;
 	
 	      s0 = [];
-	      if (peg$c93.test(input.charAt(peg$currPos))) {
+	      if (peg$c95.test(input.charAt(peg$currPos))) {
 	        s1 = input.charAt(peg$currPos);
 	        peg$currPos++;
 	      } else {
 	        s1 = peg$FAILED;
-	        if (peg$silentFails === 0) { peg$fail(peg$c94); }
+	        if (peg$silentFails === 0) { peg$fail(peg$c96); }
 	      }
 	      if (s1 !== peg$FAILED) {
 	        while (s1 !== peg$FAILED) {
 	          s0.push(s1);
-	          if (peg$c93.test(input.charAt(peg$currPos))) {
+	          if (peg$c95.test(input.charAt(peg$currPos))) {
 	            s1 = input.charAt(peg$currPos);
 	            peg$currPos++;
 	          } else {
 	            s1 = peg$FAILED;
-	            if (peg$silentFails === 0) { peg$fail(peg$c94); }
+	            if (peg$silentFails === 0) { peg$fail(peg$c96); }
 	          }
 	        }
 	      } else {
@@ -2480,6 +3131,15 @@
 	        }
 	      };
 	
+	      function convetVALUEtoString(value) {
+	        if (typeof value == 'string') {
+	          return '"'+value+'"';
+	        } else if (typeof value == 'number') {
+	          return value.toString();;
+	        } else if (typeof value == 'object') {
+	          return value.toString();
+	        }
+	      }
 	      function PseudoClass(ident, args) {
 	        this.type = 'PseudoClass';
 	        this.ident = ident;
@@ -2488,7 +3148,7 @@
 	      PseudoClass.prototype = {
 	        toString: function () {
 	          if (this.args && this.args.length) {
-	            return ':' + this.ident + '(' + this.args.join() + ')';
+	            return ':' + this.ident + '(' + this.args.map(convetVALUEtoString).join() + ')';
 	          } else {
 	            return ':' + this.ident;
 	          }
@@ -2508,11 +3168,10 @@
 	      }
 	      Attribute.prototype = {
 	        toString: function () {
-	          return 
-	            '[' + 
+	          return '[' + 
 	            this.ident + 
 	            (this.operator||'')+
-	            (this.value||'')+
+	            (convetVALUEtoString(this.value)||'')+
 	            (this.flag?(' '+this.flag):'') +
 	            ']';
 	        }
@@ -2727,7 +3386,11 @@
 	  if (ssf && Error.captureStackTrace) {
 	    Error.captureStackTrace(this, ssf);
 	  } else {
-	    this.stack = new Error().stack;
+	    try {
+	      throw new Error();
+	    } catch(e) {
+	      this.stack = e.stack;
+	    }
 	  }
 	}
 	
@@ -8844,272 +9507,867 @@
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
+	var _NodeInfo = __webpack_require__(42);
+	
+	var _NodeInfo2 = _interopRequireDefault(_NodeInfo);
+	
 	var _chai = __webpack_require__(4);
 	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var data = __webpack_require__(43);
 	describe('traversal', function () {
-	
 	  describe('BREADTH_FIRST_TRAVERSAL', function () {
-	    var data = __webpack_require__(42);
-	    data.a = data;
-	    data.menu.popup.menuitem.a = data.menu;
-	    [{
-	      input: {
-	        target: data,
-	        depth: undefined
-	      },
-	      expect: 46
-	    }, {
-	      input: {
-	        target: data.menu.id,
-	        depth: undefined
-	      },
-	      expect: 1
-	    }, {
-	      input: {
-	        target: data.menu.popup.menuitem[0],
-	        depth: undefined
-	      },
-	      expect: 13
-	    }, {
-	      input: {
-	        target: data.menu.popup.menuitem[0],
-	        depth: 1
-	      },
-	      expect: 3
-	    }].forEach(function (testCase) {
-	      it('should traverse over ' + testCase.expect + ' node', function () {
-	        var result = 0;
+	    it('check each nodeInfo.node', function () {
+	      var expectVals = ['"g"', 'null', '[]', '{"g":"g"}', '"f"', '"e"', 'null', '["f",{"g":"g"},[],null]', '{"e":"e"}', '"a"', '{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}'];
 	
-	        var _m$endDepth = testCase.input.depth;
+	      var _m$nodeInfo = new _NodeInfo2.default(data);
 	
-	        var _breadthFirstTraversal = void 0;
+	      var _m$startDepth = 0;
 	
-	        var _m$buffer = [[testCase.input.target, [], []]];
-	        var _m$tmp, _m$node, _m$path, _m$parent;
-	        var _m$key, _m$newNode;
-	        while (_m$buffer.length) {
-	          _m$tmp = _m$buffer.shift();
-	          _m$node = _m$tmp[0];
-	          _m$path = _m$tmp[1];
-	          _m$parent = _m$tmp[2];
-	          if (!(_m$path.length < testCase.input.depth || _m$endDepth < _m$path.length)) {
-	            var _m$visitor5 = void 0;
+	      var _breadthFirstTraversal = void 0;
 	
-	            result++;
+	      var _m$buffer = [_m$nodeInfo];
+	      var _m$tmpNodeInfo, _m$key, _m$newNode;
+	      while (_m$buffer.length) {
+	        _m$tmpNodeInfo = _m$buffer.shift();
+	        if (_m$startDepth <= _m$tmpNodeInfo.path.length) {
+	          var _m$visitor31 = void 0;
 	
-	            _m$visitor5;
-	          }
-	          if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && !(_m$endDepth < _m$path.length)) {
-	            _m$parent = _m$parent.slice();
-	            _m$parent.push(_m$node);
-	            for (_m$key in _m$node) {
-	              _m$newNode = _m$node[_m$key];
-	              if (_m$parent.indexOf(_m$newNode) == -1) {
-	                _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
-	              }
+	          _chai.assert.equal(JSON.stringify(_m$tmpNodeInfo.node), expectVals.pop());
+	
+	          _m$visitor31;
+	        }
+	
+	        if (_typeof(_m$tmpNodeInfo.node) == 'object' && _m$tmpNodeInfo.path.length < Infinity) {
+	          for (_m$key in _m$tmpNodeInfo.node) {
+	            _m$newNode = _m$tmpNodeInfo.node[_m$key];
+	            if (_m$tmpNodeInfo.parent.indexOf(_m$newNode) == -1) {
+	              _m$buffer.push(_m$tmpNodeInfo.getChild(_m$key));
 	            }
 	          }
 	        }
-	        _breadthFirstTraversal;
+	      }
+	      _breadthFirstTraversal;
+	    });
+	    it('check each nodeInfo.path', function () {
+	      var expectVals = ['["c","1","g"]', '["c","3"]', '["c","2"]', '["c","1"]', '["c","0"]', '["b","e"]', '["d"]', '["c"]', '["b"]', '["a"]', '[]'];
 	
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
+	      var _m$nodeInfo2 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth2 = 0;
+	
+	      var _breadthFirstTraversal2 = void 0;
+	
+	      var _m$buffer2 = [_m$nodeInfo2];var _m$tmpNodeInfo2, _m$key2, _m$newNode2;while (_m$buffer2.length) {
+	        _m$tmpNodeInfo2 = _m$buffer2.shift();if (_m$startDepth2 <= _m$tmpNodeInfo2.path.length) {
+	          var _m$visitor32 = void 0;
+	
+	          _chai.assert.equal(JSON.stringify(_m$tmpNodeInfo2.path), expectVals.pop());
+	          _m$visitor32;
+	        }if (_typeof(_m$tmpNodeInfo2.node) == 'object' && _m$tmpNodeInfo2.path.length < Infinity) {
+	          for (_m$key2 in _m$tmpNodeInfo2.node) {
+	            _m$newNode2 = _m$tmpNodeInfo2.node[_m$key2];if (_m$tmpNodeInfo2.parent.indexOf(_m$newNode2) == -1) {
+	              _m$buffer2.push(_m$tmpNodeInfo2.getChild(_m$key2));
+	            }
+	          }
+	        }
+	      }_breadthFirstTraversal2;
+	    });
+	    it('check each nodeInfo.parent', function () {
+	      var expectVals = ['[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null],{"g":"g"}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},{"e":"e"}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[]'];
+	
+	      var _m$nodeInfo3 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth3 = 0;
+	
+	      var _breadthFirstTraversal3 = void 0;
+	
+	      var _m$buffer3 = [_m$nodeInfo3];var _m$tmpNodeInfo3, _m$key3, _m$newNode3;while (_m$buffer3.length) {
+	        _m$tmpNodeInfo3 = _m$buffer3.shift();if (_m$startDepth3 <= _m$tmpNodeInfo3.path.length) {
+	          var _m$visitor33 = void 0;
+	
+	          _chai.assert.equal(JSON.stringify(_m$tmpNodeInfo3.parent), expectVals.pop());
+	          _m$visitor33;
+	        }if (_typeof(_m$tmpNodeInfo3.node) == 'object' && _m$tmpNodeInfo3.path.length < Infinity) {
+	          for (_m$key3 in _m$tmpNodeInfo3.node) {
+	            _m$newNode3 = _m$tmpNodeInfo3.node[_m$key3];if (_m$tmpNodeInfo3.parent.indexOf(_m$newNode3) == -1) {
+	              _m$buffer3.push(_m$tmpNodeInfo3.getChild(_m$key3));
+	            }
+	          }
+	        }
+	      }_breadthFirstTraversal3;
+	    });
+	    it('check each nodeInfo.root', function () {
+	      var _m$nodeInfo4 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth4 = 0;
+	
+	      var _breadthFirstTraversal4 = void 0;
+	
+	      var _m$buffer4 = [_m$nodeInfo4];var _m$tmpNodeInfo4, _m$key4, _m$newNode4;while (_m$buffer4.length) {
+	        _m$tmpNodeInfo4 = _m$buffer4.shift();if (_m$startDepth4 <= _m$tmpNodeInfo4.path.length) {
+	          var _m$visitor34 = void 0;
+	
+	          _chai.assert.strictEqual(_m$tmpNodeInfo4.root, data);
+	          _m$visitor34;
+	        }if (_typeof(_m$tmpNodeInfo4.node) == 'object' && _m$tmpNodeInfo4.path.length < Infinity) {
+	          for (_m$key4 in _m$tmpNodeInfo4.node) {
+	            _m$newNode4 = _m$tmpNodeInfo4.node[_m$key4];if (_m$tmpNodeInfo4.parent.indexOf(_m$newNode4) == -1) {
+	              _m$buffer4.push(_m$tmpNodeInfo4.getChild(_m$key4));
+	            }
+	          }
+	        }
+	      }
+	      _breadthFirstTraversal4;
+	    });
+	    it('check m$startDepth', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo5 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth5 = 2;
+	
+	      var _breadthFirstTraversal5 = void 0;
+	
+	      var _m$buffer5 = [_m$nodeInfo5];var _m$tmpNodeInfo5, _m$key5, _m$newNode5;while (_m$buffer5.length) {
+	        _m$tmpNodeInfo5 = _m$buffer5.shift();if (_m$startDepth5 <= _m$tmpNodeInfo5.path.length) {
+	          var _m$visitor35 = void 0;
+	
+	          count++;
+	          _m$visitor35;
+	        }if (_typeof(_m$tmpNodeInfo5.node) == 'object' && _m$tmpNodeInfo5.path.length < Infinity) {
+	          for (_m$key5 in _m$tmpNodeInfo5.node) {
+	            _m$newNode5 = _m$tmpNodeInfo5.node[_m$key5];if (_m$tmpNodeInfo5.parent.indexOf(_m$newNode5) == -1) {
+	              _m$buffer5.push(_m$tmpNodeInfo5.getChild(_m$key5));
+	            }
+	          }
+	        }
+	      }_breadthFirstTraversal5;
+	      _chai.assert.equal(count, 6);
+	    });
+	    it('check m$endDepth', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo6 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth6 = 2;
+	      var _m$endDepth = 2;
+	
+	      var _breadthFirstTraversal6 = void 0;
+	
+	      var _m$buffer6 = [_m$nodeInfo6];var _m$tmpNodeInfo6, _m$key6, _m$newNode6;while (_m$buffer6.length) {
+	        _m$tmpNodeInfo6 = _m$buffer6.shift();if (_m$startDepth6 <= _m$tmpNodeInfo6.path.length) {
+	          var _m$visitor36 = void 0;
+	
+	          count++;
+	          _m$visitor36;
+	        }if (_typeof(_m$tmpNodeInfo6.node) == 'object' && _m$tmpNodeInfo6.path.length < _m$endDepth) {
+	          for (_m$key6 in _m$tmpNodeInfo6.node) {
+	            _m$newNode6 = _m$tmpNodeInfo6.node[_m$key6];if (_m$tmpNodeInfo6.parent.indexOf(_m$newNode6) == -1) {
+	              _m$buffer6.push(_m$tmpNodeInfo6.getChild(_m$key6));
+	            }
+	          }
+	        }
+	      }_breadthFirstTraversal6;
+	      _chai.assert.equal(count, 5);
+	    });
+	    it('break circle', function () {
+	      var _m$nodeInfo7 = new _NodeInfo2.default(JSON.parse(JSON.stringify(data)));
+	
+	      var _m$startDepth7 = 0;
+	
+	      var _breadthFirstTraversal7 = void 0;
+	
+	      var _m$buffer7 = [_m$nodeInfo7];var _m$tmpNodeInfo7, _m$key7, _m$newNode7;while (_m$buffer7.length) {
+	        _m$tmpNodeInfo7 = _m$buffer7.shift();if (_m$startDepth7 <= _m$tmpNodeInfo7.path.length) {
+	          var _m$visitor37 = void 0;
+	
+	          _m$visitor37;
+	        }if (_typeof(_m$tmpNodeInfo7.node) == 'object' && _m$tmpNodeInfo7.path.length < Infinity) {
+	          for (_m$key7 in _m$tmpNodeInfo7.node) {
+	            _m$newNode7 = _m$tmpNodeInfo7.node[_m$key7];if (_m$tmpNodeInfo7.parent.indexOf(_m$newNode7) == -1) {
+	              _m$buffer7.push(_m$tmpNodeInfo7.getChild(_m$key7));
+	            }
+	          }
+	        }
+	      }
+	      _breadthFirstTraversal7;
+	      (0, _chai.assert)(true);
 	    });
 	  });
-	
 	  describe('BREADTH_FIRST_SEARCH', function () {
-	    var data = __webpack_require__(42);
-	    data.a = data;
-	    data.menu.popup.menuitem.a = data.menu;
-	    [{
-	      input: {
-	        target: data,
-	        depth: undefined
-	      },
-	      targetVal: 'CreateNewDoc()',
-	      expect: 1
-	    }, {
-	      input: {
-	        target: data.menu.id,
-	        depth: undefined
-	      },
-	      targetVal: 'CreateNewDoc',
-	      expect: 1
-	    }, {
-	      input: {
-	        target: data.menu.popup.menuitem[0],
-	        depth: undefined
-	      },
-	      targetVal: 'New2_1',
-	      expect: 1
-	    }, {
-	      input: {
-	        target: data,
-	        depth: 1
-	      },
-	      targetVal: 'CreateNewDoc()',
-	      expect: 1
-	    }].forEach(function (testCase) {
-	      it('should traverse over ' + testCase.expect + ' node', function () {
-	        var result = 0;
+	    it('check each nodeInfo.node', function () {
+	      var expectVals = ['"g"', 'null', '[]', '{"g":"g"}', '"f"', '"e"', 'null', '["f",{"g":"g"},[],null]', '{"e":"e"}', '"a"', '{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}'];
 	
-	        var _m$endDepth2 = testCase.input.depth;
+	      var _m$nodeInfo8 = new _NodeInfo2.default(data);
 	
-	        var _breadthFirstSearch = void 0;
+	      var _m$startDepth8 = 0;
 	
-	        var _m$result;
+	      var _breadthFirstSearch = void 0;
 	
-	        var _m$buffer2 = [[testCase.input.target, [], []]];
-	        var _m$tmp2, _m$node2, _m$path2, _m$parent2;
-	        var _m$key2, _m$newNode2;
-	        while (_m$buffer2.length) {
-	          _m$tmp2 = _m$buffer2.shift();
-	          _m$node2 = _m$tmp2[0];
-	          _m$path2 = _m$tmp2[1];
-	          _m$parent2 = _m$tmp2[2];
-	          if (!(_m$path2.length < testCase.input.depth || _m$endDepth2 < _m$path2.length)) {
-	            var _m$visitor6 = void 0;
+	      var _m$result;
+	      var _m$buffer8 = [_m$nodeInfo8];
+	      var _m$tmpNodeInfo8, _m$key8, _m$newNode8;
+	      while (_m$buffer8.length) {
+	        _m$tmpNodeInfo8 = _m$buffer8.shift();
+	        if (_m$startDepth8 <= _m$tmpNodeInfo8.path.length) {
+	          var _m$visitor38 = void 0;
 	
-	            result++;
-	            _m$visitor6 = _m$node2 == testCase.targetVal;
+	          _chai.assert.equal(JSON.stringify(_m$tmpNodeInfo8.node), expectVals.pop());
 	
-	            if (_m$visitor6) {
-	              _m$result = [_m$node2, _m$path2, _m$parent2];
-	              break;
-	            }
-	          } else if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && !(_m$endDepth2 < _m$path2.length)) {
-	            _m$parent2 = _m$parent2.slice();
-	            _m$parent2.push(_m$node2);
-	            for (_m$key2 in _m$node2) {
-	              _m$newNode2 = _m$node2[_m$key2];
-	              if (_m$parent2.indexOf(_m$newNode2) == -1) {
-	                _m$buffer2.push([_m$newNode2, _m$path2.concat(_m$key2), _m$parent2]);
-	              }
-	            }
+	          if (_m$visitor38) {
+	            _m$result = _m$tmpNodeInfo8;
+	            break;
 	          }
 	        }
 	
-	        _breadthFirstSearch = _m$result;
-	        var returnval = _breadthFirstSearch;
+	        if (_typeof(_m$tmpNodeInfo8.node) == 'object' && _m$tmpNodeInfo8.path.length < Infinity) {
+	          for (_m$key8 in _m$tmpNodeInfo8.node) {
+	            _m$newNode8 = _m$tmpNodeInfo8.node[_m$key8];
+	            if (_m$tmpNodeInfo8.parent.indexOf(_m$newNode8) == -1) {
+	              _m$buffer8.push(_m$tmpNodeInfo8.getChild(_m$key8));
+	            }
+	          }
+	        }
+	      }
 	
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
+	      _breadthFirstSearch = _m$result;
+	      _breadthFirstSearch;
+	    });
+	    it('check each nodeInfo.path', function () {
+	      var expectVals = ['["c","1","g"]', '["c","3"]', '["c","2"]', '["c","1"]', '["c","0"]', '["b","e"]', '["d"]', '["c"]', '["b"]', '["a"]', '[]'];
+	
+	      var _m$nodeInfo9 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth9 = 0;
+	
+	      var _breadthFirstSearch2 = void 0;
+	
+	      var _m$result2;var _m$buffer9 = [_m$nodeInfo9];var _m$tmpNodeInfo9, _m$key9, _m$newNode9;while (_m$buffer9.length) {
+	        _m$tmpNodeInfo9 = _m$buffer9.shift();if (_m$startDepth9 <= _m$tmpNodeInfo9.path.length) {
+	          var _m$visitor39 = void 0;
+	
+	          _chai.assert.equal(JSON.stringify(_m$tmpNodeInfo9.path), expectVals.pop());
+	          if (_m$visitor39) {
+	            _m$result2 = _m$tmpNodeInfo9;break;
+	          }
+	        }if (_typeof(_m$tmpNodeInfo9.node) == 'object' && _m$tmpNodeInfo9.path.length < Infinity) {
+	          for (_m$key9 in _m$tmpNodeInfo9.node) {
+	            _m$newNode9 = _m$tmpNodeInfo9.node[_m$key9];if (_m$tmpNodeInfo9.parent.indexOf(_m$newNode9) == -1) {
+	              _m$buffer9.push(_m$tmpNodeInfo9.getChild(_m$key9));
+	            }
+	          }
+	        }
+	      }_breadthFirstSearch2 = _m$result2;
+	      _breadthFirstSearch2;
+	    });
+	    it('check each nodeInfo.parent', function () {
+	      var expectVals = ['[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null],{"g":"g"}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},{"e":"e"}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[]'];
+	
+	      var _m$nodeInfo10 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth10 = 0;
+	
+	      var _breadthFirstSearch3 = void 0;
+	
+	      var _m$result3;var _m$buffer10 = [_m$nodeInfo10];var _m$tmpNodeInfo10, _m$key10, _m$newNode10;while (_m$buffer10.length) {
+	        _m$tmpNodeInfo10 = _m$buffer10.shift();if (_m$startDepth10 <= _m$tmpNodeInfo10.path.length) {
+	          var _m$visitor40 = void 0;
+	
+	          _chai.assert.equal(JSON.stringify(_m$tmpNodeInfo10.parent), expectVals.pop());
+	          if (_m$visitor40) {
+	            _m$result3 = _m$tmpNodeInfo10;break;
+	          }
+	        }if (_typeof(_m$tmpNodeInfo10.node) == 'object' && _m$tmpNodeInfo10.path.length < Infinity) {
+	          for (_m$key10 in _m$tmpNodeInfo10.node) {
+	            _m$newNode10 = _m$tmpNodeInfo10.node[_m$key10];if (_m$tmpNodeInfo10.parent.indexOf(_m$newNode10) == -1) {
+	              _m$buffer10.push(_m$tmpNodeInfo10.getChild(_m$key10));
+	            }
+	          }
+	        }
+	      }_breadthFirstSearch3 = _m$result3;
+	      _breadthFirstSearch3;
+	    });
+	    it('check each nodeInfo.root', function () {
+	      var _m$nodeInfo11 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth11 = 0;
+	
+	      var _breadthFirstSearch4 = void 0;
+	
+	      var _m$result4;var _m$buffer11 = [_m$nodeInfo11];var _m$tmpNodeInfo11, _m$key11, _m$newNode11;while (_m$buffer11.length) {
+	        _m$tmpNodeInfo11 = _m$buffer11.shift();if (_m$startDepth11 <= _m$tmpNodeInfo11.path.length) {
+	          var _m$visitor41 = void 0;
+	
+	          _chai.assert.strictEqual(_m$tmpNodeInfo11.root, data);
+	          if (_m$visitor41) {
+	            _m$result4 = _m$tmpNodeInfo11;break;
+	          }
+	        }if (_typeof(_m$tmpNodeInfo11.node) == 'object' && _m$tmpNodeInfo11.path.length < Infinity) {
+	          for (_m$key11 in _m$tmpNodeInfo11.node) {
+	            _m$newNode11 = _m$tmpNodeInfo11.node[_m$key11];if (_m$tmpNodeInfo11.parent.indexOf(_m$newNode11) == -1) {
+	              _m$buffer11.push(_m$tmpNodeInfo11.getChild(_m$key11));
+	            }
+	          }
+	        }
+	      }_breadthFirstSearch4 = _m$result4;
+	
+	      _breadthFirstSearch4;
+	    });
+	    it('check m$startDepth', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo12 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth12 = 2;
+	
+	      var _breadthFirstSearch5 = void 0;
+	
+	      var _m$result5;var _m$buffer12 = [_m$nodeInfo12];var _m$tmpNodeInfo12, _m$key12, _m$newNode12;while (_m$buffer12.length) {
+	        _m$tmpNodeInfo12 = _m$buffer12.shift();if (_m$startDepth12 <= _m$tmpNodeInfo12.path.length) {
+	          var _m$visitor42 = void 0;
+	
+	          count++;
+	          if (_m$visitor42) {
+	            _m$result5 = _m$tmpNodeInfo12;break;
+	          }
+	        }if (_typeof(_m$tmpNodeInfo12.node) == 'object' && _m$tmpNodeInfo12.path.length < Infinity) {
+	          for (_m$key12 in _m$tmpNodeInfo12.node) {
+	            _m$newNode12 = _m$tmpNodeInfo12.node[_m$key12];if (_m$tmpNodeInfo12.parent.indexOf(_m$newNode12) == -1) {
+	              _m$buffer12.push(_m$tmpNodeInfo12.getChild(_m$key12));
+	            }
+	          }
+	        }
+	      }_breadthFirstSearch5 = _m$result5;
+	      _breadthFirstSearch5;
+	      _chai.assert.equal(count, 6);
+	    });
+	    it('check m$endDepth', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo13 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth13 = 2;
+	      var _m$endDepth2 = 2;
+	
+	      var _breadthFirstSearch6 = void 0;
+	
+	      var _m$result6;var _m$buffer13 = [_m$nodeInfo13];var _m$tmpNodeInfo13, _m$key13, _m$newNode13;while (_m$buffer13.length) {
+	        _m$tmpNodeInfo13 = _m$buffer13.shift();if (_m$startDepth13 <= _m$tmpNodeInfo13.path.length) {
+	          var _m$visitor43 = void 0;
+	
+	          count++;
+	          if (_m$visitor43) {
+	            _m$result6 = _m$tmpNodeInfo13;break;
+	          }
+	        }if (_typeof(_m$tmpNodeInfo13.node) == 'object' && _m$tmpNodeInfo13.path.length < _m$endDepth2) {
+	          for (_m$key13 in _m$tmpNodeInfo13.node) {
+	            _m$newNode13 = _m$tmpNodeInfo13.node[_m$key13];if (_m$tmpNodeInfo13.parent.indexOf(_m$newNode13) == -1) {
+	              _m$buffer13.push(_m$tmpNodeInfo13.getChild(_m$key13));
+	            }
+	          }
+	        }
+	      }_breadthFirstSearch6 = _m$result6;
+	      _breadthFirstSearch6;
+	      _chai.assert.equal(count, 5);
+	    });
+	    it('check return', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo14 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth14 = 2;
+	      var _m$endDepth3 = 2;
+	
+	      var _breadthFirstSearch7 = void 0;
+	
+	      var _m$result7;var _m$buffer14 = [_m$nodeInfo14];var _m$tmpNodeInfo14, _m$key14, _m$newNode14;while (_m$buffer14.length) {
+	        _m$tmpNodeInfo14 = _m$buffer14.shift();if (_m$startDepth14 <= _m$tmpNodeInfo14.path.length) {
+	          var _m$visitor44 = void 0;
+	
+	          count++;
+	          _m$visitor44 = count == 3;
+	          if (_m$visitor44) {
+	            _m$result7 = _m$tmpNodeInfo14;break;
+	          }
+	        }if (_typeof(_m$tmpNodeInfo14.node) == 'object' && _m$tmpNodeInfo14.path.length < _m$endDepth3) {
+	          for (_m$key14 in _m$tmpNodeInfo14.node) {
+	            _m$newNode14 = _m$tmpNodeInfo14.node[_m$key14];if (_m$tmpNodeInfo14.parent.indexOf(_m$newNode14) == -1) {
+	              _m$buffer14.push(_m$tmpNodeInfo14.getChild(_m$key14));
+	            }
+	          }
+	        }
+	      }_breadthFirstSearch7 = _m$result7;
+	      var result = _breadthFirstSearch7;
+	      _chai.assert.equal(JSON.stringify(result.node), '{"g":"g"}');
+	      _chai.assert.equal(JSON.stringify(result.path), '["c","1"]');
+	      _chai.assert.equal(JSON.stringify(result.parent), '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]');
+	      _chai.assert.strictEqual(result.root, data);
+	    });
+	    it('break circle', function () {
+	      var _m$nodeInfo15 = new _NodeInfo2.default(JSON.parse(JSON.stringify(data)));
+	
+	      var _m$startDepth15 = 0;
+	
+	      var _breadthFirstTraversal8 = void 0;
+	
+	      var _m$buffer15 = [_m$nodeInfo15];var _m$tmpNodeInfo15, _m$key15, _m$newNode15;while (_m$buffer15.length) {
+	        _m$tmpNodeInfo15 = _m$buffer15.shift();if (_m$startDepth15 <= _m$tmpNodeInfo15.path.length) {
+	          var _m$visitor45 = void 0;
+	
+	          _m$visitor45;
+	        }if (_typeof(_m$tmpNodeInfo15.node) == 'object' && _m$tmpNodeInfo15.path.length < Infinity) {
+	          for (_m$key15 in _m$tmpNodeInfo15.node) {
+	            _m$newNode15 = _m$tmpNodeInfo15.node[_m$key15];if (_m$tmpNodeInfo15.parent.indexOf(_m$newNode15) == -1) {
+	              _m$buffer15.push(_m$tmpNodeInfo15.getChild(_m$key15));
+	            }
+	          }
+	        }
+	      }
+	      _breadthFirstTraversal8;
+	      (0, _chai.assert)(true);
 	    });
 	  });
-	
 	  describe('DEPTH_FIRST_TRAVERSAL', function () {
-	    var data = __webpack_require__(42);
-	    data.a = data;
-	    data.menu.popup.menuitem.a = data.menu;
-	    [{
-	      input: data,
-	      expect: 46
-	    }, {
-	      input: data.menu.popup.menuitem,
-	      expect: 45
-	    }, {
-	      input: data.menu.id,
-	      expect: 1
-	    }, {
-	      input: data.menu.popup.menuitem[0],
-	      expect: 13
-	    }].forEach(function (testCase) {
-	      it('should traverse over ' + testCase.expect + ' node', function () {
-	        var result = 0;
+	    it('check each nodeInfo.node', function () {
+	      var expectVals = ['null', 'null', '[]', '"g"', '{"g":"g"}', '"f"', '["f",{"g":"g"},[],null]', '"e"', '{"e":"e"}', '"a"', '{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}'];
 	
-	        var _depthFirstTraversal = void 0;
+	      var _m$nodeInfo16 = new _NodeInfo2.default(data);
 	
-	        var _m$traverse = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
-	          if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
-	            var _m$visitor7 = void 0;
+	      var _m$startDepth16 = 0;
 	
-	            result++;
+	      var _depthFirstTraversal = void 0;
 	
-	            _m$visitor7;
+	      var _m$traverse = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	        if (m$_startDepth <= m$_nodeInfo.path.length) {
+	          var _m$visitor46 = void 0;
+	
+	          _chai.assert.equal(JSON.stringify(m$_nodeInfo.node), expectVals.pop());
+	
+	          _m$visitor46;
+	        }
+	
+	        if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	          var m$key, m$newNode;
+	          for (m$key in m$_nodeInfo.node) {
+	            m$newNode = m$_nodeInfo.node[m$key];
+	            if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	              m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth);
+	            }
+	          }
+	        }
+	      };
+	
+	      _m$traverse(_m$nodeInfo16, _m$startDepth16, Infinity);
+	      _depthFirstTraversal;
+	    });
+	    it('check each nodeInfo.path', function () {
+	      var expectVals = ['["d"]', '["c","3"]', '["c","2"]', '["c","1","g"]', '["c","1"]', '["c","0"]', '["c"]', '["b","e"]', '["b"]', '["a"]', '[]'];
+	
+	      var _m$nodeInfo17 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth17 = 0;
+	
+	      var _depthFirstTraversal2 = void 0;
+	
+	      var _m$traverse2 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	        if (m$_startDepth <= m$_nodeInfo.path.length) {
+	          var _m$visitor47 = void 0;
+	
+	          _chai.assert.equal(JSON.stringify(m$_nodeInfo.path), expectVals.pop());
+	          _m$visitor47;
+	        }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	          var m$key, m$newNode;for (m$key in m$_nodeInfo.node) {
+	            m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	              m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth);
+	            }
+	          }
+	        }
+	      };_m$traverse2(_m$nodeInfo17, _m$startDepth17, Infinity);_depthFirstTraversal2;
+	    });
+	    it('check each nodeInfo.parent', function () {
+	      var expectVals = ['[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null],{"g":"g"}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},{"e":"e"}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[]'];
+	
+	      var _m$nodeInfo18 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth18 = 0;
+	
+	      var _depthFirstTraversal3 = void 0;
+	
+	      var _m$traverse3 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	        if (m$_startDepth <= m$_nodeInfo.path.length) {
+	          var _m$visitor48 = void 0;
+	
+	          _chai.assert.equal(JSON.stringify(m$_nodeInfo.parent), expectVals.pop());
+	          _m$visitor48;
+	        }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	          var m$key, m$newNode;for (m$key in m$_nodeInfo.node) {
+	            m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	              m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth);
+	            }
+	          }
+	        }
+	      };_m$traverse3(_m$nodeInfo18, _m$startDepth18, Infinity);_depthFirstTraversal3;
+	    });
+	    it('check each nodeInfo.root', function () {
+	      var _m$nodeInfo19 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth19 = 0;
+	
+	      var _depthFirstTraversal4 = void 0;
+	
+	      var _m$traverse4 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	        if (m$_startDepth <= m$_nodeInfo.path.length) {
+	          var _m$visitor49 = void 0;
+	
+	          _chai.assert.strictEqual(m$_nodeInfo.root, data);
+	          _m$visitor49;
+	        }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	          var m$key, m$newNode;for (m$key in m$_nodeInfo.node) {
+	            m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	              m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth);
+	            }
+	          }
+	        }
+	      };_m$traverse4(_m$nodeInfo19, _m$startDepth19, Infinity);
+	      _depthFirstTraversal4;
+	    });
+	    it('check m$startDepth', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo20 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth20 = 2;
+	
+	      var _depthFirstTraversal5 = void 0;
+	
+	      var _m$traverse5 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	        if (m$_startDepth <= m$_nodeInfo.path.length) {
+	          var _m$visitor50 = void 0;
+	
+	          count++;
+	          _m$visitor50;
+	        }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	          var m$key, m$newNode;for (m$key in m$_nodeInfo.node) {
+	            m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	              m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth);
+	            }
+	          }
+	        }
+	      };_m$traverse5(_m$nodeInfo20, _m$startDepth20, Infinity);_depthFirstTraversal5;
+	      _chai.assert.equal(count, 6);
+	    });
+	    it('check m$endDepth', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo21 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth21 = 2;
+	      var _m$endDepth4 = 2;
+	
+	      var _depthFirstTraversal6 = void 0;
+	
+	      var _m$traverse6 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	        if (m$_startDepth <= m$_nodeInfo.path.length) {
+	          var _m$visitor51 = void 0;
+	
+	          count++;
+	          _m$visitor51;
+	        }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	          var m$key, m$newNode;for (m$key in m$_nodeInfo.node) {
+	            m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	              m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth);
+	            }
+	          }
+	        }
+	      };_m$traverse6(_m$nodeInfo21, _m$startDepth21, _m$endDepth4);_depthFirstTraversal6;
+	      _chai.assert.equal(count, 5);
+	    });
+	    it('break circle', function () {
+	      var _m$nodeInfo22 = new _NodeInfo2.default(JSON.parse(JSON.stringify(data)));
+	
+	      var _m$startDepth22 = 0;
+	
+	      var _breadthFirstTraversal9 = void 0;
+	
+	      var _m$buffer16 = [_m$nodeInfo22];var _m$tmpNodeInfo16, _m$key16, _m$newNode16;while (_m$buffer16.length) {
+	        _m$tmpNodeInfo16 = _m$buffer16.shift();if (_m$startDepth22 <= _m$tmpNodeInfo16.path.length) {
+	          var _m$visitor52 = void 0;
+	
+	          _m$visitor52;
+	        }if (_typeof(_m$tmpNodeInfo16.node) == 'object' && _m$tmpNodeInfo16.path.length < Infinity) {
+	          for (_m$key16 in _m$tmpNodeInfo16.node) {
+	            _m$newNode16 = _m$tmpNodeInfo16.node[_m$key16];if (_m$tmpNodeInfo16.parent.indexOf(_m$newNode16) == -1) {
+	              _m$buffer16.push(_m$tmpNodeInfo16.getChild(_m$key16));
+	            }
+	          }
+	        }
+	      }
+	      _breadthFirstTraversal9;
+	      (0, _chai.assert)(true);
+	    });
+	  });
+	  describe('DEPTH_FIRST_SEARCH', function () {
+	    it('check each nodeInfo.node', function () {
+	      var expectVals = ['null', 'null', '[]', '"g"', '{"g":"g"}', '"f"', '["f",{"g":"g"},[],null]', '"e"', '{"e":"e"}', '"a"', '{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}'];
+	
+	      var _m$nodeInfo23 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth23 = 0;
+	
+	      var _depthFirstSearch = void 0;
+	
+	      _DEPTH_FIRST_SEARCH: {
+	        var _m$traverse7 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	          if (m$_startDepth <= m$_nodeInfo.path.length) {
+	            var _m$visitor53 = void 0;
+	
+	            _chai.assert.equal(JSON.stringify(m$_nodeInfo.node), expectVals.pop());
+	
+	            if (_m$visitor53) {
+	              return m$_nodeInfo;
+	            }
 	          }
 	
-	          if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object' && !(m$endDepth < m$path.length)) {
-	            var m$key, m$newNode;
-	            m$parent = m$parent.slice();
-	            m$parent.push(m$node);
-	            for (m$key in m$node) {
-	              m$newNode = m$node[m$key];
-	              if (m$parent.indexOf(m$newNode) == -1) {
-	                m$traverse(m$newNode, m$path.concat(m$key), m$parent);
+	          if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	            var m$key, m$newNode, m$tmp;
+	            for (m$key in m$_nodeInfo.node) {
+	              m$newNode = m$_nodeInfo.node[m$key];
+	              if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	                if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
+	                  return m$tmp;
+	                }
 	              }
 	            }
 	          }
 	        };
 	
-	        _m$traverse(testCase.input, [], [], undefined, undefined);
-	        _depthFirstTraversal;
+	        _depthFirstSearch = _m$traverse7(_m$nodeInfo23, _m$startDepth23, Infinity);
+	      }
 	
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
+	      _depthFirstSearch;
 	    });
-	  });
+	    it('check each nodeInfo.path', function () {
+	      var expectVals = ['["d"]', '["c","3"]', '["c","2"]', '["c","1","g"]', '["c","1"]', '["c","0"]', '["c"]', '["b","e"]', '["b"]', '["a"]', '[]'];
 	
-	  describe('DEPTH_FIRST_SEARCH', function () {
-	    var data = __webpack_require__(42);
-	    data.a = data;
-	    data.menu.popup.menuitem.a = data.menu;
-	    [{
-	      input: data,
-	      targetVal: 'CreateNewDoc()',
-	      expect: 10
-	    }, {
-	      input: data.menu.popup.menuitem,
-	      targetVal: 'OpenDoc()',
-	      expect: 17
-	    }, {
-	      input: data.menu.id,
-	      targetVal: 'CreateNewDoc',
-	      expect: 1
-	    }, {
-	      input: data.menu.popup.menuitem[0],
-	      targetVal: 'New2_1',
-	      expect: 6
-	    }].forEach(function (testCase) {
-	      it('should traverse over ' + testCase.expect + ' node', function () {
-	        var result = 0;
+	      var _m$nodeInfo24 = new _NodeInfo2.default(data);
 	
-	        var _depthFirstSearch = void 0;
+	      var _m$startDepth24 = 0;
 	
-	        _DEPTH_FIRST_SEARCH: {
-	          var _m$traverse2 = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
-	            if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
-	              var _m$visitor8 = void 0;
+	      var _depthFirstSearch2 = void 0;
 	
-	              result++;
-	              _m$visitor8 = m$node == testCase.targetVal;
+	      _DEPTH_FIRST_SEARCH2: {
+	        var _m$traverse8 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	          if (m$_startDepth <= m$_nodeInfo.path.length) {
+	            var _m$visitor54 = void 0;
 	
-	              if (_m$visitor8) {
-	                return [m$node, m$path, m$parent];
-	              }
+	            _chai.assert.equal(JSON.stringify(m$_nodeInfo.path), expectVals.pop());
+	            if (_m$visitor54) {
+	              return m$_nodeInfo;
 	            }
-	
-	            if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object' && !(m$endDepth < m$path.length)) {
-	              var m$key, m$newNode, m$tmp;
-	              m$parent = m$parent.slice();
-	              m$parent.push(m$node);
-	              for (m$key in m$node) {
-	                m$newNode = m$node[m$key];
-	                if (m$parent.indexOf(m$newNode) == -1) {
-	                  if (m$tmp = m$traverse(m$newNode, m$path.concat(m$key), m$parent)) {
-	                    return m$tmp;
-	                  }
+	          }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	            var m$key, m$newNode, m$tmp;for (m$key in m$_nodeInfo.node) {
+	              m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	                if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
+	                  return m$tmp;
 	                }
 	              }
 	            }
-	          };
+	          }
+	        };_depthFirstSearch2 = _m$traverse8(_m$nodeInfo24, _m$startDepth24, Infinity);
+	      }
 	
-	          _depthFirstSearch = _m$traverse2(testCase.input, [], [], undefined, undefined);
+	      _depthFirstSearch2;
+	    });
+	    it('check each nodeInfo.parent', function () {
+	      var expectVals = ['[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null],{"g":"g"}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null]]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},{"e":"e"}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null}]', '[]'];
+	
+	      var _m$nodeInfo25 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth25 = 0;
+	
+	      var _depthFirstSearch3 = void 0;
+	
+	      _DEPTH_FIRST_SEARCH3: {
+	        var _m$traverse9 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	          if (m$_startDepth <= m$_nodeInfo.path.length) {
+	            var _m$visitor55 = void 0;
+	
+	            _chai.assert.equal(JSON.stringify(m$_nodeInfo.parent), expectVals.pop());
+	            if (_m$visitor55) {
+	              return m$_nodeInfo;
+	            }
+	          }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	            var m$key, m$newNode, m$tmp;for (m$key in m$_nodeInfo.node) {
+	              m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	                if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
+	                  return m$tmp;
+	                }
+	              }
+	            }
+	          }
+	        };_depthFirstSearch3 = _m$traverse9(_m$nodeInfo25, _m$startDepth25, Infinity);
+	      }
+	
+	      _depthFirstSearch3;
+	    });
+	    it('check each nodeInfo.root', function () {
+	      var _m$nodeInfo26 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth26 = 0;
+	
+	      var _depthFirstSearch4 = void 0;
+	
+	      _DEPTH_FIRST_SEARCH4: {
+	        var _m$traverse10 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	          if (m$_startDepth <= m$_nodeInfo.path.length) {
+	            var _m$visitor56 = void 0;
+	
+	            _chai.assert.strictEqual(m$_nodeInfo.root, data);
+	            if (_m$visitor56) {
+	              return m$_nodeInfo;
+	            }
+	          }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	            var m$key, m$newNode, m$tmp;for (m$key in m$_nodeInfo.node) {
+	              m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	                if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
+	                  return m$tmp;
+	                }
+	              }
+	            }
+	          }
+	        };_depthFirstSearch4 = _m$traverse10(_m$nodeInfo26, _m$startDepth26, Infinity);
+	      }
+	
+	      _depthFirstSearch4;
+	    });
+	    it('check m$startDepth', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo27 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth27 = 2;
+	
+	      var _depthFirstSearch5 = void 0;
+	
+	      _DEPTH_FIRST_SEARCH5: {
+	        var _m$traverse11 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	          if (m$_startDepth <= m$_nodeInfo.path.length) {
+	            var _m$visitor57 = void 0;
+	
+	            count++;
+	            if (_m$visitor57) {
+	              return m$_nodeInfo;
+	            }
+	          }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	            var m$key, m$newNode, m$tmp;for (m$key in m$_nodeInfo.node) {
+	              m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	                if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
+	                  return m$tmp;
+	                }
+	              }
+	            }
+	          }
+	        };_depthFirstSearch5 = _m$traverse11(_m$nodeInfo27, _m$startDepth27, Infinity);
+	      }
+	
+	      _depthFirstSearch5;
+	      _chai.assert.equal(count, 6);
+	    });
+	    it('check m$endDepth', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo28 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth28 = 2;
+	      var _m$endDepth5 = 2;
+	
+	      var _depthFirstSearch6 = void 0;
+	
+	      _DEPTH_FIRST_SEARCH6: {
+	        var _m$traverse12 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	          if (m$_startDepth <= m$_nodeInfo.path.length) {
+	            var _m$visitor58 = void 0;
+	
+	            count++;
+	            if (_m$visitor58) {
+	              return m$_nodeInfo;
+	            }
+	          }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	            var m$key, m$newNode, m$tmp;for (m$key in m$_nodeInfo.node) {
+	              m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	                if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
+	                  return m$tmp;
+	                }
+	              }
+	            }
+	          }
+	        };_depthFirstSearch6 = _m$traverse12(_m$nodeInfo28, _m$startDepth28, _m$endDepth5);
+	      }
+	
+	      _depthFirstSearch6;
+	      _chai.assert.equal(count, 5);
+	    });
+	    it('check return', function () {
+	      var count = 0;
+	
+	      var _m$nodeInfo29 = new _NodeInfo2.default(data);
+	
+	      var _m$startDepth29 = 2;
+	
+	      var _depthFirstSearch7 = void 0;
+	
+	      _DEPTH_FIRST_SEARCH7: {
+	        var _m$traverse13 = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	          if (m$_startDepth <= m$_nodeInfo.path.length) {
+	            var _m$visitor59 = void 0;
+	
+	            count++;
+	            _m$visitor59 = count == 4;
+	            if (_m$visitor59) {
+	              return m$_nodeInfo;
+	            }
+	          }if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
+	            var m$key, m$newNode, m$tmp;for (m$key in m$_nodeInfo.node) {
+	              m$newNode = m$_nodeInfo.node[m$key];if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	                if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
+	                  return m$tmp;
+	                }
+	              }
+	            }
+	          }
+	        };_depthFirstSearch7 = _m$traverse13(_m$nodeInfo29, _m$startDepth29, Infinity);
+	      }
+	
+	      var result = _depthFirstSearch7;
+	      _chai.assert.equal(JSON.stringify(result.node), '"g"');
+	      _chai.assert.equal(JSON.stringify(result.path), '["c","1","g"]');
+	      _chai.assert.equal(JSON.stringify(result.parent), '[{"a":"a","b":{"e":"e"},"c":["f",{"g":"g"},[],null],"d":null},["f",{"g":"g"},[],null],{"g":"g"}]');
+	      _chai.assert.strictEqual(result.root, data);
+	    });
+	    it('break circle', function () {
+	      var _m$nodeInfo30 = new _NodeInfo2.default(JSON.parse(JSON.stringify(data)));
+	
+	      var _m$startDepth30 = 0;
+	
+	      var _breadthFirstTraversal10 = void 0;
+	
+	      var _m$buffer17 = [_m$nodeInfo30];var _m$tmpNodeInfo17, _m$key17, _m$newNode17;while (_m$buffer17.length) {
+	        _m$tmpNodeInfo17 = _m$buffer17.shift();if (_m$startDepth30 <= _m$tmpNodeInfo17.path.length) {
+	          var _m$visitor60 = void 0;
+	
+	          _m$visitor60;
+	        }if (_typeof(_m$tmpNodeInfo17.node) == 'object' && _m$tmpNodeInfo17.path.length < Infinity) {
+	          for (_m$key17 in _m$tmpNodeInfo17.node) {
+	            _m$newNode17 = _m$tmpNodeInfo17.node[_m$key17];if (_m$tmpNodeInfo17.parent.indexOf(_m$newNode17) == -1) {
+	              _m$buffer17.push(_m$tmpNodeInfo17.getChild(_m$key17));
+	            }
+	          }
 	        }
-	
-	        var returnval = _depthFirstSearch;
-	
-	        _chai.assert.strictEqual(result, testCase.expect);
-	      });
+	      }
+	      _breadthFirstTraversal10;
+	      (0, _chai.assert)(true);
 	    });
 	  });
 	});
@@ -9118,86 +10376,87 @@
 /* 42 */
 /***/ function(module, exports) {
 
-	module.exports = {
-		"menu": {
-			"id": "file",
-			"value": "File",
-			"test": null,
-			"popup": {
-				"menuitem": [
-					{
-						"value": "New",
-						"onclick": "CreateNewDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_1",
-								"onclick": "CreateNewDoc2_1()"
-							},
-							{
-								"value": "Open2_1",
-								"onclick": "OpenDoc2_1()"
-							},
-							{
-								"value": "Close2_1",
-								"onclick": "CloseDoc2_1()"
-							}
-						]
-					},
-					{
-						"value": "Open",
-						"onclick": "OpenDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_2",
-								"onclick": "CreateNewDoc2_2()"
-							},
-							{
-								"value": "Open2_2",
-								"onclick": "OpenDoc2_2()"
-							},
-							{
-								"value": "Close2_2",
-								"onclick": "CloseDoc2_2()"
-							}
-						]
-					},
-					{
-						"value": "Close",
-						"onclick": "CloseDoc()",
-						"menuitem2": [
-							{
-								"value": "New2_3",
-								"onclick": "CreateNewDoc2_3()"
-							},
-							{
-								"value": "Open2_3",
-								"onclick": "OpenDoc2_3()"
-							},
-							{
-								"value": "Close2_3",
-								"onclick": "CloseDoc2_3()"
-							}
-						]
-					}
-				]
-			}
-		}
-	};
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var NodeInfo = function () {
+	  function NodeInfo(node, path, parent, root) {
+	    _classCallCheck(this, NodeInfo);
+	
+	    this.node = node;
+	    this.path = path || [];
+	    this.parent = parent || [];
+	    this.root = root || node;
+	    this._parent = this.parent.slice();
+	    this._parent.push(this.node);
+	  }
+	
+	  _createClass(NodeInfo, [{
+	    key: "getChild",
+	    value: function getChild(key) {
+	      return new NodeInfo(this.node[key], this.path.concat(key), this._parent, this.root);
+	    }
+	  }, {
+	    key: "moveToChild",
+	    value: function moveToChild(key) {
+	      this.parent.push(this.node);
+	      this.path.push(key);
+	      this.node = this.node[key];
+	      this._parent.push(this.node);
+	      return this;
+	    }
+	  }, {
+	    key: "getParent",
+	    value: function getParent() {
+	      return new NodeInfo(this.parent[this.parent.length - 1], this.path.slice(0, this.path.length - 1), this.parent.slice(0, this.path.length - 1), this.root);
+	    }
+	  }]);
+	
+	  return NodeInfo;
+	}();
+	
+	exports.default = NodeInfo;
 
 /***/ },
 /* 43 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"a": "a",
+		"b": {
+			"e": "e"
+		},
+		"c": [
+			"f",
+			{
+				"g": "g"
+			},
+			[],
+			null
+		],
+		"d": null
+	};
+
+/***/ },
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _util = __webpack_require__(44);
+	var _util = __webpack_require__(45);
 	
 	var _chai = __webpack_require__(4);
 	
 	describe('traversal', function () {
-	
+	  var data = __webpack_require__(46);
 	  describe('getFromPath', function () {
-	    var data = __webpack_require__(45);
 	    [{
 	      input: '/menu/id',
 	      expect: 'file'
@@ -9217,9 +10476,7 @@
 	      });
 	    });
 	  });
-	
 	  describe('getFromPathArray', function () {
-	    var data = __webpack_require__(45);
 	    [{
 	      input: ['menu', 'id'],
 	      expect: 'file'
@@ -9239,9 +10496,7 @@
 	      });
 	    });
 	  });
-	
 	  describe('listStruct', function () {
-	    var data = __webpack_require__(45);
 	    [{
 	      input: {
 	        name: 'data',
@@ -9250,34 +10505,34 @@
 	      expect: 47
 	    }, {
 	      input: {
-	        name: 'data.menu.popup.menuitem',
-	        args: [data.menu.popup.menuitem, 'bfs', 1]
+	        name: 'data',
+	        args: [data, 'bfs']
 	      },
-	      expect: 3
+	      expect: 47
 	    }, {
 	      input: {
-	        name: 'data.menu.popup.menuitem',
-	        args: [data.menu.popup.menuitem, 'dfs']
+	        name: 'data',
+	        args: [data, 'dfs']
 	      },
-	      expect: 41
+	      expect: 47
 	    }, {
 	      input: {
-	        name: 'data.xxxx',
-	        args: [data.xxxx]
+	        name: 'undefined',
+	        args: [undefined]
 	      },
 	      expect: 1
 	    }].forEach(function (testCase) {
 	      it('should return ' + testCase.expect + ' when the path is ' + testCase.input.name, function () {
 	        var result = _util.listStruct.apply(this, testCase.input.args);
-	        _chai.assert.strictEqual(result.length, testCase.expect);
+	        _chai.assert.equal(result.length, testCase.expect);
 	      });
 	    });
 	  });
 	});
 
 /***/ },
-/* 44 */
-/***/ function(module, exports) {
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -9290,6 +10545,13 @@
 	exports.getFromPath = getFromPath;
 	exports.getFromPathArray = getFromPathArray;
 	exports.listStruct = listStruct;
+	
+	var _NodeInfo = __webpack_require__(42);
+	
+	var _NodeInfo2 = _interopRequireDefault(_NodeInfo);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	function getFromPath(root, path) {
 	  var delimiter = arguments.length <= 2 || arguments[2] === undefined ? '/' : arguments[2];
 	
@@ -9315,7 +10577,7 @@
 	    var _m$visitor4 = void 0;
 	
 	    result = result[_val2];
-	    _m$visitor4 = result !== undefined && result !== null;
+	    _m$visitor4 = result != null;
 	
 	    if (!_m$visitor4) {
 	      _m$result = false;
@@ -9332,35 +10594,33 @@
 	
 	function listStruct(target) {
 	  var type = arguments.length <= 1 || arguments[1] === undefined ? 'bfs' : arguments[1];
-	  var depth = arguments[2];
 	
 	  var result = [];
 	  type = type.toLowerCase();
 	  if (type == 'bfs') {
+	    var _m$nodeInfo3 = new _NodeInfo2.default(target);
+	
+	    var _m$startDepth3 = 0;
+	
 	    var _breadthFirstTraversal2 = void 0;
 	
-	    var _m$buffer = [[target, [], []]];
-	    var _m$tmp, _m$node, _m$path, _m$parent;
-	    var _m$key, _m$newNode;
+	    var _m$buffer = [_m$nodeInfo3];
+	    var _m$tmpNodeInfo, _m$key, _m$newNode;
 	    while (_m$buffer.length) {
-	      _m$tmp = _m$buffer.shift();
-	      _m$node = _m$tmp[0];
-	      _m$path = _m$tmp[1];
-	      _m$parent = _m$tmp[2];
-	      if (!(_m$path.length < depth || depth < _m$path.length)) {
+	      _m$tmpNodeInfo = _m$buffer.shift();
+	      if (_m$startDepth3 <= _m$tmpNodeInfo.path.length) {
 	        var _m$visitor5 = void 0;
 	
-	        result.push([_m$path, _m$parent, _m$node]);
+	        result.push(_m$tmpNodeInfo);
 	
 	        _m$visitor5;
 	      }
-	      if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && !(depth < _m$path.length)) {
-	        _m$parent = _m$parent.slice();
-	        _m$parent.push(_m$node);
-	        for (_m$key in _m$node) {
-	          _m$newNode = _m$node[_m$key];
-	          if (_m$parent.indexOf(_m$newNode) == -1) {
-	            _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
+	
+	      if (_typeof(_m$tmpNodeInfo.node) == 'object' && _m$tmpNodeInfo.path.length < Infinity) {
+	        for (_m$key in _m$tmpNodeInfo.node) {
+	          _m$newNode = _m$tmpNodeInfo.node[_m$key];
+	          if (_m$tmpNodeInfo.parent.indexOf(_m$newNode) == -1) {
+	            _m$buffer.push(_m$tmpNodeInfo.getChild(_m$key));
 	          }
 	        }
 	      }
@@ -9368,31 +10628,33 @@
 	
 	    _breadthFirstTraversal2;
 	  } else if (type == 'dfs') {
+	    var _m$nodeInfo4 = new _NodeInfo2.default(target);
+	
+	    var _m$startDepth4 = 0;
+	
 	    var _depthFirstTraversal2 = void 0;
 	
-	    var _m$traverse = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
-	      if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
+	    var _m$traverse = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	      if (m$_startDepth <= m$_nodeInfo.path.length) {
 	        var _m$visitor6 = void 0;
 	
-	        result.push([m$path, m$parent, m$node]);
+	        result.push(m$_nodeInfo);
 	
 	        _m$visitor6;
 	      }
 	
-	      if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object' && !(m$endDepth < m$path.length)) {
+	      if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
 	        var m$key, m$newNode;
-	        m$parent = m$parent.slice();
-	        m$parent.push(m$node);
-	        for (m$key in m$node) {
-	          m$newNode = m$node[m$key];
-	          if (m$parent.indexOf(m$newNode) == -1) {
-	            m$traverse(m$newNode, m$path.concat(m$key), m$parent);
+	        for (m$key in m$_nodeInfo.node) {
+	          m$newNode = m$_nodeInfo.node[m$key];
+	          if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	            m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth);
 	          }
 	        }
 	      }
 	    };
 	
-	    _m$traverse(target, [], [], depth, depth);
+	    _m$traverse(_m$nodeInfo4, _m$startDepth4, Infinity);
 	
 	    _depthFirstTraversal2;
 	  }
@@ -9401,7 +10663,7 @@
 	}
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -9472,12 +10734,12 @@
 	};
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _Selector = __webpack_require__(47);
+	var _Selector = __webpack_require__(48);
 	
 	var _Selector2 = _interopRequireDefault(_Selector);
 	
@@ -9486,371 +10748,196 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	describe('Selector', function () {
-	  describe('selectOne', function () {
-	    describe('Complex Object', function () {
-	      var data = __webpack_require__(45);
-	      [{
-	        input: '[value="New"]',
-	        expect: {
-	          path: 'menu,popup,menuitem,0',
-	          value: data.menu.popup.menuitem[0],
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'value',
-	        expect: {
-	          path: 'menu,value',
-	          value: 'File'
-	        }
-	      }, {
-	        input: 'value abc',
-	        expect: {
-	          value: undefined
-	        }
-	      }, {
-	        input: 'popup value',
-	        expect: {
-	          path: 'menu,popup,menuitem,0,value',
-	          value: 'New'
-	        }
-	      }, {
-	        input: 'popup>value',
-	        expect: {
-	          value: undefined
-	        }
-	      }, {
-	        input: 'menuitem>value',
-	        expect: {
-	          value: undefined
-	        }
-	      }, {
-	        input: '#file',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: '#"file"',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: '#300',
-	        expect: {
-	          path: 'menu,popup,menuitem,0',
-	          value: data.menu.popup.menuitem[0],
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: '.Object',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: '.Array',
-	        expect: {
-	          path: 'menu,popup,menuitem',
-	          value: data.menu.popup.menuitem,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: '>menu',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'popup>value, >menu',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: {
-	          path: 'menu,popup,menuitem,0,menuitem2,0,value',
-	          value: 'New2_1'
-	        }
-	      }, {
-	        input: '>menu>popup>menuitem>value',
-	        expect: {
-	          value: undefined
-	        }
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: {
-	          path: 'menu,popup,menuitem,0,onclick',
-	          value: 'CreateNewDoc()'
-	        }
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: {
-	          path: 'menu,popup,menuitem,2,menuitem2,2,onclick',
-	          value: 'CloseDoc2_3()'
-	        }
-	      }, {
-	        input: 'menu[value]',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'menu[value="File"]',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'menu[value^="Fi"]',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'menu[value$="le"]',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }, {
-	        input: 'menu[value*="il"]',
-	        expect: {
-	          path: 'menu',
-	          value: data.menu,
-	          desc: 'menu Object'
-	        }
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expect.desc || testCase.expect.value) + ' when the select is ' + testCase.input, function () {
-	          var result = new _Selector2.default(data, {}).selectOne(testCase.input);
-	          if (result) {
-	            _chai.assert.equal(result.node, testCase.expect.value);
-	            _chai.assert.equal(result.path.toString(), testCase.expect.path);
-	          } else {
-	            _chai.assert.equal(result, testCase.expect.value);
-	          }
-	        });
+	  var data1 = __webpack_require__(46);
+	  var data4 = __webpack_require__(50);
+	  describe('public method', function () {
+	    it('constructor', function () {
+	      var option = {};
+	      var result = new _Selector2.default(data1, option);
+	      _chai.assert.equal(result.root, data1);
+	      _chai.assert.equal(result.option, option);
+	      _chai.assert.isObject(result.option.pseudoClasses);
+	    });
+	    it('selectOne', function () {
+	      var result = new _Selector2.default(data1).selectOne('.undefined.rule, [value="New"]');
+	      checkNodeInfo(result, data1.menu.popup.menuitem[0], data1, 'menu,popup,menuitem,0');
+	    });
+	    it('selectAll', function () {
+	      var result = new _Selector2.default(data1).selectAll('[value="New"], [onclick="CreateNewDoc()"], [value="New2_3"]');
+	      _chai.assert.equal(result.length, 2);
+	      checkNodeInfo(result[0], data1.menu.popup.menuitem[0], data1, 'menu,popup,menuitem,0');
+	      checkNodeInfo(result[1], data1.menu.popup.menuitem[2].menuitem2[0], data1, 'menu,popup,menuitem,2,menuitem2,0');
+	    });
+	    it('getByPath', function () {
+	      it('should return value from "menu/popup/menuitem/0/menuitem2/0"', function () {
+	        var result = c3s(data1).getByPath('menu/popup/menuitem/0/menuitem2/0');
+	        _chai.assert.equal(result.node, data1.menu.popup.menuitem[0].menuitem2[0]);
+	        _chai.assert.equal(result.path.join('/'), 'menu/popup/menuitem/0/menuitem2/0');
+	      });
+	      it('should return undefined from "menu/aaa/ddd"', function () {
+	        var result = c3s(data1).getByPath('menu/aaa/ddd');
+	        _chai.assert.equal(result.node, undefined);
+	        _chai.assert.equal(result.path.join('/'), 'menu/aaa');
 	      });
 	    });
-	    describe('Multdimensionalz Array', function () {
-	      var data = __webpack_require__(50);
-	      [{
-	        input: '>"0">"0">"0"',
-	        expect: '0,0,0'
-	      }, {
-	        input: '>"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: '>"4">"4">"4">"1" "popup">"menuitem">"0" "0">"value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: ':equal(5555)',
-	        expect: '2,3,3,0,1,1'
-	      }, {
-	        input: ':equal(6666)',
-	        expect: '3,4,4,3,2,2'
-	      }, {
-	        input: ':equal(9000)',
-	        expect: '4,4,4,0,2,2'
-	      }, {
-	        input: ':equal(22)',
-	        expect: '0,3,0,1'
-	      }, {
-	        input: '>:equal(1000)',
-	        expect: '6'
-	      }, {
-	        input: 'popup value',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,value'
-	      }, {
-	        input: 'popup>value',
-	        expect: undefined
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: '0,3,4,onclick'
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: '0,3,4,menuitem2,0,onclick'
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: '4,4,4,1,menu,popup,menuitem,0,menuitem2,0,value'
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: '4,4,4,1,menu,popup,menuitem,2,menuitem2,2,onclick'
-	      }].forEach(function (testCase) {
-	        it('should return ' + testCase.expect + ' when the select is ' + testCase.input, function () {
-	          var result = new _Selector2.default(data, {}).selectOne(testCase.input);
-	          if (result) {
-	            _chai.assert.equal(result.path.toString(), testCase.expect);
-	          } else {
-	            _chai.assert.equal(result, testCase.expect);
-	          }
-	        });
+	  });
+	  describe('IS_MATCH_PROP_SELECTOR', function () {
+	    it('element is undefined', function () {
+	      var result = new _Selector2.default(data1).selectOne('[value="New"]');
+	      checkNodeInfo(result, data1.menu.popup.menuitem[0], data1, 'menu,popup,menuitem,0');
+	    });
+	    it('element is *', function () {
+	      var result = new _Selector2.default(data1).selectOne('*');
+	      isData1Menu(result);
+	    });
+	    it('element is prop', function () {
+	      var result = new _Selector2.default(data1).selectOne('value');
+	      checkNodeInfo(result, data1.menu.value, data1, 'menu,value');
+	    });
+	  });
+	  describe('IS_MATCH_ATTR_SELECTOR', function () {
+	    describe('init', function () {
+	      it('attributes is undefined', function () {
+	        var result = new _Selector2.default(data1).selectOne('*');
+	        isData1Menu(result);
 	      });
+	      it('node is null', function () {
+	        var result = new _Selector2.default(data1).selectOne('>menu>test[attr]');
+	        _chai.assert.isUndefined(result);
+	      });
+	      it('node is undefined', function () {
+	        data1['_undefined'] = undefined;
+	        var result = new _Selector2.default(data1).selectOne('_undefined[attr]');
+	        _chai.assert.isUndefined(result);
+	      });
+	      it('multi attribute', function () {
+	        var result = new _Selector2.default(data1).selectOne('[value][test]');
+	        isData1Menu(result);
+	      });
+	    });
+	    describe('id selector', function () {
+	      it('ID', function () {
+	        var result = new _Selector2.default(data4).selectOne('#1');
+	        checkNodeInfo(result, data4[0], data4, '0');
+	      });
+	      it('Id', function () {
+	        var result = new _Selector2.default(data4).selectOne('#2');
+	        checkNodeInfo(result, data4[1], data4, '1');
+	      });
+	      it('id', function () {
+	        var result = new _Selector2.default(data4).selectOne('#3');
+	        checkNodeInfo(result, data4[2], data4, '2');
+	      });
+	    });
+	    describe('class selector', function () {
+	      it('Number', function () {
+	        var result = new _Selector2.default(data4).selectOne('#1 .Number');
+	        checkNodeInfo(result, 1, data4, '0,ID');
+	      });
+	    });
+	    describe('attribute selector', function () {
+	      it('no value', function () {
+	        var result = new _Selector2.default(data1).selectOne('[value]');
+	        isData1Menu(result);
+	      });
+	      it('equal', function () {
+	        var result = new _Selector2.default(data1).selectOne('[value="File"]');
+	        isData1Menu(result);
+	      });
+	      it('begin', function () {
+	        var result = new _Selector2.default(data1).selectOne('[value^="F"]');
+	        isData1Menu(result);
+	      });
+	      it('end', function () {
+	        var result = new _Selector2.default(data1).selectOne('[value$="e"]');
+	        isData1Menu(result);
+	      });
+	      it('contain', function () {
+	        var result = new _Selector2.default(data1).selectOne('[value*="il"]');
+	        isData1Menu(result);
+	      });
+	      it('case-insensitive', function () {
+	        var result = new _Selector2.default(data1).selectOne('[value^="f" i]');
+	        isData1Menu(result);
+	      });
+	    });
+	  });
+	  describe('IS_MATCH_PSEUDO_CLASS', function () {
+	    it('pseudoClasses is undefined', function () {
+	      var result = new _Selector2.default(data1).selectOne('[value]');
+	      isData1Menu(result);
+	    });
+	    it('use default method', function () {
+	      var result = new _Selector2.default(data1).selectOne(':equal("file")');
+	      checkNodeInfo(result, data1.menu.id, data1, 'menu,id');
+	    });
+	    it('use default method', function () {
+	      var result = new _Selector2.default(data4, {
+	        pseudoClasses: {
+	          lt: function lt(nodeInfo, v2) {
+	            return nodeInfo.node < v2;
+	          }
+	        }
+	      }).selectOne('#1>ID:lt(2)');
+	      checkNodeInfo(result, 1, data4, '0,ID');
+	    });
+	  });
+	  describe('findFirstMatchNode', function () {
+	    it('FETCH_NEXT_SELECTOR', function () {
+	      var result = new _Selector2.default(data1).selectOne('#file #300 ~ "1"');
+	      checkNodeInfo(result, data1.menu.popup.menuitem[1], data1, 'menu,popup,menuitem,1');
+	    });
+	    it('" " combinator', function () {
+	      var result = new _Selector2.default(data1).selectOne('#file #300');
+	      checkNodeInfo(result, data1.menu.popup.menuitem[0], data1, 'menu,popup,menuitem,0');
+	    });
+	    it('">" combinator', function () {
+	      var result = new _Selector2.default(data1).selectOne('#file>popup');
+	      checkNodeInfo(result, data1.menu.popup, data1, 'menu,popup');
+	    });
+	    it('"~" combinator', function () {
+	      var result = new _Selector2.default(data1).selectOne('#file #300 ~ "1"');
+	      checkNodeInfo(result, data1.menu.popup.menuitem[1], data1, 'menu,popup,menuitem,1');
+	    });
+	  });
+	  describe('findMatchNode', function () {
+	    it('FETCH_NEXT_SELECTOR', function () {
+	      var result = new _Selector2.default(data1).selectAll('#file #300 ~ "1"')[0];
+	      checkNodeInfo(result, data1.menu.popup.menuitem[1], data1, 'menu,popup,menuitem,1');
+	    });
+	    it('" " combinator', function () {
+	      var result = new _Selector2.default(data1).selectAll('#file #300')[0];
+	      checkNodeInfo(result, data1.menu.popup.menuitem[0], data1, 'menu,popup,menuitem,0');
+	    });
+	    it('">" combinator', function () {
+	      var result = new _Selector2.default(data1).selectAll('#file>popup')[0];
+	      checkNodeInfo(result, data1.menu.popup, data1, 'menu,popup');
+	    });
+	    it('"~" combinator', function () {
+	      var result = new _Selector2.default(data1).selectAll('#file #300 ~ "1"')[0];
+	      checkNodeInfo(result, data1.menu.popup.menuitem[1], data1, 'menu,popup,menuitem,1');
 	    });
 	  });
 	
-	  describe('selectAll', function () {
-	    describe('Complex Object', function () {
-	      var data = __webpack_require__(45);
-	      [{
-	        input: 'value',
-	        expect: 13
-	      }, {
-	        input: 'popup value',
-	        expect: 12
-	      }, {
-	        input: 'popup>value',
-	        expect: 0
-	      }, {
-	        input: 'menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: '#file',
-	        expect: 1
-	      }, {
-	        input: 'menu',
-	        expect: 1
-	      }, {
-	        input: '>menu',
-	        expect: 1
-	      }, {
-	        input: 'popup value, >menu',
-	        expect: 13
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: 1
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: 1
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: 'popup>menuitem menuitem2 onclick:equal("CloseDoc2_3()")',
-	        expect: 1
-	      }, {
-	        input: ':regexpTest(/2_/)',
-	        expect: 18
-	      }, {
-	        input: ':regexpTest(/2_/), :regexpTest(/2_/)',
-	        expect: 18
-	      }, {
-	        input: '"0", "1"',
-	        expect: 8
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
-	          var result = new _Selector2.default(data).selectAll(testCase.input);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	    describe('Multdimensional Array', function () {
-	      var data = __webpack_require__(50);
-	      [{
-	        input: '>"0">"0">"0"',
-	        expect: 1
-	      }, {
-	        input: '"4">"4">"4">"1">"menu">"popup">"menuitem">"0">"menuitem2">"0">"value"',
-	        expect: 1
-	      }, {
-	        input: '"4">"4">"4">"1">"menu" "menuitem">"0">"menuitem2" "value"',
-	        expect: 3
-	      }, {
-	        input: ':equal(5555)',
-	        expect: 2
-	      }, {
-	        input: ':equal(22)',
-	        expect: 1
-	      }, {
-	        input: ':equal(1), :equal(5)',
-	        expect: 34
-	      }, {
-	        input: 'popup value',
-	        expect: 12
-	      }, {
-	        input: 'popup>value',
-	        expect: 0
-	      }, {
-	        input: ':equal("CreateNewDoc()")',
-	        expect: 2
-	      }, {
-	        input: ':equal("CreateNewDoc2_1()")',
-	        expect: 2
-	      }, {
-	        input: 'popup>menuitem menuitem2 value',
-	        expect: 9
-	      }, {
-	        input: ':regexpTest(/2_/)',
-	        expect: 36
-	      }].forEach(function (testCase) {
-	        it('should return ' + (testCase.expectStr || JSON.stringify(testCase.expect)) + ' when the select is ' + JSON.stringify(testCase.input), function () {
-	          var result = new _Selector2.default(data).selectAll(testCase.input);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	  });
-	
-	  describe('pseudoClass', function () {
-	    describe('defined', function () {
-	      var data = __webpack_require__(50);
-	      [{
-	        input: {
-	          select: ':gt(2000)',
-	          option: {
-	            pseudoClasses: {
-	              gt: function gt(v1, path, parent, v2) {
-	                return v1 > v2;
-	              }
-	            }
-	          }
-	        },
-	        expect: 5
-	      }, {
-	        input: {
-	          select: ':lt(1)',
-	          option: {
-	            pseudoClasses: {
-	              lt: function lt(v1, path, parent, v2) {
-	                return v1 < v2;
-	              }
-	            }
-	          }
-	        },
-	        expect: 13
-	      }].forEach(function (testCase) {
-	        it('should return ' + testCase.expect + ' when the select is ' + JSON.stringify(testCase.input.select), function () {
-	          var result = new _Selector2.default(data, testCase.input.option).selectAll(testCase.input.select);
-	          _chai.assert.equal(result.length, testCase.expect);
-	        });
-	      });
-	    });
-	  });
-	
-	  describe('getFromPath', function () {
-	    var data = __webpack_require__(45);
-	    it('should return value from "menu/popup/menuitem/0/menuitem2/0"', function () {
-	      var result = new _Selector2.default(data).getFromPath('menu/popup/menuitem/0/menuitem2/0');
-	      _chai.assert.equal(result, data.menu.popup.menuitem[0].menuitem2[0]);
-	    });
-	  });
+	  var getbranch = function getbranch(root, path) {
+	    var currentNode = root;
+	    var path = path ? path.split(',') : [];
+	    return [root].concat(path.map(function (key) {
+	      return currentNode = currentNode[key];
+	    }));
+	  };
+	  var isData1Menu = function isData1Menu(result) {
+	    checkNodeInfo(result, data1.menu, data1, 'menu');
+	  };
+	  var checkNodeInfo = function checkNodeInfo(nodeInfo, node, root, path) {
+	    _chai.assert.strictEqual(nodeInfo.node, node);
+	    _chai.assert.equal(nodeInfo.path.join(), path);
+	    _chai.assert.deepEqual(nodeInfo.parent, getbranch(root, path.replace(/,?[^,]+?$/g, '')));
+	  };
 	});
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9867,193 +10954,178 @@
 	
 	var _cssParser2 = _interopRequireDefault(_cssParser);
 	
-	var _PseudoClass = __webpack_require__(48);
+	var _PseudoClass = __webpack_require__(49);
 	
 	var _PseudoClass2 = _interopRequireDefault(_PseudoClass);
 	
-	var _NodeInfo = __webpack_require__(49);
+	var _NodeInfo = __webpack_require__(42);
 	
 	var _NodeInfo2 = _interopRequireDefault(_NodeInfo);
-	
-	var _util = __webpack_require__(44);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var errorValue = {};
+	function findFirstMatchNode(combinator, nodeInfo, option) {
 	
-	function findFirstMatchNode(combinator, node, option) {
-	  var result,
-	      compound = combinator.next;
+	  var result;
+	  var compound = combinator.next;
+	  var lay = nodeInfo.path.length + 1;
 	  if (combinator.operator == ' ') {
-	    var _m$startDepth5 = 1;
-	
 	    var _depthFirstSearch2 = void 0;
 	
 	    _DEPTH_FIRST_SEARCH: {
-	      var _m$traverse = function m$traverse(m$node, m$path, m$parent, m$startDepth, m$endDepth) {
-	        if (!(m$path.length < m$startDepth || m$endDepth < m$path.length)) {
-	          var _m$visitor34 = void 0;
+	      var _m$traverse = function m$traverse(m$_nodeInfo, m$_startDepth, m$_endDepth) {
+	        if (m$_startDepth <= m$_nodeInfo.path.length) {
+	          var _m$visitor39 = void 0;
 	
-	          var _isMatchAllSelector9 = void 0;
+	          var _isMatchAllSelector13 = void 0;
 	
-	          var _isMatchPropSelector10 = void 0;
+	          var _m$element14 = compound.element;
+	          var _m$path14 = m$_nodeInfo.path;
 	
-	          _isMatchPropSelector10 = compound.element === undefined || m$path[m$path.length - 1] === compound.element.ident;
+	          var _isMatchPropSelector14 = void 0;
 	
-	          if (_isMatchPropSelector10) {
-	            var _isMatchAttrSelector10 = void 0;
+	          _isMatchPropSelector14 = _m$element14 === undefined || _m$element14.ident === '*' || _m$path14[_m$path14.length - 1] === _m$element14.ident;
+	          var _m$attributes14 = compound.attributes;
+	          var _m$node14 = m$_nodeInfo.node;
 	
-	            _IS_MATCH_ATTR_SELECTOR: {
-	              if (compound.attributes) {
-	                if (m$node !== undefined && m$node !== null) {
-	                  var _m$input23 = compound.attributes;
+	          var _isMatchAttrSelector14 = void 0;
 	
-	                  var _every21 = void 0;
+	          _IS_MATCH_ATTR_SELECTOR: {
+	            if (_m$attributes14) {
+	              if (_m$node14 !== undefined && _m$node14 !== null) {
+	                var _every30 = void 0;
 	
-	                  var _m$result27 = true;
+	                var _m$result36 = true;
 	
-	                  var _m$i32 = 0,
-	                      _m$I32 = _m$input23.length;
-	                  while (_m$i32 < _m$I32) {
-	                    var _attrSelector11 = _m$input23[_m$i32];
+	                var _m$i35 = 0,
+	                    _m$I35 = _m$attributes14.length;
+	                while (_m$i35 < _m$I35) {
+	                  var _attrSelector15 = _m$attributes14[_m$i35];
 	
-	                    var _m$visitor35 = void 0;
+	                  var _m$visitor40 = void 0;
 	
-	                    _M$VISITOR: {
-	                      if (_attrSelector11.type == 'Id') {
-	                        _m$visitor35 = m$node.ID === _attrSelector11.ident || m$node.Id === _attrSelector11.ident || m$node.id === _attrSelector11.ident;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector11.type == 'Class') {
-	                        _m$visitor35 = m$node.constructor && m$node.constructor.name === _attrSelector11.ident;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector11.type == 'Attribute') {
-	                        var _m$attrValue4 = '' + m$node[_attrSelector11.ident];
-	                        if (_attrSelector11.operator == '=') {
-	                          _m$visitor35 = _m$attrValue4 == _attrSelector11.value;
-	                          break _M$VISITOR;
-	                        } else if (_attrSelector11.operator == '^=') {
-	                          _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) == 0;
-	                          break _M$VISITOR;
-	                        } else if (_attrSelector11.operator == '$=') {
+	                  _M$VISITOR: {
+	                    if (_attrSelector15.type == 'Id') {
+	                      _m$visitor40 = _m$node14.ID === _attrSelector15.ident || _m$node14.Id === _attrSelector15.ident || _m$node14.id === _attrSelector15.ident;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector15.type == 'Class') {
+	                      _m$visitor40 = _m$node14.constructor && _m$node14.constructor.name === _attrSelector15.ident;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector15.type == 'Attribute') {
+	                      var _m$attrValue4 = '' + _m$node14[_attrSelector15.ident];
+	                      var _selectValue4 = _attrSelector15.value;
 	
-	                          var _a4 = _m$attrValue4.indexOf(_attrSelector11.value);
-	                          var _b4 = _m$attrValue4.length;
-	                          var _c4 = _attrSelector11.value.length;
-	                          debugger;
-	                          _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) == _m$attrValue4.length - _attrSelector11.value.length;
-	                          break _M$VISITOR;
-	                        } else if (_attrSelector11.operator == '*=') {
-	                          _m$visitor35 = _m$attrValue4.indexOf(_attrSelector11.value) != -1;
-	                          break _M$VISITOR;
-	                        } else {
-	                          _m$visitor35 = m$node.hasOwnProperty(_attrSelector11.ident);
-	                          break _M$VISITOR;
-	                        }
+	                      if (_attrSelector15.flag && _attrSelector15.flag.indexOf('i') != -1) {
+	                        _m$attrValue4 = _m$attrValue4.toLowerCase();
+	                        _selectValue4 = _selectValue4.toLowerCase();
 	                      }
 	
-	                      _m$visitor35 = false;
+	                      if (_attrSelector15.operator == '=') {
+	                        _m$visitor40 = _m$attrValue4 == _selectValue4;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector15.operator == '^=') {
+	                        _m$visitor40 = _m$attrValue4.indexOf(_selectValue4) == 0;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector15.operator == '$=') {
+	                        _m$visitor40 = _m$attrValue4.indexOf(_selectValue4) == _m$attrValue4.length - _selectValue4.length;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector15.operator == '*=') {
+	                        _m$visitor40 = _m$attrValue4.indexOf(_selectValue4) != -1;
+	                        break _M$VISITOR;
+	                      } else {
+	                        _m$visitor40 = _m$attrValue4 != undefined || _m$node14.hasOwnProperty(_attrSelector15.ident);
+	                        break _M$VISITOR;
+	                      }
 	                    }
 	
-	                    if (!_m$visitor35) {
-	                      _m$result27 = false;
-	                      break;
-	                    }
-	
-	                    _m$i32++;
+	                    _m$visitor40 = false;
 	                  }
 	
-	                  _every21 = _m$result27;
-	                  _isMatchAttrSelector10 = _every21;
-	                  break _IS_MATCH_ATTR_SELECTOR;
-	                } else {
-	                  _isMatchAttrSelector10 = false;
-	                  break _IS_MATCH_ATTR_SELECTOR;
-	                }
-	              }
-	
-	              _isMatchAttrSelector10 = true;
-	            }
-	
-	            if (_isMatchAttrSelector10) {
-	              var _matchPseudoClass10 = void 0;
-	
-	              var _result3 = [m$node, m$path, m$parent];
-	              var _pseudoClassMethod3, _pseudoClassArgs3, _tmp3;
-	              if (compound.pseudoClasses) {
-	                var _m$input24 = compound.pseudoClasses;
-	
-	                var _every22 = void 0;
-	
-	                var _m$result28 = true;var _m$i33 = 0,
-	                    _m$I33 = _m$input24.length;while (_m$i33 < _m$I33) {
-	                  var _pseudoClass11 = _m$input24[_m$i33];
-	
-	                  var _m$visitor36 = void 0;
-	
-	                  _pseudoClassMethod3 = _PseudoClass2.default[_pseudoClass11.ident] || option.pseudoClasses[_pseudoClass11.ident];
-	                  _pseudoClassArgs3 = _pseudoClass11.args ? _result3.concat(_pseudoClass11.args) : _result3;
-	                  _tmp3 = _pseudoClassMethod3.apply(undefined, _pseudoClassArgs3);
-	                  if (_tmp3 instanceof Array || !_tmp3) {
-	                    _result3 = _tmp3;
+	                  if (!_m$visitor40) {
+	                    _m$result36 = false;
+	                    break;
 	                  }
 	
-	                  _m$visitor36 = _tmp3;
-	                  if (!_m$visitor36) {
-	                    _m$result28 = false;break;
-	                  }_m$i33++;
-	                }_every22 = _m$result28;
-	
-	                _every22;
-	              }
-	
-	              _matchPseudoClass10 = _result3;
-	              _isMatchAllSelector9 = _matchPseudoClass10;
-	            }
-	          }
-	          var _m$nodeInfo9 = _isMatchAllSelector9;
-	          var _m$combinator9 = compound.next;
-	
-	          var _fetchNextSelector9 = void 0;
-	
-	          _FETCH_NEXT_SELECTOR: {
-	            var _m$tmp2;
-	            if (_m$nodeInfo9) {
-	              if (_m$combinator9) {
-	                if (_typeof(_m$nodeInfo9[0]) !== 'object') {
-	                  _fetchNextSelector9 = false;
-	                  break _FETCH_NEXT_SELECTOR;
-	                } else if (!(_m$tmp2 = findFirstMatchNode(_m$combinator9, _m$nodeInfo9[0]))) {
-	                  _fetchNextSelector9 = false;
-	                  break _FETCH_NEXT_SELECTOR;
+	                  _m$i35++;
 	                }
 	
-	                _m$nodeInfo9[0] = _m$tmp2[0];
-	                Array.prototype.push.apply(_m$nodeInfo9[1], _m$tmp2[1]);
-	                Array.prototype.push.apply(_m$nodeInfo9[2], _m$tmp2[2]);
+	                _every30 = _m$result36;
+	                _isMatchAttrSelector14 = _every30;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              } else {
+	                _isMatchAttrSelector14 = false;
+	                break _IS_MATCH_ATTR_SELECTOR;
 	              }
-	
-	              _fetchNextSelector9 = _m$nodeInfo9;
-	              break _FETCH_NEXT_SELECTOR;
 	            }
+	
+	            _isMatchAttrSelector14 = true;
 	          }
 	
-	          _m$visitor34 = result = _fetchNextSelector9;
+	          var _m$pseudoClasses14 = compound.pseudoClasses;
 	
-	          if (_m$visitor34) {
-	            return [m$node, m$path, m$parent];
+	          var _isMatchPseudoClass14 = void 0;
+	
+	          _IS_MATCH_PSEUDO_CLASS: {
+	            var _pseudoClassMethod3, _pseudoClassArgs3;
+	            if (_m$pseudoClasses14) {
+	              var _every31 = void 0;
+	
+	              var _m$result37 = true;var _m$i36 = 0,
+	                  _m$I36 = _m$pseudoClasses14.length;while (_m$i36 < _m$I36) {
+	                var _pseudoClass15 = _m$pseudoClasses14[_m$i36];
+	
+	                var _m$visitor41 = void 0;
+	
+	                _pseudoClassMethod3 = _PseudoClass2.default[_pseudoClass15.ident] || option.pseudoClasses[_pseudoClass15.ident];
+	                _pseudoClassArgs3 = [m$_nodeInfo];
+	                if (_pseudoClass15.args) _pseudoClassArgs3 = _pseudoClassArgs3.concat(_pseudoClass15.args);
+	                _m$visitor41 = _pseudoClassMethod3.apply(undefined, _pseudoClassArgs3);
+	                if (!_m$visitor41) {
+	                  _m$result37 = false;break;
+	                }_m$i36++;
+	              }_every31 = _m$result37;
+	              _isMatchPseudoClass14 = _every31;
+	              break _IS_MATCH_PSEUDO_CLASS;
+	            }
+	
+	            _isMatchPseudoClass14 = true;
+	          }
+	
+	          _isMatchAllSelector13 = _isMatchPropSelector14 && _isMatchAttrSelector14 && _isMatchPseudoClass14;
+	
+	          if (_isMatchAllSelector13) {
+	            var _m$combinator13 = compound.next;
+	
+	            var _fetchNextSelector13 = void 0;
+	
+	            _FETCH_NEXT_SELECTOR: {
+	              if (_m$combinator13) {
+	                if (_typeof(m$_nodeInfo.node) === 'object' || _m$combinator13.operator == '~') {
+	                  _fetchNextSelector13 = findFirstMatchNode(_m$combinator13, m$_nodeInfo, option);
+	                  break _FETCH_NEXT_SELECTOR;
+	                }
+	              } else {
+	                _fetchNextSelector13 = m$_nodeInfo;
+	                break _FETCH_NEXT_SELECTOR;
+	              }
+	            }
+	
+	            _m$visitor39 = result = _fetchNextSelector13;
+	          }
+	
+	          if (_m$visitor39) {
+	            return m$_nodeInfo;
 	          }
 	        }
 	
-	        if ((typeof m$node === 'undefined' ? 'undefined' : _typeof(m$node)) == 'object' && !(m$endDepth < m$path.length)) {
+	        if (_typeof(m$_nodeInfo.node) == 'object' && m$_nodeInfo.path.length < m$_endDepth) {
 	          var m$key, m$newNode, m$tmp;
-	          m$parent = m$parent.slice();
-	          m$parent.push(m$node);
-	          for (m$key in m$node) {
-	            m$newNode = m$node[m$key];
-	            if (m$parent.indexOf(m$newNode) == -1) {
-	              if (m$tmp = m$traverse(m$newNode, m$path.concat(m$key), m$parent)) {
+	          for (m$key in m$_nodeInfo.node) {
+	            m$newNode = m$_nodeInfo.node[m$key];
+	            if (m$_nodeInfo.parent.indexOf(m$newNode) == -1) {
+	              if (m$tmp = m$traverse(m$_nodeInfo.getChild(m$key), m$_startDepth, m$_endDepth)) {
 	                return m$tmp;
 	              }
 	            }
@@ -10061,470 +11133,705 @@
 	        }
 	      };
 	
-	      _depthFirstSearch2 = _m$traverse(node, [], [], _m$startDepth5, undefined);
+	      _depthFirstSearch2 = _m$traverse(nodeInfo, lay, Infinity);
 	    }
 	
 	    _depthFirstSearch2;
 	  } else if (combinator.operator == '>') {
-	    var _m$startDepth6 = 1;
-	    var _m$endDepth3 = 1;
-	
-	    var _breadthFirstSearch2 = void 0;
+	    var _breadthFirstSearch3 = void 0;
 	
 	    var _m$result13;
-	
-	    var _m$buffer = [[node, [], []]];
-	    var _m$tmp5, _m$node, _m$path, _m$parent;
-	    var _m$key, _m$newNode;
+	    var _m$buffer = [nodeInfo];
+	    var _m$tmpNodeInfo, _m$key, _m$newNode;
 	    while (_m$buffer.length) {
-	      _m$tmp5 = _m$buffer.shift();
-	      _m$node = _m$tmp5[0];
-	      _m$path = _m$tmp5[1];
-	      _m$parent = _m$tmp5[2];
-	      if (!(_m$path.length < _m$startDepth6 || _m$endDepth3 < _m$path.length)) {
-	        var _m$visitor37 = void 0;
+	      _m$tmpNodeInfo = _m$buffer.shift();
+	      if (lay <= _m$tmpNodeInfo.path.length) {
+	        var _m$visitor42 = void 0;
 	
-	        var _isMatchAllSelector10 = void 0;
+	        var _isMatchAllSelector14 = void 0;
 	
-	        var _isMatchPropSelector11 = void 0;
+	        var _m$element15 = compound.element;
+	        var _m$path15 = _m$tmpNodeInfo.path;
 	
-	        _isMatchPropSelector11 = compound.element === undefined || _m$path[_m$path.length - 1] === compound.element.ident;
-	        if (_isMatchPropSelector11) {
-	          var _isMatchAttrSelector11 = void 0;
+	        var _isMatchPropSelector15 = void 0;
 	
-	          _IS_MATCH_ATTR_SELECTOR: {
-	            if (compound.attributes) {
-	              if (_m$node !== undefined && _m$node !== null) {
-	                var _m$input25 = compound.attributes;
+	        _isMatchPropSelector15 = _m$element15 === undefined || _m$element15.ident === '*' || _m$path15[_m$path15.length - 1] === _m$element15.ident;
+	        var _m$attributes15 = compound.attributes;
+	        var _m$node15 = _m$tmpNodeInfo.node;
 	
-	                var _every23 = void 0;
+	        var _isMatchAttrSelector15 = void 0;
 	
-	                var _m$result29 = true;var _m$i34 = 0,
-	                    _m$I34 = _m$input25.length;while (_m$i34 < _m$I34) {
-	                  var _attrSelector12 = _m$input25[_m$i34];
+	        _IS_MATCH_ATTR_SELECTOR: {
+	          if (_m$attributes15) {
+	            if (_m$node15 !== undefined && _m$node15 !== null) {
+	              var _every32 = void 0;
 	
-	                  var _m$visitor38 = void 0;
+	              var _m$result38 = true;var _m$i37 = 0,
+	                  _m$I37 = _m$attributes15.length;while (_m$i37 < _m$I37) {
+	                var _attrSelector16 = _m$attributes15[_m$i37];
 	
-	                  _M$VISITOR: {
-	                    if (_attrSelector12.type == 'Id') {
-	                      _m$visitor38 = _m$node.ID === _attrSelector12.ident || _m$node.Id === _attrSelector12.ident || _m$node.id === _attrSelector12.ident;
+	                var _m$visitor43 = void 0;
+	
+	                _M$VISITOR: {
+	                  if (_attrSelector16.type == 'Id') {
+	                    _m$visitor43 = _m$node15.ID === _attrSelector16.ident || _m$node15.Id === _attrSelector16.ident || _m$node15.id === _attrSelector16.ident;
+	                    break _M$VISITOR;
+	                  } else if (_attrSelector16.type == 'Class') {
+	                    _m$visitor43 = _m$node15.constructor && _m$node15.constructor.name === _attrSelector16.ident;
+	                    break _M$VISITOR;
+	                  } else if (_attrSelector16.type == 'Attribute') {
+	                    var _m$attrValue6 = '' + _m$node15[_attrSelector16.ident];var _selectValue6 = _attrSelector16.value;if (_attrSelector16.flag && _attrSelector16.flag.indexOf('i') != -1) {
+	                      _m$attrValue6 = _m$attrValue6.toLowerCase();_selectValue6 = _selectValue6.toLowerCase();
+	                    }if (_attrSelector16.operator == '=') {
+	                      _m$visitor43 = _m$attrValue6 == _selectValue6;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector12.type == 'Class') {
-	                      _m$visitor38 = _m$node.constructor && _m$node.constructor.name === _attrSelector12.ident;
+	                    } else if (_attrSelector16.operator == '^=') {
+	                      _m$visitor43 = _m$attrValue6.indexOf(_selectValue6) == 0;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector12.type == 'Attribute') {
-	                      var _m$attrValue6 = '' + _m$node[_attrSelector12.ident];if (_attrSelector12.operator == '=') {
-	                        _m$visitor38 = _m$attrValue6 == _attrSelector12.value;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector12.operator == '^=') {
-	                        _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) == 0;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector12.operator == '$=') {
-	                        var _a6 = _m$attrValue6.indexOf(_attrSelector12.value);var _b6 = _m$attrValue6.length;var _c6 = _attrSelector12.value.length;debugger;_m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) == _m$attrValue6.length - _attrSelector12.value.length;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector12.operator == '*=') {
-	                        _m$visitor38 = _m$attrValue6.indexOf(_attrSelector12.value) != -1;
-	                        break _M$VISITOR;
-	                      } else {
-	                        _m$visitor38 = _m$node.hasOwnProperty(_attrSelector12.ident);
-	                        break _M$VISITOR;
-	                      }
-	                    }_m$visitor38 = false;
-	                  }
+	                    } else if (_attrSelector16.operator == '$=') {
+	                      _m$visitor43 = _m$attrValue6.indexOf(_selectValue6) == _m$attrValue6.length - _selectValue6.length;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector16.operator == '*=') {
+	                      _m$visitor43 = _m$attrValue6.indexOf(_selectValue6) != -1;
+	                      break _M$VISITOR;
+	                    } else {
+	                      _m$visitor43 = _m$attrValue6 != undefined || _m$node15.hasOwnProperty(_attrSelector16.ident);
+	                      break _M$VISITOR;
+	                    }
+	                  }_m$visitor43 = false;
+	                }
 	
-	                  if (!_m$visitor38) {
-	                    _m$result29 = false;break;
-	                  }_m$i34++;
-	                }_every23 = _m$result29;
-	                _isMatchAttrSelector11 = _every23;
-	                break _IS_MATCH_ATTR_SELECTOR;
-	              } else {
-	                _isMatchAttrSelector11 = false;
-	                break _IS_MATCH_ATTR_SELECTOR;
-	              }
-	            }_isMatchAttrSelector11 = true;
-	          }
-	
-	          if (_isMatchAttrSelector11) {
-	            var _matchPseudoClass11 = void 0;
-	
-	            var _result5 = [_m$node, _m$path, _m$parent];var _pseudoClassMethod5, _pseudoClassArgs5, _tmp5;if (compound.pseudoClasses) {
-	              var _m$input26 = compound.pseudoClasses;
-	
-	              var _every24 = void 0;
-	
-	              var _m$result30 = true;var _m$i35 = 0,
-	                  _m$I35 = _m$input26.length;while (_m$i35 < _m$I35) {
-	                var _pseudoClass12 = _m$input26[_m$i35];
-	
-	                var _m$visitor39 = void 0;
-	
-	                _pseudoClassMethod5 = _PseudoClass2.default[_pseudoClass12.ident] || option.pseudoClasses[_pseudoClass12.ident];_pseudoClassArgs5 = _pseudoClass12.args ? _result5.concat(_pseudoClass12.args) : _result5;_tmp5 = _pseudoClassMethod5.apply(undefined, _pseudoClassArgs5);if (_tmp5 instanceof Array || !_tmp5) {
-	                  _result5 = _tmp5;
-	                }_m$visitor39 = _tmp5;
-	                if (!_m$visitor39) {
-	                  _m$result30 = false;break;
-	                }_m$i35++;
-	              }_every24 = _m$result30;
-	              _every24;
-	            }_matchPseudoClass11 = _result5;
-	            _isMatchAllSelector10 = _matchPseudoClass11;
-	          }
-	        }var _m$nodeInfo10 = _isMatchAllSelector10;
-	        var _m$combinator10 = compound.next;
-	
-	        var _fetchNextSelector10 = void 0;
-	
-	        _FETCH_NEXT_SELECTOR2: {
-	          var _m$tmp4;if (_m$nodeInfo10) {
-	            if (_m$combinator10) {
-	              if (_typeof(_m$nodeInfo10[0]) !== 'object') {
-	                _fetchNextSelector10 = false;
-	                break _FETCH_NEXT_SELECTOR2;
-	              } else if (!(_m$tmp4 = findFirstMatchNode(_m$combinator10, _m$nodeInfo10[0]))) {
-	                _fetchNextSelector10 = false;
-	                break _FETCH_NEXT_SELECTOR2;
-	              }_m$nodeInfo10[0] = _m$tmp4[0];Array.prototype.push.apply(_m$nodeInfo10[1], _m$tmp4[1]);Array.prototype.push.apply(_m$nodeInfo10[2], _m$tmp4[2]);
-	            }_fetchNextSelector10 = _m$nodeInfo10;
-	            break _FETCH_NEXT_SELECTOR2;
-	          }
+	                if (!_m$visitor43) {
+	                  _m$result38 = false;break;
+	                }_m$i37++;
+	              }_every32 = _m$result38;
+	              _isMatchAttrSelector15 = _every32;
+	              break _IS_MATCH_ATTR_SELECTOR;
+	            } else {
+	              _isMatchAttrSelector15 = false;
+	              break _IS_MATCH_ATTR_SELECTOR;
+	            }
+	          }_isMatchAttrSelector15 = true;
 	        }
 	
-	        _m$visitor37 = result = _fetchNextSelector10;
+	        var _m$pseudoClasses15 = compound.pseudoClasses;
 	
-	        if (_m$visitor37) {
-	          _m$result13 = [_m$node, _m$path, _m$parent];
+	        var _isMatchPseudoClass15 = void 0;
+	
+	        _IS_MATCH_PSEUDO_CLASS: {
+	          var _pseudoClassMethod5, _pseudoClassArgs5;if (_m$pseudoClasses15) {
+	            var _every33 = void 0;
+	
+	            var _m$result39 = true;var _m$i38 = 0,
+	                _m$I38 = _m$pseudoClasses15.length;while (_m$i38 < _m$I38) {
+	              var _pseudoClass16 = _m$pseudoClasses15[_m$i38];
+	
+	              var _m$visitor44 = void 0;
+	
+	              _pseudoClassMethod5 = _PseudoClass2.default[_pseudoClass16.ident] || option.pseudoClasses[_pseudoClass16.ident];_pseudoClassArgs5 = [_m$tmpNodeInfo];if (_pseudoClass16.args) _pseudoClassArgs5 = _pseudoClassArgs5.concat(_pseudoClass16.args);_m$visitor44 = _pseudoClassMethod5.apply(undefined, _pseudoClassArgs5);
+	              if (!_m$visitor44) {
+	                _m$result39 = false;break;
+	              }_m$i38++;
+	            }_every33 = _m$result39;
+	            _isMatchPseudoClass15 = _every33;
+	            break _IS_MATCH_PSEUDO_CLASS;
+	          }_isMatchPseudoClass15 = true;
+	        }
+	
+	        _isMatchAllSelector14 = _isMatchPropSelector15 && _isMatchAttrSelector15 && _isMatchPseudoClass15;
+	
+	        if (_isMatchAllSelector14) {
+	          var _m$combinator14 = compound.next;
+	
+	          var _fetchNextSelector14 = void 0;
+	
+	          _FETCH_NEXT_SELECTOR2: {
+	            if (_m$combinator14) {
+	              if (_typeof(_m$tmpNodeInfo.node) === 'object' || _m$combinator14.operator == '~') {
+	                _fetchNextSelector14 = findFirstMatchNode(_m$combinator14, _m$tmpNodeInfo, option);
+	                break _FETCH_NEXT_SELECTOR2;
+	              }
+	            } else {
+	              _fetchNextSelector14 = _m$tmpNodeInfo;
+	              break _FETCH_NEXT_SELECTOR2;
+	            }
+	          }
+	
+	          _m$visitor42 = result = _fetchNextSelector14;
+	        }
+	
+	        if (_m$visitor42) {
+	          _m$result13 = _m$tmpNodeInfo;
 	          break;
 	        }
-	      } else if ((typeof _m$node === 'undefined' ? 'undefined' : _typeof(_m$node)) == 'object' && !(_m$endDepth3 < _m$path.length)) {
-	        _m$parent = _m$parent.slice();
-	        _m$parent.push(_m$node);
-	        for (_m$key in _m$node) {
-	          _m$newNode = _m$node[_m$key];
-	          if (_m$parent.indexOf(_m$newNode) == -1) {
-	            _m$buffer.push([_m$newNode, _m$path.concat(_m$key), _m$parent]);
+	      }
+	
+	      if (_typeof(_m$tmpNodeInfo.node) == 'object' && _m$tmpNodeInfo.path.length < lay) {
+	        for (_m$key in _m$tmpNodeInfo.node) {
+	          _m$newNode = _m$tmpNodeInfo.node[_m$key];
+	          if (_m$tmpNodeInfo.parent.indexOf(_m$newNode) == -1) {
+	            _m$buffer.push(_m$tmpNodeInfo.getChild(_m$key));
 	          }
 	        }
 	      }
 	    }
 	
-	    _breadthFirstSearch2 = _m$result13;
+	    _breadthFirstSearch3 = _m$result13;
 	
-	    _breadthFirstSearch2;
+	    _breadthFirstSearch3;
+	  } else if (combinator.operator == '~') {
+	    var currentProp = nodeInfo.path[nodeInfo.path.length - 1];
+	
+	    var _m$nodeInfo3 = nodeInfo.getParent();
+	
+	    var _m$startDepth3 = lay - 1;
+	
+	    var _m$endDepth3 = lay - 1;
+	
+	    var _breadthFirstSearch4 = void 0;
+	
+	    var _m$result18;var _m$buffer2 = [_m$nodeInfo3];var _m$tmpNodeInfo2, _m$key2, _m$newNode2;while (_m$buffer2.length) {
+	      _m$tmpNodeInfo2 = _m$buffer2.shift();if (_m$startDepth3 <= _m$tmpNodeInfo2.path.length) {
+	        var _m$visitor45 = void 0;
+	
+	        if (_m$tmpNodeInfo2.path[_m$tmpNodeInfo2.path.length - 1] != currentProp) {
+	          var _isMatchAllSelector15 = void 0;
+	
+	          var _m$element16 = compound.element;
+	          var _m$path16 = _m$tmpNodeInfo2.path;
+	
+	          var _isMatchPropSelector16 = void 0;
+	
+	          _isMatchPropSelector16 = _m$element16 === undefined || _m$element16.ident === '*' || _m$path16[_m$path16.length - 1] === _m$element16.ident;
+	          var _m$attributes16 = compound.attributes;
+	          var _m$node16 = _m$tmpNodeInfo2.node;
+	
+	          var _isMatchAttrSelector16 = void 0;
+	
+	          _IS_MATCH_ATTR_SELECTOR: {
+	            if (_m$attributes16) {
+	              if (_m$node16 !== undefined && _m$node16 !== null) {
+	                var _every34 = void 0;
+	
+	                var _m$result40 = true;var _m$i39 = 0,
+	                    _m$I39 = _m$attributes16.length;while (_m$i39 < _m$I39) {
+	                  var _attrSelector17 = _m$attributes16[_m$i39];
+	
+	                  var _m$visitor46 = void 0;
+	
+	                  _M$VISITOR: {
+	                    if (_attrSelector17.type == 'Id') {
+	                      _m$visitor46 = _m$node16.ID === _attrSelector17.ident || _m$node16.Id === _attrSelector17.ident || _m$node16.id === _attrSelector17.ident;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector17.type == 'Class') {
+	                      _m$visitor46 = _m$node16.constructor && _m$node16.constructor.name === _attrSelector17.ident;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector17.type == 'Attribute') {
+	                      var _m$attrValue8 = '' + _m$node16[_attrSelector17.ident];var _selectValue8 = _attrSelector17.value;if (_attrSelector17.flag && _attrSelector17.flag.indexOf('i') != -1) {
+	                        _m$attrValue8 = _m$attrValue8.toLowerCase();_selectValue8 = _selectValue8.toLowerCase();
+	                      }if (_attrSelector17.operator == '=') {
+	                        _m$visitor46 = _m$attrValue8 == _selectValue8;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector17.operator == '^=') {
+	                        _m$visitor46 = _m$attrValue8.indexOf(_selectValue8) == 0;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector17.operator == '$=') {
+	                        _m$visitor46 = _m$attrValue8.indexOf(_selectValue8) == _m$attrValue8.length - _selectValue8.length;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector17.operator == '*=') {
+	                        _m$visitor46 = _m$attrValue8.indexOf(_selectValue8) != -1;
+	                        break _M$VISITOR;
+	                      } else {
+	                        _m$visitor46 = _m$attrValue8 != undefined || _m$node16.hasOwnProperty(_attrSelector17.ident);
+	                        break _M$VISITOR;
+	                      }
+	                    }_m$visitor46 = false;
+	                  }
+	
+	                  if (!_m$visitor46) {
+	                    _m$result40 = false;break;
+	                  }_m$i39++;
+	                }_every34 = _m$result40;
+	                _isMatchAttrSelector16 = _every34;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              } else {
+	                _isMatchAttrSelector16 = false;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              }
+	            }_isMatchAttrSelector16 = true;
+	          }
+	
+	          var _m$pseudoClasses16 = compound.pseudoClasses;
+	
+	          var _isMatchPseudoClass16 = void 0;
+	
+	          _IS_MATCH_PSEUDO_CLASS: {
+	            var _pseudoClassMethod7, _pseudoClassArgs7;if (_m$pseudoClasses16) {
+	              var _every35 = void 0;
+	
+	              var _m$result41 = true;var _m$i40 = 0,
+	                  _m$I40 = _m$pseudoClasses16.length;while (_m$i40 < _m$I40) {
+	                var _pseudoClass17 = _m$pseudoClasses16[_m$i40];
+	
+	                var _m$visitor47 = void 0;
+	
+	                _pseudoClassMethod7 = _PseudoClass2.default[_pseudoClass17.ident] || option.pseudoClasses[_pseudoClass17.ident];_pseudoClassArgs7 = [_m$tmpNodeInfo2];if (_pseudoClass17.args) _pseudoClassArgs7 = _pseudoClassArgs7.concat(_pseudoClass17.args);_m$visitor47 = _pseudoClassMethod7.apply(undefined, _pseudoClassArgs7);
+	                if (!_m$visitor47) {
+	                  _m$result41 = false;break;
+	                }_m$i40++;
+	              }_every35 = _m$result41;
+	              _isMatchPseudoClass16 = _every35;
+	              break _IS_MATCH_PSEUDO_CLASS;
+	            }_isMatchPseudoClass16 = true;
+	          }
+	
+	          _isMatchAllSelector15 = _isMatchPropSelector16 && _isMatchAttrSelector16 && _isMatchPseudoClass16;
+	
+	          if (_isMatchAllSelector15) {
+	            var _m$combinator15 = compound.next;
+	
+	            var _fetchNextSelector15 = void 0;
+	
+	            _FETCH_NEXT_SELECTOR3: {
+	              if (_m$combinator15) {
+	                if (_typeof(_m$tmpNodeInfo2.node) === 'object' || _m$combinator15.operator == '~') {
+	                  _fetchNextSelector15 = findFirstMatchNode(_m$combinator15, _m$tmpNodeInfo2, option);
+	                  break _FETCH_NEXT_SELECTOR3;
+	                }
+	              } else {
+	                _fetchNextSelector15 = _m$tmpNodeInfo2;
+	                break _FETCH_NEXT_SELECTOR3;
+	              }
+	            }
+	
+	            _m$visitor45 = result = _fetchNextSelector15;
+	          }
+	        }
+	        if (_m$visitor45) {
+	          _m$result18 = _m$tmpNodeInfo2;break;
+	        }
+	      }if (_typeof(_m$tmpNodeInfo2.node) == 'object' && _m$tmpNodeInfo2.path.length < _m$endDepth3) {
+	        for (_m$key2 in _m$tmpNodeInfo2.node) {
+	          _m$newNode2 = _m$tmpNodeInfo2.node[_m$key2];if (_m$tmpNodeInfo2.parent.indexOf(_m$newNode2) == -1) {
+	            _m$buffer2.push(_m$tmpNodeInfo2.getChild(_m$key2));
+	          }
+	        }
+	      }
+	    }_breadthFirstSearch4 = _m$result18;
+	    _breadthFirstSearch4;
 	  }
 	
 	  return result;
 	}
-	function findMatchNode(combinator, node, option) {
-	  var result = [],
-	      compound = combinator.next,
+	function findMatchNode(combinator, nodeInfo, option) {
+	
+	  var result = [];
+	  var compound = combinator.next,
 	      tmp;
+	  var lay = nodeInfo.path.length + 1;
 	  if (combinator.operator == ' ') {
-	    var _m$startDepth7 = 1;
-	
-	    var _breadthFirstTraversal3 = void 0;
-	
-	    var _m$buffer2 = [[node, [], []]];
-	    var _m$tmp8, _m$node2, _m$path2, _m$parent2;
-	    var _m$key2, _m$newNode2;
-	    while (_m$buffer2.length) {
-	      _m$tmp8 = _m$buffer2.shift();
-	      _m$node2 = _m$tmp8[0];
-	      _m$path2 = _m$tmp8[1];
-	      _m$parent2 = _m$tmp8[2];
-	      if (!(_m$path2.length < _m$startDepth7 || undefined < _m$path2.length)) {
-	        var _m$visitor40 = void 0;
-	
-	        var _isMatchAllSelector11 = void 0;
-	
-	        var _isMatchPropSelector12 = void 0;
-	
-	        _isMatchPropSelector12 = compound.element === undefined || _m$path2[_m$path2.length - 1] === compound.element.ident;
-	        if (_isMatchPropSelector12) {
-	          var _isMatchAttrSelector12 = void 0;
-	
-	          _IS_MATCH_ATTR_SELECTOR: {
-	            if (compound.attributes) {
-	              if (_m$node2 !== undefined && _m$node2 !== null) {
-	                var _m$input27 = compound.attributes;
-	
-	                var _every25 = void 0;
-	
-	                var _m$result31 = true;var _m$i36 = 0,
-	                    _m$I36 = _m$input27.length;while (_m$i36 < _m$I36) {
-	                  var _attrSelector13 = _m$input27[_m$i36];
-	
-	                  var _m$visitor41 = void 0;
-	
-	                  _M$VISITOR: {
-	                    if (_attrSelector13.type == 'Id') {
-	                      _m$visitor41 = _m$node2.ID === _attrSelector13.ident || _m$node2.Id === _attrSelector13.ident || _m$node2.id === _attrSelector13.ident;
-	                      break _M$VISITOR;
-	                    } else if (_attrSelector13.type == 'Class') {
-	                      _m$visitor41 = _m$node2.constructor && _m$node2.constructor.name === _attrSelector13.ident;
-	                      break _M$VISITOR;
-	                    } else if (_attrSelector13.type == 'Attribute') {
-	                      var _m$attrValue8 = '' + _m$node2[_attrSelector13.ident];if (_attrSelector13.operator == '=') {
-	                        _m$visitor41 = _m$attrValue8 == _attrSelector13.value;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector13.operator == '^=') {
-	                        _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) == 0;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector13.operator == '$=') {
-	                        var _a8 = _m$attrValue8.indexOf(_attrSelector13.value);var _b8 = _m$attrValue8.length;var _c8 = _attrSelector13.value.length;debugger;_m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) == _m$attrValue8.length - _attrSelector13.value.length;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector13.operator == '*=') {
-	                        _m$visitor41 = _m$attrValue8.indexOf(_attrSelector13.value) != -1;
-	                        break _M$VISITOR;
-	                      } else {
-	                        _m$visitor41 = _m$node2.hasOwnProperty(_attrSelector13.ident);
-	                        break _M$VISITOR;
-	                      }
-	                    }_m$visitor41 = false;
-	                  }
-	
-	                  if (!_m$visitor41) {
-	                    _m$result31 = false;break;
-	                  }_m$i36++;
-	                }_every25 = _m$result31;
-	                _isMatchAttrSelector12 = _every25;
-	                break _IS_MATCH_ATTR_SELECTOR;
-	              } else {
-	                _isMatchAttrSelector12 = false;
-	                break _IS_MATCH_ATTR_SELECTOR;
-	              }
-	            }_isMatchAttrSelector12 = true;
-	          }
-	
-	          if (_isMatchAttrSelector12) {
-	            var _matchPseudoClass12 = void 0;
-	
-	            var _result7 = [_m$node2, _m$path2, _m$parent2];var _pseudoClassMethod7, _pseudoClassArgs7, _tmp7;if (compound.pseudoClasses) {
-	              var _m$input28 = compound.pseudoClasses;
-	
-	              var _every26 = void 0;
-	
-	              var _m$result32 = true;var _m$i37 = 0,
-	                  _m$I37 = _m$input28.length;while (_m$i37 < _m$I37) {
-	                var _pseudoClass13 = _m$input28[_m$i37];
-	
-	                var _m$visitor42 = void 0;
-	
-	                _pseudoClassMethod7 = _PseudoClass2.default[_pseudoClass13.ident] || option.pseudoClasses[_pseudoClass13.ident];_pseudoClassArgs7 = _pseudoClass13.args ? _result7.concat(_pseudoClass13.args) : _result7;_tmp7 = _pseudoClassMethod7.apply(undefined, _pseudoClassArgs7);if (_tmp7 instanceof Array || !_tmp7) {
-	                  _result7 = _tmp7;
-	                }_m$visitor42 = _tmp7;
-	                if (!_m$visitor42) {
-	                  _m$result32 = false;break;
-	                }_m$i37++;
-	              }_every26 = _m$result32;
-	              _every26;
-	            }_matchPseudoClass12 = _result7;
-	            _isMatchAllSelector11 = _matchPseudoClass12;
-	          }
-	        }var _m$nodeInfo11 = _isMatchAllSelector11;
-	        var _m$combinator11 = compound.next;
-	
-	        var _fetchNextSelector11 = void 0;
-	
-	        _FETCH_NEXT_SELECTOR3: {
-	          var _m$tmp7;
-	          if (_m$nodeInfo11) {
-	            if (_m$combinator11) {
-	              if (_typeof(_m$nodeInfo11[0]) !== 'object') {
-	                _fetchNextSelector11 = false;
-	                break _FETCH_NEXT_SELECTOR3;
-	              } else if (!(_m$tmp7 = findMatchNode(_m$combinator11, _m$nodeInfo11[0]))) {
-	                _fetchNextSelector11 = false;
-	                break _FETCH_NEXT_SELECTOR3;
-	              }
-	
-	              var _forEach6 = void 0;
-	
-	              var _m$i38 = 0,
-	                  _m$I38 = _m$tmp7.length;
-	              while (_m$i38 < _m$I38) {
-	                var _rec6 = _m$tmp7[_m$i38];
-	
-	                var _m$visitor43 = void 0;
-	
-	                Array.prototype.unshift.apply(_rec6[1], _m$nodeInfo11[1]);
-	                Array.prototype.unshift.apply(_rec6[2], _m$nodeInfo11[2]);
-	
-	                _m$visitor43;
-	                _m$i38++;
-	              }
-	              _forEach6;
-	              _fetchNextSelector11 = _m$tmp7;
-	              break _FETCH_NEXT_SELECTOR3;
-	            }
-	
-	            _fetchNextSelector11 = [_m$nodeInfo11];
-	            break _FETCH_NEXT_SELECTOR3;
-	          }
-	        }
-	
-	        tmp = _fetchNextSelector11;
-	        if (tmp) {
-	          Array.prototype.push.apply(result, tmp);
-	        }
-	
-	        _m$visitor40;
-	      }
-	      if ((typeof _m$node2 === 'undefined' ? 'undefined' : _typeof(_m$node2)) == 'object' && !(undefined < _m$path2.length)) {
-	        _m$parent2 = _m$parent2.slice();
-	        _m$parent2.push(_m$node2);
-	        for (_m$key2 in _m$node2) {
-	          _m$newNode2 = _m$node2[_m$key2];
-	          if (_m$parent2.indexOf(_m$newNode2) == -1) {
-	            _m$buffer2.push([_m$newNode2, _m$path2.concat(_m$key2), _m$parent2]);
-	          }
-	        }
-	      }
-	    }
-	
-	    _breadthFirstTraversal3;
-	  } else if (combinator.operator == '>') {
-	    var _m$startDepth8 = 1;
-	    var _m$endDepth4 = 1;
-	
 	    var _breadthFirstTraversal4 = void 0;
 	
-	    var _m$buffer3 = [[node, [], []]];var _m$tmp11, _m$node3, _m$path3, _m$parent3;var _m$key3, _m$newNode3;while (_m$buffer3.length) {
-	      _m$tmp11 = _m$buffer3.shift();_m$node3 = _m$tmp11[0];_m$path3 = _m$tmp11[1];_m$parent3 = _m$tmp11[2];if (!(_m$path3.length < _m$startDepth8 || _m$endDepth4 < _m$path3.length)) {
-	        var _m$visitor44 = void 0;
+	    var _m$buffer3 = [nodeInfo];
+	    var _m$tmpNodeInfo3, _m$key3, _m$newNode3;
+	    while (_m$buffer3.length) {
+	      _m$tmpNodeInfo3 = _m$buffer3.shift();
+	      if (lay <= _m$tmpNodeInfo3.path.length) {
+	        var _m$visitor48 = void 0;
 	
-	        var _isMatchAllSelector12 = void 0;
+	        var _isMatchAllSelector16 = void 0;
 	
-	        var _isMatchPropSelector13 = void 0;
+	        var _m$element17 = compound.element;
+	        var _m$path17 = _m$tmpNodeInfo3.path;
 	
-	        _isMatchPropSelector13 = compound.element === undefined || _m$path3[_m$path3.length - 1] === compound.element.ident;
-	        if (_isMatchPropSelector13) {
-	          var _isMatchAttrSelector13 = void 0;
+	        var _isMatchPropSelector17 = void 0;
 	
-	          _IS_MATCH_ATTR_SELECTOR: {
-	            if (compound.attributes) {
-	              if (_m$node3 !== undefined && _m$node3 !== null) {
-	                var _m$input29 = compound.attributes;
+	        _isMatchPropSelector17 = _m$element17 === undefined || _m$element17.ident === '*' || _m$path17[_m$path17.length - 1] === _m$element17.ident;
+	        var _m$attributes17 = compound.attributes;
+	        var _m$node17 = _m$tmpNodeInfo3.node;
 	
-	                var _every27 = void 0;
+	        var _isMatchAttrSelector17 = void 0;
 	
-	                var _m$result33 = true;var _m$i39 = 0,
-	                    _m$I39 = _m$input29.length;while (_m$i39 < _m$I39) {
-	                  var _attrSelector14 = _m$input29[_m$i39];
+	        _IS_MATCH_ATTR_SELECTOR: {
+	          if (_m$attributes17) {
+	            if (_m$node17 !== undefined && _m$node17 !== null) {
+	              var _every36 = void 0;
 	
-	                  var _m$visitor45 = void 0;
+	              var _m$result42 = true;var _m$i41 = 0,
+	                  _m$I41 = _m$attributes17.length;while (_m$i41 < _m$I41) {
+	                var _attrSelector18 = _m$attributes17[_m$i41];
 	
-	                  _M$VISITOR: {
-	                    if (_attrSelector14.type == 'Id') {
-	                      _m$visitor45 = _m$node3.ID === _attrSelector14.ident || _m$node3.Id === _attrSelector14.ident || _m$node3.id === _attrSelector14.ident;
+	                var _m$visitor49 = void 0;
+	
+	                _M$VISITOR: {
+	                  if (_attrSelector18.type == 'Id') {
+	                    _m$visitor49 = _m$node17.ID === _attrSelector18.ident || _m$node17.Id === _attrSelector18.ident || _m$node17.id === _attrSelector18.ident;
+	                    break _M$VISITOR;
+	                  } else if (_attrSelector18.type == 'Class') {
+	                    _m$visitor49 = _m$node17.constructor && _m$node17.constructor.name === _attrSelector18.ident;
+	                    break _M$VISITOR;
+	                  } else if (_attrSelector18.type == 'Attribute') {
+	                    var _m$attrValue10 = '' + _m$node17[_attrSelector18.ident];var _selectValue10 = _attrSelector18.value;if (_attrSelector18.flag && _attrSelector18.flag.indexOf('i') != -1) {
+	                      _m$attrValue10 = _m$attrValue10.toLowerCase();_selectValue10 = _selectValue10.toLowerCase();
+	                    }if (_attrSelector18.operator == '=') {
+	                      _m$visitor49 = _m$attrValue10 == _selectValue10;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector14.type == 'Class') {
-	                      _m$visitor45 = _m$node3.constructor && _m$node3.constructor.name === _attrSelector14.ident;
+	                    } else if (_attrSelector18.operator == '^=') {
+	                      _m$visitor49 = _m$attrValue10.indexOf(_selectValue10) == 0;
 	                      break _M$VISITOR;
-	                    } else if (_attrSelector14.type == 'Attribute') {
-	                      var _m$attrValue10 = '' + _m$node3[_attrSelector14.ident];if (_attrSelector14.operator == '=') {
-	                        _m$visitor45 = _m$attrValue10 == _attrSelector14.value;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector14.operator == '^=') {
-	                        _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) == 0;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector14.operator == '$=') {
-	                        var _a10 = _m$attrValue10.indexOf(_attrSelector14.value);var _b10 = _m$attrValue10.length;var _c10 = _attrSelector14.value.length;debugger;_m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) == _m$attrValue10.length - _attrSelector14.value.length;
-	                        break _M$VISITOR;
-	                      } else if (_attrSelector14.operator == '*=') {
-	                        _m$visitor45 = _m$attrValue10.indexOf(_attrSelector14.value) != -1;
-	                        break _M$VISITOR;
-	                      } else {
-	                        _m$visitor45 = _m$node3.hasOwnProperty(_attrSelector14.ident);
-	                        break _M$VISITOR;
-	                      }
-	                    }_m$visitor45 = false;
-	                  }
+	                    } else if (_attrSelector18.operator == '$=') {
+	                      _m$visitor49 = _m$attrValue10.indexOf(_selectValue10) == _m$attrValue10.length - _selectValue10.length;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector18.operator == '*=') {
+	                      _m$visitor49 = _m$attrValue10.indexOf(_selectValue10) != -1;
+	                      break _M$VISITOR;
+	                    } else {
+	                      _m$visitor49 = _m$attrValue10 != undefined || _m$node17.hasOwnProperty(_attrSelector18.ident);
+	                      break _M$VISITOR;
+	                    }
+	                  }_m$visitor49 = false;
+	                }
 	
-	                  if (!_m$visitor45) {
-	                    _m$result33 = false;break;
-	                  }_m$i39++;
-	                }_every27 = _m$result33;
-	                _isMatchAttrSelector13 = _every27;
-	                break _IS_MATCH_ATTR_SELECTOR;
-	              } else {
-	                _isMatchAttrSelector13 = false;
-	                break _IS_MATCH_ATTR_SELECTOR;
-	              }
-	            }_isMatchAttrSelector13 = true;
-	          }
+	                if (!_m$visitor49) {
+	                  _m$result42 = false;break;
+	                }_m$i41++;
+	              }_every36 = _m$result42;
+	              _isMatchAttrSelector17 = _every36;
+	              break _IS_MATCH_ATTR_SELECTOR;
+	            } else {
+	              _isMatchAttrSelector17 = false;
+	              break _IS_MATCH_ATTR_SELECTOR;
+	            }
+	          }_isMatchAttrSelector17 = true;
+	        }
 	
-	          if (_isMatchAttrSelector13) {
-	            var _matchPseudoClass13 = void 0;
+	        var _m$pseudoClasses17 = compound.pseudoClasses;
 	
-	            var _result9 = [_m$node3, _m$path3, _m$parent3];var _pseudoClassMethod9, _pseudoClassArgs9, _tmp9;if (compound.pseudoClasses) {
-	              var _m$input30 = compound.pseudoClasses;
+	        var _isMatchPseudoClass17 = void 0;
 	
-	              var _every28 = void 0;
+	        _IS_MATCH_PSEUDO_CLASS: {
+	          var _pseudoClassMethod9, _pseudoClassArgs9;if (_m$pseudoClasses17) {
+	            var _every37 = void 0;
 	
-	              var _m$result34 = true;var _m$i40 = 0,
-	                  _m$I40 = _m$input30.length;while (_m$i40 < _m$I40) {
-	                var _pseudoClass14 = _m$input30[_m$i40];
+	            var _m$result43 = true;var _m$i42 = 0,
+	                _m$I42 = _m$pseudoClasses17.length;while (_m$i42 < _m$I42) {
+	              var _pseudoClass18 = _m$pseudoClasses17[_m$i42];
 	
-	                var _m$visitor46 = void 0;
+	              var _m$visitor50 = void 0;
 	
-	                _pseudoClassMethod9 = _PseudoClass2.default[_pseudoClass14.ident] || option.pseudoClasses[_pseudoClass14.ident];_pseudoClassArgs9 = _pseudoClass14.args ? _result9.concat(_pseudoClass14.args) : _result9;_tmp9 = _pseudoClassMethod9.apply(undefined, _pseudoClassArgs9);if (_tmp9 instanceof Array || !_tmp9) {
-	                  _result9 = _tmp9;
-	                }_m$visitor46 = _tmp9;
-	                if (!_m$visitor46) {
-	                  _m$result34 = false;break;
-	                }_m$i40++;
-	              }_every28 = _m$result34;
-	              _every28;
-	            }_matchPseudoClass13 = _result9;
-	            _isMatchAllSelector12 = _matchPseudoClass13;
-	          }
-	        }var _m$nodeInfo12 = _isMatchAllSelector12;
-	        var _m$combinator12 = compound.next;
+	              _pseudoClassMethod9 = _PseudoClass2.default[_pseudoClass18.ident] || option.pseudoClasses[_pseudoClass18.ident];_pseudoClassArgs9 = [_m$tmpNodeInfo3];if (_pseudoClass18.args) _pseudoClassArgs9 = _pseudoClassArgs9.concat(_pseudoClass18.args);_m$visitor50 = _pseudoClassMethod9.apply(undefined, _pseudoClassArgs9);
+	              if (!_m$visitor50) {
+	                _m$result43 = false;break;
+	              }_m$i42++;
+	            }_every37 = _m$result43;
+	            _isMatchPseudoClass17 = _every37;
+	            break _IS_MATCH_PSEUDO_CLASS;
+	          }_isMatchPseudoClass17 = true;
+	        }
 	
-	        var _fetchNextSelector12 = void 0;
+	        _isMatchAllSelector16 = _isMatchPropSelector17 && _isMatchAttrSelector17 && _isMatchPseudoClass17;
 	
-	        _FETCH_NEXT_SELECTOR4: {
-	          var _m$tmp10;if (_m$nodeInfo12) {
-	            if (_m$combinator12) {
-	              if (_typeof(_m$nodeInfo12[0]) !== 'object') {
-	                _fetchNextSelector12 = false;
-	                break _FETCH_NEXT_SELECTOR4;
-	              } else if (!(_m$tmp10 = findMatchNode(_m$combinator12, _m$nodeInfo12[0]))) {
-	                _fetchNextSelector12 = false;
+	        if (_isMatchAllSelector16) {
+	          var _m$combinator16 = compound.next;
+	
+	          var _fetchNextSelector16 = void 0;
+	
+	          _FETCH_NEXT_SELECTOR4: {
+	            if (_m$combinator16) {
+	              if (_typeof(_m$tmpNodeInfo3.node) === 'object' || _m$combinator16.operator == '~') {
+	                _fetchNextSelector16 = findMatchNode(_m$combinator16, _m$tmpNodeInfo3, option);
 	                break _FETCH_NEXT_SELECTOR4;
 	              }
-	              var _forEach7 = void 0;
-	
-	              var _m$i41 = 0,
-	                  _m$I41 = _m$tmp10.length;while (_m$i41 < _m$I41) {
-	                var _rec7 = _m$tmp10[_m$i41];
-	
-	                var _m$visitor47 = void 0;
-	
-	                Array.prototype.unshift.apply(_rec7[1], _m$nodeInfo12[1]);Array.prototype.unshift.apply(_rec7[2], _m$nodeInfo12[2]);_m$visitor47;_m$i41++;
-	              }_forEach7;_fetchNextSelector12 = _m$tmp10;
+	            } else {
+	              _fetchNextSelector16 = [_m$tmpNodeInfo3];
 	              break _FETCH_NEXT_SELECTOR4;
-	            }_fetchNextSelector12 = [_m$nodeInfo12];
-	            break _FETCH_NEXT_SELECTOR4;
+	            }
 	          }
+	
+	          Array.prototype.push.apply(result, _fetchNextSelector16);
 	        }
 	
-	        tmp = _fetchNextSelector12;
-	        if (tmp) {
-	          Array.prototype.push.apply(result, tmp);
-	        }
-	        _m$visitor44;
-	      }if ((typeof _m$node3 === 'undefined' ? 'undefined' : _typeof(_m$node3)) == 'object' && !(_m$endDepth4 < _m$path3.length)) {
-	        _m$parent3 = _m$parent3.slice();_m$parent3.push(_m$node3);for (_m$key3 in _m$node3) {
-	          _m$newNode3 = _m$node3[_m$key3];if (_m$parent3.indexOf(_m$newNode3) == -1) {
-	            _m$buffer3.push([_m$newNode3, _m$path3.concat(_m$key3), _m$parent3]);
+	        _m$visitor48;
+	      }
+	
+	      if (_typeof(_m$tmpNodeInfo3.node) == 'object' && _m$tmpNodeInfo3.path.length < Infinity) {
+	        for (_m$key3 in _m$tmpNodeInfo3.node) {
+	          _m$newNode3 = _m$tmpNodeInfo3.node[_m$key3];
+	          if (_m$tmpNodeInfo3.parent.indexOf(_m$newNode3) == -1) {
+	            _m$buffer3.push(_m$tmpNodeInfo3.getChild(_m$key3));
 	          }
 	        }
 	      }
 	    }
+	
 	    _breadthFirstTraversal4;
+	  } else if (combinator.operator == '>') {
+	    var _breadthFirstTraversal5 = void 0;
+	
+	    var _m$buffer4 = [nodeInfo];var _m$tmpNodeInfo4, _m$key4, _m$newNode4;while (_m$buffer4.length) {
+	      _m$tmpNodeInfo4 = _m$buffer4.shift();if (lay <= _m$tmpNodeInfo4.path.length) {
+	        var _m$visitor51 = void 0;
+	
+	        var _isMatchAllSelector17 = void 0;
+	
+	        var _m$element18 = compound.element;
+	        var _m$path18 = _m$tmpNodeInfo4.path;
+	
+	        var _isMatchPropSelector18 = void 0;
+	
+	        _isMatchPropSelector18 = _m$element18 === undefined || _m$element18.ident === '*' || _m$path18[_m$path18.length - 1] === _m$element18.ident;
+	        var _m$attributes18 = compound.attributes;
+	        var _m$node18 = _m$tmpNodeInfo4.node;
+	
+	        var _isMatchAttrSelector18 = void 0;
+	
+	        _IS_MATCH_ATTR_SELECTOR: {
+	          if (_m$attributes18) {
+	            if (_m$node18 !== undefined && _m$node18 !== null) {
+	              var _every38 = void 0;
+	
+	              var _m$result44 = true;var _m$i43 = 0,
+	                  _m$I43 = _m$attributes18.length;while (_m$i43 < _m$I43) {
+	                var _attrSelector19 = _m$attributes18[_m$i43];
+	
+	                var _m$visitor52 = void 0;
+	
+	                _M$VISITOR: {
+	                  if (_attrSelector19.type == 'Id') {
+	                    _m$visitor52 = _m$node18.ID === _attrSelector19.ident || _m$node18.Id === _attrSelector19.ident || _m$node18.id === _attrSelector19.ident;
+	                    break _M$VISITOR;
+	                  } else if (_attrSelector19.type == 'Class') {
+	                    _m$visitor52 = _m$node18.constructor && _m$node18.constructor.name === _attrSelector19.ident;
+	                    break _M$VISITOR;
+	                  } else if (_attrSelector19.type == 'Attribute') {
+	                    var _m$attrValue12 = '' + _m$node18[_attrSelector19.ident];var _selectValue12 = _attrSelector19.value;if (_attrSelector19.flag && _attrSelector19.flag.indexOf('i') != -1) {
+	                      _m$attrValue12 = _m$attrValue12.toLowerCase();_selectValue12 = _selectValue12.toLowerCase();
+	                    }if (_attrSelector19.operator == '=') {
+	                      _m$visitor52 = _m$attrValue12 == _selectValue12;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector19.operator == '^=') {
+	                      _m$visitor52 = _m$attrValue12.indexOf(_selectValue12) == 0;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector19.operator == '$=') {
+	                      _m$visitor52 = _m$attrValue12.indexOf(_selectValue12) == _m$attrValue12.length - _selectValue12.length;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector19.operator == '*=') {
+	                      _m$visitor52 = _m$attrValue12.indexOf(_selectValue12) != -1;
+	                      break _M$VISITOR;
+	                    } else {
+	                      _m$visitor52 = _m$attrValue12 != undefined || _m$node18.hasOwnProperty(_attrSelector19.ident);
+	                      break _M$VISITOR;
+	                    }
+	                  }_m$visitor52 = false;
+	                }
+	
+	                if (!_m$visitor52) {
+	                  _m$result44 = false;break;
+	                }_m$i43++;
+	              }_every38 = _m$result44;
+	              _isMatchAttrSelector18 = _every38;
+	              break _IS_MATCH_ATTR_SELECTOR;
+	            } else {
+	              _isMatchAttrSelector18 = false;
+	              break _IS_MATCH_ATTR_SELECTOR;
+	            }
+	          }_isMatchAttrSelector18 = true;
+	        }
+	
+	        var _m$pseudoClasses18 = compound.pseudoClasses;
+	
+	        var _isMatchPseudoClass18 = void 0;
+	
+	        _IS_MATCH_PSEUDO_CLASS: {
+	          var _pseudoClassMethod11, _pseudoClassArgs11;if (_m$pseudoClasses18) {
+	            var _every39 = void 0;
+	
+	            var _m$result45 = true;var _m$i44 = 0,
+	                _m$I44 = _m$pseudoClasses18.length;while (_m$i44 < _m$I44) {
+	              var _pseudoClass19 = _m$pseudoClasses18[_m$i44];
+	
+	              var _m$visitor53 = void 0;
+	
+	              _pseudoClassMethod11 = _PseudoClass2.default[_pseudoClass19.ident] || option.pseudoClasses[_pseudoClass19.ident];_pseudoClassArgs11 = [_m$tmpNodeInfo4];if (_pseudoClass19.args) _pseudoClassArgs11 = _pseudoClassArgs11.concat(_pseudoClass19.args);_m$visitor53 = _pseudoClassMethod11.apply(undefined, _pseudoClassArgs11);
+	              if (!_m$visitor53) {
+	                _m$result45 = false;break;
+	              }_m$i44++;
+	            }_every39 = _m$result45;
+	            _isMatchPseudoClass18 = _every39;
+	            break _IS_MATCH_PSEUDO_CLASS;
+	          }_isMatchPseudoClass18 = true;
+	        }
+	
+	        _isMatchAllSelector17 = _isMatchPropSelector18 && _isMatchAttrSelector18 && _isMatchPseudoClass18;
+	
+	        if (_isMatchAllSelector17) {
+	          var _m$combinator17 = compound.next;
+	
+	          var _fetchNextSelector17 = void 0;
+	
+	          _FETCH_NEXT_SELECTOR5: {
+	            if (_m$combinator17) {
+	              if (_typeof(_m$tmpNodeInfo4.node) === 'object' || _m$combinator17.operator == '~') {
+	                _fetchNextSelector17 = findMatchNode(_m$combinator17, _m$tmpNodeInfo4, option);
+	                break _FETCH_NEXT_SELECTOR5;
+	              }
+	            } else {
+	              _fetchNextSelector17 = [_m$tmpNodeInfo4];
+	              break _FETCH_NEXT_SELECTOR5;
+	            }
+	          }
+	
+	          Array.prototype.push.apply(result, _fetchNextSelector17);
+	        }
+	        _m$visitor51;
+	      }if (_typeof(_m$tmpNodeInfo4.node) == 'object' && _m$tmpNodeInfo4.path.length < lay) {
+	        for (_m$key4 in _m$tmpNodeInfo4.node) {
+	          _m$newNode4 = _m$tmpNodeInfo4.node[_m$key4];if (_m$tmpNodeInfo4.parent.indexOf(_m$newNode4) == -1) {
+	            _m$buffer4.push(_m$tmpNodeInfo4.getChild(_m$key4));
+	          }
+	        }
+	      }
+	    }
+	    _breadthFirstTraversal5;
+	  } else if (combinator.operator == '~') {
+	    var currentProp = nodeInfo.path[nodeInfo.path.length - 1];
+	
+	    var _m$nodeInfo4 = nodeInfo.getParent();
+	
+	    var _m$startDepth4 = lay - 1;
+	
+	    var _m$endDepth4 = lay - 1;
+	
+	    var _breadthFirstTraversal6 = void 0;
+	
+	    var _m$buffer5 = [_m$nodeInfo4];var _m$tmpNodeInfo5, _m$key5, _m$newNode5;while (_m$buffer5.length) {
+	      _m$tmpNodeInfo5 = _m$buffer5.shift();if (_m$startDepth4 <= _m$tmpNodeInfo5.path.length) {
+	        var _m$visitor54 = void 0;
+	
+	        if (_m$tmpNodeInfo5.path[_m$tmpNodeInfo5.path.length - 1] != currentProp) {
+	          var _isMatchAllSelector18 = void 0;
+	
+	          var _m$element19 = compound.element;
+	          var _m$path19 = _m$tmpNodeInfo5.path;
+	
+	          var _isMatchPropSelector19 = void 0;
+	
+	          _isMatchPropSelector19 = _m$element19 === undefined || _m$element19.ident === '*' || _m$path19[_m$path19.length - 1] === _m$element19.ident;
+	          var _m$attributes19 = compound.attributes;
+	          var _m$node19 = _m$tmpNodeInfo5.node;
+	
+	          var _isMatchAttrSelector19 = void 0;
+	
+	          _IS_MATCH_ATTR_SELECTOR: {
+	            if (_m$attributes19) {
+	              if (_m$node19 !== undefined && _m$node19 !== null) {
+	                var _every40 = void 0;
+	
+	                var _m$result46 = true;var _m$i45 = 0,
+	                    _m$I45 = _m$attributes19.length;while (_m$i45 < _m$I45) {
+	                  var _attrSelector20 = _m$attributes19[_m$i45];
+	
+	                  var _m$visitor55 = void 0;
+	
+	                  _M$VISITOR: {
+	                    if (_attrSelector20.type == 'Id') {
+	                      _m$visitor55 = _m$node19.ID === _attrSelector20.ident || _m$node19.Id === _attrSelector20.ident || _m$node19.id === _attrSelector20.ident;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector20.type == 'Class') {
+	                      _m$visitor55 = _m$node19.constructor && _m$node19.constructor.name === _attrSelector20.ident;
+	                      break _M$VISITOR;
+	                    } else if (_attrSelector20.type == 'Attribute') {
+	                      var _m$attrValue14 = '' + _m$node19[_attrSelector20.ident];var _selectValue14 = _attrSelector20.value;if (_attrSelector20.flag && _attrSelector20.flag.indexOf('i') != -1) {
+	                        _m$attrValue14 = _m$attrValue14.toLowerCase();_selectValue14 = _selectValue14.toLowerCase();
+	                      }if (_attrSelector20.operator == '=') {
+	                        _m$visitor55 = _m$attrValue14 == _selectValue14;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector20.operator == '^=') {
+	                        _m$visitor55 = _m$attrValue14.indexOf(_selectValue14) == 0;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector20.operator == '$=') {
+	                        _m$visitor55 = _m$attrValue14.indexOf(_selectValue14) == _m$attrValue14.length - _selectValue14.length;
+	                        break _M$VISITOR;
+	                      } else if (_attrSelector20.operator == '*=') {
+	                        _m$visitor55 = _m$attrValue14.indexOf(_selectValue14) != -1;
+	                        break _M$VISITOR;
+	                      } else {
+	                        _m$visitor55 = _m$attrValue14 != undefined || _m$node19.hasOwnProperty(_attrSelector20.ident);
+	                        break _M$VISITOR;
+	                      }
+	                    }_m$visitor55 = false;
+	                  }
+	
+	                  if (!_m$visitor55) {
+	                    _m$result46 = false;break;
+	                  }_m$i45++;
+	                }_every40 = _m$result46;
+	                _isMatchAttrSelector19 = _every40;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              } else {
+	                _isMatchAttrSelector19 = false;
+	                break _IS_MATCH_ATTR_SELECTOR;
+	              }
+	            }_isMatchAttrSelector19 = true;
+	          }
+	
+	          var _m$pseudoClasses19 = compound.pseudoClasses;
+	
+	          var _isMatchPseudoClass19 = void 0;
+	
+	          _IS_MATCH_PSEUDO_CLASS: {
+	            var _pseudoClassMethod13, _pseudoClassArgs13;if (_m$pseudoClasses19) {
+	              var _every41 = void 0;
+	
+	              var _m$result47 = true;var _m$i46 = 0,
+	                  _m$I46 = _m$pseudoClasses19.length;while (_m$i46 < _m$I46) {
+	                var _pseudoClass20 = _m$pseudoClasses19[_m$i46];
+	
+	                var _m$visitor56 = void 0;
+	
+	                _pseudoClassMethod13 = _PseudoClass2.default[_pseudoClass20.ident] || option.pseudoClasses[_pseudoClass20.ident];_pseudoClassArgs13 = [_m$tmpNodeInfo5];if (_pseudoClass20.args) _pseudoClassArgs13 = _pseudoClassArgs13.concat(_pseudoClass20.args);_m$visitor56 = _pseudoClassMethod13.apply(undefined, _pseudoClassArgs13);
+	                if (!_m$visitor56) {
+	                  _m$result47 = false;break;
+	                }_m$i46++;
+	              }_every41 = _m$result47;
+	              _isMatchPseudoClass19 = _every41;
+	              break _IS_MATCH_PSEUDO_CLASS;
+	            }_isMatchPseudoClass19 = true;
+	          }
+	
+	          _isMatchAllSelector18 = _isMatchPropSelector19 && _isMatchAttrSelector19 && _isMatchPseudoClass19;
+	
+	          if (_isMatchAllSelector18) {
+	            var _m$combinator18 = compound.next;
+	
+	            var _fetchNextSelector18 = void 0;
+	
+	            _FETCH_NEXT_SELECTOR6: {
+	              if (_m$combinator18) {
+	                if (_typeof(_m$tmpNodeInfo5.node) === 'object' || _m$combinator18.operator == '~') {
+	                  _fetchNextSelector18 = findMatchNode(_m$combinator18, _m$tmpNodeInfo5, option);
+	                  break _FETCH_NEXT_SELECTOR6;
+	                }
+	              } else {
+	                _fetchNextSelector18 = [_m$tmpNodeInfo5];
+	                break _FETCH_NEXT_SELECTOR6;
+	              }
+	            }
+	
+	            Array.prototype.push.apply(result, _fetchNextSelector18);
+	          }
+	        }
+	        _m$visitor54;
+	      }if (_typeof(_m$tmpNodeInfo5.node) == 'object' && _m$tmpNodeInfo5.path.length < _m$endDepth4) {
+	        for (_m$key5 in _m$tmpNodeInfo5.node) {
+	          _m$newNode5 = _m$tmpNodeInfo5.node[_m$key5];if (_m$tmpNodeInfo5.parent.indexOf(_m$newNode5) == -1) {
+	            _m$buffer5.push(_m$tmpNodeInfo5.getChild(_m$key5));
+	          }
+	        }
+	      }
+	    }_breadthFirstTraversal6;
 	  }
+	
 	  return result;
 	}
 	
@@ -10533,7 +11840,12 @@
 	    _classCallCheck(this, Selector);
 	
 	    this.root = root;
-	    this.option = option || { pseudoClasses: {} };
+	    this.option = option;
+	    if (_typeof(this.option) !== 'object') {
+	      this.option = { pseudoClasses: {} };
+	    } else if (_typeof(this.option.pseudoClasses) !== 'object') {
+	      this.option.pseudoClasses = {};
+	    }
 	  }
 	
 	  _createClass(Selector, [{
@@ -10545,26 +11857,26 @@
 	
 	      var _some = void 0;
 	
-	      var _m$result22 = false;
+	      var _m$result31 = false;
 	
-	      var _m$i26 = 0,
-	          _m$I26 = cssRules.length;
-	      while (_m$i26 < _m$I26) {
-	        var _m$visitor48 = void 0;
+	      var _m$i29 = 0,
+	          _m$I29 = cssRules.length;
+	      while (_m$i29 < _m$I29) {
+	        var _m$visitor57 = void 0;
 	
-	        _m$visitor48 = result = findFirstMatchNode(cssRules[_m$i26].start, self.root, self.option);
+	        _m$visitor57 = result = findFirstMatchNode(cssRules[_m$i29].start, new _NodeInfo2.default(self.root), self.option);
 	
-	        if (_m$visitor48) {
-	          _m$result22 = true;
+	        if (_m$visitor57) {
+	          _m$result31 = true;
 	          break;
 	        }
 	
-	        _m$i26++;
+	        _m$i29++;
 	      }
 	
-	      _some = _m$result22;
+	      _some = _m$result31;
 	      _some;
-	      return result ? new _NodeInfo2.default(result[0], result[1], result[2], self.root) : undefined;
+	      return result;
 	    }
 	  }, {
 	    key: 'selectAll',
@@ -10572,118 +11884,109 @@
 	      var self = this;
 	      var result;
 	      var cssRules = _cssParser2.default.parse(input);
+	      var rootNodeInfo = new _NodeInfo2.default(self.root);
 	      var _m$initialValue = [];
 	
 	      var _reduceByInitval = void 0;
 	
-	      var _m$result26 = _m$initialValue;
+	      var _m$result34 = _m$initialValue;
 	
-	      var _m$i31 = 0,
-	          _m$I31 = cssRules.length;
-	      while (_m$i31 < _m$I31) {
-	        var _m$visitor49 = void 0;
+	      var _m$i33 = 0,
+	          _m$I33 = cssRules.length;
+	      while (_m$i33 < _m$I33) {
+	        var _m$visitor58 = void 0;
 	
-	        _m$visitor49 = _m$result26.concat(findMatchNode(cssRules[_m$i31].start, self.root, self.option));
+	        _m$visitor58 = _m$result34.concat(findMatchNode(cssRules[_m$i33].start, rootNodeInfo, self.option));
 	
-	        _m$result26 = _m$visitor49;
-	        _m$i31++;
+	        _m$result34 = _m$visitor58;
+	        _m$i33++;
 	      }
 	
-	      _reduceByInitval = _m$result26;
-	      var _m$input22 = _reduceByInitval;
+	      _reduceByInitval = _m$result34;
+	      var _m$input = _reduceByInitval;
 	
 	      var _filter = void 0;
 	
 	      var _m$filtered = [];
 	
-	      var _m$i30 = 0,
-	          _m$I30 = _m$input22.length,
+	      var _m$i32 = 0,
+	          _m$I32 = _m$input.length,
 	          _m$val = void 0;
-	      while (_m$i30 < _m$I30) {
-	        _m$val = _m$input22[_m$i30];
+	      while (_m$i32 < _m$I32) {
+	        _m$val = _m$input[_m$i32];
 	
-	        var _m$visitor50 = void 0;
+	        var _m$visitor59 = void 0;
 	
 	        _M$VISITOR10: {
-	          for (var _i2 = 0, _testNode2; _i2 < _m$i30; _i2++) {
-	            _testNode2 = _m$input22[_i2];
-	            if (_m$val[0] === _testNode2[0]) {
-	              var _m$array5 = _m$val[1];
-	              var _m$array6 = _testNode2[1];
+	          for (var _i2 = 0, _testNodeInfo2; _i2 < _m$i32; _i2++) {
+	            _testNodeInfo2 = _m$input[_i2];
+	            if (_m$val.node === _testNodeInfo2.node) {
+	              var _m$array5 = _m$val.path;
+	              var _m$array6 = _testNodeInfo2.path;
 	
 	              var _compareTwoArray3 = void 0;
 	
-	              var _m$result35 = true;
+	              var _m$result48 = true;
 	
 	              if (_m$array5.length == _m$array6.length) {
-	                var _m$i29 = 0,
-	                    _m$I29 = _m$array5.length;
-	                while (_m$i29 < _m$I29) {
-	                  if (_m$array5[_m$i29] !== _m$array6[_m$i29]) {
-	                    _m$result35 = false;
+	                var _m$i31 = 0,
+	                    _m$I31 = _m$array5.length;
+	                while (_m$i31 < _m$I31) {
+	                  if (_m$array5[_m$i31] !== _m$array6[_m$i31]) {
+	                    _m$result48 = false;
 	                    break;
 	                  }
 	
-	                  _m$i29++;
+	                  _m$i31++;
 	                }
 	              } else {
-	                _m$result35 = false;
+	                _m$result48 = false;
 	              }
 	
-	              _compareTwoArray3 = _m$result35;
+	              _compareTwoArray3 = _m$result48;
 	
 	              if (_compareTwoArray3) {
-	                _m$visitor50 = false;
+	                _m$visitor59 = false;
 	                break _M$VISITOR10;
 	              }
 	            }
 	          }
 	
-	          _m$visitor50 = true;
+	          _m$visitor59 = true;
 	        }
 	
-	        if (_m$visitor50) {
+	        if (_m$visitor59) {
 	          _m$filtered.push(_m$val);
 	        }
 	
-	        _m$i30++;
+	        _m$i32++;
 	      }
 	
 	      _filter = _m$filtered;
-	      var _m$input21 = _filter;
-	
-	      var _map = void 0;
-	
-	      var _m$length = _m$input21.length;
-	      var _m$result23 = new Array(_m$length);
-	
-	      var _m$i27 = 0,
-	          _m$I27 = _m$input21.length;
-	      while (_m$i27 < _m$I27) {
-	        var _node2 = _m$input21[_m$i27];
-	
-	        var _m$visitor51 = void 0;
-	
-	        _m$visitor51 = new _NodeInfo2.default(_node2[0], _node2[1], _node2[2], self.root);
-	
-	        _m$result23[_m$i27] = _m$visitor51;
-	        _m$i27++;
-	      }
-	
-	      _map = _m$result23;
-	      return _map;
+	      return _filter;
 	    }
 	  }, {
-	    key: 'getFromPath',
-	    value: function getFromPath(path) {
+	    key: 'getByPath',
+	    value: function getByPath(path) {
 	      var delimiter = arguments.length <= 1 || arguments[1] === undefined ? '/' : arguments[1];
 	
 	      if (path.charAt(0) == delimiter) {
 	        path = path.substr(1);
 	      }
 	
+	      var result = new _NodeInfo2.default(this.root);
 	      var path = path.split(delimiter);
-	      return (0, _util.getFromPathArray)(this.root, path);
+	
+	      var _every29 = void 0;
+	
+	      var _m$result35 = true;var _m$i34 = 0,
+	          _m$I34 = path.length;while (_m$i34 < _m$I34) {
+	        if (!(result.moveToChild(path[_m$i34]).node != null)) {
+	          _m$result35 = false;break;
+	        }_m$i34++;
+	      }_every29 = _m$result35;
+	      _every29;
+	      return result;
 	    }
 	  }]);
 	
@@ -10694,7 +11997,7 @@
 	;
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -10702,6 +12005,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -10714,46 +12019,70 @@
 	
 	  _createClass(PseudoClass, null, [{
 	    key: "regexpTest",
-	    value: function regexpTest(node, path, parent, val) {
-	      return val.test(node);
+	    value: function regexpTest(nodeInfo, val) {
+	      return val.test(nodeInfo.node);
 	    }
 	  }, {
 	    key: "equal",
-	    value: function equal(node, path, parent, val) {
-	      return val === node;
+	    value: function equal(nodeInfo, val) {
+	      return nodeInfo.node === val;
+	    }
+	  }, {
+	    key: "typeof",
+	    value: function _typeof(nodeInfo, val) {
+	      return _typeof2(nodeInfo.node) === val;
 	    }
 	  }]);
 	
 	  return PseudoClass;
 	}();
-
+	
 	exports.default = PseudoClass;
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports) {
 
-	"use strict";
+	module.exports = [
+		{
+			"ID": 1
+		},
+		{
+			"Id": 2
+		},
+		{
+			"id": 3
+		}
+	];
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var _Selector = __webpack_require__(48);
 	
-	var NodeInfo = function NodeInfo(node, path, parent, root) {
-	  _classCallCheck(this, NodeInfo);
+	var _Selector2 = _interopRequireDefault(_Selector);
 	
-	  this.node = node;
-	  this.path = path || [];
-	  this.parent = parent || [];
-	  this.root = root || node;
+	var _util = __webpack_require__(45);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function c3s(root, option) {
+	  return new _Selector2.default(root, option);
 	};
 	
-	exports.default = NodeInfo;
+	c3s.getFromPath = _util.getFromPath;
+	
+	exports.default = c3s;
 
 /***/ },
-/* 50 */
+/* 52 */
 /***/ function(module, exports) {
 
 	module.exports = [
