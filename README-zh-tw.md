@@ -72,9 +72,7 @@ c3s(root).selectOne('b>c');
 c3s(root, {
   pseudoClasses: {
     newClass: function (
-      node, // 目前搜尋結果
-      path, // 從root到node的路徑
-      parent, // 從root到node的所有祖先
+      nodeInfo, // 目前搜尋結果, nodeInfo instance
       arg1, // 於selector語句中出現的參數
       /* arg2, ... */
     ) {
@@ -82,7 +80,6 @@ c3s(root, {
       return 
         Truthy 選取
         Falsy 不選取
-        Array 包含[node, path, parent]新節點資訊,選取此新節點
     */
     }
   }

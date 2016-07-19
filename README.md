@@ -71,9 +71,7 @@ You can define new pseudo-class in c3s option.pseudoClasses, ex:
 c3s(root, {
   pseudoClasses: {
     newClass: function (
-      node, // current search results
-      path, // property path from root to node
-      parent, // all parents from root to node
+      nodeInfo, // current search results, nodeInfo instance
       arg, // arguments in selector statement
       /* arg2, ... */
     ) {
@@ -81,7 +79,6 @@ c3s(root, {
       return 
         Truthy, select this node
         Falsy, don't select this node
-        Array, contain [node, path, parent] new node info, select the new node
     */
     }
   }
