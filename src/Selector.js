@@ -36,6 +36,10 @@ DEFINE_MACRO(IS_MATCH_ATTR_SELECTOR, (m$attributes, m$node) => {
               (m$attrValue.length - selectValue.length);
           } else if (attrSelector.operator == '*=') {
             return m$attrValue.indexOf(selectValue) != -1;
+          } else if (attrSelector.operator == '~=') {
+            return m$attrValue.split(' ').indexOf(selectValue) != -1;
+          } else if (attrSelector.operator == '|=') {
+            return m$attrValue == selectValue || m$attrValue.indexOf(selectValue + '-') == 0;
           } else {
             return m$attrValue != undefined || 
               m$node.hasOwnProperty(attrSelector.ident);

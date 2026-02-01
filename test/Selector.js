@@ -174,6 +174,30 @@ describe('Selector', function() {
     });
   });
 
+  describe('New Features', function() {
+    it('~= attribute selector', function () {
+      var data = { a: { tags: 'tag1 tag2 tag3' } };
+      var result = new Selector(data).selectOne('[tags~="tag2"]');
+      assert.strictEqual(result.node, data.a);
+    });
+    it('|= attribute selector', function () {
+      var data = { a: { lang: 'en-US' }, b: { lang: 'en' } };
+      var result1 = new Selector(data).selectOne('[lang|="en"]');
+      assert.strictEqual(result1.node, data.a); // matches en-US
+      var result2 = new Selector(data).selectAll('[lang|="en"]');
+      assert.equal(result2.length, 2);
+    });
+    it(':type pseudo-class', function () {
+      var data = { a: 'string', b: 123, c: {} };
+      var result1 = new Selector(data).selectOne(':type("string")');
+      assert.strictEqual(result1.node, 'string');
+      var result2 = new Selector(data).selectOne(':type("number")');
+      assert.strictEqual(result2.node, 123);
+      var result3 = new Selector(data).selectOne(':type("object")');
+      assert.strictEqual(result3.node, data.c);
+    });
+  });
+
   var getbranch = function (root, path) {
     var currentNode = root;
     var path = path?path.split(','):[];
