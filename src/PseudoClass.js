@@ -5,7 +5,7 @@ export default class PseudoClass{
   static equal(nodeInfo, val) {
     return nodeInfo.node === val;
   }
-  static typeof(nodeInfo, val) {
+  static type(nodeInfo, val) {
     return typeof nodeInfo.node === val;
   }
   

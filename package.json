@@ -8,8 +8,7 @@
   "scripts": {
     "prepublish": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.config.js",
-    "test": "webpack --config webpack.config.test.js --target node && mocha build/c3s-parser.test.js",
-    "debug": "webpack --config webpack.config.test.js --target node && node-debug _mocha --debug-brk --require source-map-support/register build/c3s-parser.test.js"
+    "test": "webpack --config webpack.config.test.js --target node && mocha build/c3s-parser.test.js"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -26,7 +25,6 @@
     "eslint": "^2.13.1",
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
-    "node-inspector": "^0.12.8",
     "pegjs": "^0.9.0",
     "pegjs-loader": "^0.4.0",
     "source-map-support": "^0.4.0",

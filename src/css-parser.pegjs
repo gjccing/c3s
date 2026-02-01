@@ -220,10 +220,8 @@ ATTRIB_MATCH
     / '^='
     / '$='
     / '*='
-    /*
     / '~='
     / '|='
-    */
 ATTRIB_FLAGS
   = [A-Za-z]+ 
 PROP
